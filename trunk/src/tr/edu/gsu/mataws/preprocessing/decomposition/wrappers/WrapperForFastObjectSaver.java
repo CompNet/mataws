@@ -30,7 +30,7 @@ public class WrapperForFastObjectSaver {
     public static synchronized Object load(String filename) throws IOException {
       //System.out.println(filename);
       String s = filename.substring(1);
-      filename = System.getProperty("user.dir") + File.separator + "resources" + File.separator + s;
+      filename = System.getProperty("user.dir") + File.separator + "resource" + File.separator + s;
       File file = new File(filename);
       FileInputStream f = new FileInputStream(file);
       ObjectInputStream oos = new ObjectInputStream(f);
