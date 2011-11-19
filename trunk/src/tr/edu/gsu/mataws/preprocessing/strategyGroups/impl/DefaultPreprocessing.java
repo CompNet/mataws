@@ -48,10 +48,12 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private PreprocessingStrategy preprocessingStrategy;
 	
 	@Override
-	public void processName(String name, List<String> decompositionResult) {
+	public List<String> processName(String name) {
 
+		List<String> processedParam = new ArrayList<String>();
+		
 		//stringSQLExample
-		List<String> processedParam = this.decomposeParameterName(name);
+		processedParam = this.decomposeParameterName(name);
 		//string,SQL,Example
 		processedParam = this.normalizeParameterName(processedParam);
 		//string, structuredQueryLanguage, example
@@ -61,9 +63,7 @@ public class DefaultPreprocessing implements PreprocessingSet{
 		//string, structured, query, language, example
 		processedParam = this.filterParameterName(processedParam);
 		
-		for (int i = 0; i < processedParam.size(); i++) {
-			decompositionResult.add(processedParam.get(i));
-		}
+		return processedParam;
 	}
 	
 	/**
