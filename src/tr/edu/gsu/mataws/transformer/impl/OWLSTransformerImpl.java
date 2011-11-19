@@ -40,8 +40,7 @@ import org.mindswap.wsdl.WSDLParameter;
 import org.mindswap.wsdl.WSDLService;
 import org.mindswap.wsdl.WSDLTranslator;
 
-import tr.edu.gsu.mataws.statistics.Statistics;
-import tr.edu.gsu.mataws.statistics.impl.StatisticsUtil;
+import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 import tr.edu.gsu.mataws.transformer.Transformer;
 
 /**
@@ -52,8 +51,8 @@ import tr.edu.gsu.mataws.transformer.Transformer;
  */
 public class OWLSTransformerImpl implements Transformer {
 
-	private Statistics statistics;
-	private Map<String, List<String>> parameterAnnotationMap;
+	private StatisticsUtil statistics;
+	private Map<String, String> parameterAnnotationMap;
 	private String prefix = "#";
 	
 	/**
@@ -112,14 +111,14 @@ public class OWLSTransformerImpl implements Transformer {
 				for (WSDLParameter wsdlParameter : inputs) {
 					String paramName = wsdlParameter.getName();
 					String[] paramNameTemp = paramName.split("#");
-					List<String> concepts = new ArrayList<String>();
+					String concept = null;
 					String paramType = null;
 					
-					concepts = parameterAnnotationMap.get(paramNameTemp[1]);
+					concept = parameterAnnotationMap.get(paramNameTemp[1]);
 					
-					if(concepts != null){
-						if(concepts.size()>0)
-							paramType = prefix + concepts.get(0);
+					if(concept != null){
+						if(!concept.equals("NoMatch"))
+							paramType = prefix + concept;
 						else
 							paramType = prefix + "NoMatch";
 					}else
@@ -147,14 +146,14 @@ public class OWLSTransformerImpl implements Transformer {
 				for (WSDLParameter wsdlParameter : outputs) {
 					String paramName = wsdlParameter.getName();
 					String[] paramNameTemp = paramName.split("#");
-					List<String> concepts = new ArrayList<String>();
+					String concept = null;
 					String paramType = null;
 					
-					concepts = parameterAnnotationMap.get(paramNameTemp[1]);
+					concept = parameterAnnotationMap.get(paramNameTemp[1]);
 					
-					if(concepts != null){
-						if(concepts.size()>0)
-							paramType = prefix + concepts.get(0);
+					if(concept != null){
+						if(!concept.equals("NoMatch"))
+							paramType = prefix + concept;
 						else
 							paramType = prefix + "NoMatch";
 					}else
