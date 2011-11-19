@@ -35,11 +35,11 @@ public interface PreprocessingSet {
 
 	/**
 	 * This method applies preprocessing methods to 
-	 * the given parameter name and puts the obtained words in a list
+	 * the given parameter name and returns the obtained words in a list
 	 * 
 	 * @param name
-	 * @param decompositionResult
+	 * @return list of words of processed parameter name
 	 */
-	public void processName(String name, List<String> decompositionResult);
+	public List<String> processName(String name);
 	
 }
