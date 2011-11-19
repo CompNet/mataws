@@ -31,9 +31,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
+import tr.edu.gsu.mataws.analyzer.AnalyzeType;
 import tr.edu.gsu.mataws.output.Output;
-import tr.edu.gsu.mataws.statistics.Statistics;
-import tr.edu.gsu.mataws.statistics.impl.StatisticsUtil;
+import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 
 /**
  * This class which is an implementation of Output, prepares
@@ -42,10 +42,10 @@ import tr.edu.gsu.mataws.statistics.impl.StatisticsUtil;
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class TextOutputImpl implements Output {
+public class TextOutputImpl implements Output{
 
 	private String result;
-	private Statistics statistics;
+	private StatisticsUtil statistics;
 	private NumberFormat numberFormat;
 	
 	public TextOutputImpl(){
@@ -55,31 +55,30 @@ public class TextOutputImpl implements Output {
 	}
 	
 	@Override
-	public void write(String parameterName,
-			List<String> decompositionResult, List<String> annotationResult) {
+	public void write(String parameterName, List<String> preprocessingResult,
+			String wordToAnnotate, AnalyzeType analyzeType, String concept) {
 		
 		String string = parameterName;
-		if (decompositionResult.size() != 0) {
-			if (!parameterName.equals(decompositionResult.get(0))) {
-				for (int i = 0; i < decompositionResult.size(); i++) {
-					string += ("," + decompositionResult.get(i));
+		if (preprocessingResult.size() != 0) {
+			if (!parameterName.equals(preprocessingResult.get(0))) {
+				for (int i = 0; i < preprocessingResult.size(); i++) {
+					string += ("," + preprocessingResult.get(i));
 				}
 			}
 			else{
-				for (int i = 1; i < decompositionResult.size(); i++) {
-					string += ("," + decompositionResult.get(i));
+				for (int i = 1; i < preprocessingResult.size(); i++) {
+					string += ("," + preprocessingResult.get(i));
 				}
 			}
-			for (int i = 0; i < annotationResult.size(); i++) {
-				string += ("," + annotationResult.get(i));
-			}
+			string += "," + wordToAnnotate;
+			string += "," + analyzeType;
+			string += "," + concept;
 		} else {
 			string += ",NoMatch";
 		}
 		result += string + "\n" ;
 	}
 
-	@Override
 	public void save() {
 		File file=findFileName();
 		try {
@@ -88,8 +87,6 @@ public class TextOutputImpl implements Output {
 			
 			String annotationResultForTotalParams = numberFormat.format(((double)statistics.getAnnotatedParameters().size() / statistics.getAllParameterObjects().size()) * 100);
 			String annotationResultForDifferentParams = numberFormat.format(((double)statistics.getDifferentAnnotatedParameters().size() / statistics.getAllDifferentParameters().size()) * 100);
-			String annotationResultForTotalWords = numberFormat.format(((double)statistics.getAnnotatedWords().size() / statistics.getAllWords().size()) * 100);
-			String annotationResultForDifferentWords = numberFormat.format(((double)statistics.getDifferentAnnotatedWords().size() / statistics.getAllDifferentWords().size()) * 100);
 			
 			result += "\n\n";
 			result += "******************************Statistics******************************"+"\n";
@@ -99,31 +96,28 @@ public class TextOutputImpl implements Output {
 			result += "* ****************************************************************** *"+"\n";
 			result += "* *                          Total Results                         * *"+"\n";
 			result += "* *     ******************************************************     * *"+"\n";
-			result += "        Number of total parameters: "+statistics.getAllParameterObjects().size()+"\n";
-			result += "        Number of total annotated parameters: "+statistics.getAnnotatedParameters().size()+"\n";
-			result += "        Number of total non-annotated parameters: "+statistics.getNonAnnotatedParameters().size()+"\n";
-			result += "        Total parameter annotation percentage: "+annotationResultForTotalParams+"\n";
+			result += "        Total number of parameters: "+statistics.getAllParameterObjects().size()+"\n";
+			result += "        Number of annotated parameters: "+statistics.getAnnotatedParameters().size()+"\n";
+			result += "        Number of non-annotated parameters: "+statistics.getNonAnnotatedParameters().size()+"\n";
+			result += "        Percent of annotated parameters: "+annotationResultForTotalParams+"\n";
 			result += "* *                         Unique Results                         * *"+"\n";
 			result += "* *     ******************************************************     * *"+"\n";
-			result += "        Number of different parameters: "+statistics.getAllDifferentParameters().size()+"\n";
-			result += "        Number of different annotated parameters: "+statistics.getDifferentAnnotatedParameters().size()+"\n";
-			result += "        Number of different non-annotated parameters: "+statistics.getDifferentNonAnnotatedParameters().size()+"\n";
-			result += "        Different parameter annotation percentage: "+annotationResultForDifferentParams+"\n";
+			result += "        Number of unique parameters: "+statistics.getAllDifferentParameters().size()+"\n";
+			result += "        Number of unique annotated parameters: "+statistics.getDifferentAnnotatedParameters().size()+"\n";
+			result += "        Number of unique non-annotated parameters: "+statistics.getDifferentNonAnnotatedParameters().size()+"\n";
+			result += "        Percent of unique annotated parameters: "+annotationResultForDifferentParams+"\n";
 			result += "* ****************************************************************** *"+"\n";
-			result += "* *                         Word Statistics                        * *"+"\n";
+			result += "*                                                                    *"+"\n";
+			result += "* *                        Analyze Statistics                      * *"+"\n";
 			result += "* ****************************************************************** *"+"\n";
-			result += "* *                          Total Results                         * *"+"\n";
+			result += "* *                      Analyze Types Results                     * *"+"\n";
 			result += "* *     ******************************************************     * *"+"\n";
-			result += "        Number of total words: "+statistics.getAllWords().size()+"\n";
-			result += "        Number of total annotated words: "+statistics.getAnnotatedWords().size()+"\n";
-			result += "        Number of total non-annotated words: "+statistics.getNonAnnotatedWords().size()+"\n";
-			result += "        Total word annotation percentage: "+annotationResultForTotalWords+"\n";
-			result += "* *                         Unique Results                         * *"+"\n";
-			result += "* *     ******************************************************     * *"+"\n";
-			result += "        Number of different words: "+statistics.getAllDifferentWords().size()+"\n";
-			result += "        Number of different annotated words: "+statistics.getDifferentAnnotatedWords().size()+"\n";
-			result += "        Number of different non-annotated words: "+statistics.getDifferentNonAnnotatedWords().size()+"\n";
-			result += "        Different word annotation percentage: "+annotationResultForDifferentWords+"\n";
+			result += "        Number of NonNounAnnotation: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.NonNounAnnotation)+"\n";
+			result += "        Number of OnlyOneRemaining: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.OnlyOneRemaining)+"\n";
+			result += "        Number of OnlyOneRepresenter: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.OnlyOneRepresenter)+"\n";
+			result += "        Number of HypernymialRelation: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.HypernymialRelation)+"\n";
+			result += "        Number of MeronymialRelation: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.MeronymialRelation)+"\n";
+			result += "        Number of NounAdjunct: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.NounAdjunct)+"\n";
 			result += "* ****************************************************************** *"+"\n";
 			result += "* *                             MATAWS                             * *"+"\n";
 			result += "**********************************************************************"+"\n";
