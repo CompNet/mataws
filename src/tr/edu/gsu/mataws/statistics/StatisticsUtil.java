@@ -21,17 +21,18 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package tr.edu.gsu.mataws.statistics.impl;
+package tr.edu.gsu.mataws.statistics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import sine.col.Parameter;
+import tr.edu.gsu.mataws.analyzer.AnalyzeType;
 import tr.edu.gsu.mataws.components.AnnotatedParameter;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.statistics.Statistics;
 
 /**
  * This class is an implementation of Statistics in which 
@@ -41,7 +42,7 @@ import tr.edu.gsu.mataws.statistics.Statistics;
  * @author Cihan Aksoy
  *
  */
-public class StatisticsUtil implements Statistics{
+public class StatisticsUtil {
 
 	private static StatisticsUtil INSTANCE = null;
 	
@@ -65,16 +66,13 @@ public class StatisticsUtil implements Statistics{
 	private List<String> differentAnnotatedWords;
 	private List<String> differentNonAnnotatedWords;
 	
-	//sine param doesn't correspond with owls api param
-	//private Map<Parameter, List<String>> parameterDecompositionMap;
-	//private Map<Parameter, List<String>> parameterAnnotationMap;
-	//private Map<Parameter, String> transformedParameter;
-	
 	private Map<String, List<String>> parameterPreprocessingMap;
-	private Map<String, List<String>> parameterAnnotationMap;
+	private Map<String, String> parameterAnnotationMap;
 	
 	//control set to avoid holding same parameter with same name
 	private List<String> allParameterNames;
+	
+	private Map<AnalyzeType, Integer> analyzeTypesCounter;
 	
 	private StatisticsUtil() {
 		
@@ -99,10 +97,11 @@ public class StatisticsUtil implements Statistics{
 		differentNonAnnotatedWords = new ArrayList<String>();
 		
 		parameterPreprocessingMap = new HashMap<String, List<String>>();
-		parameterAnnotationMap = new HashMap<String, List<String>>();
-		//transformedParameter = new HashMap<Parameter, String>();
+		parameterAnnotationMap = new HashMap<String, String>();
 		
 		allParameterNames = new ArrayList<String>();
+		
+		analyzeTypesCounter = new HashMap<AnalyzeType, Integer>();
 	}
 	
 	public static StatisticsUtil getInstance(){
@@ -111,16 +110,15 @@ public class StatisticsUtil implements Statistics{
 		return INSTANCE;
 	}
 	
-	@Override
-	public void calculateStatistics(Parameter parameter, List<String> decompositionResult,
-			List<String> annotationResult){
+	public void calculateStatistics(Parameter parameter, List<String> preprocessingResult,
+			String wordToAnnotate, AnalyzeType analyzeType, String concept){
 		
 		/////////////////////////////////////////////////////////////////////
 		//////////////PARAMETER STATISTICS///////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 		//each iteration counted and considered as annotated or not annotated
 		allParameters.add(parameter);
-		if(isParameterAnnotated(annotationResult))
+		if(!concept.equals("NoMatch"))
 			annotatedParameters.add(parameter);
 		else
 			nonAnnotatedParameters.add(parameter);
@@ -133,46 +131,23 @@ public class StatisticsUtil implements Statistics{
 			allDifferentParameters.add(parameter);
 			
 			//This will be useful to extract which concepts are linked to any parameter
-			parameterPreprocessingMap.put(parameter.getName(), decompositionResult);
-			parameterAnnotationMap.put(parameter.getName(), annotationResult);
-			//transformedParameter.put(parameter, parameter.getName());
+			parameterPreprocessingMap.put(parameter.getName(), preprocessingResult);
+			parameterAnnotationMap.put(parameter.getName(), concept);
 			
-			if(isParameterAnnotated(annotationResult))
+			if(!concept.equals("NoMatch"))
 				differentAnnotatedParameters.add(parameter);
 			else
 				differentNonAnnotatedParameters.add(parameter);
 		}
 		
-		/////////////////////////////////////////////////////////////////////
-		//////////////WORD STATISTICS////////////////////////////////////////
-		/////////////////////////////////////////////////////////////////////
-		for (String string : decompositionResult) {
-			//each iteration counted and considered as annotated or not annotated
-			allWords.add(string);
-			if(!annotationResult.get(decompositionResult.indexOf(string)).equals("NoMatch"))
-				annotatedWords.add(string);
-			else
-				nonAnnotatedWords.add(string);
-			
-			//words are hold differently 
-			if(!allDifferentWords.contains(string)){
-				allDifferentWords.add(string);
-				
-				if(!annotationResult.get(decompositionResult.indexOf(string)).equals("NoMatch"))
-					differentAnnotatedWords.add(string);
-				else
-					differentNonAnnotatedWords.add(string);
-			}
+		Set<AnalyzeType> set = analyzeTypesCounter.keySet(); 
+		for (AnalyzeType analyzeType2 : set) {
+			if(analyzeType.equals(analyzeType2))
+				analyzeTypesCounter.put(analyzeType2, 
+						analyzeTypesCounter.get(analyzeType2)+1);
 		}
-		
-		//AnnotatedParameter objects created
-		AnnotatedParameter annotatedParameter = new AnnotatedParameter(parameter.getName());
-		for (String string : annotationResult) {
-			annotatedParameter.addConcept(string);
-		}
-		allAnnotatedParameterObjects.add(annotatedParameter);
 	}
-
+	
 	public List<Parameter> getAllParameterObjects() {
 		return allParameterObjects;
 	}
@@ -305,35 +280,15 @@ public class StatisticsUtil implements Statistics{
 		this.parameterPreprocessingMap = parameterPreprocessingMap;
 	}
 
-	public Map<String, List<String>> getParameterAnnotationMap() {
-		return parameterAnnotationMap;
-	}
-
-	public void setParameterAnnotationMap(
-			Map<String, List<String>> parameterAnnotationMap) {
+	public void setParameterAnnotationMap(Map<String, String> parameterAnnotationMap) {
 		this.parameterAnnotationMap = parameterAnnotationMap;
 	}
 
-	/**
-	 * Service method verifying if a parameter is annotated.
-	 * 
-	 * @param annotationResult
-	 * 			list holding the result of annotation 
-	 * @return
-	 * 			true if the parameter is annotated
-	 */
-	public boolean isParameterAnnotated(List<String> annotationResult) {
-		boolean result = true;
-		int noMatchCount = 0;
-		for (int i = 0; i < annotationResult.size(); i++) {
-			String conceptName = annotationResult.get(i);
-			if (conceptName.equals("NoMatch")) {
-				noMatchCount++;
-			}
-		}
-		if (noMatchCount == annotationResult.size()) {
-			result = false;
-		}
-		return result;
+	public Map<String, String> getParameterAnnotationMap() {
+		return parameterAnnotationMap;
+	}
+
+	public Map<AnalyzeType, Integer> getAnalyzeTypesCounter() {
+		return analyzeTypesCounter;
 	}
 }
