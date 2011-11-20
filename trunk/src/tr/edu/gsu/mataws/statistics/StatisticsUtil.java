@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import sine.col.Parameter;
-import tr.edu.gsu.mataws.analyzer.AnalyzeType;
+import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.components.AnnotatedParameter;
 import tr.edu.gsu.mataws.components.Node;
 
@@ -72,7 +72,7 @@ public class StatisticsUtil {
 	//control set to avoid holding same parameter with same name
 	private List<String> allParameterNames;
 	
-	private Map<AnalyzeType, Integer> analyzeTypesCounter;
+	private Map<AnalysisType, Integer> analyzeTypesCounter;
 	
 	private StatisticsUtil() {
 		
@@ -101,7 +101,7 @@ public class StatisticsUtil {
 		
 		allParameterNames = new ArrayList<String>();
 		
-		analyzeTypesCounter = new HashMap<AnalyzeType, Integer>();
+		analyzeTypesCounter = new HashMap<AnalysisType, Integer>();
 	}
 	
 	public static StatisticsUtil getInstance(){
@@ -111,7 +111,7 @@ public class StatisticsUtil {
 	}
 	
 	public void calculateStatistics(Parameter parameter, List<String> preprocessingResult,
-			String wordToAnnotate, AnalyzeType analyzeType, String concept){
+			String wordToAnnotate, AnalysisType analyzeType, String concept){
 		
 		/////////////////////////////////////////////////////////////////////
 		//////////////PARAMETER STATISTICS///////////////////////////////////
@@ -140,8 +140,8 @@ public class StatisticsUtil {
 				differentNonAnnotatedParameters.add(parameter);
 		}
 		
-		Set<AnalyzeType> set = analyzeTypesCounter.keySet(); 
-		for (AnalyzeType analyzeType2 : set) {
+		Set<AnalysisType> set = analyzeTypesCounter.keySet(); 
+		for (AnalysisType analyzeType2 : set) {
 			if(analyzeType.equals(analyzeType2))
 				analyzeTypesCounter.put(analyzeType2, 
 						analyzeTypesCounter.get(analyzeType2)+1);
@@ -288,7 +288,7 @@ public class StatisticsUtil {
 		return parameterAnnotationMap;
 	}
 
-	public Map<AnalyzeType, Integer> getAnalyzeTypesCounter() {
+	public Map<AnalysisType, Integer> getAnalyzeTypesCounter() {
 		return analyzeTypesCounter;
 	}
 }
