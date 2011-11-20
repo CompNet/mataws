@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import tr.edu.gsu.mataws.analyzer.AnalyzeType;
+import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.output.Output;
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 
@@ -56,7 +56,7 @@ public class TextOutputImpl implements Output{
 	
 	@Override
 	public void write(String parameterName, List<String> preprocessingResult,
-			String wordToAnnotate, AnalyzeType analyzeType, String concept) {
+			String wordToAnnotate, AnalysisType analysisType, String concept) {
 		
 		String string = parameterName;
 		if (preprocessingResult.size() != 0) {
@@ -71,7 +71,7 @@ public class TextOutputImpl implements Output{
 				}
 			}
 			string += "," + wordToAnnotate;
-			string += "," + analyzeType;
+			string += "," + analysisType;
 			string += "," + concept;
 		} else {
 			string += ",NoMatch";
@@ -112,12 +112,12 @@ public class TextOutputImpl implements Output{
 			result += "* ****************************************************************** *"+"\n";
 			result += "* *                      Analyze Types Results                     * *"+"\n";
 			result += "* *     ******************************************************     * *"+"\n";
-			result += "        Number of NonNounAnnotation: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.NonNounAnnotation)+"\n";
-			result += "        Number of OnlyOneRemaining: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.OnlyOneRemaining)+"\n";
-			result += "        Number of OnlyOneRepresenter: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.OnlyOneRepresenter)+"\n";
-			result += "        Number of HypernymialRelation: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.HypernymialRelation)+"\n";
-			result += "        Number of MeronymialRelation: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.MeronymialRelation)+"\n";
-			result += "        Number of NounAdjunct: "+statistics.getAnalyzeTypesCounter().get(AnalyzeType.NounAdjunct)+"\n";
+			result += "        Number of NonNounAnnotation: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.NonNounAnnotation)+"\n";
+			result += "        Number of OnlyOneRemaining: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.OnlyOneRemaining)+"\n";
+			result += "        Number of OnlyOneRepresenter: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.OnlyOneRepresenter)+"\n";
+			result += "        Number of HypernymialRelation: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.HypernymialRelation)+"\n";
+			result += "        Number of MeronymialRelation: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.HolonymialRelation)+"\n";
+			result += "        Number of NounAdjunct: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.NounAdjunct)+"\n";
 			result += "* ****************************************************************** *"+"\n";
 			result += "* *                             MATAWS                             * *"+"\n";
 			result += "**********************************************************************"+"\n";
