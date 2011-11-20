@@ -25,7 +25,7 @@ package tr.edu.gsu.mataws.output;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.analyzer.AnalyzeType;
+import tr.edu.gsu.mataws.analyzer.AnalysisType;
 
 /**
  * Interface for saving annotation process informations and 
@@ -47,7 +47,7 @@ public interface Output {
 	 * @param concept
 	 */
 	void write(String parameterName, List<String> preprocessingResult,
-			String wordToAnnotate, AnalyzeType analyzeType, String concept);
+			String wordToAnnotate, AnalysisType analysisType, String concept);
 	
 	/**
 	 * Method for recording total statistical results.
