@@ -181,10 +181,12 @@ public class CoreImpl implements Core{
 		for (String string : result) {
 			if(SigmaUtil.findConcept(string).equals("NoMatch")){
 				nonAnnotableWords.add(string);
-				result.remove(string);
 			}
 		}
-		List<String> splittedWords = null;
+		for (String string : nonAnnotableWords) {
+			result.remove(string);
+		}
+		List<String> splittedWords = new ArrayList<String>();
 		if(nonAnnotableWords.size()>0){
 			preprocessingStrategy = new WithoutSpecialCharDecomposition();
 			splittedWords = preprocessingStrategy.execute(nonAnnotableWords);
