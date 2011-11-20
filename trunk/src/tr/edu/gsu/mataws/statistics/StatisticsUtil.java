@@ -102,6 +102,9 @@ public class StatisticsUtil {
 		allParameterNames = new ArrayList<String>();
 		
 		analyzeTypesCounter = new HashMap<AnalysisType, Integer>();
+		for(AnalysisType at: AnalysisType.values()){
+			analyzeTypesCounter.put(at, 0);
+		}
 	}
 	
 	public static StatisticsUtil getInstance(){
@@ -140,12 +143,14 @@ public class StatisticsUtil {
 				differentNonAnnotatedParameters.add(parameter);
 		}
 		
-		Set<AnalysisType> set = analyzeTypesCounter.keySet(); 
+		/*Set<AnalysisType> set = analyzeTypesCounter.keySet(); 
 		for (AnalysisType analyzeType2 : set) {
 			if(analyzeType.equals(analyzeType2))
 				analyzeTypesCounter.put(analyzeType2, 
 						analyzeTypesCounter.get(analyzeType2)+1);
-		}
+		}*/
+		analyzeTypesCounter.put(analyzeType, 
+				analyzeTypesCounter.get(analyzeType)+1);
 	}
 	
 	public List<Parameter> getAllParameterObjects() {
