@@ -32,13 +32,15 @@ import java.util.Queue;
 import java.util.SortedSet;
 
 import sine.col.Parameter;
-import tr.edu.gsu.mataws.annotator.Annotator;
-import tr.edu.gsu.mataws.annotator.impl.SigmaAnnotatorImpl;
+import tr.edu.gsu.mataws.toolbox.SigmaUtil;
+import tr.edu.gsu.mataws.analyzer.AnalysisType;
+import tr.edu.gsu.mataws.analyzer.Analyzer;
 import tr.edu.gsu.mataws.components.Node;
+import tr.edu.gsu.mataws.core.Core;
+import tr.edu.gsu.mataws.core.impl.CoreImpl;
 import tr.edu.gsu.mataws.output.Output;
 import tr.edu.gsu.mataws.output.impl.TextOutputImpl;
-import tr.edu.gsu.mataws.statistics.Statistics;
-import tr.edu.gsu.mataws.statistics.impl.StatisticsUtil;
+import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 import tr.edu.gsu.mataws.toolbox.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.toolbox.SineUtil;
 
@@ -51,9 +53,10 @@ import tr.edu.gsu.mataws.toolbox.SineUtil;
  */
 public class AnnotationManager {
 
-	private Statistics statistics;
+	private StatisticsUtil statistics;
 	private Output output;
-	private Annotator annotator;
+	private Core core;
+	private Analyzer analyzer;
 	private CollectionTransformationUtil colTransUtil;
 	
 	private static AnnotationManager INSTANCE = null;
@@ -65,7 +68,8 @@ public class AnnotationManager {
 	private AnnotationManager(){
 		statistics = StatisticsUtil.getInstance();
 		output = new TextOutputImpl();
-		annotator = SigmaAnnotatorImpl.getInstance();
+		analyzer = new Analyzer();
+		core = CoreImpl.getInstance();
 	}
 	
 	/**
@@ -94,12 +98,20 @@ public class AnnotationManager {
 			for (int j = 0; j < statistics.getAllParameterObjects().size(); j++) {
 				Node node = statistics.getAllNodeObjects().get(j);
 				Parameter parameter = statistics.getAllParameterObjects().get(j);
-				List<String> decompositionResult = new ArrayList<String>(), annotationResult = new ArrayList<String>();
+				List<String> preprocessingResult = new ArrayList<String>();
+				String wordToAnnotate = null;
+				String concept = null;
+				AnalysisType analysisType;
 				Queue<Node> queue = new LinkedList<Node>();
 				queue.offer(node);
-				annotator.annotate(queue, decompositionResult, annotationResult);
-				statistics.calculateStatistics(parameter, decompositionResult, annotationResult);
-				output.write(parameter.getName(), decompositionResult, annotationResult);
+				
+				preprocessingResult = core.process(queue);
+				wordToAnnotate = analyzer.analyzeWords(preprocessingResult);
+				analysisType = analyzer.getAnalysisType();
+				concept = SigmaUtil.findConcept(wordToAnnotate);
+				
+				statistics.calculateStatistics(parameter, preprocessingResult, wordToAnnotate, analysisType, concept);
+				output.write(parameter.getName(), preprocessingResult, wordToAnnotate, analysisType, concept);
 			}
 			output.save();
 
