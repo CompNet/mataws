@@ -89,8 +89,7 @@ public class AnnotationManager {
 	 */
 	public void startProcess() throws Exception{
 		String[] collections = new File(System.getProperty("user.dir")+ File.separator +"input").list();
-		int collectionQuantity = collections.length;
-		for (int i = 0; i < collectionQuantity; i++) {
+		for (int i = 0; i < collections.length; i++) {
 			String collectionName = collections[i];
 			statistics.setAllParameterObjects(extractParameterCollection(collectionName));
 			statistics.setAllNodeObjects(createParameterNodes(statistics.getAllParameterObjects()));
