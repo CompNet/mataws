@@ -1,5 +1,5 @@
 package tr.edu.gsu.mataws.analyzer;
 
 public enum AnalysisType {
-	NonNounAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, NounAdjunct, NoAnalysis
+	NonNounVerbAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, SimpleVerbAnnotation, NounAdjunct, NoAnalysis
 }

@@ -25,6 +25,8 @@ package tr.edu.gsu.mataws.preprocessing.strategyGroups;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.components.TraceableParameter;
+
 /**
  * Interface for preprocessing of various collections.
  *  
@@ -40,6 +42,6 @@ public interface PreprocessingSet {
 	 * @param name
 	 * @return list of words of processed parameter name
 	 */
-	public List<String> processName(String name);
+	public List<String> processName(TraceableParameter tParameter);
 	
 }

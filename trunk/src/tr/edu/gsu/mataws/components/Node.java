@@ -33,7 +33,7 @@ import sine.col.Parameter;
  */
 public class Node {
 	
-	private Parameter parameter;
+	private TraceableParameter traceableParameter;
 	private int level;
 	
 	/**
@@ -44,8 +44,8 @@ public class Node {
 	 * @param level
 	 * 			the parameter's level
 	 */
-	public Node(Parameter parameter, int level){
-		this.parameter=parameter;
+	public Node(TraceableParameter tparameter, int level){
+		this.traceableParameter=tparameter;
 		this.level=level;
 	}
 	
@@ -55,8 +55,8 @@ public class Node {
 	 * @return
 	 * 		the parameter object of node.
 	 */
-	public Parameter getParameter(){
-		return (this.parameter);
+	public TraceableParameter getTraceableParameter(){
+		return (this.traceableParameter);
 	}
 	
 	/**

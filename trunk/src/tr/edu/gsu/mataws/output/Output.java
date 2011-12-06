@@ -26,6 +26,7 @@ package tr.edu.gsu.mataws.output;
 import java.util.List;
 
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
+import tr.edu.gsu.mataws.components.TraceableParameter;
 
 /**
  * Interface for saving annotation process informations and 
@@ -40,13 +41,13 @@ public interface Output {
 	 * Method for recording unit result including 
 	 * parameter name and relevant annotation results.
 	 * 
-	 * @param parameterName
+	 * @param tParameter
 	 * @param preprocessingResult
 	 * @param wordToAnnotate
 	 * @param analyzeType
 	 * @param concept
 	 */
-	void write(String parameterName, List<String> preprocessingResult,
+	void write(TraceableParameter tParameter, List<String> preprocessingResult,
 			String wordToAnnotate, AnalysisType analysisType, String concept);
 	
 	/**
