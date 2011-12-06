@@ -11,6 +11,7 @@ import tr.edu.gsu.mataws.components.Tree;
 import edu.smu.tspell.wordnet.NounSynset;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
+import edu.smu.tspell.wordnet.VerbSynset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 
 public class WordnetAnalyzer {
@@ -22,7 +23,40 @@ public class WordnetAnalyzer {
 		wd = WordNetDatabase.getFileInstance();
 	}
 	
-	public String onlyOneRepresenter(List<String> preprocessedResult){
+	public List<String> onlyOneRepresenter(List<String> preprocessedResult){
+		List<String> result = new ArrayList<String>();
+		String temp = onlyOneRepresenterCore(preprocessedResult);
+
+		if(temp!=null){
+			result.add(temp);
+			return result;
+		}
+		else if(preprocessedResult.size() > 2){
+			List<String> tempList = new ArrayList<String>();
+			for(int i=preprocessedResult.size()-1;i>1;i--){
+				for(int j = 0;j<preprocessedResult.size()-i+1;j++){
+					tempList = new ArrayList<String>();
+					for(int k = 0; k<i;k++){
+						tempList.add(preprocessedResult.get(k+j));
+					}
+					temp = onlyOneRepresenterCore(tempList);
+					if(temp!=null){
+						result = new ArrayList<String>(preprocessedResult);
+						String first = tempList.get(0);
+						int index = preprocessedResult.indexOf(first);
+						result.add(index, temp);
+						for (String string : tempList) {
+							result.remove(string);
+						}
+						return result;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public String onlyOneRepresenterCore(List<String> preprocessedResult){
 		
 		StringBuilder sb = new StringBuilder();
 		StringBuilder sb2 = new StringBuilder();
@@ -61,42 +95,110 @@ public class WordnetAnalyzer {
 		return preprocessedResult.get(preprocessedResult.size()-1);
 	}
 	
-	public String hypernymialRelationFinder(List<String> preprocessedResult){
+	public List<String> hypernymialRelationFinder(List<String> preprocessedResult, boolean verb){
+		List<String> result = new ArrayList<String>();
+		String temp = hypernymialRelationFinderCore(preprocessedResult, verb);
+		
+		if(temp!=null){
+			result.add(temp);
+			return result;
+		}
+		else if(preprocessedResult.size() > 2){
+			List<String> tempList = new ArrayList<String>();
+			for(int i=preprocessedResult.size()-1;i>1;i--){
+				for(int j = 0;j<preprocessedResult.size()-i+1;j++){
+					tempList = new ArrayList<String>();
+					for(int k = 0; k<i;k++){
+						tempList.add(preprocessedResult.get(k+j));
+					}
+					temp = hypernymialRelationFinderCore(tempList, verb);
+					if(temp!=null){
+						result = new ArrayList<String>(preprocessedResult);
+						String first = tempList.get(0);
+						int index = preprocessedResult.indexOf(first);
+						result.add(index, temp);
+						for (String string : tempList) {
+							result.remove(string);
+						}
+						return result;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public String hypernymialRelationFinderCore(List<String> preprocessedResult, boolean verb){
 		
 		List<Tree> treeList = new ArrayList<Tree>();
 		
 		////////////////////////building trees///////////////////////////////////////
-		for (String string : preprocessedResult) {
-			Synset[] synsets = wd.getSynsets(string, SynsetType.NOUN);
-			List<SynsetNode> snList = new ArrayList<SynsetNode>();
-			
-			for (Synset synset : synsets) {
+		if(!verb){
+			for (String string : preprocessedResult) {
+				Synset[] synsets = wd.getSynsets(string, SynsetType.NOUN);
+				List<SynsetNode> snList = new ArrayList<SynsetNode>();
 				
-				NounSynset nSynset = (NounSynset) synset;
-				
-				SynsetNode sn = new SynsetNode(nSynset);
-				snList.add(sn);
-				
-				NounSynset[] hyperSynsets1 = nSynset.getHypernyms();
-				SynsetNode sn1 = null;
-				if(hyperSynsets1.length != 0){
-					sn1 = new SynsetNode(hyperSynsets1[0]);
-					sn1.setParent(sn);
-					sn.setChild(sn1);
+				for (Synset synset : synsets) {
 					
-					NounSynset[] hyperSynsets2 = hyperSynsets1[0].getHypernyms();
-					SynsetNode sn2 = null;
-					if(hyperSynsets2.length != 0){
-						sn2 = new SynsetNode(hyperSynsets2[0]);
-						sn2.setParent(sn1);
-						sn1.setChild(sn2);
+					NounSynset nSynset = (NounSynset) synset;
+	
+					SynsetNode sn = new SynsetNode(nSynset);
+					snList.add(sn);
+					
+					NounSynset[] hyperSynsets1 = nSynset.getHypernyms();
+					SynsetNode sn1 = null;
+					if(hyperSynsets1.length != 0){
+						sn1 = new SynsetNode(hyperSynsets1[0]);
+						sn1.setParent(sn);
+						sn.setChild(sn1);
+						
+						NounSynset[] hyperSynsets2 = hyperSynsets1[0].getHypernyms();
+						SynsetNode sn2 = null;
+						if(hyperSynsets2.length != 0){
+							sn2 = new SynsetNode(hyperSynsets2[0]);
+							sn2.setParent(sn1);
+							sn1.setChild(sn2);
+						}
 					}
 				}
+				StringNode stringNode = new StringNode(string);
+				stringNode.setChildren(snList);
+				Tree tree = new Tree(stringNode);
+				treeList.add(tree);
 			}
-			StringNode stringNode = new StringNode(string);
-			stringNode.setChildren(snList);
-			Tree tree = new Tree(stringNode);
-			treeList.add(tree);
+		} else{
+			for (String string : preprocessedResult) {
+				Synset[] synsets = wd.getSynsets(string, SynsetType.VERB);
+				List<SynsetNode> snList = new ArrayList<SynsetNode>();
+				
+				for (Synset synset : synsets) {
+					
+					VerbSynset nSynset = (VerbSynset) synset;
+	
+					SynsetNode sn = new SynsetNode(nSynset);
+					snList.add(sn);
+					
+					VerbSynset[] hyperSynsets1 = nSynset.getHypernyms();
+					SynsetNode sn1 = null;
+					if(hyperSynsets1.length != 0){
+						sn1 = new SynsetNode(hyperSynsets1[0]);
+						sn1.setParent(sn);
+						sn.setChild(sn1);
+						
+						VerbSynset[] hyperSynsets2 = hyperSynsets1[0].getHypernyms();
+						SynsetNode sn2 = null;
+						if(hyperSynsets2.length != 0){
+							sn2 = new SynsetNode(hyperSynsets2[0]);
+							sn2.setParent(sn1);
+							sn1.setChild(sn2);
+						}
+					}
+				}
+				StringNode stringNode = new StringNode(string);
+				stringNode.setChildren(snList);
+				Tree tree = new Tree(stringNode);
+				treeList.add(tree);
+			}
 		}
 		
 		//////////////////intersection between trees////////////////
@@ -170,7 +272,42 @@ public class WordnetAnalyzer {
 		return result;
 	}*/
 	
-	public String holonymialRelationFinder(List<String> preprocessedResult){
+	public List<String> holonymialRelationFinder(List<String> preprocessedResult){
+		
+		List<String> result = new ArrayList<String>();
+		String temp = holonymialRelationFinderCore(preprocessedResult);
+		
+		if(temp!=null){
+			result.add(temp);
+			return result;
+		}
+		else if(preprocessedResult.size() > 2){
+			List<String> tempList = new ArrayList<String>();
+			for(int i=preprocessedResult.size()-1;i>1;i--){
+				for(int j = 0;j<preprocessedResult.size()-i+1;j++){
+					tempList = new ArrayList<String>();
+					for(int k = 0; k<i;k++){
+						tempList.add(preprocessedResult.get(k+j));
+					}
+					temp = holonymialRelationFinderCore(tempList);
+					if(temp!=null){
+						result = new ArrayList<String>(preprocessedResult);
+						String first = tempList.get(0);
+						int index = preprocessedResult.indexOf(first);
+						result.add(index, temp);
+						for (String string : tempList) {
+							result.remove(string);
+						}
+						return result;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public String holonymialRelationFinderCore(List<String> preprocessedResult){
 		
 		List<List<Synset>> generalList = new ArrayList<List<Synset>>();
 		
