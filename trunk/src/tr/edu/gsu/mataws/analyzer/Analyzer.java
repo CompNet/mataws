@@ -114,8 +114,12 @@ public class Analyzer {
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.OnlyOneRepresenter;
-			}else
+			}else{
+				for(String string:controlList){
+					tParameter.addControlList(string);
+				}
 				return analyzeWords(tParameter, controlList);
+			}
 		}
 		else if(wa.hypernymialRelationFinder(analyzeList, entered) != null){
 			controlList = wa.hypernymialRelationFinder(analyzeList, entered);
@@ -123,8 +127,12 @@ public class Analyzer {
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.HypernymialRelation;
-			}else
+			}else{
+				for(String string:controlList){
+					tParameter.addControlList(string);
+				}
 				return analyzeWords(tParameter, controlList);
+			}
 		}
 		else if(entered){
 			result = analyzeList.get(0);
@@ -137,8 +145,12 @@ public class Analyzer {
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.HolonymialRelation;
-			}else
+			}else{
+				for(String string:controlList){
+					tParameter.addControlList(string);
+				}
 				return analyzeWords(tParameter, controlList);
+			}
 		}
 		else{
 			result = wa.nounAdjunctFinder(analyzeList);
