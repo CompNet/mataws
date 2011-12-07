@@ -79,6 +79,9 @@ public class TextOutputImpl implements Output{
 			for (TraceType tt : tParameter.getTraceList()) {
 				string += "," + tt.toString();
 			}
+			for(String string2:tParameter.getControlList()){
+				string += "," + string2;
+			}
 			
 		} else {
 			string += ",NoMatch";
