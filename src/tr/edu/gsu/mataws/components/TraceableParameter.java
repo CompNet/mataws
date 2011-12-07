@@ -7,7 +7,8 @@ import sine.col.Parameter;
 
 public class TraceableParameter extends Parameter {
 
-	private List<TraceType> traceList = new ArrayList<TraceType>(); 
+	private List<TraceType> traceList = new ArrayList<TraceType>();
+	private List<String> controlList = new ArrayList<String>();
 	
 	private Parameter parameter;
 	
@@ -34,5 +35,16 @@ public class TraceableParameter extends Parameter {
 
 	public Parameter getParameter() {
 		return parameter;
+	}
+
+	public void setControlList(List<String> controlList) {
+		this.controlList = controlList;
+	}
+
+	public List<String> getControlList() {
+		return controlList;
+	}
+	public void addControlList(String string){
+		controlList.add(string);
 	}
 }
