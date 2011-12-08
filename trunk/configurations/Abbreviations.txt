@@ -1,5 +1,5 @@
 app,applicant
-num,numeric
+num,number
 str,string
 opt,option
 no,number
