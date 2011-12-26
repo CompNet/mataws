@@ -27,11 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import sine.col.Parameter;
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
+import tr.edu.gsu.mataws.components.AnnotatedParameter;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 
 /**
  * This class is an implementation of Statistics in which 
@@ -45,16 +46,17 @@ public class StatisticsUtil {
 
 	private static StatisticsUtil INSTANCE = null;
 	
-	private List<TraceableParameter> allParameterObjects;
+	private List<Parameter> allParameterObjects;
 	private List<Node> allNodeObjects;
+	private List<AnnotatedParameter> allAnnotatedParameterObjects;
 
-	private List<TraceableParameter> allParameters;
-	private List<TraceableParameter> annotatedParameters;
-	private List<TraceableParameter> nonAnnotatedParameters;
+	private List<Parameter> allParameters;
+	private List<Parameter> annotatedParameters;
+	private List<Parameter> nonAnnotatedParameters;
 	
-	private List<TraceableParameter> allDifferentParameters;
-	private List<TraceableParameter> differentAnnotatedParameters;
-	private List<TraceableParameter> differentNonAnnotatedParameters;
+	private List<Parameter> allDifferentParameters;
+	private List<Parameter> differentAnnotatedParameters;
+	private List<Parameter> differentNonAnnotatedParameters;
 	
 	private List<String> allWords;
 	private List<String> annotatedWords;
@@ -74,16 +76,17 @@ public class StatisticsUtil {
 	
 	private StatisticsUtil() {
 		
-		allParameterObjects = new ArrayList<TraceableParameter>();
+		allParameterObjects = new ArrayList<Parameter>();
 		allNodeObjects = new ArrayList<Node>();
+		allAnnotatedParameterObjects = new ArrayList<AnnotatedParameter>();
 		
-		allParameters = new ArrayList<TraceableParameter>();
-		annotatedParameters = new ArrayList<TraceableParameter>();
-		nonAnnotatedParameters = new ArrayList<TraceableParameter>();
+		allParameters = new ArrayList<Parameter>();
+		annotatedParameters = new ArrayList<Parameter>();
+		nonAnnotatedParameters = new ArrayList<Parameter>();
 		
-		allDifferentParameters = new ArrayList<TraceableParameter>();
-		differentAnnotatedParameters = new ArrayList<TraceableParameter>();
-		differentNonAnnotatedParameters = new ArrayList<TraceableParameter>();
+		allDifferentParameters = new ArrayList<Parameter>();
+		differentAnnotatedParameters = new ArrayList<Parameter>();
+		differentNonAnnotatedParameters = new ArrayList<Parameter>();
 		
 		allWords = new ArrayList<String>();
 		annotatedWords = new ArrayList<String>();
@@ -110,34 +113,34 @@ public class StatisticsUtil {
 		return INSTANCE;
 	}
 	
-	public void calculateStatistics(TraceableParameter tparameter, List<String> preprocessingResult,
+	public void calculateStatistics(Parameter parameter, List<String> preprocessingResult,
 			String wordToAnnotate, AnalysisType analyzeType, String concept){
 		
 		/////////////////////////////////////////////////////////////////////
 		//////////////PARAMETER STATISTICS///////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 		//each iteration counted and considered as annotated or not annotated
-		allParameters.add(tparameter);
+		allParameters.add(parameter);
 		if(!concept.equals("NoMatch"))
-			annotatedParameters.add(tparameter);
+			annotatedParameters.add(parameter);
 		else
-			nonAnnotatedParameters.add(tparameter);
+			nonAnnotatedParameters.add(parameter);
 		
 		//uniquely holded parameters  
-		if(!allParameterNames.contains(tparameter.getParameter().getName())){
+		if(!allParameterNames.contains(parameter.getName())){
 			
-			allParameterNames.add(tparameter.getParameter().getName());
+			allParameterNames.add(parameter.getName());
 			
-			allDifferentParameters.add(tparameter);
+			allDifferentParameters.add(parameter);
 			
 			//This will be useful to extract which concepts are linked to any parameter
-			parameterPreprocessingMap.put(tparameter.getParameter().getName(), preprocessingResult);
-			parameterAnnotationMap.put(tparameter.getParameter().getName(), concept);
+			parameterPreprocessingMap.put(parameter.getName(), preprocessingResult);
+			parameterAnnotationMap.put(parameter.getName(), concept);
 			
 			if(!concept.equals("NoMatch"))
-				differentAnnotatedParameters.add(tparameter);
+				differentAnnotatedParameters.add(parameter);
 			else
-				differentNonAnnotatedParameters.add(tparameter);
+				differentNonAnnotatedParameters.add(parameter);
 		}
 		
 		/*Set<AnalysisType> set = analyzeTypesCounter.keySet(); 
@@ -150,11 +153,11 @@ public class StatisticsUtil {
 				analyzeTypesCounter.get(analyzeType)+1);
 	}
 	
-	public List<TraceableParameter> getAllParameterObjects() {
+	public List<Parameter> getAllParameterObjects() {
 		return allParameterObjects;
 	}
 
-	public void setAllParameterObjects(List<TraceableParameter> allParams) {
+	public void setAllParameterObjects(List<Parameter> allParams) {
 		this.allParameterObjects = allParams;
 	}
 
@@ -166,53 +169,62 @@ public class StatisticsUtil {
 		this.allNodeObjects = allNodes;
 	}
 
-	public List<TraceableParameter> getAllParameters() {
+	public List<AnnotatedParameter> getAllAnnotatedParameterObjects() {
+		return allAnnotatedParameterObjects;
+	}
+
+	public void setAllAnnotatedParameterObjects(
+			List<AnnotatedParameter> allAnnotatedParams) {
+		this.allAnnotatedParameterObjects = allAnnotatedParams;
+	}
+	
+	public List<Parameter> getAllParameters() {
 		return allParameters;
 	}
 
-	public void setAllParameters(List<TraceableParameter> allParameters) {
+	public void setAllParameters(List<Parameter> allParameters) {
 		this.allParameters = allParameters;
 	}
 
-	public List<TraceableParameter> getAnnotatedParameters() {
+	public List<Parameter> getAnnotatedParameters() {
 		return annotatedParameters;
 	}
 
-	public void setAnnotatedParameters(List<TraceableParameter> annotatedParameters) {
+	public void setAnnotatedParameters(List<Parameter> annotatedParameters) {
 		this.annotatedParameters = annotatedParameters;
 	}
 
-	public List<TraceableParameter> getNonAnnotatedParameters() {
+	public List<Parameter> getNonAnnotatedParameters() {
 		return nonAnnotatedParameters;
 	}
 
-	public void setNonAnnotatedParameters(List<TraceableParameter> nonAnnotatedParameters) {
+	public void setNonAnnotatedParameters(List<Parameter> nonAnnotatedParameters) {
 		this.nonAnnotatedParameters = nonAnnotatedParameters;
 	}
 
-	public List<TraceableParameter> getAllDifferentParameters() {
+	public List<Parameter> getAllDifferentParameters() {
 		return allDifferentParameters;
 	}
 
-	public void setAllDifferentParameters(List<TraceableParameter> allDifferentParameters) {
+	public void setAllDifferentParameters(List<Parameter> allDifferentParameters) {
 		this.allDifferentParameters = allDifferentParameters;
 	}
 
-	public List<TraceableParameter> getDifferentAnnotatedParameters() {
+	public List<Parameter> getDifferentAnnotatedParameters() {
 		return differentAnnotatedParameters;
 	}
 
 	public void setDifferentAnnotatedParameters(
-			List<TraceableParameter> differentAnnotatedParameters) {
+			List<Parameter> differentAnnotatedParameters) {
 		this.differentAnnotatedParameters = differentAnnotatedParameters;
 	}
 
-	public List<TraceableParameter> getDifferentNonAnnotatedParameters() {
+	public List<Parameter> getDifferentNonAnnotatedParameters() {
 		return differentNonAnnotatedParameters;
 	}
 
 	public void setDifferentNonAnnotatedParameters(
-			List<TraceableParameter> differentNonAnnotatedParameters) {
+			List<Parameter> differentNonAnnotatedParameters) {
 		this.differentNonAnnotatedParameters = differentNonAnnotatedParameters;
 	}
 

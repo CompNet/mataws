@@ -36,7 +36,6 @@ import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.analyzer.Analyzer;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.core.Core;
 import tr.edu.gsu.mataws.core.impl.CoreImpl;
 import tr.edu.gsu.mataws.output.Output;
@@ -97,8 +96,7 @@ public class AnnotationManager {
 			
 			for (int j = 0; j < statistics.getAllParameterObjects().size(); j++) {
 				Node node = statistics.getAllNodeObjects().get(j);
-				TraceableParameter tparameter = statistics.getAllParameterObjects().get(j);
-				//TraceableParameter tparameter = node.getTraceableParameter();
+				Parameter parameter = statistics.getAllParameterObjects().get(j);
 				List<String> preprocessingResult = new ArrayList<String>();
 				String wordToAnnotate = null;
 				String concept = null;
@@ -107,17 +105,17 @@ public class AnnotationManager {
 				queue.offer(node);
 				
 				preprocessingResult = core.process(queue);
-				wordToAnnotate = analyzer.analyzeWords(tparameter, preprocessingResult);
+				wordToAnnotate = analyzer.analyzeWords(preprocessingResult);
 				analysisType = analyzer.getAnalysisType();
 				concept = SigmaUtil.findConcept(wordToAnnotate);
 				
-				statistics.calculateStatistics(tparameter, preprocessingResult, wordToAnnotate, analysisType, concept);
-				output.write(tparameter, preprocessingResult, wordToAnnotate, analysisType, concept);
+				statistics.calculateStatistics(parameter, preprocessingResult, wordToAnnotate, analysisType, concept);
+				output.write(parameter.getName(), preprocessingResult, wordToAnnotate, analysisType, concept);
 			}
 			output.save();
 
-			//colTransUtil = new CollectionTransformationUtil(collectionName);
-			//colTransUtil.createSemanticCollection();
+			colTransUtil = new CollectionTransformationUtil(collectionName);
+			colTransUtil.createSemanticCollection();
 		}
 	}
 	
@@ -132,15 +130,14 @@ public class AnnotationManager {
 	 * @throws Exception
 	 * 			indicates a problem if an error occurs during the creation of parameter list.
 	 */
-	public List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception {
-		List<TraceableParameter> result=new ArrayList<TraceableParameter>();
+	public List<Parameter> extractParameterCollection(String collectionName) throws Exception {
+		List<Parameter> result=new ArrayList<Parameter>();
 		SineUtil sineUtil = new SineUtil();
 		SortedSet<Parameter> sortedSet = sineUtil.initializeParameterList(collectionName);
 		Iterator<Parameter> iterator = sortedSet.iterator();
 		while (iterator.hasNext()) {
 			Parameter param = iterator.next();
-			TraceableParameter tp = new TraceableParameter(param);
-			result.add(tp);
+			result.add(param);
 		}
 		return result;
 	}
@@ -156,7 +153,7 @@ public class AnnotationManager {
 	 * 		a parameter list in which each parameter
 	 * 		is represented by a Node object.
 	 */
-	public List<Node> createParameterNodes(List<TraceableParameter> allParameterObjects){
+	public List<Node> createParameterNodes(List<Parameter> allParameterObjects){
 		List<Node> result=new ArrayList<Node>();
 		for(int i=0; i<allParameterObjects.size(); i++){
 			Node node=new Node(allParameterObjects.get(i), 0);

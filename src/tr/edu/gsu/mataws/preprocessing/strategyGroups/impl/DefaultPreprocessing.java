@@ -26,8 +26,6 @@ package tr.edu.gsu.mataws.preprocessing.strategyGroups.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.TraceType;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.MajusculeAfterMinusculeDecomposition;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.NumberDecomposition;
@@ -50,25 +48,20 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private PreprocessingStrategy preprocessingStrategy;
 	
 	@Override
-	public List<String> processName(TraceableParameter tParameter) {
+	public List<String> processName(String name) {
 
 		List<String> processedParam = new ArrayList<String>();
 		
 		//stringSQLExample
-		processedParam = this.decomposeParameterName(tParameter.getName());
-		tParameter.addTraceList(TraceType.Decomposition);
+		processedParam = this.decomposeParameterName(name);
 		//string,SQL,Example
 		processedParam = this.normalizeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Normalization);
 		//string, structuredQueryLanguage, example
 		processedParam = this.decomposeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Decomposition);
 		//string, structured, Query, Language, example
 		processedParam = this.normalizeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Normalization);
 		//string, structured, query, language, example
 		processedParam = this.filterParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Filtering);
 		
 		return processedParam;
 	}

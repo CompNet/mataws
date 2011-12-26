@@ -59,5 +59,4 @@ public class SineUtil {
 		SortedSet<Parameter> sortedSet=coll.getParameters();
 		return sortedSet;
 	}
-
 }

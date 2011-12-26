@@ -30,8 +30,6 @@ import java.util.Queue;
 
 import sine.col.Parameter;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceType;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.core.Core;
 import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.WithoutSpecialCharDecomposition;
@@ -76,21 +74,20 @@ public class CoreImpl implements Core{
 		boolean condition = true;
 		while (condition) {
 			Node aNode=queue.poll();
-			TraceableParameter tparameter = aNode.getTraceableParameter();
+			Parameter parameter = aNode.getParameter();
 			int level=aNode.getLevel();
-			//String aParamName = tparameter.getName();
-			preprocessingResult = this.processName(tparameter);
+			String aParamName = parameter.getName();
+			preprocessingResult = this.processName(aParamName);
 			if (!isAnnotable(preprocessingResult)) {
-				String typeName = tparameter.getTypeName();
+				String typeName = parameter.getTypeName();
 				if (!typeName.equals("")) {
-					preprocessingResult = this.processName(tparameter);
+					preprocessingResult = this.processName(typeName);
 					if (!isAnnotable(preprocessingResult)) {
-						List<Parameter> subParamList = tparameter.getSubParameters();
+						List<Parameter> subParamList = parameter.getSubParameters();
 						if (subParamList != null) {
 							level++;
 							for (int i = 0; i < subParamList.size(); i++) {
-								TraceableParameter tempTP = new TraceableParameter(subParamList.get(i));
-								Node newNode=new Node(tempTP, level);
+								Node newNode=new Node(subParamList.get(i), level);
 								queue.offer(newNode);
 							}
 						}
@@ -172,12 +169,12 @@ public class CoreImpl implements Core{
 	 * @param name
 	 * @return list of processed words
 	 */
-	public List<String> processName(TraceableParameter tParameter){
+	public List<String> processName(String name){
 		List<String> result = new ArrayList<String>();
 		
 		//default preprocessing is applied
 		preprocessingSet = new DefaultPreprocessing();
-		result = preprocessingSet.processName(tParameter);
+		result = preprocessingSet.processName(name);
 
 		//splitting operation is applied if necessary
 		List<String> nonAnnotableWords = new ArrayList<String>();
@@ -193,7 +190,6 @@ public class CoreImpl implements Core{
 		if(nonAnnotableWords.size()>0){
 			preprocessingStrategy = new WithoutSpecialCharDecomposition();
 			splittedWords = preprocessingStrategy.execute(nonAnnotableWords);
-			tParameter.addTraceList(TraceType.Splitting);
 		}
 		for (String string : splittedWords) {
 			result.add(string);

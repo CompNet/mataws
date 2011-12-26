@@ -24,48 +24,69 @@
 package tr.edu.gsu.mataws.components;
 
 import sine.col.Parameter;
+import java.util.*;
 
 /**
- * Class representing a parameter and its level for breadth first algorithm.
+ * Represents an annotated parameter.
  * 
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class Node {
-	
-	private Parameter parameter;
-	private int level;
+public class AnnotatedParameter extends Parameter {
+	//list of concepts found by Sigma
+	private List<String> conceptList;
 	
 	/**
-	 * Constructs a node for breadth first algorithm.
+	 * Constructs an object representing an annotated parameter.
 	 * 
-	 * @param parameter
-	 * 			the parameter
-	 * @param level
-	 * 			the parameter's level
+	 * @param name
+	 * 			the name of the annotated parameter
 	 */
-	public Node(Parameter parameter, int level){
-		this.parameter=parameter;
-		this.level=level;
+	public AnnotatedParameter(String name) {
+		super(name);
+		this.conceptList=new ArrayList<String>();		
 	}
 	
 	/**
-	 * Returns the parameter object of node.
+	 * Adds a new concept name found by Sigma to list of concepts.
+	 * 
+	 * @param conceptName
+	 * 				a concept name found by Sigma.
+	 */
+	public void addConcept(String conceptName){
+		this.conceptList.add(conceptName);
+	}
+
+	/**
+	 * Returns the list of concepts associated to parameter
 	 * 
 	 * @return
-	 * 		the parameter object of node.
+	 * 		List of concepts associated to parameter
 	 */
-	public Parameter getParameter(){
-		return (this.parameter);
+	public List<String> getConcepts(){
+		return(this.conceptList);
 	}
 	
 	/**
-	 * Returns level of the parameter which is represented by node. 
+	 * Erases the list of concepts
 	 * 
-	 * @return
-	 * 		the level of a parameter which is represented by node.
 	 */
-	public int getLevel(){
-		return (this.level);
+	public void clearConcepts(){
+		this.conceptList.clear();
+	}
+	
+	/**
+	 * Erases the specific concept indicated with parameter 
+	 * 
+	 * @param conceptName
+	 * 			concept to erase
+	 */
+	public void removeConcept(String conceptName){
+		for(int i=0; i<this.conceptList.size(); i++){
+			if(conceptName.equals(conceptList.get(i))){
+				this.conceptList.remove(i);
+				break;
+			}
+		}
 	}
 }
