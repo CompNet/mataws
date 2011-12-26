@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sine.col.Parameter;
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws.components.TraceableParameter;
@@ -56,14 +55,6 @@ public class StatisticsUtil {
 	private List<TraceableParameter> differentAnnotatedParameters;
 	private List<TraceableParameter> differentNonAnnotatedParameters;
 	
-	private List<String> allWords;
-	private List<String> annotatedWords;
-	private List<String> nonAnnotatedWords;
-	
-	private List<String> allDifferentWords;
-	private List<String> differentAnnotatedWords;
-	private List<String> differentNonAnnotatedWords;
-	
 	private Map<String, List<String>> parameterPreprocessingMap;
 	private Map<String, String> parameterAnnotationMap;
 	
@@ -84,14 +75,6 @@ public class StatisticsUtil {
 		allDifferentParameters = new ArrayList<TraceableParameter>();
 		differentAnnotatedParameters = new ArrayList<TraceableParameter>();
 		differentNonAnnotatedParameters = new ArrayList<TraceableParameter>();
-		
-		allWords = new ArrayList<String>();
-		annotatedWords = new ArrayList<String>();
-		nonAnnotatedWords = new ArrayList<String>();
-		
-		allDifferentWords = new ArrayList<String>();
-		differentAnnotatedWords = new ArrayList<String>();
-		differentNonAnnotatedWords = new ArrayList<String>();
 		
 		parameterPreprocessingMap = new HashMap<String, List<String>>();
 		parameterAnnotationMap = new HashMap<String, String>();
@@ -214,54 +197,6 @@ public class StatisticsUtil {
 	public void setDifferentNonAnnotatedParameters(
 			List<TraceableParameter> differentNonAnnotatedParameters) {
 		this.differentNonAnnotatedParameters = differentNonAnnotatedParameters;
-	}
-
-	public List<String> getAllWords() {
-		return allWords;
-	}
-
-	public void setAllWords(List<String> allWords) {
-		this.allWords = allWords;
-	}
-
-	public List<String> getAnnotatedWords() {
-		return annotatedWords;
-	}
-
-	public void setAnnotatedWords(List<String> annotatedWords) {
-		this.annotatedWords = annotatedWords;
-	}
-
-	public List<String> getNonAnnotatedWords() {
-		return nonAnnotatedWords;
-	}
-
-	public void setNonAnnotatedWords(List<String> nonAnnotatedWords) {
-		this.nonAnnotatedWords = nonAnnotatedWords;
-	}
-
-	public List<String> getAllDifferentWords() {
-		return allDifferentWords;
-	}
-
-	public void setAllDifferentWords(List<String> allDifferentWords) {
-		this.allDifferentWords = allDifferentWords;
-	}
-
-	public List<String> getDifferentAnnotatedWords() {
-		return differentAnnotatedWords;
-	}
-
-	public void setDifferentAnnotatedWords(List<String> differentAnnotatedWords) {
-		this.differentAnnotatedWords = differentAnnotatedWords;
-	}
-
-	public List<String> getDifferentNonAnnotatedWords() {
-		return differentNonAnnotatedWords;
-	}
-
-	public void setDifferentNonAnnotatedWords(List<String> differentNonAnnotatedWords) {
-		this.differentNonAnnotatedWords = differentNonAnnotatedWords;
 	}
 
 	public Map<String, List<String>> getParameterPreprocessingMap() {
