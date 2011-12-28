@@ -23,8 +23,6 @@
  */
 package tr.edu.gsu.mataws.components;
 
-import sine.col.Parameter;
-
 /**
  * Class representing a parameter and its level for breadth first algorithm.
  * 
