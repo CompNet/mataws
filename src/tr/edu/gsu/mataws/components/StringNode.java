@@ -2,8 +2,6 @@ package tr.edu.gsu.mataws.components;
 
 import java.util.List;
 
-import edu.smu.tspell.wordnet.Synset;
-
 public class StringNode {
 
 	private String root;
