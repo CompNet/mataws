@@ -34,6 +34,9 @@ public class WordNet {
     private static String baseDir = "";
     private static File baseDirFile = null;
     public static boolean initNeeded = true;
+    
+    //control string
+    private String control;
 
     private static final String[][] wnFilenamePatterns = 
     { { "noun_mappings",    "WordNetMappings.*noun.*txt" },
@@ -1725,15 +1728,27 @@ public class WordNet {
             synsetBlock = (String) adverbSynsetHash.get(word);      
 
         int listLength;
-        String synset;
+        String synset = null;
         String[] synsetList = null;
         if (synsetBlock != null)
             synsetList = synsetBlock.split("\\s+");
         String term = null;
 
         if (synsetList != null) {
-            synset = synsetList[0];   // Just get the first synset.  This needs to be changed to a word sense disambiguation algorithm.
-            synset.trim();
+        	if(control!=null){
+	        	for (String string : synsetList) {
+	        		if(control.equals(nounDocumentationHash.get(string))){
+	        			synset = string;
+	        			break;
+	        		}
+				}
+        	} else
+        		synset = synsetList[0];   // Just get the first synset.  This needs to be changed to a word sense disambiguation algorithm.
+            
+        	if(synset == null)
+        		synset = synsetList[0];
+        	synset.trim();
+            
             if (pos == NOUN) 
                 term =  (String) nounSUMOHash.get(synset);
             if (pos == VERB) 
@@ -2563,7 +2578,15 @@ public class WordNet {
         return;
     }
 
-    /** ***************************************************************
+    public String getControl() {
+		return control;
+	}
+
+	public void setControl(String control) {
+		this.control = control;
+	}
+
+	/** ***************************************************************
      *  A main method, used only for testing.  It should not be called
      *  during normal operation.
      */
