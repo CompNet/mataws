@@ -14,12 +14,14 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 public class Analyzer {
 
 	private AnalysisType analysisType = AnalysisType.NoAnalysis;
+	private WordNetDatabase wd;
+	
+	public Analyzer(){
+		System.setProperty("wordnet.database.dir",System.getProperty("user.dir") + File.separator + "dictionary");
+		wd = WordNetDatabase.getFileInstance();
+	}
 	
 	public String analyzeWords(TraceableParameter tParameter, List<String> preprocessedResult){
-		
-		System.setProperty("wordnet.database.dir",System.getProperty("user.dir") + File.separator + "dictionary");
-		
-		WordNetDatabase wd = WordNetDatabase.getFileInstance();
 		
 		WordnetAnalyzer wa = new WordnetAnalyzer();
 		
@@ -164,4 +166,34 @@ public class Analyzer {
 		return analysisType;
 	}
 	
+	public String getWordUsage(String word){
+		Synset[] sNoun = wd.getSynsets(word, SynsetType.NOUN);
+		Synset[] sVerb = wd.getSynsets(word, SynsetType.VERB);
+		String result = "";
+		
+		if(sNoun.length!=0){
+			if(((float)((float)sNoun.length / sVerb.length)) > 0.3){
+				result += sNoun[0].getDefinition();
+				String[] s = sNoun[0].getUsageExamples();
+				for (String string : s) {
+					result += "; "+string;
+				}
+			} else{
+				result += sVerb[0].getDefinition();
+				String[] s = sVerb[0].getUsageExamples();
+				for (String string : s) {
+					result += "; "+string;
+				}
+			}
+		} else if(sVerb.length!=0){
+			result += sVerb[0].getDefinition();
+			String[] s = sVerb[0].getUsageExamples();
+			for (String string : s) {
+				result += "; "+string;
+			}
+		} else{
+			result = null;
+		}
+		return result;
+	}
 }
