@@ -91,8 +91,7 @@ public class AnnotationManager {
 	public void startProcess() throws Exception{
 		String[] collections = new File(System.getProperty("user.dir")+ File.separator +"input").list();
 		for (int i = 0; i < collections.length; i++) {
-			String collectionName = collections[i];
-			statistics.setAllParameterObjects(extractParameterCollection(collectionName));
+			statistics.setAllParameterObjects(extractParameterCollection(collections[i]));
 			statistics.setAllNodeObjects(createParameterNodes(statistics.getAllParameterObjects()));
 			
 			for (int j = 0; j < statistics.getAllParameterObjects().size(); j++) {
@@ -102,20 +101,22 @@ public class AnnotationManager {
 				String wordToAnnotate = null;
 				String concept = null;
 				AnalysisType analysisType;
+				String wordUsage;
 				Queue<Node> queue = new LinkedList<Node>();
 				queue.offer(node);
 				
 				preprocessingResult = core.process(queue);
 				wordToAnnotate = analyzer.analyzeWords(tparameter, preprocessingResult);
 				analysisType = analyzer.getAnalysisType();
-				concept = SigmaUtil.findConcept(wordToAnnotate);
+				wordUsage = analyzer.getWordUsage(wordToAnnotate);
+				concept = SigmaUtil.findConcept(wordToAnnotate, wordUsage);
 				
 				statistics.calculateStatistics(tparameter, preprocessingResult, wordToAnnotate, analysisType, concept);
 				output.write(tparameter, preprocessingResult, wordToAnnotate, analysisType, concept);
 			}
 			output.save();
 
-			colTransUtil = new CollectionTransformationUtil(collectionName);
+			colTransUtil = new CollectionTransformationUtil(collections[i]);
 			colTransUtil.createSemanticCollection();
 		}
 	}

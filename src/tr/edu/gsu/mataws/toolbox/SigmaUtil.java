@@ -50,6 +50,7 @@ public class SigmaUtil {
 	 */
 	public static String findConcept(String aParameter) {
 		String result;
+		
 		String aMatching = myDictionary.getSUMOterm(aParameter, NOUN);
 		if (aMatching == null) {
 			aMatching = myDictionary.getSUMOterm(aParameter, VERB);
@@ -74,4 +75,8 @@ public class SigmaUtil {
 		return result;
 	}
 	
+	public static String findConcept(String aParameter, String wordUsage) {
+		myDictionary.setControl(wordUsage);
+		return findConcept(aParameter);
+	}
 }
