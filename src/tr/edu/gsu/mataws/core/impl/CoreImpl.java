@@ -30,11 +30,11 @@ import java.util.Queue;
 
 import sine.col.Parameter;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceType;
 import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.core.Core;
 import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.WithoutSpecialCharDecomposition;
+import tr.edu.gsu.mataws.preprocessing.purification.impl.JawsPurificationImpl;
 import tr.edu.gsu.mataws.preprocessing.strategyGroups.PreprocessingSet;
 import tr.edu.gsu.mataws.preprocessing.strategyGroups.impl.DefaultPreprocessing;
 import tr.edu.gsu.mataws.toolbox.SigmaUtil;
@@ -167,19 +167,19 @@ public class CoreImpl implements Core{
 	/**
 	 * This method realizes the core operation of the program. It
 	 * applies the default preprocessing operations set and also
-	 * the splitting operation to the given parameter name.
+	 * the purification and splitting operations to the given parameter name.
 	 * 
-	 * @param name
+	 * @param TraceableParameter tp
 	 * @return list of processed words
 	 */
-	public List<String> processName(TraceableParameter tParameter){
+	public List<String> processName(TraceableParameter tp){
 		List<String> result = new ArrayList<String>();
 		
 		//default preprocessing is applied
 		preprocessingSet = new DefaultPreprocessing();
-		result = preprocessingSet.processName(tParameter);
+		result = preprocessingSet.processName(tp);
 
-		//splitting operation is applied if necessary
+		//purifying operation is applied if necessary
 		List<String> nonAnnotableWords = new ArrayList<String>();
 		for (String string : result) {
 			if(SigmaUtil.findConcept(string).equals("NoMatch")){
@@ -189,11 +189,25 @@ public class CoreImpl implements Core{
 		for (String string : nonAnnotableWords) {
 			result.remove(string);
 		}
-		List<String> splittedWords = new ArrayList<String>();
+		List<String> purifiedWords = new ArrayList<String>();
 		if(nonAnnotableWords.size()>0){
+			preprocessingStrategy = new JawsPurificationImpl();
+			purifiedWords = preprocessingStrategy.execute(nonAnnotableWords);
+		}
+		List<String> nonAnnotableWords2 = new ArrayList<String>();
+		for (String string : purifiedWords) {
+			if(!SigmaUtil.findConcept(string).equals("NoMatch"))
+				result.add(string);
+			else{
+				//result.add(nonAnnotableWords.get(purifiedWords.indexOf(string)));
+				nonAnnotableWords2.add(string);
+			}
+		}
+		//splitting operation is applied if necessary
+		List<String> splittedWords = new ArrayList<String>();
+		if(nonAnnotableWords2.size()>0){
 			preprocessingStrategy = new WithoutSpecialCharDecomposition();
-			splittedWords = preprocessingStrategy.execute(nonAnnotableWords);
-			tParameter.addTraceList(TraceType.Splitting);
+			splittedWords = preprocessingStrategy.execute(nonAnnotableWords2);
 		}
 		for (String string : splittedWords) {
 			result.add(string);
