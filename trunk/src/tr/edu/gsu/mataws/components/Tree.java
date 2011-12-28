@@ -3,8 +3,6 @@ package tr.edu.gsu.mataws.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.smu.tspell.wordnet.Synset;
-
 public class Tree {
 
 	private StringNode root;
