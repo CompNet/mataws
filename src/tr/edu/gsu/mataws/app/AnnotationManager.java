@@ -97,8 +97,7 @@ public class AnnotationManager {
 			
 			for (int j = 0; j < statistics.getAllParameterObjects().size(); j++) {
 				Node node = statistics.getAllNodeObjects().get(j);
-				TraceableParameter tparameter = statistics.getAllParameterObjects().get(j);
-				//TraceableParameter tparameter = node.getTraceableParameter();
+				TraceableParameter tparameter = node.getTraceableParameter();
 				List<String> preprocessingResult = new ArrayList<String>();
 				String wordToAnnotate = null;
 				String concept = null;
@@ -116,8 +115,8 @@ public class AnnotationManager {
 			}
 			output.save();
 
-			//colTransUtil = new CollectionTransformationUtil(collectionName);
-			//colTransUtil.createSemanticCollection();
+			colTransUtil = new CollectionTransformationUtil(collectionName);
+			colTransUtil.createSemanticCollection();
 		}
 	}
 	
