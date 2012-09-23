@@ -32,90 +32,26 @@ public class Analyzer {
 		for (String string : preprocessedResult) {
 			analyzeList.add(string);
 		}
-		
-		Synset[] nounSynsets = null;
-		Synset[] verbSynsets = null;
-		Synset[] adjectifSynsets = null;
-		Synset[] adverbSynsets = null;
-		
-		boolean entered = false;
-		
-		//here we try to get only nouns
-		for(String string : preprocessedResult){
-			nounSynsets = wd.getSynsets(string, SynsetType.NOUN);
-			verbSynsets = wd.getSynsets(string, SynsetType.VERB);
-			adjectifSynsets = wd.getSynsets(string, SynsetType.ADJECTIVE);
-			adverbSynsets = wd.getSynsets(string, SynsetType.ADVERB);
-			
-			/*if(nounSynsets.length > verbSynsets.length && 
-					nounSynsets.length > adjectifSynsets.length && 
-					nounSynsets.length > adverbSynsets.length){
-			
-			} else{
-				analyzeList.remove(string);
-			}*/
-			if(nounSynsets.length != 0){
-				if(verbSynsets.length !=0){
-					if(((float)((float)nounSynsets.length / verbSynsets.length)) < 0.3)
-						analyzeList.remove(string);
-				}else if(adverbSynsets.length !=0){
-					if(((float)((float)nounSynsets.length / adverbSynsets.length)) < 0.3)
-						analyzeList.remove(string);
-				}else if(adjectifSynsets.length !=0){
-					if(((float)((float)nounSynsets.length / adjectifSynsets.length)) < 0.3)
-						analyzeList.remove(string);
-				}
-			}else
-				analyzeList.remove(string);
-		}
-		
-		//in case of no noun exists in the list, then we try to get only verbs 
-		if(analyzeList.size() == 0){
-			
-			entered = true;
-			
-			for (String string : preprocessedResult) {
-				analyzeList.add(string);
-			}
-			
-			for(String string : preprocessedResult){
-				nounSynsets = wd.getSynsets(string, SynsetType.NOUN);
-				verbSynsets = wd.getSynsets(string, SynsetType.VERB);
-				adjectifSynsets = wd.getSynsets(string, SynsetType.ADJECTIVE);
-				adverbSynsets = wd.getSynsets(string, SynsetType.ADVERB);
-				
-				if(verbSynsets.length != 0){
-					if(adverbSynsets.length != 0){
-						if(((float)((float)verbSynsets.length / adverbSynsets.length)) < 0.3)
-							analyzeList.remove(string);
-					}else if(adjectifSynsets.length != 0){
-						if(((float)((float)verbSynsets.length / adjectifSynsets.length)) < 0.3)
-							analyzeList.remove(string);
-					}
-				}else
-					analyzeList.remove(string);
-			}
-		}
+
 		
 		if(preprocessedResult.size() == 0)
 			return result;
 		
-		if(analyzeList.size() == 0){
-			result = preprocessedResult.get(0);
-			analysisType = AnalysisType.NonNounVerbAnnotation;
-			tParameter.addTraceList(TraceType.NonNounVerbAnnotation);
-		}
-		else if(analyzeList.size() == 1){
+		//algo starts here
+		if(analyzeList.size() == 1){
 			result = analyzeList.get(0);
 			analysisType = AnalysisType.OnlyOneRemaining;
 			tParameter.addTraceList(TraceType.OnlyOneRemaining);
+			return result;
 		}
-		else if(wa.onlyOneRepresenter(analyzeList) != null){
+		
+		if(wa.onlyOneRepresenter(analyzeList) != null){
 			controlList = wa.onlyOneRepresenter(analyzeList);
 			tParameter.addTraceList(TraceType.OnlyOneRepresenter);
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.OnlyOneRepresenter;
+				return result;
 			}else{
 				for(String string:controlList){
 					tParameter.addControlList(string);
@@ -123,23 +59,19 @@ public class Analyzer {
 				return analyzeWords(tParameter, controlList);
 			}
 		}
-		else if(wa.hypernymialRelationFinder(analyzeList, entered) != null){
-			controlList = wa.hypernymialRelationFinder(analyzeList, entered);
+		else if(wa.hypernymialRelationFinder(analyzeList) != null){
+			controlList = wa.hypernymialRelationFinder(analyzeList);
 			tParameter.addTraceList(TraceType.HypernymialRelation);
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.HypernymialRelation;
+				return result;
 			}else{
 				for(String string:controlList){
 					tParameter.addControlList(string);
 				}
 				return analyzeWords(tParameter, controlList);
 			}
-		}
-		else if(entered){
-			result = analyzeList.get(0);
-			analysisType = AnalysisType.SimpleVerbAnnotation;
-			tParameter.addTraceList(TraceType.SimpleVerbAnnotation);
 		}
 		else if(wa.holonymialRelationFinder(analyzeList) != null){
 			controlList = wa.holonymialRelationFinder(analyzeList);
@@ -147,6 +79,7 @@ public class Analyzer {
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.HolonymialRelation;
+				return result;
 			}else{
 				for(String string:controlList){
 					tParameter.addControlList(string);
@@ -155,9 +88,93 @@ public class Analyzer {
 			}
 		}
 		else{
-			result = wa.nounAdjunctFinder(analyzeList);
-			analysisType = AnalysisType.NounAdjunct;
-			tParameter.addTraceList(TraceType.NounAdjunct);
+			Synset[] nounSynsets = null;
+			Synset[] verbSynsets = null;
+			Synset[] adjectifSynsets = null;
+			Synset[] adverbSynsets = null;
+			
+			boolean enteredVerb = false;
+			boolean enteredOther = false;
+			
+			//here we try to get only nouns
+			for(String string : preprocessedResult){
+				nounSynsets = wd.getSynsets(string, SynsetType.NOUN);
+				verbSynsets = wd.getSynsets(string, SynsetType.VERB);
+				adjectifSynsets = wd.getSynsets(string, SynsetType.ADJECTIVE);
+				adverbSynsets = wd.getSynsets(string, SynsetType.ADVERB);
+				
+				if(nounSynsets.length > verbSynsets.length && 
+						nounSynsets.length > adjectifSynsets.length && 
+						nounSynsets.length > adverbSynsets.length){
+				
+				} else{
+					analyzeList.remove(string);
+				}
+				if(nounSynsets.length != 0){
+					if(verbSynsets.length !=0){
+						if(((float)((float)nounSynsets.length / verbSynsets.length)) < 0.3)
+							analyzeList.remove(string);
+					}else if(adverbSynsets.length !=0){
+						if(((float)((float)nounSynsets.length / adverbSynsets.length)) < 0.3)
+							analyzeList.remove(string);
+					}else if(adjectifSynsets.length !=0){
+						if(((float)((float)nounSynsets.length / adjectifSynsets.length)) < 0.3)
+							analyzeList.remove(string);
+					}
+				}else
+					analyzeList.remove(string);
+			}
+			
+			//in case of no noun exists in the list, then we try to get only verbs 
+			if(analyzeList.size() == 0){
+				
+				enteredVerb = true;
+				
+				for (String string : preprocessedResult) {
+					analyzeList.add(string);
+				}
+				
+				for(String string : preprocessedResult){
+					nounSynsets = wd.getSynsets(string, SynsetType.NOUN);
+					verbSynsets = wd.getSynsets(string, SynsetType.VERB);
+					adjectifSynsets = wd.getSynsets(string, SynsetType.ADJECTIVE);
+					adverbSynsets = wd.getSynsets(string, SynsetType.ADVERB);
+					
+					if(verbSynsets.length != 0){
+						if(adverbSynsets.length != 0){
+							if(((float)((float)verbSynsets.length / adverbSynsets.length)) < 0.3)
+								analyzeList.remove(string);
+						}else if(adjectifSynsets.length != 0){
+							if(((float)((float)verbSynsets.length / adjectifSynsets.length)) < 0.3)
+								analyzeList.remove(string);
+						}
+					}else
+						analyzeList.remove(string);
+				}
+			}
+			
+			if(analyzeList.size() == 0){
+				enteredOther = true;
+				for (String string : preprocessedResult) {
+					analyzeList.add(string);
+				}
+			}
+			
+			if(!enteredVerb){
+				tParameter.addTraceList(TraceType.NounAdjunct);
+				analysisType = AnalysisType.NounAdjunct;
+				result = wa.nounAdjunctFinder(analyzeList);
+			}
+			else if(!enteredOther){
+				tParameter.addTraceList(TraceType.SimpleVerbAnnotation);
+				analysisType = AnalysisType.SimpleVerbAnnotation;
+				result = wa.frequentVerbFinder(analyzeList);
+			}
+			else{
+				tParameter.addTraceList(TraceType.NonNounVerbAnnotation);
+				analysisType = AnalysisType.NonNounVerbAnnotation;
+				result = wa.frequentAdjectiveOrAdverbFinder(analyzeList);
+			}
 		}
 		return result;
 	}

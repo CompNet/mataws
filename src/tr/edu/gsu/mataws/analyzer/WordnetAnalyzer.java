@@ -8,6 +8,8 @@ import java.util.Locale;
 import tr.edu.gsu.mataws.components.StringNode;
 import tr.edu.gsu.mataws.components.SynsetNode;
 import tr.edu.gsu.mataws.components.Tree;
+import edu.smu.tspell.wordnet.AdjectiveSynset;
+import edu.smu.tspell.wordnet.AdverbSynset;
 import edu.smu.tspell.wordnet.NounSynset;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -62,7 +64,8 @@ public class WordnetAnalyzer {
 		StringBuilder sb2 = new StringBuilder();
 		
 		for (String string : preprocessedResult) {
-			sb.append(string.charAt(0));
+			if(string.length()!=0)
+				sb.append(string.charAt(0));
 		}
 		
 		String abbrev = sb.toString().toUpperCase(Locale.ENGLISH);
@@ -95,9 +98,52 @@ public class WordnetAnalyzer {
 		return preprocessedResult.get(preprocessedResult.size()-1);
 	}
 	
-	public List<String> hypernymialRelationFinder(List<String> preprocessedResult, boolean verb){
+	public String frequentVerbFinder(List<String> preprocessedResult){
+		int frequency = 0;
+		String result = null;
+		for (String string : preprocessedResult) {
+			int i = getWordFrequency(string, SynsetType.VERB);
+			if(i>frequency){
+				frequency = i;
+				result = string;
+			}
+		}
+		if(result!=null)
+			return result;
+		else
+			return preprocessedResult.get(0);
+	}
+	
+	public String frequentAdjectiveOrAdverbFinder(List<String> preprocessedResult){
+		int frequency = 0;
+		String result = null;
+		for (String string : preprocessedResult) {
+			int i = getWordFrequency(string, SynsetType.ADJECTIVE);
+			int k = getWordFrequency(string, SynsetType.ADVERB);
+			int j;
+			if(i>k)
+				j = i;
+			else
+				j = k;
+			if(j>frequency){
+				frequency = i;
+				result = string;
+			}
+		}
+		if(result!=null)
+			return result;
+		else{
+			if(preprocessedResult.size()==0)
+				return "";
+			else
+				return preprocessedResult.get(0);
+		}
+			
+	}
+	
+	public List<String> hypernymialRelationFinder(List<String> preprocessedResult){
 		List<String> result = new ArrayList<String>();
-		String temp = hypernymialRelationFinderCore(preprocessedResult, verb);
+		String temp = hypernymialRelationFinderCore(preprocessedResult);
 		
 		if(temp!=null){
 			result.add(temp);
@@ -111,7 +157,7 @@ public class WordnetAnalyzer {
 					for(int k = 0; k<i;k++){
 						tempList.add(preprocessedResult.get(k+j));
 					}
-					temp = hypernymialRelationFinderCore(tempList, verb);
+					temp = hypernymialRelationFinderCore(tempList);
 					if(temp!=null){
 						result = new ArrayList<String>(preprocessedResult);
 						String first = tempList.get(0);
@@ -128,77 +174,42 @@ public class WordnetAnalyzer {
 		return null;
 	}
 	
-	public String hypernymialRelationFinderCore(List<String> preprocessedResult, boolean verb){
+	public String hypernymialRelationFinderCore(List<String> preprocessedResult){
 		
 		List<Tree> treeList = new ArrayList<Tree>();
 		
 		////////////////////////building trees///////////////////////////////////////
-		if(!verb){
-			for (String string : preprocessedResult) {
-				Synset[] synsets = wd.getSynsets(string, SynsetType.NOUN);
-				List<SynsetNode> snList = new ArrayList<SynsetNode>();
+		for (String string : preprocessedResult) {
+			Synset[] synsets = wd.getSynsets(string, SynsetType.NOUN);
+			List<SynsetNode> snList = new ArrayList<SynsetNode>();
+			
+			for (Synset synset : synsets) {
 				
-				for (Synset synset : synsets) {
+				NounSynset nSynset = (NounSynset) synset;
+
+				SynsetNode sn = new SynsetNode(nSynset);
+				snList.add(sn);
+				
+				NounSynset[] hyperSynsets1 = nSynset.getHypernyms();
+				SynsetNode sn1 = null;
+				if(hyperSynsets1.length != 0){
+					sn1 = new SynsetNode(hyperSynsets1[0]);
+					sn1.setParent(sn);
+					sn.setChild(sn1);
 					
-					NounSynset nSynset = (NounSynset) synset;
-	
-					SynsetNode sn = new SynsetNode(nSynset);
-					snList.add(sn);
-					
-					NounSynset[] hyperSynsets1 = nSynset.getHypernyms();
-					SynsetNode sn1 = null;
-					if(hyperSynsets1.length != 0){
-						sn1 = new SynsetNode(hyperSynsets1[0]);
-						sn1.setParent(sn);
-						sn.setChild(sn1);
-						
-						NounSynset[] hyperSynsets2 = hyperSynsets1[0].getHypernyms();
-						SynsetNode sn2 = null;
-						if(hyperSynsets2.length != 0){
-							sn2 = new SynsetNode(hyperSynsets2[0]);
-							sn2.setParent(sn1);
-							sn1.setChild(sn2);
-						}
+					NounSynset[] hyperSynsets2 = hyperSynsets1[0].getHypernyms();
+					SynsetNode sn2 = null;
+					if(hyperSynsets2.length != 0){
+						sn2 = new SynsetNode(hyperSynsets2[0]);
+						sn2.setParent(sn1);
+						sn1.setChild(sn2);
 					}
 				}
-				StringNode stringNode = new StringNode(string);
-				stringNode.setChildren(snList);
-				Tree tree = new Tree(stringNode);
-				treeList.add(tree);
 			}
-		} else{
-			for (String string : preprocessedResult) {
-				Synset[] synsets = wd.getSynsets(string, SynsetType.VERB);
-				List<SynsetNode> snList = new ArrayList<SynsetNode>();
-				
-				for (Synset synset : synsets) {
-					
-					VerbSynset nSynset = (VerbSynset) synset;
-	
-					SynsetNode sn = new SynsetNode(nSynset);
-					snList.add(sn);
-					
-					VerbSynset[] hyperSynsets1 = nSynset.getHypernyms();
-					SynsetNode sn1 = null;
-					if(hyperSynsets1.length != 0){
-						sn1 = new SynsetNode(hyperSynsets1[0]);
-						sn1.setParent(sn);
-						sn.setChild(sn1);
-						
-						VerbSynset[] hyperSynsets2 = hyperSynsets1[0].getHypernyms();
-						SynsetNode sn2 = null;
-						if(hyperSynsets2.length != 0){
-							sn2 = new SynsetNode(hyperSynsets2[0]);
-							sn2.setParent(sn1);
-							sn1.setChild(sn2);
-						}
-					}
-				}
-				StringNode stringNode = new StringNode(string);
-				stringNode.setChildren(snList);
-				Tree tree = new Tree(stringNode);
-				treeList.add(tree);
-			}
+			StringNode stringNode = new StringNode(string);
+			stringNode.setChildren(snList);
+			Tree tree = new Tree(stringNode);
+			treeList.add(tree);
 		}
 		
 		//////////////////intersection between trees////////////////
@@ -347,5 +358,26 @@ public class WordnetAnalyzer {
 			}
 		}
 		return null;
+	}
+	
+	public int getWordFrequency(String word, SynsetType type){
+		
+		Synset[] synsets = wd.getSynsets(word, type);
+		if(synsets.length==0)
+			return 0;
+		
+		if(type.equals(SynsetType.NOUN)){
+			NounSynset ns = (NounSynset) synsets[0];
+			return ns.getTagCount(ns.getWordForms()[0]);
+		} else if(type.equals(SynsetType.VERB)){
+			VerbSynset vs = (VerbSynset) synsets[0];
+			return vs.getTagCount(vs.getWordForms()[0]);
+		} else if(type.equals(SynsetType.ADJECTIVE)){
+			AdjectiveSynset as = (AdjectiveSynset) synsets[0];
+			return as.getTagCount(as.getWordForms()[0]);
+		} else {
+			AdverbSynset as = (AdverbSynset) synsets[0];
+			return as.getTagCount(as.getWordForms()[0]);
+		}
 	}
 }
