@@ -33,31 +33,32 @@ import sine.in.Digger;
 import sine.in.Language;
 
 /**
- * This class is used to extract parameters and subparameters
- * of a given collection.
- *   
+ * This class is used to extract parameters and subparameters of a given
+ * collection.
+ * 
  * @author Koray Mancuhan & Cihan Aksoy
- *
+ * 
  */
 public class SineUtil {
 
 	/**
-	 * Interact with SINE to parse and obtain alphabetically ordered parameter list
-	 * from a web service collection.
+	 * Interact with SINE to parse and obtain alphabetically ordered parameter
+	 * list from a web service collection.
 	 * 
 	 * @param collectionName
-	 * 			a web service collection name.
-	 * @return
-	 * 			ordered parameter list for a web service collection.
+	 *            a web service collection name.
+	 * @return ordered parameter list for a web service collection.
 	 * @throws Exception
-	 * 			indicates a problem if an error occurs while using SINE.
+	 *             indicates a problem if an error occurs while using SINE.
 	 */
-	public SortedSet<Parameter> initializeParameterList(String collectionName) throws Exception{
-		Digger d =new Digger(Logger.getAnonymousLogger());
+	public SortedSet<Parameter> initializeParameterList(String collectionName)
+			throws Exception {
+		Digger d = new Digger(Logger.getAnonymousLogger());
 		Collection coll = null;
-		coll = d.dig(new File(System.getProperty("user.dir")+ File.separator +"input"+ File.separator + collectionName), Language.WSDL, collectionName);
-		SortedSet<Parameter> sortedSet=coll.getParameters();
+		coll = d.dig(new File(System.getProperty("user.dir") + File.separator
+				+ "input" + File.separator + collectionName), Language.WSDL,
+				collectionName);
+		SortedSet<Parameter> sortedSet = coll.getParameters();
 		return sortedSet;
 	}
-
 }
