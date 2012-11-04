@@ -32,7 +32,6 @@ import java.util.Queue;
 import java.util.SortedSet;
 
 import sine.col.Parameter;
-import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.analyzer.Analyzer;
 import tr.edu.gsu.mataws.components.Node;
@@ -43,14 +42,15 @@ import tr.edu.gsu.mataws.output.Output;
 import tr.edu.gsu.mataws.output.impl.TextOutputImpl;
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 import tr.edu.gsu.mataws.toolbox.CollectionTransformationUtil;
+import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 import tr.edu.gsu.mataws.toolbox.SineUtil;
 
 /**
- * This class manages annotation process by interacting
- * with annotator, statistics and output components.
+ * This class manages annotation process by interacting with annotator,
+ * statistics and output components.
  * 
  * @author Koray Mancuhan & Cihan Aksoy
- *
+ * 
  */
 public class AnnotationManager {
 
@@ -59,41 +59,45 @@ public class AnnotationManager {
 	private Core core;
 	private Analyzer analyzer;
 	private CollectionTransformationUtil colTransUtil;
-	
+
 	private static AnnotationManager INSTANCE = null;
 
 	/**
-	 * Constructs an instance of this class and gets an instance of
-	 * necessary classes.
+	 * Constructs an instance of this class and gets an instance of necessary
+	 * classes.
 	 */
-	private AnnotationManager(){
+	private AnnotationManager() {
 		statistics = StatisticsUtil.getInstance();
 		output = new TextOutputImpl();
 		analyzer = new Analyzer();
 		core = CoreImpl.getInstance();
 	}
-	
+
 	/**
-	 * Returns an instance of AnnotationManager  
+	 * Returns an instance of AnnotationManager
 	 */
-	public static AnnotationManager getInstance(){
-		if(INSTANCE == null)
+	public static AnnotationManager getInstance() {
+		if (INSTANCE == null)
 			INSTANCE = new AnnotationManager();
 		return INSTANCE;
 	}
-	
+
 	/**
-	 * Realizes all processes of MATAWS including annotation, 
-	 * statistics, output, sws generation
+	 * Realizes all processes of MATAWS including annotation, statistics,
+	 * output, sws generation
 	 * 
 	 * @throws Exception
 	 */
-	public void startProcess() throws Exception{
-		String[] collections = new File(System.getProperty("user.dir")+ File.separator +"input").list();
+	public void startProcess() throws Exception {
+
+		String[] collections = new File(System.getProperty("user.dir")
+				+ File.separator + "input").list();
 		for (int i = 0; i < collections.length; i++) {
-			statistics.setAllParameterObjects(extractParameterCollection(collections[i]));
-			statistics.setAllNodeObjects(createParameterNodes(statistics.getAllParameterObjects()));
-			
+			statistics
+					.setAllParameterObjects(extractParameterCollection(collections[i]));
+			statistics.setAllNodeObjects(createParameterNodes(statistics
+					.getAllParameterObjects()));
+
 			for (int j = 0; j < statistics.getAllParameterObjects().size(); j++) {
 				Node node = statistics.getAllNodeObjects().get(j);
 				TraceableParameter tparameter = node.getTraceableParameter();
@@ -104,38 +108,45 @@ public class AnnotationManager {
 				String wordUsage;
 				Queue<Node> queue = new LinkedList<Node>();
 				queue.offer(node);
-				
+
 				preprocessingResult = core.process(queue);
-				wordToAnnotate = analyzer.analyzeWords(tparameter, preprocessingResult);
+				wordToAnnotate = analyzer.analyzeWords(tparameter,
+						preprocessingResult);
 				analysisType = analyzer.getAnalysisType();
 				wordUsage = analyzer.getWordUsage(wordToAnnotate);
 				concept = SigmaUtil.findConcept(wordToAnnotate, wordUsage);
-				
-				statistics.calculateStatistics(tparameter, preprocessingResult, wordToAnnotate, analysisType, concept);
-				output.write(tparameter, preprocessingResult, wordToAnnotate, analysisType, concept);
+
+				statistics.calculateStatistics(tparameter, preprocessingResult,
+						wordToAnnotate, analysisType, concept);
+				output.write(tparameter, preprocessingResult, wordToAnnotate,
+						analysisType, concept);
 			}
+
 			output.save();
 
 			colTransUtil = new CollectionTransformationUtil(collections[i]);
 			colTransUtil.createSemanticCollection();
 		}
 	}
-	
+
 	/**
-	 * Service method creating a parameter list in which
-	 * each parameter is represented by a Parameter object.
+	 * Service method creating a parameter list in which each parameter is
+	 * represented by a Parameter object.
 	 * 
 	 * @param collectionName
-	 * 			collection name to extract the parameter list.
-	 * @return
-	 * 			parameter list in which each parameter is represented by a Parameter object.
+	 *            collection name to extract the parameter list.
+	 * @return parameter list in which each parameter is represented by a
+	 *         Parameter object.
 	 * @throws Exception
-	 * 			indicates a problem if an error occurs during the creation of parameter list.
+	 *             indicates a problem if an error occurs during the creation of
+	 *             parameter list.
 	 */
-	public List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception {
-		List<TraceableParameter> result=new ArrayList<TraceableParameter>();
+	public List<TraceableParameter> extractParameterCollection(
+			String collectionName) throws Exception {
+		List<TraceableParameter> result = new ArrayList<TraceableParameter>();
 		SineUtil sineUtil = new SineUtil();
-		SortedSet<Parameter> sortedSet = sineUtil.initializeParameterList(collectionName);
+		SortedSet<Parameter> sortedSet = sineUtil
+				.initializeParameterList(collectionName);
 		Iterator<Parameter> iterator = sortedSet.iterator();
 		while (iterator.hasNext()) {
 			Parameter param = iterator.next();
@@ -144,22 +155,22 @@ public class AnnotationManager {
 		}
 		return result;
 	}
-	
+
 	/**
-	 * Service method creating a parameter list in which each parameter
-	 * is represented by a Node object.
+	 * Service method creating a parameter list in which each parameter is
+	 * represented by a Node object.
 	 * 
 	 * @param allParameterObjects
-	 * 		a parameter list in which each parameter 
-	 * 		is represented by a Parameter object
-	 * @return
-	 * 		a parameter list in which each parameter
-	 * 		is represented by a Node object.
+	 *            a parameter list in which each parameter is represented by a
+	 *            Parameter object
+	 * @return a parameter list in which each parameter is represented by a Node
+	 *         object.
 	 */
-	public List<Node> createParameterNodes(List<TraceableParameter> allParameterObjects){
-		List<Node> result=new ArrayList<Node>();
-		for(int i=0; i<allParameterObjects.size(); i++){
-			Node node=new Node(allParameterObjects.get(i), 0);
+	public List<Node> createParameterNodes(
+			List<TraceableParameter> allParameterObjects) {
+		List<Node> result = new ArrayList<Node>();
+		for (int i = 0; i < allParameterObjects.size(); i++) {
+			Node node = new Node(allParameterObjects.get(i), 0);
 			result.add(node);
 		}
 		return result;
