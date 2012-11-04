@@ -50,12 +50,12 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private PreprocessingStrategy preprocessingStrategy;
 	
 	@Override
-	public List<String> processName(TraceableParameter tParameter) {
+	public List<String> processName(TraceableParameter tParameter, String toProcess) {
 
 		List<String> processedParam = new ArrayList<String>();
 		
 		//stringSQLExample
-		processedParam = this.decomposeParameterName(tParameter.getName());
+		processedParam = this.decomposeParameterName(toProcess);
 		tParameter.addTraceList(TraceType.Decomposition);
 		//string,SQL,Example
 		processedParam = this.normalizeParameterName(processedParam);
