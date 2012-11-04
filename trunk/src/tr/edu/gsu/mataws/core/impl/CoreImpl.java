@@ -79,11 +79,11 @@ public class CoreImpl implements Core{
 			TraceableParameter tparameter = aNode.getTraceableParameter();
 			int level=aNode.getLevel();
 			//String aParamName = tparameter.getName();
-			preprocessingResult = this.processName(tparameter);
+			preprocessingResult = this.processName(tparameter, tparameter.getParameter().getName());
 			if (!isAnnotable(preprocessingResult)) {
-				String typeName = tparameter.getTypeName();
+				String typeName = tparameter.getParameter().getTypeName();
 				if (!typeName.equals("")) {
-					preprocessingResult = this.processName(tparameter);
+					preprocessingResult = this.processName(tparameter, tparameter.getParameter().getTypeName());
 					if (!isAnnotable(preprocessingResult)) {
 						List<Parameter> subParamList = tparameter.getSubParameters();
 						if (subParamList != null) {
@@ -172,12 +172,12 @@ public class CoreImpl implements Core{
 	 * @param TraceableParameter tp
 	 * @return list of processed words
 	 */
-	public List<String> processName(TraceableParameter tp){
+	public List<String> processName(TraceableParameter tp, String toProcess){
 		List<String> result = new ArrayList<String>();
 		
 		//default preprocessing is applied
 		preprocessingSet = new DefaultPreprocessing();
-		result = preprocessingSet.processName(tp);
+		result = preprocessingSet.processName(tp, toProcess);
 
 		//purifying operation is applied if necessary
 		List<String> nonAnnotableWords = new ArrayList<String>();
