@@ -42,6 +42,6 @@ public interface PreprocessingSet {
 	 * @param name
 	 * @return list of words of processed parameter name
 	 */
-	public List<String> processName(TraceableParameter tParameter);
+	public List<String> processName(TraceableParameter tParameter, String toProcess);
 	
 }
