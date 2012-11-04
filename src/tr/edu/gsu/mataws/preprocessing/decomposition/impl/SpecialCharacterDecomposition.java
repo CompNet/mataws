@@ -57,7 +57,8 @@ public class SpecialCharacterDecomposition implements DecompositionStrgy {
 			String name=paramNames.get(i);
 			String[] dividedName=name.split(this.specialCharacter);
 			for(int j=0; j<dividedName.length; j++){
-				result.add(dividedName[j]);
+				if(!dividedName[j].equals(""))
+					result.add(dividedName[j]);
 			}
 		}
 		return result;
