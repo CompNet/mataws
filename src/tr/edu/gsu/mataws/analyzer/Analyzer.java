@@ -25,7 +25,7 @@ public class Analyzer {
 		
 		WordnetAnalyzer wa = new WordnetAnalyzer();
 		
-		String result = "";
+		String result = "NoWord";
 		List<String> controlList = new ArrayList<String>();
 		
 		List<String> analyzeList = new ArrayList<String>();
