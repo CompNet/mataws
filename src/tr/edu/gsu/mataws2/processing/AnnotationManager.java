@@ -36,17 +36,17 @@ import java.util.SortedSet;
 
 import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws2.components.Core;
 import tr.edu.gsu.mataws2.components.CoreImpl;
-import tr.edu.gsu.mataws2.components.associator.SigmaUtil;
-import tr.edu.gsu.mataws2.components.reader.SineUtil;
+import tr.edu.gsu.mataws2.components.associator.Associator;
+import tr.edu.gsu.mataws2.components.reader.Reader;
 import tr.edu.gsu.mataws2.components.selector.AnalysisType;
 import tr.edu.gsu.mataws2.components.selector.Analyzer;
 import tr.edu.gsu.mataws2.components.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws2.postprocessing.Output;
 import tr.edu.gsu.mataws2.postprocessing.StatisticsUtil;
 import tr.edu.gsu.mataws2.postprocessing.TextOutputImpl;
+import tr.edu.gsu.mataws2.trace.TraceableParameter;
 
 /**
  * This class manages annotation process by interacting with annotator,
@@ -117,7 +117,7 @@ public class AnnotationManager {
 						preprocessingResult);
 				analysisType = analyzer.getAnalysisType();
 				wordUsage = analyzer.getWordUsage(wordToAnnotate);
-				concept = SigmaUtil.findConcept(wordToAnnotate, wordUsage);
+				concept = Associator.findConcept(wordToAnnotate, wordUsage);
 
 				statistics.calculateStatistics(tparameter, preprocessingResult,
 						wordToAnnotate, analysisType, concept);
@@ -147,7 +147,7 @@ public class AnnotationManager {
 	public List<TraceableParameter> extractParameterCollection(
 			String collectionName) throws Exception {
 		List<TraceableParameter> result = new ArrayList<TraceableParameter>();
-		SineUtil sineUtil = new SineUtil();
+		Reader sineUtil = new Reader();
 		SortedSet<Parameter> sortedSet = sineUtil
 				.initializeParameterList(collectionName);
 		Iterator<Parameter> iterator = sortedSet.iterator();

@@ -28,8 +28,8 @@ package tr.edu.gsu.mataws2.postprocessing;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws2.components.selector.AnalysisType;
+import tr.edu.gsu.mataws2.trace.TraceableParameter;
 
 /**
  * Interface for saving annotation process informations and 

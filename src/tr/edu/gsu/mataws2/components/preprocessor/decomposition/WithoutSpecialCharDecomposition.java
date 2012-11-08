@@ -1,6 +1,4 @@
-package tr.edu.gsu.mataws.components;
-
-import tr.edu.gsu.mataws2.trace.TraceableParameter;
+package tr.edu.gsu.mataws2.components.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,47 +26,38 @@ import tr.edu.gsu.mataws2.trace.TraceableParameter;
  * 
  */
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
+
+
 /**
- * Class representing a parameter and its level for breadth first algorithm.
- * 
- * @author Koray Mancuhan & Cihan Aksoy
+ * Splitting Strategy which separates contiguous words
+ * into only one word by using JWordSplitter.
+ *   
+ * @author Cihan Aksoy
  *
  */
-public class Node {
-	
-	private TraceableParameter traceableParameter;
-	private int level;
-	
-	/**
-	 * Constructs a node for breadth first algorithm.
-	 * 
-	 * @param parameter
-	 * 			the parameter
-	 * @param level
-	 * 			the parameter's level
-	 */
-	public Node(TraceableParameter tparameter, int level){
-		this.traceableParameter=tparameter;
-		this.level=level;
-	}
-	
-	/**
-	 * Returns the parameter object of node.
-	 * 
-	 * @return
-	 * 		the parameter object of node.
-	 */
-	public TraceableParameter getTraceableParameter(){
-		return (this.traceableParameter);
-	}
-	
-	/**
-	 * Returns level of the parameter which is represented by node. 
-	 * 
-	 * @return
-	 * 		the level of a parameter which is represented by node.
-	 */
-	public int getLevel(){
-		return (this.level);
+public class WithoutSpecialCharDecomposition implements DecompositionStrategy {
+
+	@Override
+	public List<String> execute(List<String> paramName) {
+		List<String> result = new ArrayList<String>();
+		try {
+			AbstractWordSplitter ws = new WrapperForEnglishWordSplitter(true);
+			for (String string : paramName) {
+				Collection<String> splits = ws.splitWord(string);
+				for (String string2 : splits) {
+					result.add(string2);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

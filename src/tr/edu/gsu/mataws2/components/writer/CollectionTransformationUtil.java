@@ -40,7 +40,7 @@ public class CollectionTransformationUtil {
 	private String semCollectionDirectory;
 	private String synCollectionDirectory;
 	
-	private Transformer transformer;
+	private AbstractWriter transformer;
 
 	/**
 	 * Constructs a CollectionTransformation instance to use
@@ -55,7 +55,7 @@ public class CollectionTransformationUtil {
 		this.semCollectionDirectory = System.getProperty("user.dir") + File.separator + "output" + File.separator + synCollectionName + "_SWS";
 		this.synCollectionDirectory = System.getProperty("user.dir") + File.separator + "input" + File.separator + synCollectionName;
 		
-		transformer = new OWLSTransformerImpl();
+		transformer = new OwlsWriter();
 	}
 
 	/**

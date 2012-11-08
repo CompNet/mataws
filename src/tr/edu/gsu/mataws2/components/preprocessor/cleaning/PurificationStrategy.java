@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components;
+package tr.edu.gsu.mataws2.components.preprocessor.cleaning;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,6 +26,18 @@ package tr.edu.gsu.mataws.components;
  * 
  */
 
-public enum TraceType {
-	Decomposition, Normalization, Filtering, Splitting, NonNounVerbAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, SimpleVerbAnnotation, NounAdjunct, NoAnalysis
+import java.util.List;
+
+import tr.edu.gsu.mataws2.components.preprocessor.PreprocessingStrategy;
+
+/**
+ * Interface for purification strategies.
+ *  
+ * @author Cihan Aksoy
+ *
+ */
+public interface PurificationStrategy extends PreprocessingStrategy {
+
+	public List<String> execute(List<String> paramName);
+
 }

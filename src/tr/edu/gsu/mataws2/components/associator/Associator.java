@@ -34,7 +34,7 @@ import com.articulate.sigma.WordNet;
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class SigmaUtil {
+public class Associator {
 
 	private static WordNet myDictionary = WordNet.wn;
 	

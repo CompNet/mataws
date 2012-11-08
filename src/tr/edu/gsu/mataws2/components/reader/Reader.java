@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components;
+package tr.edu.gsu.mataws2.components.reader;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,51 +26,42 @@ package tr.edu.gsu.mataws.components;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.util.SortedSet;
+import java.util.logging.Logger;
 
+import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Parameter;
+import tr.edu.gsu.sine.in.Digger;
+import tr.edu.gsu.sine.in.Language;
 
-public class TraceableParameter extends Parameter {
+/**
+ * This class is used to extract parameters and subparameters of a given
+ * collection.
+ * 
+ * @author Koray Mancuhan & Cihan Aksoy
+ * 
+ */
+public class Reader {
 
-	private List<TraceType> traceList = new ArrayList<TraceType>();
-	private List<String> controlList = new ArrayList<String>();
-	
-	private Parameter parameter;
-	
-	public TraceableParameter(Parameter parameter) {
-		super(parameter.getName());
-		this.setParameter(parameter);
-	}
-
-	public List<TraceType> getTraceList() {
-		return traceList;
-	}
-
-	public void setTraceList(List<TraceType> traceList) {
-		this.traceList = traceList;
-	}
-
-	public void addTraceList(TraceType trace){
-		traceList.add(trace);
-	}
-
-	public void setParameter(Parameter parameter) {
-		this.parameter = parameter;
-	}
-
-	public Parameter getParameter() {
-		return parameter;
-	}
-
-	public void setControlList(List<String> controlList) {
-		this.controlList = controlList;
-	}
-
-	public List<String> getControlList() {
-		return controlList;
-	}
-	public void addControlList(String string){
-		controlList.add(string);
+	/**
+	 * Interact with SINE to parse and obtain alphabetically ordered parameter
+	 * list from a web service collection.
+	 * 
+	 * @param collectionName
+	 *            a web service collection name.
+	 * @return ordered parameter list for a web service collection.
+	 * @throws Exception
+	 *             indicates a problem if an error occurs while using SINE.
+	 */
+	public SortedSet<Parameter> initializeParameterList(String collectionName)
+			throws Exception {
+		Digger d = new Digger(Logger.getAnonymousLogger());
+		Collection coll = null;
+		coll = d.dig(new File(System.getProperty("user.dir") + File.separator
+				+ "input" + File.separator + collectionName), Language.WSDL,
+				collectionName);
+		SortedSet<Parameter> sortedSet = coll.getParameters();
+		return sortedSet;
 	}
 }

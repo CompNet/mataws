@@ -1,6 +1,4 @@
-package tr.edu.gsu.mataws.components;
-
-import tr.edu.gsu.mataws2.trace.TraceableParameter;
+package tr.edu.gsu.mataws2.components.writer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,46 +27,20 @@ import tr.edu.gsu.mataws2.trace.TraceableParameter;
  */
 
 /**
- * Class representing a parameter and its level for breadth first algorithm.
+ * Interface for transformation of a syntactic description to semantic
+ * description.
  * 
- * @author Koray Mancuhan & Cihan Aksoy
+ * @author Cihan Aksoy
  *
  */
-public class Node {
-	
-	private TraceableParameter traceableParameter;
-	private int level;
-	
+public interface AbstractWriter {
+
 	/**
-	 * Constructs a node for breadth first algorithm.
+	 * Method for generating semantic WS collection from a WS collection.
 	 * 
-	 * @param parameter
-	 * 			the parameter
-	 * @param level
-	 * 			the parameter's level
+	 * @param sourcePath
+	 * @param destPath
 	 */
-	public Node(TraceableParameter tparameter, int level){
-		this.traceableParameter=tparameter;
-		this.level=level;
-	}
+	public void transform(String sourcePath, String destPath);
 	
-	/**
-	 * Returns the parameter object of node.
-	 * 
-	 * @return
-	 * 		the parameter object of node.
-	 */
-	public TraceableParameter getTraceableParameter(){
-		return (this.traceableParameter);
-	}
-	
-	/**
-	 * Returns level of the parameter which is represented by node. 
-	 * 
-	 * @return
-	 * 		the level of a parameter which is represented by node.
-	 */
-	public int getLevel(){
-		return (this.level);
-	}
 }
