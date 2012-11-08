@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.transformer.impl;
+package tr.edu.gsu.mataws.transformer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -44,7 +44,6 @@ import org.mindswap.wsdl.WSDLService;
 import org.mindswap.wsdl.WSDLTranslator;
 
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
-import tr.edu.gsu.mataws.transformer.Transformer;
 
 /**
  * This class is used to transform a wsdl file to owl-s file.
