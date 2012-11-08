@@ -1,0 +1,123 @@
+package tr.edu.gsu.mataws.toolbox;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import sine.col.Operation;
+import sine.col.Parameter;
+import sine.col.Service;
+import sine.col.Way;
+import sine.in.WSDLParser;
+
+/**
+ * This class is for comparing two different collection if they have the same
+ * description(s) or not.
+ * 
+ * @author J
+ * 
+ */
+public class ComparatorForTwoDiffCollection {
+
+	private static DocumentBuilderFactory docFactory;
+	private static DocumentBuilder docBuilder;
+
+	private static HashMap<Service, String> firstServiceList;
+	private static HashMap<Service, String> secondServiceList;
+
+	private static WSDLParser wsdlParser;
+
+	public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+		
+		docFactory = DocumentBuilderFactory.newInstance();
+		docBuilder = docFactory.newDocumentBuilder();
+
+		firstServiceList = new HashMap<Service, String>();
+		secondServiceList = new HashMap<Service, String>();
+
+		wsdlParser = new WSDLParser();
+
+		findAllDescPaths(args[0], firstServiceList);
+		findAllDescPaths(args[1], secondServiceList);
+		
+		// now iterate over services
+		Iterator it = firstServiceList.entrySet().iterator();
+		while(it.hasNext()){
+			
+			Map.Entry pairs = (Map.Entry)it.next();
+	        Service service = (Service) pairs.getKey();
+			
+	        List<Operation> ops = service.getOperations();
+			List<Parameter> inParameters = service.getParameters(Way.IN);
+			List<Parameter> outParameters = service.getParameters(Way.OUT);
+	        
+			Iterator it2 = secondServiceList.entrySet().iterator();
+			while(it2.hasNext()){
+				
+				Map.Entry pairs2 = (Map.Entry)it2.next();
+		        Service service2 = (Service) pairs2.getKey();
+		        
+		        List<Operation> ops2 = service2.getOperations();
+				List<Parameter> inParameters2 = service2.getParameters(Way.IN);
+				List<Parameter> outParameters2 = service2.getParameters(Way.OUT);
+				
+				int t = 0;
+				
+				if((ops.size() == ops2.size()) && (inParameters.size() == inParameters2.size()) && (outParameters.size() == outParameters2.size())){
+					if(service.getName().equals(service2.getName())){
+						for (Operation operation : ops) {
+							if(ops2.contains(operation))
+								t++;
+							else
+								break;
+						}
+					}
+				}
+				
+				//here we should make debugging
+				if(t == ops.size())
+					System.out.println("these descriptions should be same: "
+							+ service.getName() + " in " + pairs.getValue()
+							+ " and " + service2.getName() + " in "
+							+ pairs2.getValue());
+			}
+		}
+	}
+
+	private static void findAllDescPaths(String path, HashMap<Service, String> serviceList) throws IOException,
+			SAXException {
+
+		File f = new File(path);
+
+		String[] array = f.list();
+
+		for (String string : array) {
+
+			File file = new File(path + File.separator + string);
+
+			if (file.isFile()) {
+
+				if (file.getName().endsWith(".wsdl")) {
+
+					System.out.println(file.getCanonicalPath());
+
+					Document d = docBuilder.parse(file);
+					Service s = wsdlParser.parse(d);
+					serviceList.put(s, file.getCanonicalPath());
+				}
+			} else {
+				findAllDescPaths(file.getCanonicalPath(), serviceList);
+			}
+		}
+	}
+}

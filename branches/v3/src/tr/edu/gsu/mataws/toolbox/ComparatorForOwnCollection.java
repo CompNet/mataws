@@ -1,0 +1,127 @@
+package tr.edu.gsu.mataws.toolbox;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import sine.col.Operation;
+import sine.col.Parameter;
+import sine.col.Service;
+import sine.col.Way;
+import sine.in.WSDLParser;
+
+/**
+ * This class is for comparing the description of a collection if the collection
+ * has the same description(s) or not.
+ * 
+ * @author J
+ * 
+ */
+public class ComparatorForOwnCollection {
+
+	private static DocumentBuilderFactory docFactory;
+	private static DocumentBuilder docBuilder;
+
+	private static HashMap<Service, String> serviceList;
+	private static HashMap<Service, String> cloneServiceList;
+
+	private static WSDLParser wsdlParser;
+
+	public static void main(String[] args) throws IOException,
+			ParserConfigurationException, SAXException {
+
+		docFactory = DocumentBuilderFactory.newInstance();
+		docBuilder = docFactory.newDocumentBuilder();
+
+		serviceList = new HashMap<Service, String>();
+
+		wsdlParser = new WSDLParser();
+
+		findAllDescPaths(args[0]);
+
+		// now iterate over services
+		Iterator it = serviceList.entrySet().iterator();
+		while (it.hasNext()) {
+
+			Map.Entry pairs = (Map.Entry) it.next();
+			Service service = (Service) pairs.getKey();
+
+			cloneServiceList = (HashMap<Service, String>) serviceList.clone();
+			cloneServiceList.remove(service);
+
+			List<Operation> ops = service.getOperations();
+			List<Parameter> inParameters = service.getParameters(Way.IN);
+			List<Parameter> outParameters = service.getParameters(Way.OUT);
+
+			Iterator itClone = cloneServiceList.entrySet().iterator();
+			while (itClone.hasNext()) {
+
+				Map.Entry pairsClone = (Map.Entry) itClone.next();
+				Service serviceClone = (Service) pairsClone.getKey();
+
+				List<Operation> opsClone = serviceClone.getOperations();
+				List<Parameter> inParametersClone = serviceClone
+						.getParameters(Way.IN);
+				List<Parameter> outParametersClone = serviceClone
+						.getParameters(Way.OUT);
+
+				int t = 0;
+
+				if ((ops.size() == opsClone.size())
+						&& (inParameters.size() == inParametersClone.size())
+						&& (outParameters.size() == outParametersClone.size())) {
+					if (service.getName().equals(serviceClone.getName())) {
+						for (Operation operation : ops) {
+							if (opsClone.contains(operation))
+								t++;
+							else
+								break;
+						}
+					}
+				}
+				if (t == ops.size())
+					System.out.println("these descriptions should be same: "
+							+ service.getName() + " in " + pairs.getValue()
+							+ " and " + serviceClone.getName() + " in "
+							+ pairsClone.getValue());
+			}
+		}
+	}
+
+	private static void findAllDescPaths(String path) throws IOException,
+			SAXException {
+
+		File f = new File(path);
+
+		String[] array = f.list();
+
+		for (String string : array) {
+
+			File file = new File(path + File.separator + string);
+
+			if (file.isFile()) {
+
+				if (file.getName().endsWith(".wsdl")) {
+
+					System.out.println(file.getCanonicalPath());
+
+					Document d = docBuilder.parse(file);
+					Service s = wsdlParser.parse(d);
+					serviceList.put(s, file.getCanonicalPath());
+				}
+			} else {
+				findAllDescPaths(file.getCanonicalPath());
+			}
+		}
+	}
+}
