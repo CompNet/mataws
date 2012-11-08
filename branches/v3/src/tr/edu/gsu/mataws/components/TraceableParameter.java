@@ -29,7 +29,7 @@ package tr.edu.gsu.mataws.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import sine.col.Parameter;
+import tr.edu.gsu.sine.col.Parameter;
 
 public class TraceableParameter extends Parameter {
 

@@ -30,10 +30,10 @@ import java.io.File;
 import java.util.SortedSet;
 import java.util.logging.Logger;
 
-import sine.col.Collection;
-import sine.col.Parameter;
-import sine.in.Digger;
-import sine.in.Language;
+import tr.edu.gsu.sine.col.Collection;
+import tr.edu.gsu.sine.col.Parameter;
+import tr.edu.gsu.sine.in.Digger;
+import tr.edu.gsu.sine.in.Language;
 
 /**
  * This class is used to extract parameters and subparameters of a given

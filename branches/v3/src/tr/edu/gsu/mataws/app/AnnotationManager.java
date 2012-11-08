@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.SortedSet;
 
-import sine.col.Parameter;
+import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.analyzer.Analyzer;
 import tr.edu.gsu.mataws.components.Node;

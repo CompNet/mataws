@@ -40,11 +40,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import sine.col.Operation;
-import sine.col.Parameter;
-import sine.col.Service;
-import sine.col.Way;
-import sine.in.WSDLParser;
+import tr.edu.gsu.sine.col.Operation;
+import tr.edu.gsu.sine.col.Parameter;
+import tr.edu.gsu.sine.col.Service;
+import tr.edu.gsu.sine.col.Way;
+import tr.edu.gsu.sine.in.WSDLParser;
 
 /**
  * This class is for comparing the description of a collection if the collection
