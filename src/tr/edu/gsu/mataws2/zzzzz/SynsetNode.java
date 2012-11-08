@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws2.components;
+package tr.edu.gsu.mataws2.zzzzz;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,13 +26,51 @@ package tr.edu.gsu.mataws2.components;
  * 
  */
 
-import java.util.List;
-import java.util.Queue;
+import edu.smu.tspell.wordnet.Synset;
 
-import tr.edu.gsu.mataws2.zzzzz.Node;
+public class SynsetNode{
 
-public interface Core {
-
-	public List<String> process(Queue<Node> queue); 
+	private Synset synset;
+	private SynsetNode parent;
+	private SynsetNode child;
+	
+	public SynsetNode(Synset synset){
+		this.synset = synset;
+	}
+	
+	public Synset getSynset() {
+		return synset;
+	}
+	public void setSynset(Synset synset) {
+		this.synset = synset;
+	}
+	public SynsetNode getParent() {
+		return parent;
+	}
+	public void setParent(SynsetNode parent) {
+		this.parent = parent;
+	}
+	public SynsetNode getChild() {
+		return child;
+	}
+	public void setChild(SynsetNode child) {
+		this.child = child;
+	}
+	public boolean hasChild(){
+		if(child != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean equals(Object obj){
+		
+		SynsetNode s = (SynsetNode) obj;
+		if(s.getSynset().equals(this.synset))
+			return true;
+		else
+			return false;
+	}
+	
 	
 }

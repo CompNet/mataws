@@ -35,7 +35,6 @@ import java.util.Queue;
 import java.util.SortedSet;
 
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws2.components.Core;
 import tr.edu.gsu.mataws2.components.CoreImpl;
 import tr.edu.gsu.mataws2.components.associator.Associator;
@@ -47,6 +46,7 @@ import tr.edu.gsu.mataws2.postprocessing.Output;
 import tr.edu.gsu.mataws2.postprocessing.StatisticsUtil;
 import tr.edu.gsu.mataws2.postprocessing.TextOutputImpl;
 import tr.edu.gsu.mataws2.trace.TraceableParameter;
+import tr.edu.gsu.mataws2.zzzzz.Node;
 
 /**
  * This class manages annotation process by interacting with annotator,
