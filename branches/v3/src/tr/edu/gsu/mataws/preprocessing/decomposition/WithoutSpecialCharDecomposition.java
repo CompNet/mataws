@@ -26,25 +26,38 @@ package tr.edu.gsu.mataws.preprocessing.decomposition;
  * 
  */
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import tr.edu.gsu.mataws.preprocessor.PreprocessingStrategy;
+import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
+
 
 /**
- * Interface for various decomposition strategies.
- *  
- * @author Koray Mancuhan & Cihan Aksoy
+ * Splitting Strategy which separates contiguous words
+ * into only one word by using JWordSplitter.
+ *   
+ * @author Cihan Aksoy
  *
  */
-public interface DecompositionStrgy extends PreprocessingStrategy{
-	/**
-	 * Returns decomposed little words of a parameter name.
-	 * 
-	 * @param paramName
-	 * 			little word list of a parameter name. 
-	 * @return
-	 * 			decomposed little words of a parameter name.
-	 * 			
-	 */
-	public List<String> execute(List<String> paramNames);
+public class WithoutSpecialCharDecomposition implements DecompositionStrategy {
+
+	@Override
+	public List<String> execute(List<String> paramName) {
+		List<String> result = new ArrayList<String>();
+		try {
+			AbstractWordSplitter ws = new WrapperForEnglishWordSplitter(true);
+			for (String string : paramName) {
+				Collection<String> splits = ws.splitWord(string);
+				for (String string2 : splits) {
+					result.add(string2);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
