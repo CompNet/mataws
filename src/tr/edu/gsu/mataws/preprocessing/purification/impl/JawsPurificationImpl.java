@@ -32,6 +32,7 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 
 import tr.edu.gsu.mataws.preprocessing.purification.PurificationStrgy;
 import tr.edu.gsu.mataws.toolbox.LevenshteinDistance;
+import tr.edu.gsu.mataws.tools.FileTools;
 
 /**
  * Purification Strategy which turns plurial names, conjugated verbs, 
@@ -46,6 +47,7 @@ public class JawsPurificationImpl implements PurificationStrgy {
 	public List<String> execute(List<String> paramName) {
 		
 		System.setProperty("wordnet.database.dir",System.getProperty("user.dir") + File.separator + "dictionary");
+System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO modif
 		
 		WordNetDatabase wd = WordNetDatabase.getFileInstance();
 		
