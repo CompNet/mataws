@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.output.impl;
+package tr.edu.gsu.mataws.writer.impl;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -34,11 +34,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.components.TraceType;
 import tr.edu.gsu.mataws.components.TraceableParameter;
-import tr.edu.gsu.mataws.output.Output;
+import tr.edu.gsu.mataws.selector.AnalysisType;
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
+import tr.edu.gsu.mataws.writer.Output;
 
 /**
  * This class which is an implementation of Output, prepares

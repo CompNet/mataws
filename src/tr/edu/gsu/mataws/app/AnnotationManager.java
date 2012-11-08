@@ -35,18 +35,18 @@ import java.util.Queue;
 import java.util.SortedSet;
 
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.mataws.analyzer.AnalysisType;
-import tr.edu.gsu.mataws.analyzer.Analyzer;
 import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.core.Core;
 import tr.edu.gsu.mataws.core.impl.CoreImpl;
-import tr.edu.gsu.mataws.output.Output;
-import tr.edu.gsu.mataws.output.impl.TextOutputImpl;
+import tr.edu.gsu.mataws.selector.AnalysisType;
+import tr.edu.gsu.mataws.selector.Analyzer;
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 import tr.edu.gsu.mataws.toolbox.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 import tr.edu.gsu.mataws.toolbox.SineUtil;
+import tr.edu.gsu.mataws.writer.Output;
+import tr.edu.gsu.mataws.writer.impl.TextOutputImpl;
 
 /**
  * This class manages annotation process by interacting with annotator,

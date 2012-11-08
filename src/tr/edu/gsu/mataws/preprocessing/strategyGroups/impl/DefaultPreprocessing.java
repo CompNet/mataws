@@ -31,7 +31,6 @@ import java.util.List;
 
 import tr.edu.gsu.mataws.components.TraceType;
 import tr.edu.gsu.mataws.components.TraceableParameter;
-import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.MajusculeAfterMinusculeDecomposition;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.NumberDecomposition;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.SpecialCharacterDecomposition;
@@ -40,6 +39,7 @@ import tr.edu.gsu.mataws.preprocessing.filtering.impl.StopWordFiltering;
 import tr.edu.gsu.mataws.preprocessing.normalization.impl.AbbreviationNormalization;
 import tr.edu.gsu.mataws.preprocessing.normalization.impl.CharacterNormalization;
 import tr.edu.gsu.mataws.preprocessing.strategyGroups.PreprocessingSet;
+import tr.edu.gsu.mataws.preprocessor.PreprocessingStrategy;
 
 /**
  * An implementation of PreprocessingSet corresponding with 

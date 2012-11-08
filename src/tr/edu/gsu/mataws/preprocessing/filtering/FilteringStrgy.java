@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.preprocessing.filtering;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
+import tr.edu.gsu.mataws.preprocessor.PreprocessingStrategy;
 /**
  * Interface for various filtering strategies
  *  
