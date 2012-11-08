@@ -2,7 +2,9 @@ package tr.edu.gsu.mataws2.tools;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
- * Copyright 2011-12 Cihan Aksoy & Koray Mançuhan
+ * Copyright 2010 Cihan Aksoy and Koray Mançuhan
+ * Copyright 2011 Cihan Aksoy
+ * Copyright 2012 Cihan Aksoy and Vincent Labatut
  * 
  * This file is part of Mataws - Multimodal Automatic Tool for the Annotation of Web Services.
  * 
@@ -27,16 +29,18 @@ package tr.edu.gsu.mataws2.tools;
 import java.io.File;
 
 /**
- * This class is used to extract parameters and subparameters of a given
- * collection.
+ * This class contains various methods and variables used all over the
+ * software to retrieve files.
  * 
  * @author Vincent Labatut
- * 
  */
 public class FileTools
-{	
+{	/** General folder for Mataws resources */
 	public static final String RESOURCES_FOLDER = "resource";
+	/** Folder containing Sigma's Knowledge bases */
 	public static final String KNOWBASE_FOLDER = RESOURCES_FOLDER + File.separator + "kbs";
+	/** Folder containing the dictionary for the word splitter */
 	public static final String SPLITTER_FOLDER = RESOURCES_FOLDER + File.separator + "splitter";
+	/** Folder containing WordNet, for JAWS */
 	public static final String WORDNET_FOLDER = RESOURCES_FOLDER + File.separator + "wordnet";
 }
