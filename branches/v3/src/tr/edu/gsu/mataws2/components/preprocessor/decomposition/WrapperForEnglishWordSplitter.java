@@ -1,6 +1,4 @@
-package tr.edu.gsu.mataws.components;
-
-import tr.edu.gsu.mataws2.trace.TraceableParameter;
+package tr.edu.gsu.mataws2.components.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,47 +26,37 @@ import tr.edu.gsu.mataws2.trace.TraceableParameter;
  * 
  */
 
-/**
- * Class representing a parameter and its level for breadth first algorithm.
- * 
- * @author Koray Mancuhan & Cihan Aksoy
- *
- */
-public class Node {
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import de.abelssoft.wordtools.jwordsplitter.impl.EnglishWordSplitter;
+
+public class WrapperForEnglishWordSplitter extends EnglishWordSplitter{
+
+	private static Set<String> words = null;
 	
-	private TraceableParameter traceableParameter;
-	private int level;
-	
-	/**
-	 * Constructs a node for breadth first algorithm.
-	 * 
-	 * @param parameter
-	 * 			the parameter
-	 * @param level
-	 * 			the parameter's level
-	 */
-	public Node(TraceableParameter tparameter, int level){
-		this.traceableParameter=tparameter;
-		this.level=level;
+	public WrapperForEnglishWordSplitter() throws IOException {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
-	/**
-	 * Returns the parameter object of node.
-	 * 
-	 * @return
-	 * 		the parameter object of node.
-	 */
-	public TraceableParameter getTraceableParameter(){
-		return (this.traceableParameter);
+	public WrapperForEnglishWordSplitter(boolean withoutConnectingCharacters) throws IOException
+	{
+		super(withoutConnectingCharacters);
 	}
 	
-	/**
-	 * Returns level of the parameter which is represented by node. 
-	 * 
-	 * @return
-	 * 		the level of a parameter which is represented by node.
-	 */
-	public int getLevel(){
-		return (this.level);
+	@Override
+	protected Set<String> getWordList() throws IOException
+	{
+	if (words == null) {
+        words = loadWords();
+    }
+		return words;
+	}
+	
+	private static Set<String> loadWords() throws IOException
+	{
+		return (HashSet<String>)WrapperForFastObjectSaver.load("/wordsEnglish.ser");
 	}
 }

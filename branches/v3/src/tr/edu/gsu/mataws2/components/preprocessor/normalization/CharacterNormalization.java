@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws2.components.writer;
+package tr.edu.gsu.mataws2.components.preprocessor.normalization;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,21 +26,24 @@ package tr.edu.gsu.mataws2.components.writer;
  * 
  */
 
+import java.util.List;
+import java.util.Locale;
+
+
 /**
- * Interface for transformation of a syntactic description to semantic
- * description.
- * 
- * @author Cihan Aksoy
+ * Normalization Strategy which transforms upper case characters to lower case
+ * characters in the list of little words of a parameter name.
+ *   
+ * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public interface Transformer {
+public class CharacterNormalization implements NormalizationStrategy {
+    @Override
+	public List<String> execute(List<String> paramName) {
+		List<String> results = paramName;
+		for(int i =0 ; i < results.size(); i++)
+			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));
+		return results;
+	}
 
-	/**
-	 * Method for generating semantic WS collection from a WS collection.
-	 * 
-	 * @param sourcePath
-	 * @param destPath
-	 */
-	public void transform(String sourcePath, String destPath);
-	
 }

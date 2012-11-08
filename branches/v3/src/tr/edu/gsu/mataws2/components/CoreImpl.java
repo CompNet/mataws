@@ -33,13 +33,13 @@ import java.util.Queue;
 
 import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceableParameter;
-import tr.edu.gsu.mataws.preprocessing.decomposition.impl.WithoutSpecialCharDecomposition;
-import tr.edu.gsu.mataws.preprocessing.purification.impl.JawsPurificationImpl;
-import tr.edu.gsu.mataws.preprocessing.strategyGroups.PreprocessingSet;
-import tr.edu.gsu.mataws.preprocessing.strategyGroups.impl.DefaultPreprocessing;
-import tr.edu.gsu.mataws2.components.associator.SigmaUtil;
+import tr.edu.gsu.mataws2.components.associator.Associator;
+import tr.edu.gsu.mataws2.components.preprocessor.DefaultPreprocessing;
+import tr.edu.gsu.mataws2.components.preprocessor.PreprocessingSet;
 import tr.edu.gsu.mataws2.components.preprocessor.PreprocessingStrategy;
+import tr.edu.gsu.mataws2.components.preprocessor.cleaning.JawsPurificationImpl;
+import tr.edu.gsu.mataws2.components.preprocessor.decomposition.WithoutSpecialCharDecomposition;
+import tr.edu.gsu.mataws2.trace.TraceableParameter;
 
 import com.articulate.sigma.WordNet;
 
@@ -155,7 +155,7 @@ public class CoreImpl implements Core{
 		String concept = null;
 		
 		for(String string: preprocessingResult){
-			concept = SigmaUtil.findConcept(string);
+			concept = Associator.findConcept(string);
 			if(concept.equals("NoMatch"))
 				noMatchCount++;
 		}
@@ -184,7 +184,7 @@ public class CoreImpl implements Core{
 		//purifying operation is applied if necessary
 		List<String> nonAnnotableWords = new ArrayList<String>();
 		for (String string : result) {
-			if(SigmaUtil.findConcept(string).equals("NoMatch")){
+			if(Associator.findConcept(string).equals("NoMatch")){
 				nonAnnotableWords.add(string);
 			}
 		}
@@ -198,7 +198,7 @@ public class CoreImpl implements Core{
 		}
 		List<String> nonAnnotableWords2 = new ArrayList<String>();
 		for (String string : purifiedWords) {
-			if(!SigmaUtil.findConcept(string).equals("NoMatch"))
+			if(!Associator.findConcept(string).equals("NoMatch"))
 				result.add(string);
 			else{
 				//result.add(nonAnnotableWords.get(purifiedWords.indexOf(string)));

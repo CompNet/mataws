@@ -30,9 +30,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.TraceType;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws2.tools.FileTools;
+import tr.edu.gsu.mataws2.trace.TraceType;
+import tr.edu.gsu.mataws2.trace.TraceableParameter;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;

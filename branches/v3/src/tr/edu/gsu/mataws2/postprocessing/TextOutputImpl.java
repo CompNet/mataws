@@ -34,9 +34,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.TraceType;
-import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws2.components.selector.AnalysisType;
+import tr.edu.gsu.mataws2.trace.TraceType;
+import tr.edu.gsu.mataws2.trace.TraceableParameter;
 
 /**
  * This class which is an implementation of Output, prepares

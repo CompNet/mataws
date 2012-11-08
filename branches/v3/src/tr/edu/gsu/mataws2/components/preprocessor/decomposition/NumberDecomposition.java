@@ -1,6 +1,4 @@
-package tr.edu.gsu.mataws.components;
-
-import tr.edu.gsu.mataws2.trace.TraceableParameter;
+package tr.edu.gsu.mataws2.components.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,47 +26,30 @@ import tr.edu.gsu.mataws2.trace.TraceableParameter;
  * 
  */
 
+import java.util.*;
+
+
 /**
- * Class representing a parameter and its level for breadth first algorithm.
- * 
+ * Decomposition Strategy which divides each little word 
+ * of a parameter in smaller little words by a number.
+ *   
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class Node {
-	
-	private TraceableParameter traceableParameter;
-	private int level;
-	
-	/**
-	 * Constructs a node for breadth first algorithm.
-	 * 
-	 * @param parameter
-	 * 			the parameter
-	 * @param level
-	 * 			the parameter's level
-	 */
-	public Node(TraceableParameter tparameter, int level){
-		this.traceableParameter=tparameter;
-		this.level=level;
+public class NumberDecomposition implements DecompositionStrategy {
+
+	@Override
+	public List<String> execute(List<String> paramNames) {
+		// TODO Auto-generated method stub
+		List<String> result=new ArrayList<String>();
+		for(int i=0; i<paramNames.size(); i++){
+			String name=paramNames.get(i);
+			String[] dividedName=name.split("[0-9]");
+			for(int j=0; j<dividedName.length; j++){
+				result.add(dividedName[j]);
+			}
+		}
+		return result;
 	}
 	
-	/**
-	 * Returns the parameter object of node.
-	 * 
-	 * @return
-	 * 		the parameter object of node.
-	 */
-	public TraceableParameter getTraceableParameter(){
-		return (this.traceableParameter);
-	}
-	
-	/**
-	 * Returns level of the parameter which is represented by node. 
-	 * 
-	 * @return
-	 * 		the level of a parameter which is represented by node.
-	 */
-	public int getLevel(){
-		return (this.level);
-	}
 }

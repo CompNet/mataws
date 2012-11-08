@@ -51,7 +51,7 @@ import tr.edu.gsu.mataws2.postprocessing.StatisticsUtil;
  * @author Cihan Aksoy
  * 
  */
-public class OWLSTransformerImpl implements Transformer {
+public class OwlsWriter implements AbstractWriter {
 
 	private StatisticsUtil statistics;
 	private Map<String, String> parameterAnnotationMap;
@@ -60,7 +60,7 @@ public class OWLSTransformerImpl implements Transformer {
 	/**
 	 * Constructs an instance of this class.
 	 */
-	public OWLSTransformerImpl() {
+	public OwlsWriter() {
 		statistics = StatisticsUtil.getInstance();
 		parameterAnnotationMap = statistics.getParameterAnnotationMap();
 	}
