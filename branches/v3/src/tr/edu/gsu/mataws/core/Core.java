@@ -2,7 +2,9 @@ package tr.edu.gsu.mataws.core;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
- * Copyright 2011-12 Cihan Aksoy, Koray Mançuhan & Vincent Labatut
+ * Copyright 2010 Cihan Aksoy and Koray Mançuhan
+ * Copyright 2011 Cihan Aksoy
+ * Copyright 2012 Cihan Aksoy and Vincent Labatut
  * 
  * This file is part of Mataws - Multimodal Automatic Tool for the Annotation of Web Services.
  * 
