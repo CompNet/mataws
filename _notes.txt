@@ -1,4 +1,9 @@
+GENERAL
+- the readme is incomplete (not all tools are listed)
+
+SIGMA
 - must update sigma
 - moved kbs in the res folder, but must check what to change in source code (sigma, seemingly)
 
+WORDNET
 - wordnet initialization should be made once and for all
