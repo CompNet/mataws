@@ -22,31 +22,34 @@ This product includes softwares developed by:
 
   + Sine (now known as WS-Next)
     Yvan Rivierre
-    Copyright 2009-2011 Ivan Riviere 
+    Modified by Vincent Labatut
     Used to extract the parameters of the syntactic collection
-    + XML
-      Unknown source
-      Used by Sine to parse WSDL and SAWSDL files.
-    + OWL API
-      Matthew Horridge
-      http://owlapi.sourceforge.net/publications.html
-      Used by Sine to retrieve and compare ontological concepts
-    + OWL-S
-    + Simmetrics
-    + jgrapht 
     
-  + Sigma library
-    Adam Pease:
-    Copyright 2003-2007 Adam Pease, GNU Licence
+  + IBM XL Transform and Query Engine for Java v1.0
+    Unknown source
+    Used by Sine to parse WSDL and SAWSDL files.
+    
+  + OWL API v2.2.0
+    Matthew Horridge
+    http://owlapi.sourceforge.net/publications.html
+    Used by Sine to retrieve and compare ontological concepts
+
+  + Mindscape OWL-S API v3.0
+    Evren Sirin & Thorsten Möller
+    http://www.mindswap.org/2004/owl-s/api/
+    http://on.cs.unibas.ch/owls-api/
+    Used by Sine to load OWL-S files.
+    Used by Mataws to generate OWL-S files.
+    
+  + Sigma Library
+    Adam Pease
     Used to find an ontological concept for a given word
     Class com.articulate.sigma.WordNet has been modified by initializing a com.articulate.sigma.KBManager instance in the initOnce() method
     Class com.articulate.sigma.KBmanager has been modified by removing read/write of XML configurations in the initializeOnce() method	
     
-  + OWL-S API
-    Evren Sirin:
-    Copyright 2004 Evren Sirin & 2008-2009 Thorsten Möller, GNU Licence
-    http://www.mindswap.org/2004/owl-s/api/
-    Used to generate the semantic collection from the annotated syntactic collection
-    Libraries required: all remaining libraries in the lib folder
+    + Simmetrics 1_6_2_d07_02_07
+    Sam Chapman & Fabio Ciravegna
+    http://sourceforge.net/projects/simmetrics/
+    Used by Sine to syntactically compare strings
 
 TODO to be completed
