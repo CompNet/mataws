@@ -35,11 +35,11 @@ import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.core.Core;
-import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
 import tr.edu.gsu.mataws.preprocessing.decomposition.impl.WithoutSpecialCharDecomposition;
 import tr.edu.gsu.mataws.preprocessing.purification.impl.JawsPurificationImpl;
 import tr.edu.gsu.mataws.preprocessing.strategyGroups.PreprocessingSet;
 import tr.edu.gsu.mataws.preprocessing.strategyGroups.impl.DefaultPreprocessing;
+import tr.edu.gsu.mataws.preprocessor.PreprocessingStrategy;
 import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 
 import com.articulate.sigma.WordNet;

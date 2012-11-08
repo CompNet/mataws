@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.output;
+package tr.edu.gsu.mataws.selector;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,35 +26,6 @@ package tr.edu.gsu.mataws.output;
  * 
  */
 
-import java.util.List;
-
-import tr.edu.gsu.mataws.analyzer.AnalysisType;
-import tr.edu.gsu.mataws.components.TraceableParameter;
-
-/**
- * Interface for saving annotation process informations and 
- * certain statistics.
- * 
- * @author Cihan Aksoy
- *
- */
-public interface Output {
-
-	/**
-	 * Method for recording unit result including 
-	 * parameter name and relevant annotation results.
-	 * 
-	 * @param tParameter
-	 * @param preprocessingResult
-	 * @param wordToAnnotate
-	 * @param analyzeType
-	 * @param concept
-	 */
-	void write(TraceableParameter tParameter, List<String> preprocessingResult,
-			String wordToAnnotate, AnalysisType analysisType, String concept);
-	
-	/**
-	 * Method for recording total statistical results.
-	 */
-	void save();
+public enum AnalysisType {
+	NonNounVerbAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, SimpleVerbAnnotation, NounAdjunct, NoAnalysis
 }

@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.preprocessing.decomposition;
 
 import java.util.*;
 
-import tr.edu.gsu.mataws.preprocessing.PreprocessingStrategy;
+import tr.edu.gsu.mataws.preprocessor.PreprocessingStrategy;
 
 /**
  * Interface for various decomposition strategies.

@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.selector.AnalysisType;
 
 /**
  * This class is an implementation of Statistics in which 
