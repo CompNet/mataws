@@ -16,7 +16,6 @@
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/owls-api-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/pellet-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/relaxngDatatype-20020414.jar"/>
 	<classpathentry kind="lib" path="lib/saaj-api-1.2.jar"/>
@@ -29,10 +28,9 @@
 	<classpathentry kind="lib" path="lib/xsdlib-20030225.jar"/>
 	<classpathentry kind="lib" path="lib/jaws-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jws.jar"/>
-	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
-	<classpathentry kind="lib" path="lib/simmetrics_jar_v1_6_2_d07_02_07.jar"/>
+	<classpathentry kind="lib" path="lib/simmetrics_jar_v1_6_2_d07_02_07.jar" sourcepath="lib/simmetrics_src_v1_6_2_d07_02_07.zip"/>
+	<classpathentry kind="lib" path="lib/owlapi-bin.jar" sourcepath="lib/owlapi-src.jar"/>
 	<classpathentry kind="lib" path="lib/xml.jar"/>
-	<classpathentry kind="lib" path="lib/owlapi-bin.jar"/>
-	<classpathentry kind="lib" path="lib/owl-s.jar"/>
+	<classpathentry kind="lib" path="lib/owls-api-3.0.jar" sourcepath="lib/owls-api-3.0-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
