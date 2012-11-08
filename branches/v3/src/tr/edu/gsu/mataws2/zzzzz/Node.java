@@ -1,4 +1,6 @@
-package tr.edu.gsu.mataws2.components;
+package tr.edu.gsu.mataws2.zzzzz;
+
+import tr.edu.gsu.mataws2.trace.TraceableParameter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,13 +28,47 @@ package tr.edu.gsu.mataws2.components;
  * 
  */
 
-import java.util.List;
-import java.util.Queue;
-
-import tr.edu.gsu.mataws2.zzzzz.Node;
-
-public interface Core {
-
-	public List<String> process(Queue<Node> queue); 
+/**
+ * Class representing a parameter and its level for breadth first algorithm.
+ * 
+ * @author Koray Mancuhan & Cihan Aksoy
+ *
+ */
+public class Node {
 	
+	private TraceableParameter traceableParameter;
+	private int level;
+	
+	/**
+	 * Constructs a node for breadth first algorithm.
+	 * 
+	 * @param parameter
+	 * 			the parameter
+	 * @param level
+	 * 			the parameter's level
+	 */
+	public Node(TraceableParameter tparameter, int level){
+		this.traceableParameter=tparameter;
+		this.level=level;
+	}
+	
+	/**
+	 * Returns the parameter object of node.
+	 * 
+	 * @return
+	 * 		the parameter object of node.
+	 */
+	public TraceableParameter getTraceableParameter(){
+		return (this.traceableParameter);
+	}
+	
+	/**
+	 * Returns level of the parameter which is represented by node. 
+	 * 
+	 * @return
+	 * 		the level of a parameter which is represented by node.
+	 */
+	public int getLevel(){
+		return (this.level);
+	}
 }

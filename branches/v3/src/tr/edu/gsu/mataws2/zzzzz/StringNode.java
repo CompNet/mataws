@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws2.components;
+package tr.edu.gsu.mataws2.zzzzz;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,12 +27,27 @@ package tr.edu.gsu.mataws2.components;
  */
 
 import java.util.List;
-import java.util.Queue;
 
-import tr.edu.gsu.mataws2.zzzzz.Node;
+public class StringNode {
 
-public interface Core {
-
-	public List<String> process(Queue<Node> queue); 
+	private String root;
+	private List<SynsetNode> children;
 	
+	public StringNode(String root){
+		this.root = root;
+	}
+	
+	public String getRoot() {
+		return root;
+	}
+	public void setRoot(String root) {
+		this.root = root;
+	}
+	public List<SynsetNode> getChildren() {
+		return children;
+	}
+	public void setChildren(List<SynsetNode> children) {
+		this.children = children;
+	}
+
 }

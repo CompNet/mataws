@@ -31,10 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import tr.edu.gsu.mataws.components.StringNode;
-import tr.edu.gsu.mataws.components.SynsetNode;
-import tr.edu.gsu.mataws.components.Tree;
 import tr.edu.gsu.mataws2.tools.FileTools;
+import tr.edu.gsu.mataws2.zzzzz.StringNode;
+import tr.edu.gsu.mataws2.zzzzz.SynsetNode;
+import tr.edu.gsu.mataws2.zzzzz.Tree;
 import edu.smu.tspell.wordnet.AdjectiveSynset;
 import edu.smu.tspell.wordnet.AdverbSynset;
 import edu.smu.tspell.wordnet.NounSynset;

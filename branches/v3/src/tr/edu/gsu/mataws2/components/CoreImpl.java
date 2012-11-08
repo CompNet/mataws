@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Queue;
 
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws2.components.associator.Associator;
 import tr.edu.gsu.mataws2.components.preprocessor.DefaultPreprocessing;
 import tr.edu.gsu.mataws2.components.preprocessor.PreprocessingSet;
@@ -40,6 +39,7 @@ import tr.edu.gsu.mataws2.components.preprocessor.PreprocessingStrategy;
 import tr.edu.gsu.mataws2.components.preprocessor.cleaning.JawsPurificationImpl;
 import tr.edu.gsu.mataws2.components.preprocessor.decomposition.WithoutSpecialCharDecomposition;
 import tr.edu.gsu.mataws2.trace.TraceableParameter;
+import tr.edu.gsu.mataws2.zzzzz.Node;
 
 import com.articulate.sigma.WordNet;
 
