@@ -13,7 +13,6 @@
 	<classpathentry kind="lib" path="lib/jaxrpc-api-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jcl-over-slf4j-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/jena-2.6.2.jar"/>
-	<classpathentry kind="lib" path="lib/jgrapht-jdk1.5-0.7.3.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.3.1.jar"/>
@@ -21,7 +20,6 @@
 	<classpathentry kind="lib" path="lib/pellet-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/relaxngDatatype-20020414.jar"/>
 	<classpathentry kind="lib" path="lib/saaj-api-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/sine-0.3.15.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/stax-api-1.0.1.jar"/>
@@ -31,5 +29,10 @@
 	<classpathentry kind="lib" path="lib/xsdlib-20030225.jar"/>
 	<classpathentry kind="lib" path="lib/jaws-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jws.jar"/>
+	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
+	<classpathentry kind="lib" path="lib/simmetrics_jar_v1_6_2_d07_02_07.jar"/>
+	<classpathentry kind="lib" path="lib/xml.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-bin.jar"/>
+	<classpathentry kind="lib" path="lib/owl-s.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
