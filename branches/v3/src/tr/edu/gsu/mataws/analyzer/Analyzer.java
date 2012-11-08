@@ -30,6 +30,7 @@ import java.util.List;
 
 import tr.edu.gsu.mataws.components.TraceType;
 import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.tools.FileTools;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -42,6 +43,7 @@ public class Analyzer {
 	
 	public Analyzer(){
 		System.setProperty("wordnet.database.dir",System.getProperty("user.dir") + File.separator + "dictionary");
+System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO modif
 		wd = WordNetDatabase.getFileInstance();
 	}
 	
