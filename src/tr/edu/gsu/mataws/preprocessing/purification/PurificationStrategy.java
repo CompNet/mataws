@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.preprocessing.normalization;
+package tr.edu.gsu.mataws.preprocessing.purification;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,23 +28,16 @@ package tr.edu.gsu.mataws.preprocessing.normalization;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.preprocessor.PreprocessingStrategy;
+import tr.edu.gsu.mataws2.components.preprocessor.PreprocessingStrategy;
 
 /**
- * Interface for various normalization strategies
+ * Interface for purification strategies.
  *  
- * @author Koray Mancuhan & Cihan Aksoy
+ * @author Cihan Aksoy
  *
  */
-public interface NormalizationStrgy extends PreprocessingStrategy{
-	/**
-	 * Returns normalized little words of a parameter name.
-	 * 
-	 * @param paramName
-	 * 			little words list of a parameter name. 
-	 * @return
-	 * 			normalized little words of a parameter name.
-	 * 			
-	 */
+public interface PurificationStrategy extends PreprocessingStrategy {
+
 	public List<String> execute(List<String> paramName);
+
 }
