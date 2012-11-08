@@ -32,7 +32,7 @@ import java.util.Locale;
 import tr.edu.gsu.mataws.components.StringNode;
 import tr.edu.gsu.mataws.components.SynsetNode;
 import tr.edu.gsu.mataws.components.Tree;
-import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws2.tools.FileTools;
 import edu.smu.tspell.wordnet.AdjectiveSynset;
 import edu.smu.tspell.wordnet.AdverbSynset;
 import edu.smu.tspell.wordnet.NounSynset;

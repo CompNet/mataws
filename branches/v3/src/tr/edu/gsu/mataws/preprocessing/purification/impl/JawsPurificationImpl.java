@@ -32,7 +32,7 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 
 import tr.edu.gsu.mataws.preprocessing.purification.PurificationStrgy;
 import tr.edu.gsu.mataws.toolbox.LevenshteinDistance;
-import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws2.tools.FileTools;
 
 /**
  * Purification Strategy which turns plurial names, conjugated verbs, 
