@@ -229,13 +229,13 @@ public class CsvOutputImpl implements Output {
 
 			resultForParams += "\n standard deviation for parameters: "
 					+ numberFormat.format(sd
-							.standardDeviationCalculate(sdForParams));
+							.StandardDeviationMean(sdForParams));
 			bwForParams.write(resultForParams);
 			bwForParams.close();
 
 			resultForWords += "\n standard deviation for words: "
 					+ numberFormat.format(sd
-							.standardDeviationCalculate(sdForWords));
+							.StandardDeviationMean(sdForWords));
 			bwForWords.write(resultForWords);
 			bwForWords.close();
 		} catch (IOException e) {
