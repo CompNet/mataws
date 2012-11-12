@@ -43,7 +43,7 @@ import org.mindswap.wsdl.WSDLParameter;
 import org.mindswap.wsdl.WSDLService;
 import org.mindswap.wsdl.WSDLTranslator;
 
-import tr.edu.gsu.mataws.postprocessing.StatisticsUtil;
+import tr.edu.gsu.mataws.stats.StatData;
 
 /**
  * This class is used to transform a wsdl file to owl-s file.
@@ -53,7 +53,7 @@ import tr.edu.gsu.mataws.postprocessing.StatisticsUtil;
  */
 public class OwlsWriter implements AbstractWriter {
 
-	private StatisticsUtil statistics;
+	private StatData statistics;
 	private Map<String, String> parameterAnnotationMap;
 	private String prefix = "#";
 
@@ -61,7 +61,7 @@ public class OwlsWriter implements AbstractWriter {
 	 * Constructs an instance of this class.
 	 */
 	public OwlsWriter() {
-		statistics = StatisticsUtil.getInstance();
+		statistics = StatData.getInstance();
 		parameterAnnotationMap = statistics.getParameterAnnotationMap();
 	}
 

@@ -57,19 +57,19 @@ public class DefaultPreprocessing implements PreprocessingSet{
 		
 		//stringSQLExample
 		processedParam = this.decomposeParameterName(toProcess);
-		tParameter.addTraceList(TraceType.Decomposition);
+		tParameter.addTraceList(TraceType.DECOMPOSITION);
 		//string,SQL,Example
 		processedParam = this.normalizeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Normalization);
+		tParameter.addTraceList(TraceType.NORMALIZATION);
 		//string, structuredQueryLanguage, example
 		processedParam = this.decomposeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Decomposition);
+		tParameter.addTraceList(TraceType.DECOMPOSITION);
 		//string, structured, Query, Language, example
 		processedParam = this.normalizeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Normalization);
+		tParameter.addTraceList(TraceType.NORMALIZATION);
 		//string, structured, query, language, example
 		processedParam = this.filterParameterName(processedParam);
-		tParameter.addTraceList(TraceType.Filtering);
+		tParameter.addTraceList(TraceType.FILTERING);
 		
 		return processedParam;
 	}
