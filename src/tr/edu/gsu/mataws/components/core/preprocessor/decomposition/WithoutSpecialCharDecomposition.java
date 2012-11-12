@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.normalization;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,25 +26,38 @@ package tr.edu.gsu.mataws.components.preprocessor.normalization;
  * 
  */
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.preprocessor.PreprocessingStrategy;
+import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
+
 
 /**
- * Interface for various normalization strategies
- *  
- * @author Koray Mancuhan & Cihan Aksoy
+ * Splitting Strategy which separates contiguous words
+ * into only one word by using JWordSplitter.
+ *   
+ * @author Cihan Aksoy
  *
  */
-public interface NormalizationStrategy extends PreprocessingStrategy{
-	/**
-	 * Returns normalized little words of a parameter name.
-	 * 
-	 * @param paramName
-	 * 			little words list of a parameter name. 
-	 * @return
-	 * 			normalized little words of a parameter name.
-	 * 			
-	 */
-	public List<String> execute(List<String> paramName);
+public class WithoutSpecialCharDecomposition implements DecompositionStrategy {
+
+	@Override
+	public List<String> execute(List<String> paramName) {
+		List<String> result = new ArrayList<String>();
+		try {
+			AbstractWordSplitter ws = new WrapperForEnglishWordSplitter(true);
+			for (String string : paramName) {
+				Collection<String> splits = ws.splitWord(string);
+				for (String string2 : splits) {
+					result.add(string2);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

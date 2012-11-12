@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.filtering;
+package tr.edu.gsu.mataws.components.core;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,24 +27,12 @@ package tr.edu.gsu.mataws.components.preprocessor.filtering;
  */
 
 import java.util.List;
+import java.util.Queue;
 
-import tr.edu.gsu.mataws.components.preprocessor.PreprocessingStrategy;
-/**
- * Interface for various filtering strategies
- *  
- * @author Koray Mancuhan & Cihan Aksoy
- *
- */
-public interface FilteringStrategy extends PreprocessingStrategy{
-	/**
-	 * Returns filtered little words of a parameter name.
-	 * 
-	 * @param paramName
-	 * 			little words list of a parameter name. 
-	 * @return
-	 * 			filtered little words of a parameter name.
-	 * 			
-	 */
-	public List<String> execute(List<String> paramName);
+import tr.edu.gsu.mataws.zzzzz.Node;
 
+public interface Core {
+
+	public List<String> process(Queue<Node> queue); 
+	
 }

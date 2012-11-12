@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.decomposition;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,25 +26,37 @@ package tr.edu.gsu.mataws.components.preprocessor.decomposition;
  * 
  */
 
-import java.util.*;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
-import tr.edu.gsu.mataws.components.preprocessor.PreprocessingStrategy;
+import de.abelssoft.wordtools.jwordsplitter.impl.EnglishWordSplitter;
 
-/**
- * Interface for various decomposition strategies.
- *  
- * @author Koray Mancuhan & Cihan Aksoy
- *
- */
-public interface DecompositionStrategy extends PreprocessingStrategy{
-	/**
-	 * Returns decomposed little words of a parameter name.
-	 * 
-	 * @param paramName
-	 * 			little word list of a parameter name. 
-	 * @return
-	 * 			decomposed little words of a parameter name.
-	 * 			
-	 */
-	public List<String> execute(List<String> paramNames);
+public class WrapperForEnglishWordSplitter extends EnglishWordSplitter{
+
+	private static Set<String> words = null;
+	
+	public WrapperForEnglishWordSplitter() throws IOException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public WrapperForEnglishWordSplitter(boolean withoutConnectingCharacters) throws IOException
+	{
+		super(withoutConnectingCharacters);
+	}
+	
+	@Override
+	protected Set<String> getWordList() throws IOException
+	{
+	if (words == null) {
+        words = loadWords();
+    }
+		return words;
+	}
+	
+	private static Set<String> loadWords() throws IOException
+	{
+		return (HashSet<String>)WrapperForFastObjectSaver.load("/wordsEnglish.ser");
+	}
 }

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor;
+package tr.edu.gsu.mataws.components.core.preprocessor.normalization;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,23 +28,23 @@ package tr.edu.gsu.mataws.components.preprocessor;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.trace.TraceableParameter;
+import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
 
 /**
- * Interface for preprocessing of various collections.
+ * Interface for various normalization strategies
  *  
- * @author Cihan Aksoy
+ * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public interface PreprocessingSet {
-
+public interface NormalizationStrategy extends PreprocessingStrategy{
 	/**
-	 * This method applies preprocessing methods to 
-	 * the given parameter name and returns the obtained words in a list
+	 * Returns normalized little words of a parameter name.
 	 * 
-	 * @param name
-	 * @return list of words of processed parameter name
+	 * @param paramName
+	 * 			little words list of a parameter name. 
+	 * @return
+	 * 			normalized little words of a parameter name.
+	 * 			
 	 */
-	public List<String> processName(TraceableParameter tParameter, String toProcess);
-	
+	public List<String> execute(List<String> paramName);
 }

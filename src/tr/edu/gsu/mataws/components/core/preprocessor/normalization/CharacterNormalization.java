@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.cleaning;
+package tr.edu.gsu.mataws.components.core.preprocessor.normalization;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,17 +27,23 @@ package tr.edu.gsu.mataws.components.preprocessor.cleaning;
  */
 
 import java.util.List;
+import java.util.Locale;
 
-import tr.edu.gsu.mataws.components.preprocessor.PreprocessingStrategy;
 
 /**
- * Interface for purification strategies.
- *  
- * @author Cihan Aksoy
+ * Normalization Strategy which transforms upper case characters to lower case
+ * characters in the list of little words of a parameter name.
+ *   
+ * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public interface PurificationStrategy extends PreprocessingStrategy {
-
-	public List<String> execute(List<String> paramName);
+public class CharacterNormalization implements NormalizationStrategy {
+    @Override
+	public List<String> execute(List<String> paramName) {
+		List<String> results = paramName;
+		for(int i =0 ; i < results.size(); i++)
+			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));
+		return results;
+	}
 
 }

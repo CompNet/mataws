@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.decomposition;
+package tr.edu.gsu.mataws.components.core.preprocessor.cleaning;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,38 +26,18 @@ package tr.edu.gsu.mataws.components.preprocessor.decomposition;
  * 
  */
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
-
+import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
 
 /**
- * Splitting Strategy which separates contiguous words
- * into only one word by using JWordSplitter.
- *   
+ * Interface for purification strategies.
+ *  
  * @author Cihan Aksoy
  *
  */
-public class WithoutSpecialCharDecomposition implements DecompositionStrategy {
+public interface PurificationStrategy extends PreprocessingStrategy {
 
-	@Override
-	public List<String> execute(List<String> paramName) {
-		List<String> result = new ArrayList<String>();
-		try {
-			AbstractWordSplitter ws = new WrapperForEnglishWordSplitter(true);
-			for (String string : paramName) {
-				Collection<String> splits = ws.splitWord(string);
-				for (String string2 : splits) {
-					result.add(string2);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
+	public List<String> execute(List<String> paramName);
+
 }

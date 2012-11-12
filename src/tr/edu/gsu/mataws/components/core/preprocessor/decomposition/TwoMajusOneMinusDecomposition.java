@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.decomposition;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services

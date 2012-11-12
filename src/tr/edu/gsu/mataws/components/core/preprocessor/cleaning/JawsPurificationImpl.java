@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.cleaning;
+package tr.edu.gsu.mataws.components.core.preprocessor.cleaning;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services

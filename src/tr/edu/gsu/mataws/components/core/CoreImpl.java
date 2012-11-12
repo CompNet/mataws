@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components;
+package tr.edu.gsu.mataws.components.core;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -32,12 +32,12 @@ import java.util.List;
 import java.util.Queue;
 
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.mataws.components.associator.Associator;
-import tr.edu.gsu.mataws.components.preprocessor.DefaultPreprocessing;
-import tr.edu.gsu.mataws.components.preprocessor.PreprocessingSet;
-import tr.edu.gsu.mataws.components.preprocessor.PreprocessingStrategy;
-import tr.edu.gsu.mataws.components.preprocessor.cleaning.JawsPurificationImpl;
-import tr.edu.gsu.mataws.components.preprocessor.decomposition.WithoutSpecialCharDecomposition;
+import tr.edu.gsu.mataws.components.core.associator.Associator;
+import tr.edu.gsu.mataws.components.core.preprocessor.DefaultPreprocessing;
+import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingSet;
+import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
+import tr.edu.gsu.mataws.components.core.preprocessor.cleaning.JawsPurificationImpl;
+import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.WithoutSpecialCharDecomposition;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 

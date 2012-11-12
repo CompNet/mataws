@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.normalization;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,24 +26,44 @@ package tr.edu.gsu.mataws.components.preprocessor.normalization;
  * 
  */
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 /**
- * Normalization Strategy which transforms upper case characters to lower case
- * characters in the list of little words of a parameter name.
+ * Decomposition Strategy which divides each little word 
+ * of a parameter in smaller little words by a special character.
  *   
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class CharacterNormalization implements NormalizationStrategy {
-    @Override
-	public List<String> execute(List<String> paramName) {
-		List<String> results = paramName;
-		for(int i =0 ; i < results.size(); i++)
-			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));
-		return results;
+public class SpecialCharacterDecomposition implements DecompositionStrategy {
+	private String specialCharacter;
+	
+	/**
+	 * Creates an instance for a specific decomposition strategy for a 
+	 * specific character.
+	 * 
+	 * @param specialCharacter
+	 * 			Character to decompose parameter names
+	 */
+	public SpecialCharacterDecomposition(String specialCharacter){
+		this.specialCharacter=specialCharacter;
+	}
+	
+	@Override
+	public List<String> execute(List<String> paramNames) {
+		// TODO Auto-generated method stub
+		List<String> result=new ArrayList<String>();
+		for(int i=0; i<paramNames.size(); i++){
+			String name=paramNames.get(i);
+			String[] dividedName=name.split(this.specialCharacter);
+			for(int j=0; j<dividedName.length; j++){
+				if(!dividedName[j].equals(""))
+					result.add(dividedName[j]);
+			}
+		}
+		return result;
 	}
 
 }
