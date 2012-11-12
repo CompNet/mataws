@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tr.edu.gsu.mataws.components.selector.AnalysisType;
+import tr.edu.gsu.mataws.components.core.selector.AnalysisType;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 
