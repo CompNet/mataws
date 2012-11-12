@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.writer;
+package tr.edu.gsu.mataws.components.io.writer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
