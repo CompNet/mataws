@@ -39,6 +39,7 @@ import tr.edu.gsu.mataws.components.TraceableParameter;
 import tr.edu.gsu.mataws.core.Core;
 import tr.edu.gsu.mataws.core.impl.CoreImpl;
 import tr.edu.gsu.mataws.output.Output;
+import tr.edu.gsu.mataws.output.impl.CsvOutputImpl;
 import tr.edu.gsu.mataws.output.impl.TextOutputImpl;
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 import tr.edu.gsu.mataws.toolbox.CollectionTransformationUtil;
@@ -55,7 +56,8 @@ import tr.edu.gsu.mataws.toolbox.SineUtil;
 public class AnnotationManager {
 
 	private StatisticsUtil statistics;
-	private Output output;
+	private Output txt_output;
+	private Output csv_output;
 	private Core core;
 	private Analyzer analyzer;
 	private CollectionTransformationUtil colTransUtil;
@@ -68,7 +70,8 @@ public class AnnotationManager {
 	 */
 	private AnnotationManager() {
 		statistics = StatisticsUtil.getInstance();
-		output = new TextOutputImpl();
+		txt_output = new TextOutputImpl();
+		csv_output = new CsvOutputImpl();
 		analyzer = new Analyzer();
 		core = CoreImpl.getInstance();
 	}
@@ -118,12 +121,15 @@ public class AnnotationManager {
 
 				statistics.calculateStatistics(tparameter, preprocessingResult,
 						wordToAnnotate, analysisType, concept);
-				output.write(tparameter, preprocessingResult, wordToAnnotate,
+				txt_output.write(tparameter, preprocessingResult, wordToAnnotate,
+						analysisType, concept);
+				csv_output.write(tparameter, preprocessingResult, wordToAnnotate,
 						analysisType, concept);
 			}
 
-			output.save();
-
+			txt_output.save();
+			csv_output.save();
+			
 			colTransUtil = new CollectionTransformationUtil(collections[i]);
 			colTransUtil.createSemanticCollection();
 		}
