@@ -27,112 +27,143 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
 import tr.edu.gsu.mataws.components.Node;
 import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 
 /**
- * This class is an implementation of Statistics in which 
- * parameters and words of parameters of the collection, and their 
- * annotation informations are hold. 
- *   
+ * This class is an implementation of Statistics in which parameters and words
+ * of parameters of the collection, and their annotation informations are hold.
+ * 
  * @author Cihan Aksoy
- *
+ * 
  */
 public class StatisticsUtil {
 
 	private static StatisticsUtil INSTANCE = null;
-	
+
+	//variables for parameter statistics
 	private List<TraceableParameter> allParameterObjects;
 	private List<Node> allNodeObjects;
 
 	private List<TraceableParameter> allParameters;
 	private List<TraceableParameter> annotatedParameters;
 	private List<TraceableParameter> nonAnnotatedParameters;
-	
+
 	private List<TraceableParameter> allDifferentParameters;
 	private List<TraceableParameter> differentAnnotatedParameters;
 	private List<TraceableParameter> differentNonAnnotatedParameters;
 	
-	private Map<String, List<String>> parameterPreprocessingMap;
+	//variables for word statistics
+	private List<String> allWords;
+	private List<String> annotatedWords;
+	private List<String> nonAnnotatedWords;
+	
+	private List<String> allDifferentWords;
+	private List<String> differentAnnotatedWords;
+	private List<String> differentNonAnnotatedWords;
+
 	private Map<String, String> parameterAnnotationMap;
-	
-	//control set to avoid holding same parameter with same name
-	private List<String> allParameterNames;
-	
+
 	private Map<AnalysisType, Integer> analyzeTypesCounter;
 	
 	private StatisticsUtil() {
-		
+
 		allParameterObjects = new ArrayList<TraceableParameter>();
 		allNodeObjects = new ArrayList<Node>();
-		
+
 		allParameters = new ArrayList<TraceableParameter>();
 		annotatedParameters = new ArrayList<TraceableParameter>();
 		nonAnnotatedParameters = new ArrayList<TraceableParameter>();
-		
+
 		allDifferentParameters = new ArrayList<TraceableParameter>();
 		differentAnnotatedParameters = new ArrayList<TraceableParameter>();
 		differentNonAnnotatedParameters = new ArrayList<TraceableParameter>();
 		
-		parameterPreprocessingMap = new HashMap<String, List<String>>();
+		allWords = new ArrayList<String>();
+		annotatedWords = new ArrayList<String>();
+		nonAnnotatedWords = new ArrayList<String>();
+		
+		allDifferentWords = new ArrayList<String>();
+		differentAnnotatedWords = new ArrayList<String>();
+		differentNonAnnotatedWords = new ArrayList<String>();
+
 		parameterAnnotationMap = new HashMap<String, String>();
-		
-		allParameterNames = new ArrayList<String>();
-		
+
 		analyzeTypesCounter = new HashMap<AnalysisType, Integer>();
-		for(AnalysisType at: AnalysisType.values()){
+		for (AnalysisType at : AnalysisType.values()) {
 			analyzeTypesCounter.put(at, 0);
 		}
 	}
-	
-	public static StatisticsUtil getInstance(){
-		if(INSTANCE == null)
+
+	public static StatisticsUtil getInstance() {
+		if (INSTANCE == null)
 			INSTANCE = new StatisticsUtil();
 		return INSTANCE;
 	}
-	
-	public void calculateStatistics(TraceableParameter tparameter, List<String> preprocessingResult,
-			String wordToAnnotate, AnalysisType analyzeType, String concept){
-		
+
+	public void calculateStatistics(TraceableParameter tparameter,
+			List<String> preprocessingResult, String wordToAnnotate,
+			AnalysisType analyzeType, String concept) {
+
 		/////////////////////////////////////////////////////////////////////
 		//////////////PARAMETER STATISTICS///////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
-		//each iteration counted and considered as annotated or not annotated
+		// each iteration counted and considered as annotated or not annotated
 		allParameters.add(tparameter);
-		if(!concept.equals("NoMatch"))
+		if (!concept.equals("NoMatch"))
 			annotatedParameters.add(tparameter);
 		else
 			nonAnnotatedParameters.add(tparameter);
-		
-		//uniquely holded parameters  
-		if(!allParameterNames.contains(tparameter.getParameter().getName())){
-			
-			allParameterNames.add(tparameter.getParameter().getName());
-			
+
+		if (!isFoundInUniqueParams(tparameter)) {
 			allDifferentParameters.add(tparameter);
-			
-			//This will be useful to extract which concepts are linked to any parameter
-			parameterPreprocessingMap.put(tparameter.getParameter().getName(), preprocessingResult);
-			parameterAnnotationMap.put(tparameter.getParameter().getName(), concept);
-			
-			if(!concept.equals("NoMatch"))
+
+			if (!concept.equals("NoMatch"))
 				differentAnnotatedParameters.add(tparameter);
 			else
 				differentNonAnnotatedParameters.add(tparameter);
+
+			// This will be useful to extract which concepts are linked to any
+			// parameter
+			parameterAnnotationMap.put(tparameter.getParameter().getName(),
+					concept);
 		}
 		
-		/*Set<AnalysisType> set = analyzeTypesCounter.keySet(); 
+		/////////////////////////////////////////////////////////////////////
+		//////////////WORD STATISTICS////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////
+		for (String string : preprocessingResult) {
+			allWords.add(string);
+			if(!SigmaUtil.findConcept(string).equals("NoMatch"))
+				annotatedWords.add(string);
+			else
+				nonAnnotatedWords.add(string);
+			
+			if(!allDifferentWords.contains(string)){
+				allDifferentWords.add(string);
+				if(!SigmaUtil.findConcept(string).equals("NoMatch"))
+					differentAnnotatedWords.add(string);
+				else
+					differentNonAnnotatedWords.add(string);
+			}
+		}
+		
+		
+		//analysis type statistics
+		Set<AnalysisType> set = analyzeTypesCounter.keySet();
 		for (AnalysisType analyzeType2 : set) {
-			if(analyzeType.equals(analyzeType2))
-				analyzeTypesCounter.put(analyzeType2, 
-						analyzeTypesCounter.get(analyzeType2)+1);
-		}*/
-		analyzeTypesCounter.put(analyzeType, 
-				analyzeTypesCounter.get(analyzeType)+1);
+			if (analyzeType.equals(analyzeType2))
+				analyzeTypesCounter.put(analyzeType2,
+						analyzeTypesCounter.get(analyzeType2) + 1);
+		}
+		analyzeTypesCounter.put(analyzeType,
+				analyzeTypesCounter.get(analyzeType) + 1);
 	}
-	
+
 	public List<TraceableParameter> getAllParameterObjects() {
 		return allParameterObjects;
 	}
@@ -161,7 +192,8 @@ public class StatisticsUtil {
 		return annotatedParameters;
 	}
 
-	public void setAnnotatedParameters(List<TraceableParameter> annotatedParameters) {
+	public void setAnnotatedParameters(
+			List<TraceableParameter> annotatedParameters) {
 		this.annotatedParameters = annotatedParameters;
 	}
 
@@ -169,7 +201,8 @@ public class StatisticsUtil {
 		return nonAnnotatedParameters;
 	}
 
-	public void setNonAnnotatedParameters(List<TraceableParameter> nonAnnotatedParameters) {
+	public void setNonAnnotatedParameters(
+			List<TraceableParameter> nonAnnotatedParameters) {
 		this.nonAnnotatedParameters = nonAnnotatedParameters;
 	}
 
@@ -177,7 +210,8 @@ public class StatisticsUtil {
 		return allDifferentParameters;
 	}
 
-	public void setAllDifferentParameters(List<TraceableParameter> allDifferentParameters) {
+	public void setAllDifferentParameters(
+			List<TraceableParameter> allDifferentParameters) {
 		this.allDifferentParameters = allDifferentParameters;
 	}
 
@@ -199,16 +233,8 @@ public class StatisticsUtil {
 		this.differentNonAnnotatedParameters = differentNonAnnotatedParameters;
 	}
 
-	public Map<String, List<String>> getParameterPreprocessingMap() {
-		return parameterPreprocessingMap;
-	}
-
-	public void setParameterPreprocessingMap(
-			Map<String, List<String>> parameterPreprocessingMap) {
-		this.parameterPreprocessingMap = parameterPreprocessingMap;
-	}
-
-	public void setParameterAnnotationMap(Map<String, String> parameterAnnotationMap) {
+	public void setParameterAnnotationMap(
+			Map<String, String> parameterAnnotationMap) {
 		this.parameterAnnotationMap = parameterAnnotationMap;
 	}
 
@@ -218,5 +244,83 @@ public class StatisticsUtil {
 
 	public Map<AnalysisType, Integer> getAnalyzeTypesCounter() {
 		return analyzeTypesCounter;
+	}
+
+	public List<String> getAllWords() {
+		return allWords;
+	}
+
+	public void setAllWords(List<String> allWords) {
+		this.allWords = allWords;
+	}
+
+	public List<String> getAnnotatedWords() {
+		return annotatedWords;
+	}
+
+	public void setAnnotatedWords(List<String> annotatedWords) {
+		this.annotatedWords = annotatedWords;
+	}
+
+	public List<String> getNonAnnotatedWords() {
+		return nonAnnotatedWords;
+	}
+
+	public void setNonAnnotatedWords(List<String> nonAnnotatedWords) {
+		this.nonAnnotatedWords = nonAnnotatedWords;
+	}
+
+	public List<String> getAllDifferentWords() {
+		return allDifferentWords;
+	}
+
+	public void setAllDifferentWords(List<String> allDifferentWords) {
+		this.allDifferentWords = allDifferentWords;
+	}
+
+	public List<String> getDifferentAnnotatedWords() {
+		return differentAnnotatedWords;
+	}
+
+	public void setDifferentAnnotatedWords(List<String> differentAnnotatedWords) {
+		this.differentAnnotatedWords = differentAnnotatedWords;
+	}
+
+	public List<String> getDifferentNonAnnotatedWords() {
+		return differentNonAnnotatedWords;
+	}
+
+	public void setDifferentNonAnnotatedWords(
+			List<String> differentNonAnnotatedWords) {
+		this.differentNonAnnotatedWords = differentNonAnnotatedWords;
+	}
+
+	public void setAnalyzeTypesCounter(
+			Map<AnalysisType, Integer> analyzeTypesCounter) {
+		this.analyzeTypesCounter = analyzeTypesCounter;
+	}
+
+	private boolean isFoundInUniqueParams(TraceableParameter tp) {
+		for(TraceableParameter tparam: allDifferentParameters){
+			if (tparam.getParameter().getName()
+					.equals(tp.getParameter().getName())
+					&& tparam.getParameter().getTypeName()
+							.equals(tp.getParameter().getTypeName())) {
+				if (tparam.getParameter().getConceptURI() != null
+						&& tp.getParameter().getConceptURI() != null) {
+					if (!tparam.getParameter().getConceptURI()
+							.equals(tp.getParameter().getConceptURI()))
+						return false;
+				}
+				if (tparam.getParameter().getSubParameters() != null
+						&& tp.getParameter().getSubParameters() != null) {
+					if (!tparam.getParameter().getSubParameters()
+							.equals(tp.getParameter().getSubParameters()))
+						return false;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 }
