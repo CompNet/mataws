@@ -34,17 +34,19 @@ import java.util.List;
 import java.util.Queue;
 import java.util.SortedSet;
 
-import tr.edu.gsu.mataws.components.Core;
-import tr.edu.gsu.mataws.components.CoreImpl;
-import tr.edu.gsu.mataws.components.associator.Associator;
-import tr.edu.gsu.mataws.components.reader.Reader;
-import tr.edu.gsu.mataws.components.selector.AnalysisType;
-import tr.edu.gsu.mataws.components.selector.Analyzer;
-import tr.edu.gsu.mataws.components.writer.CollectionTransformationUtil;
+import tr.edu.gsu.mataws.components.core.Core;
+import tr.edu.gsu.mataws.components.core.Core;
+import tr.edu.gsu.mataws.components.core.associator.Associator;
+import tr.edu.gsu.mataws.components.core.selector.AnalysisType;
+import tr.edu.gsu.mataws.components.core.selector.Analyzer;
+import tr.edu.gsu.mataws.components.io.reader.CollectionReader;
+import tr.edu.gsu.mataws.components.io.reader.WsdlCollectionReader;
+import tr.edu.gsu.mataws.components.io.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.stats.StatData;
 import tr.edu.gsu.mataws.stats.StatWritter;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
+import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Parameter;
 
 /**
@@ -62,16 +64,21 @@ public class Launcher
 	 * contained in the input folder.
 	 * 
 	 * @param args
-	 * 		Not used.
+	 * 		Possibly the name of a subfolder of Mataws input folder.
 	 */
 	public static void main(String[] args)
-	{	init();
+	{	if(args.length>0)
+			inFolder = args[0];
+		
+		init();
 		process();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	INITIALIZATION						///////////////////
 	///////////////////////////////////////////////////////////
+	private static String inFolder = null;
+	
 	private static StatData statistics;
 	private static StatWritter statWriter;
 	private static Core core;
@@ -82,10 +89,12 @@ public class Launcher
 	 * Intializes the necessary objects.
 	 */
 	private static void init()
-	{	statistics = StatData.getInstance();
+	{	
+		
+		statistics = StatData.getInstance();
 		statWriter = new StatWritter();
 		analyzer = new Analyzer();
-		core = CoreImpl.getInstance();
+		core = Core.getInstance();
 	}
 	
 	/**
@@ -98,6 +107,11 @@ public class Launcher
 	public static void process()
 	{	
 		// load the syntactic descriptions
+		CollectionReader reader = new WsdlCollectionReader();
+		Collection collection = reader.readCollection(inFolder);
+		
+		
+		
 		// apply the core processing
 		// record the semantic descriptions
 		// record the statistics
@@ -156,8 +170,8 @@ public class Launcher
 	 */
 	public static List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception
 	{	List<TraceableParameter> result = new ArrayList<TraceableParameter>();
-		Reader sineUtil = new Reader();
-		SortedSet<Parameter> sortedSet = sineUtil.initializeParameterList(collectionName);
+		CollectionReader sineUtil = new CollectionReader();
+		SortedSet<Parameter> sortedSet = sineUtil.readCollection(collectionName);
 		Iterator<Parameter> iterator = sortedSet.iterator();
 		while (iterator.hasNext())
 		{	Parameter param = iterator.next();

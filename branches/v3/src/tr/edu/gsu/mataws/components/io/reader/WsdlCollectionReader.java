@@ -27,41 +27,44 @@ package tr.edu.gsu.mataws.components.io.reader;
  */
 
 import java.io.File;
-import java.util.SortedSet;
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.logging.Logger;
 
+import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.FileTools;
 import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.sine.in.Digger;
 import tr.edu.gsu.sine.in.Language;
 
 /**
- * This class is used to extract parameters and subparameters of a given
- * collection.
+ * This class is used to read the data contained in the input
+ * WSDL files, and represent them as a hierarchy of Java objects.
  * 
- * @author Koray Mancuhan & Cihan Aksoy
- * 
+ * @author Cihan Aksoy
+ * @author Koray Mancuhan
+ * @author Vincent Labatut
+ * DONE
  */
-public class Reader {
-
-	/**
-	 * Interact with SINE to parse and obtain alphabetically ordered parameter
-	 * list from a web service collection.
-	 * 
-	 * @param collectionName
-	 *            a web service collection name.
-	 * @return ordered parameter list for a web service collection.
-	 * @throws Exception
-	 *             indicates a problem if an error occurs while using SINE.
-	 */
-	public SortedSet<Parameter> initializeParameterList(String collectionName)
-			throws Exception {
+public class WsdlCollectionReader extends CollectionReader
+{
+	@Override
+	public List<MatawsParameter> readCollection(String subfolder) throws FileNotFoundException
+	{	// init path & name
+		String path = FileTools.INPUT_FOLDER;
+		String name = "all";
+		if(subfolder!=null)
+		{	path = path + File.separator + subfolder;
+			name = subfolder;
+		}
+		File folder = new File(path);
+		
+		// init sine digger
 		Digger d = new Digger(Logger.getAnonymousLogger());
-		Collection coll = null;
-		coll = d.dig(new File(System.getProperty("user.dir") + File.separator
-				+ "input" + File.separator + collectionName), Language.WSDL,
-				collectionName);
-		SortedSet<Parameter> sortedSet = coll.getParameters();
-		return sortedSet;
+		// read description files
+		Collection collection = d.dig(folder, Language.WSDL, name);
+		// retrieve the parameters
+		List<MatawsParameter> result = extractParameters(collection);
+		return result;
 	}
 }

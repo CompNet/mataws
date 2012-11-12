@@ -35,7 +35,12 @@ import java.io.File;
  * @author Vincent Labatut
  */
 public class FileTools
-{	/** General folder for Mataws resources */
+{	/** Folder containing the original syntactic description files */
+	public static final String INPUT_FOLDER = "input";
+	/** Folder containing the generated semantic description files */
+	public static final String OUTPUT_FOLDER = "output";
+	
+	/** General folder for Mataws resources */
 	public static final String RESOURCES_FOLDER = "resource";
 	/** Folder containing Sigma's Knowledge bases */
 	public static final String KNOWBASE_FOLDER = RESOURCES_FOLDER + File.separator + "kbs";
