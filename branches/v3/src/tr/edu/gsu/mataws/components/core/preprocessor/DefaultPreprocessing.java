@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor;
+package tr.edu.gsu.mataws.components.core.preprocessor;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,13 +29,13 @@ package tr.edu.gsu.mataws.components.preprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.preprocessor.decomposition.MajusculeAfterMinusculeDecomposition;
-import tr.edu.gsu.mataws.components.preprocessor.decomposition.NumberDecomposition;
-import tr.edu.gsu.mataws.components.preprocessor.decomposition.SpecialCharacterDecomposition;
-import tr.edu.gsu.mataws.components.preprocessor.decomposition.TwoMajusOneMinusDecomposition;
-import tr.edu.gsu.mataws.components.preprocessor.filtering.StopWordFiltering;
-import tr.edu.gsu.mataws.components.preprocessor.normalization.AbbreviationNormalization;
-import tr.edu.gsu.mataws.components.preprocessor.normalization.CharacterNormalization;
+import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.MajusculeAfterMinusculeDecomposition;
+import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.NumberDecomposition;
+import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.SpecialCharacterDecomposition;
+import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.TwoMajusOneMinusDecomposition;
+import tr.edu.gsu.mataws.components.core.preprocessor.filtering.StopWordFiltering;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalization.AbbreviationNormalization;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalization.CharacterNormalization;
 import tr.edu.gsu.mataws.trace.TraceType;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 

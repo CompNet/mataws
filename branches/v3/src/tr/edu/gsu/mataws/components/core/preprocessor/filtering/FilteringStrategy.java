@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.selector;
+package tr.edu.gsu.mataws.components.core.preprocessor.filtering;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,6 +26,25 @@ package tr.edu.gsu.mataws.components.selector;
  * 
  */
 
-public enum AnalysisType {
-	NonNounVerbAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, SimpleVerbAnnotation, NounAdjunct, NoAnalysis
+import java.util.List;
+
+import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
+/**
+ * Interface for various filtering strategies
+ *  
+ * @author Koray Mancuhan & Cihan Aksoy
+ *
+ */
+public interface FilteringStrategy extends PreprocessingStrategy{
+	/**
+	 * Returns filtered little words of a parameter name.
+	 * 
+	 * @param paramName
+	 * 			little words list of a parameter name. 
+	 * @return
+	 * 			filtered little words of a parameter name.
+	 * 			
+	 */
+	public List<String> execute(List<String> paramName);
+
 }

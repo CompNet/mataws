@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.decomposition;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -31,13 +31,12 @@ import java.util.*;
 
 /**
  * Decomposition Strategy which divides each little word 
- * of a parameter in smaller little words by an upper case letter
- * following lower case letters.
+ * of a parameter in smaller little words by a number.
  *   
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class MajusculeAfterMinusculeDecomposition implements DecompositionStrategy {
+public class NumberDecomposition implements DecompositionStrategy {
 
 	@Override
 	public List<String> execute(List<String> paramNames) {
@@ -45,7 +44,7 @@ public class MajusculeAfterMinusculeDecomposition implements DecompositionStrate
 		List<String> result=new ArrayList<String>();
 		for(int i=0; i<paramNames.size(); i++){
 			String name=paramNames.get(i);
-			String[] dividedName=this.divide(name);
+			String[] dividedName=name.split("[0-9]");
 			for(int j=0; j<dividedName.length; j++){
 				result.add(dividedName[j]);
 			}
@@ -53,38 +52,4 @@ public class MajusculeAfterMinusculeDecomposition implements DecompositionStrate
 		return result;
 	}
 	
-	/**
-	 * Divides a word into smaller words by determining upper case letters
-	 * following lower case letters.
-	 * 
-	 * @param word
-	 * 			a word
-	 * @return
-	 * 			an array of little words
-	 */
-	public String[] divide(String word){
-		String[] resultArray=new String[1], arrayLeft, arrayRight;
-		boolean check=false;
-		for(int i=1; i<word.length(); i++){
-			char a=word.charAt(i-1);
-			char b=word.charAt(i);
-			if(Character.isLowerCase(a) && Character.isUpperCase(b)){
-				String leftString =word.substring(0, i);
-				String rightString =word.substring(i, word.length());
-				arrayLeft=divide(leftString);
-				arrayRight=divide(rightString);
-				resultArray=new String[arrayLeft.length+arrayRight.length];
-				for(int j=0; j<arrayLeft.length; j++)
-					resultArray[j]=arrayLeft[j];
-				for(int j=0; j<arrayRight.length; j++)
-					resultArray[arrayLeft.length+j]=arrayRight[j];
-				check=true;
-				break;
-			}
-		}
-		
-		if(!check)
-			resultArray[0]=word;
-		return resultArray;		
-	}
 }

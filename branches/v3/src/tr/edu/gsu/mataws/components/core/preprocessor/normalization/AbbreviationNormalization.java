@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.filtering;
+package tr.edu.gsu.mataws.components.core.preprocessor.normalization;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -36,36 +36,42 @@ import java.util.List;
 
 
 /**
- * Filtering Strategy which detects and eliminates the stop words
+ * Normalization Strategy which detects and finds the meaning of abbreviations
  * in the list of little words of a parameter name.
  *   
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class StopWordFiltering implements FilteringStrategy{
+public class AbbreviationNormalization implements NormalizationStrategy {
 
 	@Override
 	public List<String> execute(List<String> paramName) {
 		
 		List<String> results = paramName;
-		ArrayList<String> stopWordList=new ArrayList<String>();
+		ArrayList<String> abbreviationList=new ArrayList<String>();
 		File file = null;
-		file=new File(System.getProperty("user.dir") + File.separator + "configurations" + File.separator + "StopWords.txt");
+		file=new File(System.getProperty("user.dir")+ File.separator +"configurations" + File.separator + "Abbreviations.txt");
+		
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(file));
 			String line=null;
 			while((line=br.readLine())!=null){
-				stopWordList.add(line);
+				abbreviationList.add(line);
 			}
 			br.close();
-			for(int i=0; i < results.size(); i++)
+			
+			for(int i = 0; i < results.size(); i++)
 			{
 				String param = results.get(i);
-								
-				for(int j=0; j < stopWordList.size(); j++)
+				for(int j = 0; j < abbreviationList.size(); j++)
 				{
-					if(param.equals(stopWordList.get(j)))
-						results.remove(i);
+					String oneOfAbbreviation = abbreviationList.get(j);
+					String[] abbrevs = oneOfAbbreviation.split(",");
+					if(param.equals(abbrevs[0]))
+					{
+						results.set(i, abbrevs[1]);
+						break;
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -76,9 +82,7 @@ public class StopWordFiltering implements FilteringStrategy{
 			e.printStackTrace();
 		}
 			
-		
 		return results;
 	}
-	
 
 }

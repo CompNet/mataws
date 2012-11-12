@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor;
+package tr.edu.gsu.mataws.components.core.preprocessor;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,22 +28,23 @@ package tr.edu.gsu.mataws.components.preprocessor;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.trace.TraceableParameter;
+
 /**
- * Interface for various preprocessing strategies.
+ * Interface for preprocessing of various collections.
  *  
- * @author Koray Mancuhan & Cihan Aksoy
+ * @author Cihan Aksoy
  *
  */
-public interface PreprocessingStrategy {
+public interface PreprocessingSet {
 
 	/**
-	 * This method that enforces the Strategy Pattern 
-	 * is used to make preprocessing operations to the given words
+	 * This method applies preprocessing methods to 
+	 * the given parameter name and returns the obtained words in a list
 	 * 
-	 * @param paramNames
-	 * @return a list of words
+	 * @param name
+	 * @return list of words of processed parameter name
 	 */
-	public List<String> execute(List<String> paramNames);
-
+	public List<String> processName(TraceableParameter tParameter, String toProcess);
 	
 }

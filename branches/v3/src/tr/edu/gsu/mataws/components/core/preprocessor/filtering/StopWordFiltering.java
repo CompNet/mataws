@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.normalization;
+package tr.edu.gsu.mataws.components.core.preprocessor.filtering;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -36,42 +36,36 @@ import java.util.List;
 
 
 /**
- * Normalization Strategy which detects and finds the meaning of abbreviations
+ * Filtering Strategy which detects and eliminates the stop words
  * in the list of little words of a parameter name.
  *   
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class AbbreviationNormalization implements NormalizationStrategy {
+public class StopWordFiltering implements FilteringStrategy{
 
 	@Override
 	public List<String> execute(List<String> paramName) {
 		
 		List<String> results = paramName;
-		ArrayList<String> abbreviationList=new ArrayList<String>();
+		ArrayList<String> stopWordList=new ArrayList<String>();
 		File file = null;
-		file=new File(System.getProperty("user.dir")+ File.separator +"configurations" + File.separator + "Abbreviations.txt");
-		
+		file=new File(System.getProperty("user.dir") + File.separator + "configurations" + File.separator + "StopWords.txt");
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(file));
 			String line=null;
 			while((line=br.readLine())!=null){
-				abbreviationList.add(line);
+				stopWordList.add(line);
 			}
 			br.close();
-			
-			for(int i = 0; i < results.size(); i++)
+			for(int i=0; i < results.size(); i++)
 			{
 				String param = results.get(i);
-				for(int j = 0; j < abbreviationList.size(); j++)
+								
+				for(int j=0; j < stopWordList.size(); j++)
 				{
-					String oneOfAbbreviation = abbreviationList.get(j);
-					String[] abbrevs = oneOfAbbreviation.split(",");
-					if(param.equals(abbrevs[0]))
-					{
-						results.set(i, abbrevs[1]);
-						break;
-					}
+					if(param.equals(stopWordList.get(j)))
+						results.remove(i);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -82,7 +76,9 @@ public class AbbreviationNormalization implements NormalizationStrategy {
 			e.printStackTrace();
 		}
 			
+		
 		return results;
 	}
+	
 
 }

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components;
+package tr.edu.gsu.mataws.components.core.preprocessor;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,12 +27,23 @@ package tr.edu.gsu.mataws.components;
  */
 
 import java.util.List;
-import java.util.Queue;
 
-import tr.edu.gsu.mataws.zzzzz.Node;
+/**
+ * Interface for various preprocessing strategies.
+ *  
+ * @author Koray Mancuhan & Cihan Aksoy
+ *
+ */
+public interface PreprocessingStrategy {
 
-public interface Core {
+	/**
+	 * This method that enforces the Strategy Pattern 
+	 * is used to make preprocessing operations to the given words
+	 * 
+	 * @param paramNames
+	 * @return a list of words
+	 */
+	public List<String> execute(List<String> paramNames);
 
-	public List<String> process(Queue<Node> queue); 
 	
 }

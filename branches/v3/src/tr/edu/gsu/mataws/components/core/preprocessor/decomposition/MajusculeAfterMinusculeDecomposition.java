@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.decomposition;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,44 +26,65 @@ package tr.edu.gsu.mataws.components.preprocessor.decomposition;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
  * Decomposition Strategy which divides each little word 
- * of a parameter in smaller little words by a special character.
+ * of a parameter in smaller little words by an upper case letter
+ * following lower case letters.
  *   
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class SpecialCharacterDecomposition implements DecompositionStrategy {
-	private String specialCharacter;
-	
-	/**
-	 * Creates an instance for a specific decomposition strategy for a 
-	 * specific character.
-	 * 
-	 * @param specialCharacter
-	 * 			Character to decompose parameter names
-	 */
-	public SpecialCharacterDecomposition(String specialCharacter){
-		this.specialCharacter=specialCharacter;
-	}
-	
+public class MajusculeAfterMinusculeDecomposition implements DecompositionStrategy {
+
 	@Override
 	public List<String> execute(List<String> paramNames) {
 		// TODO Auto-generated method stub
 		List<String> result=new ArrayList<String>();
 		for(int i=0; i<paramNames.size(); i++){
 			String name=paramNames.get(i);
-			String[] dividedName=name.split(this.specialCharacter);
+			String[] dividedName=this.divide(name);
 			for(int j=0; j<dividedName.length; j++){
-				if(!dividedName[j].equals(""))
-					result.add(dividedName[j]);
+				result.add(dividedName[j]);
 			}
 		}
 		return result;
 	}
-
+	
+	/**
+	 * Divides a word into smaller words by determining upper case letters
+	 * following lower case letters.
+	 * 
+	 * @param word
+	 * 			a word
+	 * @return
+	 * 			an array of little words
+	 */
+	public String[] divide(String word){
+		String[] resultArray=new String[1], arrayLeft, arrayRight;
+		boolean check=false;
+		for(int i=1; i<word.length(); i++){
+			char a=word.charAt(i-1);
+			char b=word.charAt(i);
+			if(Character.isLowerCase(a) && Character.isUpperCase(b)){
+				String leftString =word.substring(0, i);
+				String rightString =word.substring(i, word.length());
+				arrayLeft=divide(leftString);
+				arrayRight=divide(rightString);
+				resultArray=new String[arrayLeft.length+arrayRight.length];
+				for(int j=0; j<arrayLeft.length; j++)
+					resultArray[j]=arrayLeft[j];
+				for(int j=0; j<arrayRight.length; j++)
+					resultArray[arrayLeft.length+j]=arrayRight[j];
+				check=true;
+				break;
+			}
+		}
+		
+		if(!check)
+			resultArray[0]=word;
+		return resultArray;		
+	}
 }

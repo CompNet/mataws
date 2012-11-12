@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.associator;
+package tr.edu.gsu.mataws.components.core.associator;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services

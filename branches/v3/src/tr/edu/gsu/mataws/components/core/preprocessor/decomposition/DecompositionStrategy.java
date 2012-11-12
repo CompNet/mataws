@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.preprocessor.decomposition;
+package tr.edu.gsu.mataws.components.core.preprocessor.decomposition;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,28 +28,23 @@ package tr.edu.gsu.mataws.components.preprocessor.decomposition;
 
 import java.util.*;
 
+import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
 
 /**
- * Decomposition Strategy which divides each little word 
- * of a parameter in smaller little words by a number.
- *   
+ * Interface for various decomposition strategies.
+ *  
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class NumberDecomposition implements DecompositionStrategy {
-
-	@Override
-	public List<String> execute(List<String> paramNames) {
-		// TODO Auto-generated method stub
-		List<String> result=new ArrayList<String>();
-		for(int i=0; i<paramNames.size(); i++){
-			String name=paramNames.get(i);
-			String[] dividedName=name.split("[0-9]");
-			for(int j=0; j<dividedName.length; j++){
-				result.add(dividedName[j]);
-			}
-		}
-		return result;
-	}
-	
+public interface DecompositionStrategy extends PreprocessingStrategy{
+	/**
+	 * Returns decomposed little words of a parameter name.
+	 * 
+	 * @param paramName
+	 * 			little word list of a parameter name. 
+	 * @return
+	 * 			decomposed little words of a parameter name.
+	 * 			
+	 */
+	public List<String> execute(List<String> paramNames);
 }
