@@ -62,29 +62,34 @@ public class TextOutputImpl implements Output{
 		
 		String string = tParameter.getName();
 		if (preprocessingResult.size() != 0) {
+			string += ",";
 			if (!tParameter.getName().equals(preprocessingResult.get(0))) {
 				for (int i = 0; i < preprocessingResult.size(); i++) {
-					string += ("," + preprocessingResult.get(i));
+					string += (preprocessingResult.get(i)) + "#";
 				}
 			}
 			else{
 				for (int i = 1; i < preprocessingResult.size(); i++) {
-					string += ("," + preprocessingResult.get(i));
+					string += (preprocessingResult.get(i)) + "#";
 				}
 			}
+			
+			string = string.substring(0, string.length()-1);
+			
 			string += "," + wordToAnnotate;
-			string += "," + analysisType;
 			string += "," + concept;
+			string += "," + analysisType;
+			
+			string += ",";
 			
 			for (TraceType tt : tParameter.getTraceList()) {
-				string += "," + tt.toString();
-			}
-			for(String string2:tParameter.getControlList()){
-				string += "," + string2;
+				string += tt.toString() + "|";
 			}
 			
+			string = string.substring(0, string.length()-1);
+			
 		} else {
-			string += ",NoMatch";
+			string += ",,,,,,NoMatch";
 		}
 		result += string + "\n" ;
 	}
@@ -97,6 +102,9 @@ public class TextOutputImpl implements Output{
 			
 			String annotationResultForTotalParams = numberFormat.format(((double)statistics.getAnnotatedParameters().size() / statistics.getAllParameterObjects().size()) * 100);
 			String annotationResultForDifferentParams = numberFormat.format(((double)statistics.getDifferentAnnotatedParameters().size() / statistics.getAllDifferentParameters().size()) * 100);
+			
+			String annotationResultForTotalWords = numberFormat.format(((double)statistics.getAnnotatedWords().size() / statistics.getAllWords().size()) * 100);
+			String annotationResultForDifferentWords = numberFormat.format(((double)statistics.getDifferentAnnotatedWords().size() / statistics.getAllDifferentWords().size()) * 100);
 			
 			result += "\n\n";
 			result += "******************************Statistics******************************"+"\n";
@@ -116,6 +124,22 @@ public class TextOutputImpl implements Output{
 			result += "        Number of unique annotated parameters: "+statistics.getDifferentAnnotatedParameters().size()+"\n";
 			result += "        Number of unique non-annotated parameters: "+statistics.getDifferentNonAnnotatedParameters().size()+"\n";
 			result += "        Percent of unique annotated parameters: "+annotationResultForDifferentParams+"\n";
+			result += "*                                                                    *"+"\n";
+			result += "* ****************************************************************** *"+"\n";
+			result += "* *                         Word Statistics                        * *"+"\n";
+			result += "* ****************************************************************** *"+"\n";
+			result += "* *                          Total Results                         * *"+"\n";
+			result += "* *     ******************************************************     * *"+"\n";
+			result += "        Total number of words: "+statistics.getAllWords().size()+"\n";
+			result += "        Number of annotated words: "+statistics.getAnnotatedWords().size()+"\n";
+			result += "        Number of non-annotated words: "+statistics.getNonAnnotatedWords().size()+"\n";
+			result += "        Percent of annotated words: "+annotationResultForTotalWords+"\n";
+			result += "* *                         Unique Results                         * *"+"\n";
+			result += "* *     ******************************************************     * *"+"\n";
+			result += "        Number of unique words: "+statistics.getAllDifferentWords().size()+"\n";
+			result += "        Number of unique annotated words: "+statistics.getDifferentAnnotatedWords().size()+"\n";
+			result += "        Number of unique non-annotated words: "+statistics.getDifferentNonAnnotatedWords().size()+"\n";
+			result += "        Percent of unique annotated words: "+annotationResultForDifferentWords+"\n";
 			result += "* ****************************************************************** *"+"\n";
 			result += "*                                                                    *"+"\n";
 			result += "* *                        Analyze Statistics                      * *"+"\n";
@@ -131,9 +155,13 @@ public class TextOutputImpl implements Output{
 			result += "        Number of NounAdjunct: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.NounAdjunct)+"\n";
 			result += "        Number of NoAnalysis: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.NoAnalysis)+"\n";
 			result += "* ****************************************************************** *"+"\n";
-			result += "* *                             MATAWS                             * *"+"\n";
+			result += "* *                           MATAWS v1.4                          * *"+"\n";
 			result += "**********************************************************************"+"\n";
 
+			//word statistics will be integrated with the table above
+			
+			
+			
 			bw.write(result);
 			bw.close();
 		} catch (IOException e) {
