@@ -27,5 +27,16 @@ package tr.edu.gsu.mataws.trace;
  */
 
 public enum TraceType {
-	Decomposition, Normalization, Filtering, Splitting, NonNounVerbAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, SimpleVerbAnnotation, NounAdjunct, NoAnalysis
+	DECOMPOSITION, 
+	NORMALIZATION, 
+	FILTERING, 
+	SPLITTING, 
+	NON_NOUN_VERB_ANNOTATION, 
+	ONLY_ONE_REMAINING, 
+	ONLY_ONE_REPRESENTER, 
+	HYPERNYMIAL_RELATION, 
+	HOLONYMIAL_RELATION, 
+	SIMPLE_VERB_ANNOTATION, 
+	NOUN_ADJUNCT, 
+	NO_ANALYSIS
 }

@@ -69,13 +69,13 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 		if(analyzeList.size() == 1){
 			result = analyzeList.get(0);
 			analysisType = AnalysisType.OnlyOneRemaining;
-			tParameter.addTraceList(TraceType.OnlyOneRemaining);
+			tParameter.addTraceList(TraceType.ONLY_ONE_REMAINING);
 			return result;
 		}
 		
 		if(wa.onlyOneRepresenter(analyzeList) != null){
 			controlList = wa.onlyOneRepresenter(analyzeList);
-			tParameter.addTraceList(TraceType.OnlyOneRepresenter);
+			tParameter.addTraceList(TraceType.ONLY_ONE_REPRESENTER);
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.OnlyOneRepresenter;
@@ -89,7 +89,7 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 		}
 		else if(wa.hypernymialRelationFinder(analyzeList) != null){
 			controlList = wa.hypernymialRelationFinder(analyzeList);
-			tParameter.addTraceList(TraceType.HypernymialRelation);
+			tParameter.addTraceList(TraceType.HYPERNYMIAL_RELATION);
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.HypernymialRelation;
@@ -103,7 +103,7 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 		}
 		else if(wa.holonymialRelationFinder(analyzeList) != null){
 			controlList = wa.holonymialRelationFinder(analyzeList);
-			tParameter.addTraceList(TraceType.HolonymialRelation);
+			tParameter.addTraceList(TraceType.HOLONYMIAL_RELATION);
 			if(controlList.size() == 1){
 				result = controlList.get(0);
 				analysisType = AnalysisType.HolonymialRelation;
@@ -189,17 +189,17 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 			}
 			
 			if(!enteredVerb){
-				tParameter.addTraceList(TraceType.NounAdjunct);
+				tParameter.addTraceList(TraceType.NOUN_ADJUNCT);
 				analysisType = AnalysisType.NounAdjunct;
 				result = wa.nounAdjunctFinder(analyzeList);
 			}
 			else if(!enteredOther){
-				tParameter.addTraceList(TraceType.SimpleVerbAnnotation);
+				tParameter.addTraceList(TraceType.SIMPLE_VERB_ANNOTATION);
 				analysisType = AnalysisType.SimpleVerbAnnotation;
 				result = wa.frequentVerbFinder(analyzeList);
 			}
 			else{
-				tParameter.addTraceList(TraceType.NonNounVerbAnnotation);
+				tParameter.addTraceList(TraceType.NON_NOUN_VERB_ANNOTATION);
 				analysisType = AnalysisType.NonNounVerbAnnotation;
 				result = wa.frequentAdjectiveOrAdverbFinder(analyzeList);
 			}

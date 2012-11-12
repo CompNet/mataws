@@ -42,18 +42,19 @@ import tr.edu.gsu.mataws.trace.TraceableParameter;
  * This class which is an implementation of Output, prepares
  * a string representation of results and saves it as a text file.
  * 
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * @author Cihan Aksoy
+ * @author Koray Mancuhan
  */
-public class TextOutputImpl implements Output{
+public class StatWritter
+{
 
 	private String result;
-	private StatisticsUtil statistics;
+	private StatData statistics;
 	private NumberFormat numberFormat;
 	
-	public TextOutputImpl(){
+	public StatWritter(){
 		result = "";
-		statistics = StatisticsUtil.getInstance();
+		statistics = StatData.getInstance();
 		numberFormat = new DecimalFormat("#.00");
 	}
 	

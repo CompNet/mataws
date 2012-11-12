@@ -41,11 +41,10 @@ import tr.edu.gsu.mataws.zzzzz.Node;
  * annotation informations are hold. 
  *   
  * @author Cihan Aksoy
- *
  */
-public class StatisticsUtil {
+public class StatData {
 
-	private static StatisticsUtil INSTANCE = null;
+	private static StatData INSTANCE = null;
 	
 	private List<TraceableParameter> allParameterObjects;
 	private List<Node> allNodeObjects;
@@ -66,7 +65,7 @@ public class StatisticsUtil {
 	
 	private Map<AnalysisType, Integer> analyzeTypesCounter;
 	
-	private StatisticsUtil() {
+	private StatData() {
 		
 		allParameterObjects = new ArrayList<TraceableParameter>();
 		allNodeObjects = new ArrayList<Node>();
@@ -90,9 +89,9 @@ public class StatisticsUtil {
 		}
 	}
 	
-	public static StatisticsUtil getInstance(){
+	public static StatData getInstance(){
 		if(INSTANCE == null)
-			INSTANCE = new StatisticsUtil();
+			INSTANCE = new StatData();
 		return INSTANCE;
 	}
 	
