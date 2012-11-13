@@ -128,7 +128,7 @@ This product includes the following softwares:
     
   + Sigma Library
     Adam Pease
-    Class com.articulate.sigma.WordNet has been modified by initializing a com.articulate.sigma.KBManager instance in the initOnce() method
+TODO    Class com.articulate.sigma.WordNet has been modified by initializing a com.articulate.sigma.KBManager instance in the initOnce() method
     Class com.articulate.sigma.KBmanager has been modified by removing read/write of XML configurations in the initializeOnce() method	
     Used by Mataws to find an ontological concept for a given word.
     

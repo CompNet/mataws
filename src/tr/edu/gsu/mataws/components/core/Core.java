@@ -53,25 +53,8 @@ import com.articulate.sigma.WordNet;
  */
 public class Core
 {	
-	private static Core INSTANCE = null;
-	
 	private PreprocessingSet preprocessingSet;
 	private PreprocessingStrategy preprocessingStrategy;
-	
-	private Core(){
-		try {
-			WordNet.initOnce();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static Core getInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new Core();
-		return INSTANCE;
-	}
 	
 	public List<String> process(Queue<Node> queue){
 		List<String> preprocessingResult = new ArrayList<String>();

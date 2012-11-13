@@ -33,7 +33,7 @@ package tr.edu.gsu.mataws.components.io.writer;
  * @author Cihan Aksoy
  *
  */
-public interface AbstractWriter {
+public interface CollectionWriter {
 
 	/**
 	 * Method for generating semantic WS collection from a WS collection.

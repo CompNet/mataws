@@ -27,12 +27,16 @@ package tr.edu.gsu.mataws;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.SortedSet;
+
+import com.articulate.sigma.KBmanager;
+import com.articulate.sigma.WordNet;
 
 import tr.edu.gsu.mataws.components.core.Core;
 import tr.edu.gsu.mataws.components.core.Core;
@@ -42,8 +46,10 @@ import tr.edu.gsu.mataws.components.core.selector.Analyzer;
 import tr.edu.gsu.mataws.components.io.reader.CollectionReader;
 import tr.edu.gsu.mataws.components.io.reader.WsdlCollectionReader;
 import tr.edu.gsu.mataws.components.io.writer.CollectionTransformationUtil;
+import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.stats.StatData;
 import tr.edu.gsu.mataws.stats.StatWritter;
+import tr.edu.gsu.mataws.tools.FileTools;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 import tr.edu.gsu.sine.col.Collection;
@@ -65,8 +71,10 @@ public class Launcher
 	 * 
 	 * @param args
 	 * 		Possibly the name of a subfolder of Mataws input folder.
+	 * 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{	if(args.length>0)
 			inFolder = args[0];
 		
@@ -87,9 +95,14 @@ public class Launcher
 
 	/**
 	 * Intializes the necessary objects.
+	 * @throws IOException 
 	 */
-	private static void init()
-	{	
+	private static void init() throws IOException
+	{	// init sigma
+		KBmanager.getMgr().initializeOnce();
+		KBmanager.getMgr().setPref("kbDir", FileTools.KNOWBASE_FOLDER);
+        WordNet.initOnce();
+        
 		
 		statistics = StatData.getInstance();
 		statWriter = new StatWritter();
@@ -108,11 +121,11 @@ public class Launcher
 	{	
 		// load the syntactic descriptions
 		CollectionReader reader = new WsdlCollectionReader();
-		Collection collection = reader.readCollection(inFolder);
-		
-		
+		List<MatawsParameter> parameters = reader.readCollection(inFolder);
 		
 		// apply the core processing
+		
+		
 		// record the semantic descriptions
 		// record the statistics
 		
