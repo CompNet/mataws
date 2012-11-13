@@ -41,7 +41,9 @@ import java.util.*;
  * 	<li>simple mode: {@code "myParamOut"} -> {@code "my"}, {@code "Param"},{@code "Out"}</li>
  * 	<li>double mode: {@code "AParamOut"} -> {@code "A"},{@code "ParamOut"}</li>
  * </ul>
- *   
+ * <br/>
+ * Possible improvement: use a lexicon to determine only relevant split
+ * 
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
