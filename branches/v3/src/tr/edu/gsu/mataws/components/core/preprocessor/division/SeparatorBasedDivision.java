@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.data;
+package tr.edu.gsu.mataws.components.core.preprocessor.division;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,40 +26,47 @@ package tr.edu.gsu.mataws.data;
  * 
  */
 
-import tr.edu.gsu.sine.col.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class represents a parameter, in order
- * Mataws to perform specific processes.
- * 
+ * Split a word according to the presence of a specific substring
+ * acting as a separator. Empty strings are not returned.
+ * <br/>
+ * Example: {@code "myParam_Out"} -> {@code "myParam"},{@code "Out"}
+ *   
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
  * @author Vincent Labatut
- * TODO note: message are ignored
  */
-public class MatawsSubParameter extends AbstractMatawsParameter
-{	
+public class SeparatorBasedDivision implements DivisionInterface {
+	
 	/**
+	 * Creates an instance for the specified separator string.
+	 * 
+	 * @param separator
+	 * 		String separating substring.
 	 */
-	public MatawsSubParameter(Parameter parameter, AbstractMatawsParameter parent)
-	{	super(parameter);
-		
-		// init this object fields
-		this.parent = parent;
-		
+	public SeparatorBasedDivision(String separator)
+	{	this.separator = separator;
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	PARENT								///////////////////
+	//	SEPARATOR							///////////////////
 	///////////////////////////////////////////////////////////
-	/** The parameter containing this subparameter */ 
-	private AbstractMatawsParameter parent;
+	private String separator;
 	
-	/**
-	 * Returns the parameter containing this subparameter.
-	 * 
-	 * @return
-	 * 		A {@link MatawsParameter} object containing this subparameter.
-	 */
-	public AbstractMatawsParameter getParent()
-	{	return parent;
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	@Override
+	public List<String> divide(String name)
+	{	String temp[] = name.split(separator);
+		List<String> result = new ArrayList<String>();
+		for(String str: temp)
+		{	if(!str.isEmpty())
+				result.add(str);
+		}
+		return result;
 	}
 }

@@ -45,6 +45,6 @@ public interface FilteringStrategy extends PreprocessingStrategy{
 	 * 			filtered little words of a parameter name.
 	 * 			
 	 */
-	public List<String> execute(List<String> paramName);
+	public List<String> divide(List<String> paramName);
 
 }

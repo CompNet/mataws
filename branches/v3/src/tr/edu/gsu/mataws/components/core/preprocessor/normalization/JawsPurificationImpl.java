@@ -26,63 +26,49 @@ package tr.edu.gsu.mataws.components.core.preprocessor.normalization;
  * 
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import edu.smu.tspell.wordnet.Synset;
+import edu.smu.tspell.wordnet.WordNetDatabase;
+
+import tr.edu.gsu.mataws.components.core.preprocessor.cleaning.PurificationStrategy;
+import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws.tools.LevenshteinDistance;
 
 /**
- * Normalization Strategy which detects and finds the meaning of abbreviations
- * in the list of little words of a parameter name.
+ * Purification Strategy which turns plurial names, conjugated verbs, 
+ * participles etc. into their original forms by using WordNet lexicon.
  *   
- * @author Koray Mancuhan & Cihan Aksoy
+ * @author Cihan Aksoy
  *
  */
-public class AbbreviationNormalization implements NormalizationStrategy {
+public class JawsPurificationImpl implements PurificationStrategy {
 
 	@Override
 	public List<String> divide(List<String> paramName) {
 		
-		List<String> results = paramName;
-		ArrayList<String> abbreviationList=new ArrayList<String>();
-		File file = null;
-		file=new File(System.getProperty("user.dir")+ File.separator +"configurations" + File.separator + "Abbreviations.txt");
+		System.setProperty("wordnet.database.dir",System.getProperty("user.dir") + File.separator + "dictionary");
+System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO modif
 		
-		try {
-			BufferedReader br=new BufferedReader(new FileReader(file));
-			String line=null;
-			while((line=br.readLine())!=null){
-				abbreviationList.add(line);
-			}
-			br.close();
-			
-			for(int i = 0; i < results.size(); i++)
-			{
-				String param = results.get(i);
-				for(int j = 0; j < abbreviationList.size(); j++)
-				{
-					String oneOfAbbreviation = abbreviationList.get(j);
-					String[] abbrevs = oneOfAbbreviation.split(",");
-					if(param.equals(abbrevs[0]))
-					{
-						results.set(i, abbrevs[1]);
+		WordNetDatabase wd = WordNetDatabase.getFileInstance();
+		
+		for (int i = 0; i < paramName.size(); i++) {
+			String result = null;
+			String string = paramName.get(i);
+			Synset[] synsets = wd.getSynsets(string);
+			for (Synset synset : synsets) {
+				String[] wordForms = synset.getWordForms();
+				for (String string2 : wordForms) {
+					if(LevenshteinDistance.getLevenshteinDistance(string2, string) < 4 
+							&& LevenshteinDistance.getLevenshteinDistance(string2, string)>=1){
+						result = string2;
 						break;
 					}
 				}
+				paramName.set(i, result);
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-			
-		return results;
+		return paramName;
 	}
-
 }

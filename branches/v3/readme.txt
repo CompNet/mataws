@@ -86,7 +86,7 @@ This product includes the following softwares:
     http://www.junit.org/
     Used by Sine for unit testing.
     
-  + JWordSplitter
+  + JWordSplitter v3.3
     Daniel Naber
     http://www.danielnaber.de/jwordsplitter/index_en.html
     Used by Mataws to split strings.

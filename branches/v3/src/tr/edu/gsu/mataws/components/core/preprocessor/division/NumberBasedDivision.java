@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor.normalization;
+package tr.edu.gsu.mataws.components.core.preprocessor.division;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,25 +26,31 @@ package tr.edu.gsu.mataws.components.core.preprocessor.normalization;
  * 
  */
 
-import java.util.List;
-
-import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
+import java.util.*;
 
 /**
- * Interface for various normalization strategies
- *  
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * Split a word according to the presence of digits.
+ * Empty strings are not returned.
+ * <br/>
+ * Example: {@code "myParam64Out"} -> {@code "myParam"},{@code "Out"}
+ *   
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
+ * @author Vincent Labatut
  */
-public interface NormalizationStrategy extends PreprocessingStrategy{
-	/**
-	 * Returns normalized little words of a parameter name.
-	 * 
-	 * @param paramName
-	 * 			little words list of a parameter name. 
-	 * @return
-	 * 			normalized little words of a parameter name.
-	 * 			
-	 */
-	public List<String> divide(List<String> paramName);
+public class NumberBasedDivision implements DivisionInterface
+{	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	@Override
+	public List<String> divide(String name)
+	{	String temp[] = name.split("[0-9]");
+		List<String> result = new ArrayList<String>();
+		for(String str: temp)
+		{	if(!str.isEmpty())
+				result.add(str);
+		}
+		return result;
+	}
 }

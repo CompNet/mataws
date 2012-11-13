@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor.filtering;
+package tr.edu.gsu.mataws.components.core.preprocessor.division;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,59 +26,43 @@ package tr.edu.gsu.mataws.components.core.preprocessor.filtering;
  * 
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
 
 
 /**
- * Filtering Strategy which detects and eliminates the stop words
- * in the list of little words of a parameter name.
+ * Splitting Strategy which separates contiguous words
+ * into only one word by using JWordSplitter.
  *   
- * @author Koray Mancuhan & Cihan Aksoy
+ * @author Cihan Aksoy
  *
+ *TODO see other approaches
+ * wordsplit: http://www.whitemagicsoftware.com/software/java/wordsplit
+ * needs a lexicon with word frequencies, such as wordnet, or:
+ * http://www.kilgarriff.co.uk/bnc-readme.html
  */
-public class StopWordFiltering implements FilteringStrategy{
+public class LexiconBasedDivision implements DivisionInterface {
 
 	@Override
-	public List<String> divide(List<String> paramName) {
-		
-		List<String> results = paramName;
-		ArrayList<String> stopWordList=new ArrayList<String>();
-		File file = null;
-		file=new File(System.getProperty("user.dir") + File.separator + "configurations" + File.separator + "StopWords.txt");
+	public List<String> divide(String name)
+	{
+		List<String> result = new ArrayList<String>();
 		try {
-			BufferedReader br=new BufferedReader(new FileReader(file));
-			String line=null;
-			while((line=br.readLine())!=null){
-				stopWordList.add(line);
-			}
-			br.close();
-			for(int i=0; i < results.size(); i++)
-			{
-				String param = results.get(i);
-								
-				for(int j=0; j < stopWordList.size(); j++)
-				{
-					if(param.equals(stopWordList.get(j)))
-						results.remove(i);
+			AbstractWordSplitter ws = new WrapperForEnglishWordSplitter(true);
+			for (String string : paramName) {
+				Collection<String> splits = ws.splitWord(string);
+				for (String string2 : splits) {
+					result.add(string2);
 				}
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
-		
-		return results;
+		return result;
 	}
-	
-
 }
