@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor;
+package tr.edu.gsu.mataws.components.core.preprocessor.division;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,21 +29,28 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
 import java.util.List;
 
 /**
- * Interface for various preprocessing strategies.
+ * Interface for classes in charge of splitting words.
  *  
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
+ * @author Vincent Labatut
  */
-public interface PreprocessingStrategy {
-
+public interface DivisionInterface
+{
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
 	/**
-	 * This method that enforces the Strategy Pattern 
-	 * is used to make preprocessing operations to the given words
+	 * Takes a string and returns a list of its components 
+	 * resulting from the split implemented by this object.
+	 * The list can be empty, if the original string contains
+	 * only noise.
 	 * 
-	 * @param paramNames
-	 * @return a list of words
+	 * @param name
+	 * 		The string to be split. 
+	 * @return
+	 * 		A list of substrings resulting from the split.
+	 * 			
 	 */
-	public List<String> execute(List<String> paramNames);
-
-	
+	public List<String> divide(String name);
 }

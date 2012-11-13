@@ -29,9 +29,7 @@ package tr.edu.gsu.mataws.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.sine.col.Service;
 
 public class AbstractMatawsParameter
 {	
@@ -82,9 +80,28 @@ public class AbstractMatawsParameter
 	{	return representativeWord;
 	}
 	
+	public void setRepresentativeWord(String representativeWord)
+	{	this.representativeWord = representativeWord;
+	}
+
 	public String getConcept() 
 	{	return concept;
 	}
+
+	public void setConcept(String concept)
+	{	this.concept = concept;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	NAMES								///////////////////
+	///////////////////////////////////////////////////////////
+	public String getName()
+	{	String result = sineParameter.getName();
+		return result;
+	}
 	
-	
+	public String getTypeName()
+	{	String result = sineParameter.getTypeName();
+		return result;
+	}
 }

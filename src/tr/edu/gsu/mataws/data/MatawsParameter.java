@@ -26,9 +26,6 @@ package tr.edu.gsu.mataws.data;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.sine.col.Service;

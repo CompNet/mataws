@@ -39,7 +39,7 @@ import java.util.Locale;
  */
 public class CharacterNormalization implements NormalizationStrategy {
     @Override
-	public List<String> execute(List<String> paramName) {
+	public List<String> divide(List<String> paramName) {
 		List<String> results = paramName;
 		for(int i =0 ; i < results.size(); i++)
 			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));

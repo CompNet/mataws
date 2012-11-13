@@ -36,8 +36,8 @@ import tr.edu.gsu.mataws.components.core.associator.Associator;
 import tr.edu.gsu.mataws.components.core.preprocessor.DefaultPreprocessing;
 import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingSet;
 import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
-import tr.edu.gsu.mataws.components.core.preprocessor.cleaning.JawsPurificationImpl;
-import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.WithoutSpecialCharDecomposition;
+import tr.edu.gsu.mataws.components.core.preprocessor.division.LexiconBasedDivision;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalization.JawsPurificationImpl;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 
@@ -177,7 +177,7 @@ public class Core
 		List<String> purifiedWords = new ArrayList<String>();
 		if(nonAnnotableWords.size()>0){
 			preprocessingStrategy = new JawsPurificationImpl();
-			purifiedWords = preprocessingStrategy.execute(nonAnnotableWords);
+			purifiedWords = preprocessingStrategy.divide(nonAnnotableWords);
 		}
 		List<String> nonAnnotableWords2 = new ArrayList<String>();
 		for (String string : purifiedWords) {
@@ -191,8 +191,8 @@ public class Core
 		//splitting operation is applied if necessary
 		List<String> splittedWords = new ArrayList<String>();
 		if(nonAnnotableWords2.size()>0){
-			preprocessingStrategy = new WithoutSpecialCharDecomposition();
-			splittedWords = preprocessingStrategy.execute(nonAnnotableWords2);
+			preprocessingStrategy = new LexiconBasedDivision();
+			splittedWords = preprocessingStrategy.divide(nonAnnotableWords2);
 		}
 		for (String string : splittedWords) {
 			result.add(string);

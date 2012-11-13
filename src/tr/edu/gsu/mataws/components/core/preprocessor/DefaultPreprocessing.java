@@ -29,10 +29,10 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.MajusculeAfterMinusculeDecomposition;
-import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.NumberDecomposition;
-import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.SpecialCharacterDecomposition;
-import tr.edu.gsu.mataws.components.core.preprocessor.decomposition.TwoMajusOneMinusDecomposition;
+import tr.edu.gsu.mataws.components.core.preprocessor.division.LettercaseBasedDivision;
+import tr.edu.gsu.mataws.components.core.preprocessor.division.NumberBasedDivision;
+import tr.edu.gsu.mataws.components.core.preprocessor.division.SeparatorBasedDivision;
+import tr.edu.gsu.mataws.components.core.preprocessor.division.TwoMajusOneMinusDecomposition;
 import tr.edu.gsu.mataws.components.core.preprocessor.filtering.StopWordFiltering;
 import tr.edu.gsu.mataws.components.core.preprocessor.normalization.AbbreviationNormalization;
 import tr.edu.gsu.mataws.components.core.preprocessor.normalization.CharacterNormalization;
@@ -85,18 +85,18 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private List<String> decomposeParameterName(String paramName) {
 		List<String> result = new ArrayList<String>();
 		result.add(paramName);
-		preprocessingStrategy = new MajusculeAfterMinusculeDecomposition();
-		result = preprocessingStrategy.execute(result);
-		preprocessingStrategy = new NumberDecomposition();
-		result = preprocessingStrategy.execute(result);
+		preprocessingStrategy = new LettercaseBasedDivision();
+		result = preprocessingStrategy.divide(result);
+		preprocessingStrategy = new NumberBasedDivision();
+		result = preprocessingStrategy.divide(result);
 		preprocessingStrategy = new TwoMajusOneMinusDecomposition();
-		result = preprocessingStrategy.execute(result);
-		preprocessingStrategy = new SpecialCharacterDecomposition("_");
-		result = preprocessingStrategy.execute(result);
-		preprocessingStrategy = new SpecialCharacterDecomposition("-");
-		result = preprocessingStrategy.execute(result);
-		preprocessingStrategy = new SpecialCharacterDecomposition(" ");
-		result = preprocessingStrategy.execute(result);
+		result = preprocessingStrategy.divide(result);
+		preprocessingStrategy = new SeparatorBasedDivision("_");
+		result = preprocessingStrategy.divide(result);
+		preprocessingStrategy = new SeparatorBasedDivision("-");
+		result = preprocessingStrategy.divide(result);
+		preprocessingStrategy = new SeparatorBasedDivision(" ");
+		result = preprocessingStrategy.divide(result);
 		return result;
 	}
 	
@@ -132,9 +132,9 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private List<String> normalizeParameterName(List<String> decompositionResult) {
 		List<String> result = decompositionResult;
 		preprocessingStrategy = new CharacterNormalization();
-		result = preprocessingStrategy.execute(result);
+		result = preprocessingStrategy.divide(result);
 		preprocessingStrategy = new AbbreviationNormalization();
-		result = preprocessingStrategy.execute(result);
+		result = preprocessingStrategy.divide(result);
 
 		return result;
 	}
@@ -150,7 +150,7 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private List<String> filterParameterName(List<String> decompositionResult) {
 		List<String> result = decompositionResult;
 		preprocessingStrategy = new StopWordFiltering();
-		result = preprocessingStrategy.execute(result);
+		result = preprocessingStrategy.divide(result);
 		return result;
 	}
 }
