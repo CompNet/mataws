@@ -1340,9 +1340,8 @@ public class WordNet {
    
         if (initNeeded == true) {
             if ( (WordNet.baseDir == "") || (WordNet.baseDir == null) ) {
-                KBmanager manager=KBmanager.getMgr();
-            	manager.initializeOnce();
-                WordNet.baseDir = manager.getPref("kbDir");
+//              KBmanager.getMgr().initializeOnce();
+                WordNet.baseDir = KBmanager.getMgr().getPref("kbDir");
             }
             baseDirFile = new File( WordNet.baseDir );
             wn = new WordNet();

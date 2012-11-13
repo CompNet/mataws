@@ -51,7 +51,7 @@ import tr.edu.gsu.mataws.stats.StatData;
  * @author Cihan Aksoy
  * 
  */
-public class OwlsWriter implements AbstractWriter {
+public class OwlsCollectionWriter implements CollectionWriter {
 
 	private StatData statistics;
 	private Map<String, String> parameterAnnotationMap;
@@ -60,7 +60,7 @@ public class OwlsWriter implements AbstractWriter {
 	/**
 	 * Constructs an instance of this class.
 	 */
-	public OwlsWriter() {
+	public OwlsCollectionWriter() {
 		statistics = StatData.getInstance();
 		parameterAnnotationMap = statistics.getParameterAnnotationMap();
 	}

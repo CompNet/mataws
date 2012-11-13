@@ -34,13 +34,13 @@ import java.io.*;
  * collection into a semantic web service collection.
  * 
  * @author Koray Mancuhan & Cihan Aksoy
- *
+ * TODO will certainly go in CollectionWriter
  */
 public class CollectionTransformationUtil {
 	private String semCollectionDirectory;
 	private String synCollectionDirectory;
 	
-	private AbstractWriter transformer;
+	private CollectionWriter transformer;
 
 	/**
 	 * Constructs a CollectionTransformation instance to use
@@ -55,7 +55,7 @@ public class CollectionTransformationUtil {
 		this.semCollectionDirectory = System.getProperty("user.dir") + File.separator + "output" + File.separator + synCollectionName + "_SWS";
 		this.synCollectionDirectory = System.getProperty("user.dir") + File.separator + "input" + File.separator + synCollectionName;
 		
-		transformer = new OwlsWriter();
+		transformer = new OwlsCollectionWriter();
 	}
 
 	/**
