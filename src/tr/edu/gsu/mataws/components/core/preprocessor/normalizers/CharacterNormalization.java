@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor;
+package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,24 +27,23 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
  */
 
 import java.util.List;
+import java.util.Locale;
 
-import tr.edu.gsu.mataws.trace.TraceableParameter;
 
 /**
- * Interface for preprocessing of various collections.
- *  
- * @author Cihan Aksoy
+ * Normalization Strategy which transforms upper case characters to lower case
+ * characters in the list of little words of a parameter name.
+ *   
+ * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public interface PreprocessingSet {
+public class CharacterNormalization implements NormalizationStrategy {
+    @Override
+	public List<String> divide(List<String> paramName) {
+		List<String> results = paramName;
+		for(int i =0 ; i < results.size(); i++)
+			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));
+		return results;
+	}
 
-	/**
-	 * This method applies preprocessing methods to 
-	 * the given parameter name and returns the obtained words in a list
-	 * 
-	 * @param name
-	 * @return list of words of processed parameter name
-	 */
-	public List<String> processName(TraceableParameter tParameter, String toProcess);
-	
 }
