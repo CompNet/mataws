@@ -99,14 +99,14 @@ sms,shortMessageService
 smtp,simpleMailTransportProtocol
 soap,simpleObjectAccessProtocol
 sql,structuredQueryLanguage
-bool, boolean
+bool,boolean
 src,source
 tel,telephone
 tmp,temperature
 tns,targetNamespace
 tx,taxonomy
 uddi,universalDescriptionDiscoveryAndIntergration
-dna, deoxyriboNucleicAcid
+dna,deoxyriboNucleicAcid
 udh,userDataHeader
 un,unitedNations
 upc,universalProductCode
@@ -119,4 +119,4 @@ wsdl,WebServiceDescriptionLanguage
 xml,ExtensibleMarkupLanguage
 xor,ExclusiveOr
 xslt,ExtensibleStylesheetLanguageTransformation
-xsd, ExtensibleSchemeDefinition 
+xsd,ExtensibleSchemeDefinition 

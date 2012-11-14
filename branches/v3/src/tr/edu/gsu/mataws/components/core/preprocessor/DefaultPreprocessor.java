@@ -26,20 +26,18 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import tr.edu.gsu.mataws.components.core.preprocessor.filters.StopWordFiltering;
-import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.AbbreviationNormalization;
-import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.CharacterNormalization;
+import tr.edu.gsu.mataws.components.core.preprocessor.filters.FilterInterface;
+import tr.edu.gsu.mataws.components.core.preprocessor.filters.StopWordFilter;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.AbbreviationNormalizer;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.CaseNormalizer;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.NormalizerInterface;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.StemNormalizer;
 import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LettercaseBasedSplitter;
 import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LexiconBasedSplitter;
 import tr.edu.gsu.mataws.components.core.preprocessor.splitters.NumberBasedSplitter;
 import tr.edu.gsu.mataws.components.core.preprocessor.splitters.SeparatorBasedSplitter;
 import tr.edu.gsu.mataws.components.core.preprocessor.splitters.SplitterInterface;
 import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LexiconBasedSplitter.Mode;
-import tr.edu.gsu.mataws.trace.TraceType;
-import tr.edu.gsu.mataws.trace.TraceableParameter;
 
 /**
  * Series of processings corresponding to the
@@ -52,142 +50,55 @@ import tr.edu.gsu.mataws.trace.TraceableParameter;
 public class DefaultPreprocessor extends AbstractPreprocessor
 {	
 	///////////////////////////////////////////////////////////
-	//	DIVISION							///////////////////
+	//	SPLIT								///////////////////
 	///////////////////////////////////////////////////////////
-	
-	private void initSplitters()
-	{	SplitterInterface divider;
-	
-		divider = new SeparatorBasedSplitter("_");
-		splitters.add(divider);
-		divider = new SeparatorBasedSplitter("-");
-		splitters.add(divider);
-		divider = new SeparatorBasedSplitter(" ");
-		splitters.add(divider);
-		
-		divider = new NumberBasedSplitter();
-		splitters.add(divider);
-	
-		divider = new LettercaseBasedSplitter();
-		splitters.add(divider);
-		
-		divider = new LexiconBasedSplitter(Mode.JWORDSPLITTER);
-//		divider = new LexiconBasedDivision(Mode.WORDSPLIT);
-		splitters.add(divider);
-	}
-	
-	/**
-	 * Service method decomposing a parameter name.
-	 * 
-	 * @param paramName
-	 * 			a parameter name
-	 * @return
-	 * 			the result of name decomposition
-	 */
-	private List<String> decomposeParameterName(String paramName) {
-		List<String> result = new ArrayList<String>();
-		result.add(paramName);
-		preprocessingStrategy = new LettercaseBasedSplitter();
-		result = preprocessingStrategy.split(result);
-		preprocessingStrategy = new NumberBasedSplitter();
-		result = preprocessingStrategy.split(result);
-		preprocessingStrategy = new TwoMajusOneMinusDecomposition();
-		result = preprocessingStrategy.split(result);
-		preprocessingStrategy = new SeparatorBasedSplitter("_");
-		result = preprocessingStrategy.split(result);
-		preprocessingStrategy = new SeparatorBasedSplitter("-");
-		result = preprocessingStrategy.split(result);
-		preprocessingStrategy = new SeparatorBasedSplitter(" ");
-		result = preprocessingStrategy.split(result);
-		return result;
-	}
-
 	@Override
-	public List<String> processName(TraceableParameter tParameter, String toProcess) {
-
-		List<String> processedParam = new ArrayList<String>();
-		
-		//stringSQLExample
-		processedParam = this.decomposeParameterName(toProcess);
-		tParameter.addTraceList(TraceType.DECOMPOSITION);
-		//string,SQL,Example
-		processedParam = this.normalizeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.NORMALIZATION);
-		//string, structuredQueryLanguage, example
-		processedParam = this.decomposeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.DECOMPOSITION);
-		//string, structured, Query, Language, example
-		processedParam = this.normalizeParameterName(processedParam);
-		tParameter.addTraceList(TraceType.NORMALIZATION);
-		//string, structured, query, language, example
-		processedParam = this.filterParameterName(processedParam);
-		tParameter.addTraceList(TraceType.FILTERING);
-		
-		return processedParam;
-	}
+	protected void initSplitters()
+	{	SplitterInterface splitter;
 	
-	/**
-	 * Service method decomposing a list of parameter names.
-	 * 
-	 * @param paramNames
-	 * 			a list of parameter name
-	 * @return
-	 * 			the results of name decomposition
-	 */
-	private List<String> decomposeParameterName(List<String> paramNames){
-		List<String> result = new ArrayList<String>();
-		List<String> temp = new ArrayList<String>();
+		splitter = new SeparatorBasedSplitter("_");
+		splitters.add(splitter);
+		splitter = new SeparatorBasedSplitter("-");
+		splitters.add(splitter);
+		splitter = new SeparatorBasedSplitter(" ");
+		splitters.add(splitter);
 		
-		for (int i = 0; i < paramNames.size(); i++) {
-			temp = decomposeParameterName(paramNames.get(i));
-			for (int j = 0; j < temp.size(); j++) {
-				result.add(temp.get(j));
-			}
-		}
-		return result;
+		splitter = new NumberBasedSplitter();
+		splitters.add(splitter);
+	
+		splitter = new LettercaseBasedSplitter();
+		splitters.add(splitter);
+		
+		splitter = new LexiconBasedSplitter(Mode.JWORDSPLITTER);
+//		splitter = new LexiconBasedDivision(Mode.WORDSPLIT);	//TODO to be tested
+		splitters.add(splitter);
 	}
 
 	///////////////////////////////////////////////////////////
 	//	NORMALIZATION						///////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Service method normalizing a parameter name
-	 * 
-	 * @param decompositionResult
-	 * 			list holding the result of name decomposition
-	 * @return
-	 * 			the result of name normalization
-	 */
-	private List<String> normalizeParameterName(List<String> decompositionResult) {
-		List<String> result = decompositionResult;
-		preprocessingStrategy = new CharacterNormalization();
-		result = preprocessingStrategy.split(result);
-		preprocessingStrategy = new AbbreviationNormalization();
-		result = preprocessingStrategy.split(result);
-
-		return result;
+	@Override
+	protected void initNormalizers()
+	{	NormalizerInterface normalizer;
+	
+		normalizer = new CaseNormalizer();
+		normalizers.add(normalizer);
+		
+		normalizer = new AbbreviationNormalizer();
+		normalizers.add(normalizer);
+		
+		normalizer = new StemNormalizer();	// TODO seems a better idea not to do that here, because it causes information loss
+		normalizers.add(normalizer);
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	FILTERING							///////////////////
 	///////////////////////////////////////////////////////////
+	@Override
+	protected void initFilters()
+	{	FilterInterface filter;
 	
-	
-	
-
-
-	/**
-	 * Service method filtering a parameter name
-	 * 
-	 * @param decompositionResult
-	 * 			list holding the result of name decomposition and normalization
-	 * @return
-	 * 			the result of name filtering
-	 */
-	private List<String> filterParameterName(List<String> decompositionResult) {
-		List<String> result = decompositionResult;
-		preprocessingStrategy = new StopWordFiltering();
-		result = preprocessingStrategy.split(result);
-		return result;
+		filter = new StopWordFilter();
+		filters.add(filter);
 	}
 }
