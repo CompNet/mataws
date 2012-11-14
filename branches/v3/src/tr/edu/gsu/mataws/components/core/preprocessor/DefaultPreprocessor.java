@@ -29,27 +29,103 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.core.preprocessor.division.LettercaseBasedDivision;
-import tr.edu.gsu.mataws.components.core.preprocessor.division.NumberBasedDivision;
-import tr.edu.gsu.mataws.components.core.preprocessor.division.SeparatorBasedDivision;
-import tr.edu.gsu.mataws.components.core.preprocessor.division.TwoMajusOneMinusDecomposition;
-import tr.edu.gsu.mataws.components.core.preprocessor.filtering.StopWordFiltering;
-import tr.edu.gsu.mataws.components.core.preprocessor.normalization.AbbreviationNormalization;
-import tr.edu.gsu.mataws.components.core.preprocessor.normalization.CharacterNormalization;
+import splitters.LettercaseBasedSplitter;
+import splitters.LexiconBasedSplitter;
+import splitters.NumberBasedSplitter;
+import splitters.SeparatorBasedSplitter;
+import splitters.SplitterInterface;
+import splitters.LexiconBasedSplitter.Mode;
+import tr.edu.gsu.mataws.components.core.preprocessor.filters.StopWordFiltering;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.AbbreviationNormalization;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.CharacterNormalization;
 import tr.edu.gsu.mataws.trace.TraceType;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 
 /**
- * An implementation of PreprocessingSet corresponding with 
- * FullDataset collection.
+ * Series of processings corresponding to the
+ * default Preprocessor.
  *   
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
+ * @author Vincent Labatut
  */
-public class DefaultPreprocessing implements PreprocessingSet{
-
-	private PreprocessingStrategy preprocessingStrategy;
+public class DefaultPreprocessor implements PreprocessorInterface
+{	
+	/**
+	 * Initializes all the necessary object
+	 * for this preprocessor.
+	 */
+	public DefaultPreprocessor()
+	{	initDivide();
+		initNormalize();
+	}	initFilter();
 	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	public List<String> preprocess(String string)
+	{	List<String> result = new ArrayList<String>();
+		result.add(string);
+		
+		result = split(result);
+		result = normalize(result);
+		result = filter(result);
+		
+		return result;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	DIVISION							///////////////////
+	///////////////////////////////////////////////////////////
+	private final List<SplitterInterface> dividers = new ArrayList<SplitterInterface>();
+	
+	private void initDivide()
+	{	SplitterInterface divider;
+	
+		divider = new SeparatorBasedSplitter("_");
+		dividers.add(divider);
+		divider = new SeparatorBasedSplitter("-");
+		dividers.add(divider);
+		divider = new SeparatorBasedSplitter(" ");
+		dividers.add(divider);
+		
+		divider = new NumberBasedSplitter();
+		dividers.add(divider);
+	
+		divider = new LettercaseBasedSplitter();
+		dividers.add(divider);
+		
+		divider = new LexiconBasedSplitter(Mode.JWORDSPLITTER);
+//		divider = new LexiconBasedDivision(Mode.WORDSPLIT);
+		dividers.add(divider);
+	}
+	
+	/**
+	 * Service method decomposing a parameter name.
+	 * 
+	 * @param paramName
+	 * 			a parameter name
+	 * @return
+	 * 			the result of name decomposition
+	 */
+	private List<String> decomposeParameterName(String paramName) {
+		List<String> result = new ArrayList<String>();
+		result.add(paramName);
+		preprocessingStrategy = new LettercaseBasedSplitter();
+		result = preprocessingStrategy.split(result);
+		preprocessingStrategy = new NumberBasedSplitter();
+		result = preprocessingStrategy.split(result);
+		preprocessingStrategy = new TwoMajusOneMinusDecomposition();
+		result = preprocessingStrategy.split(result);
+		preprocessingStrategy = new SeparatorBasedSplitter("_");
+		result = preprocessingStrategy.split(result);
+		preprocessingStrategy = new SeparatorBasedSplitter("-");
+		result = preprocessingStrategy.split(result);
+		preprocessingStrategy = new SeparatorBasedSplitter(" ");
+		result = preprocessingStrategy.split(result);
+		return result;
+	}
+
 	@Override
 	public List<String> processName(TraceableParameter tParameter, String toProcess) {
 
@@ -75,32 +151,6 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	}
 	
 	/**
-	 * Service method decomposing a parameter name.
-	 * 
-	 * @param paramName
-	 * 			a parameter name
-	 * @return
-	 * 			the result of name decomposition
-	 */
-	private List<String> decomposeParameterName(String paramName) {
-		List<String> result = new ArrayList<String>();
-		result.add(paramName);
-		preprocessingStrategy = new LettercaseBasedDivision();
-		result = preprocessingStrategy.divide(result);
-		preprocessingStrategy = new NumberBasedDivision();
-		result = preprocessingStrategy.divide(result);
-		preprocessingStrategy = new TwoMajusOneMinusDecomposition();
-		result = preprocessingStrategy.divide(result);
-		preprocessingStrategy = new SeparatorBasedDivision("_");
-		result = preprocessingStrategy.divide(result);
-		preprocessingStrategy = new SeparatorBasedDivision("-");
-		result = preprocessingStrategy.divide(result);
-		preprocessingStrategy = new SeparatorBasedDivision(" ");
-		result = preprocessingStrategy.divide(result);
-		return result;
-	}
-	
-	/**
 	 * Service method decomposing a list of parameter names.
 	 * 
 	 * @param paramNames
@@ -121,6 +171,9 @@ public class DefaultPreprocessing implements PreprocessingSet{
 		return result;
 	}
 
+	///////////////////////////////////////////////////////////
+	//	NORMALIZATION						///////////////////
+	///////////////////////////////////////////////////////////
 	/**
 	 * Service method normalizing a parameter name
 	 * 
@@ -132,12 +185,20 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private List<String> normalizeParameterName(List<String> decompositionResult) {
 		List<String> result = decompositionResult;
 		preprocessingStrategy = new CharacterNormalization();
-		result = preprocessingStrategy.divide(result);
+		result = preprocessingStrategy.split(result);
 		preprocessingStrategy = new AbbreviationNormalization();
-		result = preprocessingStrategy.divide(result);
+		result = preprocessingStrategy.split(result);
 
 		return result;
 	}
+	
+	///////////////////////////////////////////////////////////
+	//	FILTERING							///////////////////
+	///////////////////////////////////////////////////////////
+	
+	
+	
+
 
 	/**
 	 * Service method filtering a parameter name
@@ -150,7 +211,7 @@ public class DefaultPreprocessing implements PreprocessingSet{
 	private List<String> filterParameterName(List<String> decompositionResult) {
 		List<String> result = decompositionResult;
 		preprocessingStrategy = new StopWordFiltering();
-		result = preprocessingStrategy.divide(result);
+		result = preprocessingStrategy.split(result);
 		return result;
 	}
 }

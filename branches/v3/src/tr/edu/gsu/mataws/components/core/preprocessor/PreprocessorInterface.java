@@ -1,0 +1,54 @@
+package tr.edu.gsu.mataws.components.core.preprocessor;
+
+/*
+ * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
+ * Copyright 2010 Cihan Aksoy and Koray Mançuhan
+ * Copyright 2011 Cihan Aksoy
+ * Copyright 2012 Cihan Aksoy and Vincent Labatut
+ * 
+ * This file is part of Mataws - Multimodal Automatic Tool for the Annotation of Web Services.
+ * 
+ * Mataws - Multimodal Automatic Tool for the Annotation of Web Services is 
+ * free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Mataws - Multimodal Automatic Tool for the Annotation of Web Services 
+ * is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Mataws - Multimodal Automatic Tool for the Annotation of Web Services.
+ * If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+import java.util.List;
+
+/**
+ * General interface of the preprocessor component.
+ *  
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
+ * @author Vincent Labatut
+ */
+public interface PreprocessorInterface
+{	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Takes a string and preprocesses it, 
+	 * which generally results in a list of strings.
+	 * 
+	 * @param string
+	 * 		Original string.
+	 * @return
+	 * 		The list of strings resulting from its preprocessing.
+	 */
+	public List<String> preprocess(String string);
+	
+}
