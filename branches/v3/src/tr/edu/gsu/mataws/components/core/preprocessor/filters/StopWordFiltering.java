@@ -42,7 +42,7 @@ import java.util.List;
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class StopWordFiltering implements FilteringStrategy{
+public class StopWordFiltering implements FilterInterface{
 
 	@Override
 	public List<String> divide(List<String> paramName) {

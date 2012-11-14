@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
+package tr.edu.gsu.mataws.components.core.preprocessor.splitters;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,23 +27,30 @@ package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
  */
 
 import java.util.List;
-import java.util.Locale;
-
 
 /**
- * Normalization Strategy which transforms upper case characters to lower case
- * characters in the list of little words of a parameter name.
- *   
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * Interface for classes in charge of splitting strings.
+ *  
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
+ * @author Vincent Labatut
  */
-public class CharacterNormalization implements NormalizerInterface {
-    @Override
-	public List<String> divide(List<String> paramName) {
-		List<String> results = paramName;
-		for(int i =0 ; i < results.size(); i++)
-			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));
-		return results;
-	}
-
+public interface SplitterInterface
+{
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Takes a list of strings and returns a list of their components 
+	 * resulting from the split implemented by this object.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
+	 * 
+	 * @param strings
+	 * 		The list of strings to be split. 
+	 * @return
+	 * 		A list of substrings resulting from the split.
+	 * 			
+	 */
+	public List<String> split(List<String> strings);
 }

@@ -29,15 +29,15 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import splitters.LettercaseBasedSplitter;
-import splitters.LexiconBasedSplitter;
-import splitters.NumberBasedSplitter;
-import splitters.SeparatorBasedSplitter;
-import splitters.SplitterInterface;
-import splitters.LexiconBasedSplitter.Mode;
 import tr.edu.gsu.mataws.components.core.preprocessor.filters.StopWordFiltering;
 import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.AbbreviationNormalization;
 import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.CharacterNormalization;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LettercaseBasedSplitter;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LexiconBasedSplitter;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.NumberBasedSplitter;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.SeparatorBasedSplitter;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.SplitterInterface;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LexiconBasedSplitter.Mode;
 import tr.edu.gsu.mataws.trace.TraceType;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 
@@ -49,55 +49,31 @@ import tr.edu.gsu.mataws.trace.TraceableParameter;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class DefaultPreprocessor implements PreprocessorInterface
+public class DefaultPreprocessor extends AbstractPreprocessor
 {	
-	/**
-	 * Initializes all the necessary object
-	 * for this preprocessor.
-	 */
-	public DefaultPreprocessor()
-	{	initDivide();
-		initNormalize();
-	}	initFilter();
-	
-	///////////////////////////////////////////////////////////
-	//	PROCESS								///////////////////
-	///////////////////////////////////////////////////////////
-	public List<String> preprocess(String string)
-	{	List<String> result = new ArrayList<String>();
-		result.add(string);
-		
-		result = split(result);
-		result = normalize(result);
-		result = filter(result);
-		
-		return result;
-	}
-
 	///////////////////////////////////////////////////////////
 	//	DIVISION							///////////////////
 	///////////////////////////////////////////////////////////
-	private final List<SplitterInterface> dividers = new ArrayList<SplitterInterface>();
 	
-	private void initDivide()
+	private void initSplitters()
 	{	SplitterInterface divider;
 	
 		divider = new SeparatorBasedSplitter("_");
-		dividers.add(divider);
+		splitters.add(divider);
 		divider = new SeparatorBasedSplitter("-");
-		dividers.add(divider);
+		splitters.add(divider);
 		divider = new SeparatorBasedSplitter(" ");
-		dividers.add(divider);
+		splitters.add(divider);
 		
 		divider = new NumberBasedSplitter();
-		dividers.add(divider);
+		splitters.add(divider);
 	
 		divider = new LettercaseBasedSplitter();
-		dividers.add(divider);
+		splitters.add(divider);
 		
 		divider = new LexiconBasedSplitter(Mode.JWORDSPLITTER);
 //		divider = new LexiconBasedDivision(Mode.WORDSPLIT);
-		dividers.add(divider);
+		splitters.add(divider);
 	}
 	
 	/**

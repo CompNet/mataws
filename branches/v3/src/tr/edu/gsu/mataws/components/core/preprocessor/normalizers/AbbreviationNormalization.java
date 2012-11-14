@@ -42,7 +42,7 @@ import java.util.List;
  * @author Koray Mancuhan & Cihan Aksoy
  *
  */
-public class AbbreviationNormalization implements NormalizationStrategy {
+public class AbbreviationNormalization implements NormalizerInterface {
 
 	@Override
 	public List<String> divide(List<String> paramName) {

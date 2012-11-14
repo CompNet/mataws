@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor;
+package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,26 +29,26 @@ package tr.edu.gsu.mataws.components.core.preprocessor;
 import java.util.List;
 
 /**
- * General interface of the preprocessor component.
+ * Interface for classes in charge of normalizing strings.
  *  
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface PreprocessorInterface
-{	
+public interface NormalizerInterface
+{
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a string and preprocesses it, 
-	 * which generally results in a list of strings.
+	 * Takes a list of strings and normalizes each one of them.
+	 * The resulting list can be empty, if the original list is empty.
 	 * 
-	 * @param string
-	 * 		Original string.
+	 * @param strings
+	 * 		The list of strings to be normalized. 
 	 * @return
-	 * 		The list of strings resulting from its preprocessing.
+	 * 		The list of strings obtained after the normalization.
+	 * 			
 	 */
-	public List<String> preprocess(String string);
-	
+	public List<String> normalize(List<String> strings);
 }
