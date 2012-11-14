@@ -28,23 +28,28 @@ package tr.edu.gsu.mataws.components.core.preprocessor.filters;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
 /**
- * Interface for various filtering strategies
+ * Interface for classes in charge of filtering strings.
  *  
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
+ * @author Vincent Labatut
  */
-public interface FilteringStrategy extends PreprocessingStrategy{
+public interface FilterInterface
+{
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
 	/**
-	 * Returns filtered little words of a parameter name.
+	 * Takes a list of strings and filters it.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
 	 * 
-	 * @param paramName
-	 * 			little words list of a parameter name. 
+	 * @param strings
+	 * 		The list of strings to be filtered. 
 	 * @return
-	 * 			filtered little words of a parameter name.
+	 * 		The list of strings remaining after the filtering.
 	 * 			
 	 */
-	public List<String> divide(List<String> paramName);
-
+	public List<String> filter(List<String> strings);
 }
