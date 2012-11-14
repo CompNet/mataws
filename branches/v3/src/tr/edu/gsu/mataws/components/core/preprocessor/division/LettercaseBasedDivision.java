@@ -32,17 +32,9 @@ import java.util.*;
  * Split a word according to the presence of change in the letter case
  * (i.e. lower/upper case). Empty strings are not returned.
  * <br/>
- * Two modes exist: single or double. Single looks for an uppercase followed
- * by a lowercase, double looks for two consecutive uppercase followed by a
- * lowercase.
+ * Example: {@code "MYParamOut"} -> {@code "MY"}, {@code "Param"}, {@code "Out"}
  * <br/>
- * Examples:
- * <ul> 
- * 	<li>simple mode: {@code "myParamOut"} -> {@code "my"}, {@code "Param"},{@code "Out"}</li>
- * 	<li>double mode: {@code "AParamOut"} -> {@code "A"},{@code "ParamOut"}</li>
- * </ul>
- * <br/>
- * Possible improvement: use a lexicon to determine only relevant split
+ * Possible improvement: use a lexicon to determine only relevant splits.
  * 
  * @author Koray Mancuhan
  * @author Cihan Aksoy
@@ -50,106 +42,108 @@ import java.util.*;
  */
 public class LettercaseBasedDivision implements DivisionInterface
 {	
-	public LettercaseBasedDivision(Mode mode)
-	{	this.mode = mode;
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	MODE								///////////////////
-	///////////////////////////////////////////////////////////
-	/** Current mode of this object */
-	private Mode mode;
-	
-	/**
-	 * Represents the functioning mode
-	 * of this processing.
-	 * 
-	 * @author Vincent Labatut
-	 */
-	public enum Mode
-	{	/** Looks for sequence of two uppercase letters followed by a lowercase one */
-		DOUBLE,
-		/** Looks for an uppercase letter followed by a lowercase one */
-		SIMPLE;
-	}
-
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(String name)
-	{	List<String> result;
-	
-		if(mode==Mode.SIMPLE)
-			result = simpleDivide(name);
-		else
-			result = doubleDivide(name);
-		
+	public List<String> divide(List<String> strings)
+	{	List<String> result = new ArrayList<String>();
+		// simple divide
+		for(String string1: strings)
+		{	List<String> strings2 = lowUpDivide(string1);
+			// double divide
+			for(String string2: strings2)
+			{	List<String> temp = upLowDivide(string2);
+				result.addAll(temp);
+			}
+		}
 		return result;
 	}
 	
-	public List<String> simpleDivide(String name)
+	/**
+	 * Looks for a lowercase followed  by an uppercase.
+	 * <br/>
+	 * Example: {@code "myParamOut"} -> {@code "my"}, {@code "Param"},{@code "Out"}
+	 * 
+	 * @param string
+	 * 		The string to be split.
+	 * @return
+	 * 		The corresponding list of substrings.
+	 */
+	public List<String> lowUpDivide(String string)
 	{	List<String> result = new ArrayList<String>();
 	
 		// too short to be split
-		if(name.length()<1)
-		{	result.add(name);
+		if(string.length()==1)
+		{	result.add(string);
 		}
 		
 		// regular case
-		else
+		else if(string.length()>1) 
 		{	// look for a change in letter case
-			for(int i=1; i<name.length(); i++)
-			{	char c0 = name.charAt(i-1);
-				char c1 = name.charAt(i);
+			for(int i=1; i<string.length(); i++)
+			{	char c0 = string.charAt(i-1);
+				char c1 = string.charAt(i);
 				if(Character.isLowerCase(c0) && Character.isUpperCase(c1))
 				{	// everything before the change is a word
-					String word = name.substring(0,i);
+					String word = string.substring(0,i);
 					result.add(word);
 					// the rest must be processed similarly
-					String rest = name.substring(i,name.length());
-					List<String> temp = simpleDivide(rest);
+					String rest = string.substring(i,string.length());
+					List<String> temp = lowUpDivide(rest);
 					result.addAll(temp);
 				}
 			}
 			
 			// if no split, then take the whole word
 			if(result.isEmpty())
-				result.add(name);
+				result.add(string);
 		}
 		
 		return result;		
 	}
 
-	public List<String> doubleDivide(String name)
+	/**
+	 * Looks for an uppercase followed by a lowercase.
+	 * Must be applied after the other process.
+	 * <br/>
+	 * Example: {@code "MYParamOut"} -> {@code "MY"}, {@code "ParamOut"}
+	 * 
+	 * @param string
+	 * 		The string to be split.
+	 * @return
+	 * 		The corresponding list of substrings.
+	 */
+	public List<String> upLowDivide(String string)
 	{	List<String> result = new ArrayList<String>();
 	
 		// too short to be split
-		if(name.length()<2)
-		{	result.add(name);
+		if(string.length()==1 || string.length()==2)
+		{	result.add(string);
 		}
 		
 		// regular case
-		else
-		{	// look for two consecutive uppercase letters followed by a lowercase one
-			for(int i=2; i<name.length(); i++)
-			{	char c0 = name.charAt(i-2);
-				char c1 = name.charAt(i-1);
-				char c2 = name.charAt(i);
-				if(Character.isUpperCase(c0) 
-						&& Character.isUpperCase(c1) 
-						&& Character.isLowerCase(c2))
-				{
-					String leftString=name.substring(0,i-1);
-					String rightString=name.substring(i-1, name.length());
-					result=new String[2];
-					result[0]=leftString;
-					result[1]=rightString;
-					break;
+		else if(string.length()>2) 
+		{	// look for a change in letter case
+			for(int i=2; i<string.length(); i++)
+			{	char c0 = string.charAt(i-1);
+				char c1 = string.charAt(i);
+				if(Character.isUpperCase(c0) && Character.isLowerCase(c1))
+				{	// everything before the change is a word
+					String word = string.substring(0,i-1);
+					result.add(word);
+					// the rest must be processed similarly
+					String rest = string.substring(i-1,string.length());
+					List<String> temp = lowUpDivide(rest);
+					result.addAll(temp);
 				}
-		}
+			}
+			
+			// if no split, then take the whole word
+			if(result.isEmpty())
+				result.add(string);
 		}
 		
-		return result;
+		return result;		
 	}
 }

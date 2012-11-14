@@ -15,7 +15,6 @@
 	<classpathentry kind="lib" path="lib/jcl-over-slf4j-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/jena-2.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/jwordsplitter.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-bin.jar" sourcepath="lib/owlapi-src.jar"/>

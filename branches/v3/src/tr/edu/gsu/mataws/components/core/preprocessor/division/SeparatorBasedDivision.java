@@ -54,18 +54,21 @@ public class SeparatorBasedDivision implements DivisionInterface {
 	///////////////////////////////////////////////////////////
 	//	SEPARATOR							///////////////////
 	///////////////////////////////////////////////////////////
+	/** Separator used to perform the split */
 	private String separator;
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(String name)
-	{	String temp[] = name.split(separator);
-		List<String> result = new ArrayList<String>();
-		for(String str: temp)
-		{	if(!str.isEmpty())
-				result.add(str);
+	public List<String> divide(List<String> strings)
+	{	List<String> result = new ArrayList<String>();
+		for(String string: strings)
+		{	String temp[] = string.split(separator);
+			for(String str: temp)
+			{	if(!str.isEmpty())
+					result.add(str);
+			}
 		}
 		return result;
 	}

@@ -26,43 +26,169 @@ package tr.edu.gsu.mataws.components.core.preprocessor.division;
  * 
  */
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
+import tr.edu.gsu.mataws.tools.FileTools;
 
+import com.whitemagicsoftware.wordsplit.TextSegmenter;
+
+import de.abelssoft.wordtools.jwordsplitter.impl.EnglishWordSplitter;
 
 /**
  * Splitting Strategy which separates contiguous words
  * into only one word by using JWordSplitter.
  *   
  * @author Cihan Aksoy
+ * @author Vincent Labatut
  *
- *TODO see other approaches
- * wordsplit: http://www.whitemagicsoftware.com/software/java/wordsplit
- * needs a lexicon with word frequencies, such as wordnet, or:
+ * TODO needs a lexicon with word frequencies, such as wordnet, or:
  * http://www.kilgarriff.co.uk/bnc-readme.html
  */
-public class LexiconBasedDivision implements DivisionInterface {
-
+public class LexiconBasedDivision implements DivisionInterface
+{	
+	/**
+	 * Buils a lexicon-based splitter using the
+	 * specified library: JWORDSPLITTER or WORDSPLIT.
+	 * 
+	 * @param mode
+	 * 		Represents the split library.
+	 */
+	public LexiconBasedDivision(Mode mode)
+	{	this.mode = mode;
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	MODE								///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Represents the functioning mode
+	 * of this processing. The focus is either
+	 * on the parameter name, or data type name.
+	 * 
+	 * @author Vincent Labatut
+	 */
+	public enum Mode
+	{	/** Use the JWordSplitter lib to split the name */
+		JWORDSPLITTER,
+		/** Use the WordSplit lib to split the name */
+		WORDSPLIT;
+	}
+	
+	/** Represents the library used to perform the split */
+	private Mode mode;
+	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(String name)
-	{
-		List<String> result = new ArrayList<String>();
-		try {
-			AbstractWordSplitter ws = new WrapperForEnglishWordSplitter(true);
-			for (String string : paramName) {
-				Collection<String> splits = ws.splitWord(string);
-				for (String string2 : splits) {
-					result.add(string2);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+	public List<String> divide(List<String> strings)
+	{	List<String> result = null;
+		if(mode==Mode.JWORDSPLITTER)
+			result = jwordsplitterDivide(strings);
+		else if(mode==Mode.WORDSPLIT)
+			result = wordsplitDivide(strings);
+		return result;
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	JWORDSPLITTER						///////////////////
+	///////////////////////////////////////////////////////////
+	/** JWordSplitter object */
+	private static EnglishWordSplitter jWordSplitter = null;
+	
+	/**
+	 * Initializes the JWordSplitter library.
+	 */
+	private void initJWordSplitter()
+	{	String path = FileTools.SPLITTER_FOLDER + File.separator + "wordsEnglish.ser";
+		try
+		{	EnglishWordSplitter.initWords(path);
+			jWordSplitter = new EnglishWordSplitter(true);
+		}
+		catch (IOException e)
+		{	// problem while loading the dictionary
 			e.printStackTrace();
 		}
+		catch (ClassNotFoundException e)
+		{	// problem while deserializing the dictionary
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Uses the JWordSplitter library to split the strings.
+	 * 
+	 * @param strings
+	 * 		List of strings to be split.
+	 * @return
+	 * 		List of resulting substrings.
+	 */
+	public List<String> jwordsplitterDivide(List<String> strings)
+	{	// possibly init the library
+		if(jWordSplitter == null)
+			initJWordSplitter();
+		
+		List<String> result = new ArrayList<String>();
+		for(String string: strings)
+		{	// apply the splitter
+			Collection<String> temp = jWordSplitter.splitWord(string);
+			for(String str : temp)
+			{	if(!str.isEmpty())
+					result.add(str);
+			}
+		}
+		
+		return result;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	WORDSPLIT							///////////////////
+	///////////////////////////////////////////////////////////
+	/** WordSplit object */
+	private static TextSegmenter wordSplit = null;
+	
+	/**
+	 * Initializes the WordSplit library
+	 */
+	private void initWordSplit()
+	{	wordSplit = new TextSegmenter();
+		String path = FileTools.SPLITTER_FOLDER + File.separator + "english.dic";
+		try
+		{	wordSplit.loadLexicon(path);
+		}
+		catch (IOException e)
+		{	// problem while loading the dictionary
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Uses the WordSplit library to split the strings.
+	 * 
+	 * @param strings
+	 * 		List of strings to be split.
+	 * @return
+	 * 		List of resulting substrings.
+	 */
+	public List<String> wordsplitDivide(List<String> strings)
+	{	// possibly init the library
+		if(wordSplit == null)
+			initWordSplit();
+
+		List<String> result = new ArrayList<String>();
+		for(String string: strings)
+		{	// apply the splitter
+			List<String> temp = wordSplit.split(string);
+			for(String str: temp)
+			{	if(!str.isEmpty())
+					result.add(str);
+			}
+		}
+	
 		return result;
 	}
 }
