@@ -35,7 +35,7 @@ import java.util.List;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface DivisionInterface
+public interface SplitterInterface
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
@@ -52,5 +52,5 @@ public interface DivisionInterface
 	 * 		A list of substrings resulting from the split.
 	 * 			
 	 */
-	public List<String> divide(List<String> strings);
+	public List<String> split(List<String> strings);
 }

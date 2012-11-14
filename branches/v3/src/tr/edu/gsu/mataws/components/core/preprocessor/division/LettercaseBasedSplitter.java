@@ -40,20 +40,20 @@ import java.util.*;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class LettercaseBasedDivision implements DivisionInterface
+public class LettercaseBasedSplitter implements SplitterInterface
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(List<String> strings)
+	public List<String> split(List<String> strings)
 	{	List<String> result = new ArrayList<String>();
-		// simple divide
+		// simple split
 		for(String string1: strings)
-		{	List<String> strings2 = lowUpDivide(string1);
-			// double divide
+		{	List<String> strings2 = lowUpSplit(string1);
+			// double split
 			for(String string2: strings2)
-			{	List<String> temp = upLowDivide(string2);
+			{	List<String> temp = upLowSplit(string2);
 				result.addAll(temp);
 			}
 		}
@@ -70,7 +70,7 @@ public class LettercaseBasedDivision implements DivisionInterface
 	 * @return
 	 * 		The corresponding list of substrings.
 	 */
-	public List<String> lowUpDivide(String string)
+	public List<String> lowUpSplit(String string)
 	{	List<String> result = new ArrayList<String>();
 	
 		// too short to be split
@@ -90,7 +90,7 @@ public class LettercaseBasedDivision implements DivisionInterface
 					result.add(word);
 					// the rest must be processed similarly
 					String rest = string.substring(i,string.length());
-					List<String> temp = lowUpDivide(rest);
+					List<String> temp = lowUpSplit(rest);
 					result.addAll(temp);
 				}
 			}
@@ -114,7 +114,7 @@ public class LettercaseBasedDivision implements DivisionInterface
 	 * @return
 	 * 		The corresponding list of substrings.
 	 */
-	public List<String> upLowDivide(String string)
+	public List<String> upLowSplit(String string)
 	{	List<String> result = new ArrayList<String>();
 	
 		// too short to be split
@@ -134,7 +134,7 @@ public class LettercaseBasedDivision implements DivisionInterface
 					result.add(word);
 					// the rest must be processed similarly
 					String rest = string.substring(i-1,string.length());
-					List<String> temp = lowUpDivide(rest);
+					List<String> temp = lowUpSplit(rest);
 					result.addAll(temp);
 				}
 			}

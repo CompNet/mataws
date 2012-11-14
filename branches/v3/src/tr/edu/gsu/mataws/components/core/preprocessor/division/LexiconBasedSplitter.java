@@ -48,7 +48,7 @@ import de.abelssoft.wordtools.jwordsplitter.impl.EnglishWordSplitter;
  * TODO needs a lexicon with word frequencies, such as wordnet, or:
  * http://www.kilgarriff.co.uk/bnc-readme.html
  */
-public class LexiconBasedDivision implements DivisionInterface
+public class LexiconBasedSplitter implements SplitterInterface
 {	
 	/**
 	 * Buils a lexicon-based splitter using the
@@ -57,7 +57,7 @@ public class LexiconBasedDivision implements DivisionInterface
 	 * @param mode
 	 * 		Represents the split library.
 	 */
-	public LexiconBasedDivision(Mode mode)
+	public LexiconBasedSplitter(Mode mode)
 	{	this.mode = mode;
 	}
 	
@@ -85,12 +85,12 @@ public class LexiconBasedDivision implements DivisionInterface
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(List<String> strings)
+	public List<String> split(List<String> strings)
 	{	List<String> result = null;
 		if(mode==Mode.JWORDSPLITTER)
-			result = jwordsplitterDivide(strings);
+			result = applyJWordSplitter(strings);
 		else if(mode==Mode.WORDSPLIT)
-			result = wordsplitDivide(strings);
+			result = applyWordSplit(strings);
 		return result;
 	}
 	
@@ -127,7 +127,7 @@ public class LexiconBasedDivision implements DivisionInterface
 	 * @return
 	 * 		List of resulting substrings.
 	 */
-	public List<String> jwordsplitterDivide(List<String> strings)
+	public List<String> applyJWordSplitter(List<String> strings)
 	{	// possibly init the library
 		if(jWordSplitter == null)
 			initJWordSplitter();
@@ -174,7 +174,7 @@ public class LexiconBasedDivision implements DivisionInterface
 	 * @return
 	 * 		List of resulting substrings.
 	 */
-	public List<String> wordsplitDivide(List<String> strings)
+	public List<String> applyWordSplit(List<String> strings)
 	{	// possibly init the library
 		if(wordSplit == null)
 			initWordSplit();

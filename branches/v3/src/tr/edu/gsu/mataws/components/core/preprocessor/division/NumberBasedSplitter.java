@@ -38,13 +38,13 @@ import java.util.*;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class NumberBasedDivision implements DivisionInterface
+public class NumberBasedSplitter implements SplitterInterface
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(List<String> strings)
+	public List<String> split(List<String> strings)
 	{	List<String> result = new ArrayList<String>();
 		for(String string: strings)
 		{	String temp[] = string.split("[0-9]");
