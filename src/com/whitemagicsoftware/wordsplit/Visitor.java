@@ -8,13 +8,13 @@ import java.util.List;
  * text splitting.
  */
 public interface Visitor {
-  /**
-   * Returns details about the likelihood that the given list of words will
-   * solve the text splitting problem.
-   *
-   * @param list - The list of split words.
-   * @return ?
-   */
-  @SuppressWarnings("rawtypes")
-  public SegmentAnalysis visit( List list );
+	/**
+	 * Returns details about the likelihood that the given list of words will
+	 * solve the text splitting problem.
+	 *
+	 * @param list - The list of split words.
+	 * @return ?
+	 */
+	@SuppressWarnings("rawtypes")
+	public SegmentAnalysis visit( List list );
 }
