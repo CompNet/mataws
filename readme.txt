@@ -136,7 +136,8 @@ TODO    Class com.articulate.sigma.WordNet has been modified by initializing a c
   + Simmetrics 1_6_2_d07_02_07
     Sam Chapman & Fabio Ciravegna
     http://sourceforge.net/projects/simmetrics/
-    Used by Sine to syntactically compare strings
+    Used by Sine to syntactically compare strings.
+    Used by Mataws to compare words in WordNet synsets.
 
   + SL4J v1.5.8 - Simple Logging Facade for Java
     QOS.ch

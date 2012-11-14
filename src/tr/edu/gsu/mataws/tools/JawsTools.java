@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
+package tr.edu.gsu.mataws.tools;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,24 +26,38 @@ package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
  * 
  */
 
-import java.util.List;
-import java.util.Locale;
-
+import edu.smu.tspell.wordnet.WordNetDatabase;
 
 /**
- * Normalization Strategy which transforms upper case characters to lower case
- * characters in the list of little words of a parameter name.
- *   
- * @author Koray Mancuhan & Cihan Aksoy
- *
+ * This class contains various methods and variables used all over the
+ * software when accessing Jaws.
+ * 
+ * @author Vincent Labatut
  */
-public class CharacterNormalization implements NormalizerInterface {
-    @Override
-	public List<String> divide(List<String> paramName) {
-		List<String> results = paramName;
-		for(int i =0 ; i < results.size(); i++)
-			results.set(i, results.get(i).toLowerCase(Locale.ENGLISH));
-		return results;
+public class JawsTools
+{	
+	/** Object allowing accessing WordNet through the Jaws library */
+	private static WordNetDatabase jawsObject = null;
+	
+	/**
+	 * Initializes the Jaws library once and for all
+	 */
+	private static void initJaws()
+	{	System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER);
+		jawsObject = WordNetDatabase.getFileInstance();
 	}
-
+	
+	/**
+	 * Returns the object allowing accessing WordNet
+	 * through the Jaws library. Initializes this object
+	 * if necessary.
+	 * 
+	 * @return
+	 * 		The object granting access to the Jaws library.
+	 */
+	public static WordNetDatabase getJawsObject()
+	{	if(jawsObject==null)
+			initJaws();
+		return jawsObject;
+	}
 }

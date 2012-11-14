@@ -47,6 +47,9 @@ import de.abelssoft.wordtools.jwordsplitter.impl.EnglishWordSplitter;
  *
  * TODO needs a lexicon with word frequencies, such as wordnet, or:
  * http://www.kilgarriff.co.uk/bnc-readme.html
+ * 
+ * TODO question: are the libs case-sensitive?
+ * if yes, then the strings can be lowered here (temporary)
  */
 public class LexiconBasedSplitter implements SplitterInterface
 {	

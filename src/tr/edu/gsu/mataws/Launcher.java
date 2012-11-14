@@ -214,3 +214,15 @@ public class Launcher
 		return result;
 	}
 }
+
+
+/* TODO TODO
+ * 
+ * - unlike the explanations in the paper, the diacritic marks are 
+ *   removed in the normalization phase, and not in the split phase.
+ *   
+ * - it might be interesting not to use the stems in the preprocessing,
+ *   because the form of the word can be used to determine its grammatical type
+ *   and/or meaning. to this cleaning should be let to a latter time 
+ *   (might still be required for Sigma)
+ */

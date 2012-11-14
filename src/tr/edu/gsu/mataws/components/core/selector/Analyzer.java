@@ -40,6 +40,14 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 
 public class Analyzer {
 
+	/**
+	 * TODO
+	 * each word should first be turned to a synset, and then we work on synset
+	 * (or we can keep a trace of the original word)
+	 * question: is it possible to retrieve the sigma concept directly from the
+	 * synset id ?
+	 * 
+	 */
 	private AnalysisType analysisType = AnalysisType.NoAnalysis;
 	private WordNetDatabase wd;
 	

@@ -104,7 +104,7 @@ public abstract class AbstractPreprocessor
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	NORMALIZE							///////////////////
+	//	NORMALIZATION						///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of normalizes applied as is */
 	protected final List<NormalizerInterface> normalizers = new ArrayList<NormalizerInterface>();
@@ -132,7 +132,7 @@ public abstract class AbstractPreprocessor
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	FILTER								///////////////////
+	//	FILTERING							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of filters applied as is */
 	protected final List<FilterInterface> filters = new ArrayList<FilterInterface>();

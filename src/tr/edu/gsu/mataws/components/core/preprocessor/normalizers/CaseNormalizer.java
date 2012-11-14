@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.tools;
+package tr.edu.gsu.mataws.components.core.preprocessor.normalizers;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,28 +26,35 @@ package tr.edu.gsu.mataws.tools;
  * 
  */
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
- * This class contains various methods and variables used all over the
- * software to retrieve files.
- * 
+ * Transform uppercase letters into their lowercase equivalent.
+ * This process is not applied if the whole word is in uppercase letters,
+ * because it might be an acronym.
+ *   
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class FileTools
-{	/** Folder containing the original syntactic description files */
-	public static final String INPUT_FOLDER = "input";
-	/** Folder containing the generated semantic description files */
-	public static final String OUTPUT_FOLDER = "output";
-	
-	/** General folder for Mataws resources */
-	public static final String RESOURCES_FOLDER = "resource";
-	/** Folder containing Mataws configuration files  */
-	public static final String CONFIG_FOLDER = RESOURCES_FOLDER + File.separator + "config";
-	/** Folder containing Sigma's Knowledge bases */
-	public static final String KNOWBASE_FOLDER = RESOURCES_FOLDER + File.separator + "kbs";
-	/** Folder containing the dictionary for the word splitter */
-	public static final String SPLITTER_FOLDER = RESOURCES_FOLDER + File.separator + "splitter";
-	/** Folder containing WordNet, for JAWS */
-	public static final String WORDNET_FOLDER = RESOURCES_FOLDER + File.separator + "wordnet";
+public class CaseNormalizer implements NormalizerInterface
+{	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+    @Override
+	public List<String> normalize(List<String> strings)
+	{	List<String> result = new ArrayList<String>();
+		
+		for(String string: strings)
+		{	String temp = string;
+			if(string.length()>1 && !Character.isUpperCase(string.charAt(1)))
+				temp = string.toLowerCase(Locale.ENGLISH);
+			result.add(temp);
+		}
+		
+		return result;
+	}
 }

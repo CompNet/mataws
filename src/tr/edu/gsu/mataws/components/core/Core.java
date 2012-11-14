@@ -33,11 +33,11 @@ import java.util.Queue;
 
 import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.mataws.components.core.associator.Associator;
-import tr.edu.gsu.mataws.components.core.preprocessor.DefaultPreprocessing;
-import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingSet;
+import tr.edu.gsu.mataws.components.core.preprocessor.DefaultPreprocessor;
+import tr.edu.gsu.mataws.components.core.preprocessor.AbstractPreprocessor;
 import tr.edu.gsu.mataws.components.core.preprocessor.PreprocessingStrategy;
-import tr.edu.gsu.mataws.components.core.preprocessor.division.LexiconBasedDivision;
-import tr.edu.gsu.mataws.components.core.preprocessor.normalization.JawsPurificationImpl;
+import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.StemNormalizer;
+import tr.edu.gsu.mataws.components.core.preprocessor.splitters.LexiconBasedSplitter;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 
@@ -53,7 +53,7 @@ import com.articulate.sigma.WordNet;
  */
 public class Core
 {	
-	private PreprocessingSet preprocessingSet;
+	private AbstractPreprocessor preprocessingSet;
 	private PreprocessingStrategy preprocessingStrategy;
 	
 	public List<String> process(Queue<Node> queue){
@@ -161,7 +161,7 @@ public class Core
 		List<String> result = new ArrayList<String>();
 		
 		//default preprocessing is applied
-		preprocessingSet = new DefaultPreprocessing();
+		preprocessingSet = new DefaultPreprocessor();
 		result = preprocessingSet.processName(tp, toProcess);
 
 		//purifying operation is applied if necessary
@@ -176,8 +176,8 @@ public class Core
 		}
 		List<String> purifiedWords = new ArrayList<String>();
 		if(nonAnnotableWords.size()>0){
-			preprocessingStrategy = new JawsPurificationImpl();
-			purifiedWords = preprocessingStrategy.divide(nonAnnotableWords);
+			preprocessingStrategy = new StemNormalizer();
+			purifiedWords = preprocessingStrategy.split(nonAnnotableWords);
 		}
 		List<String> nonAnnotableWords2 = new ArrayList<String>();
 		for (String string : purifiedWords) {
@@ -191,8 +191,8 @@ public class Core
 		//splitting operation is applied if necessary
 		List<String> splittedWords = new ArrayList<String>();
 		if(nonAnnotableWords2.size()>0){
-			preprocessingStrategy = new LexiconBasedDivision();
-			splittedWords = preprocessingStrategy.divide(nonAnnotableWords2);
+			preprocessingStrategy = new LexiconBasedSplitter();
+			splittedWords = preprocessingStrategy.split(nonAnnotableWords2);
 		}
 		for (String string : splittedWords) {
 			result.add(string);
