@@ -39,7 +39,7 @@ import java.util.List;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class SeparatorBasedDivision implements DivisionInterface {
+public class SeparatorBasedSplitter implements SplitterInterface {
 	
 	/**
 	 * Creates an instance for the specified separator string.
@@ -47,7 +47,7 @@ public class SeparatorBasedDivision implements DivisionInterface {
 	 * @param separator
 	 * 		String separating substring.
 	 */
-	public SeparatorBasedDivision(String separator)
+	public SeparatorBasedSplitter(String separator)
 	{	this.separator = separator;
 	}
 	
@@ -61,7 +61,7 @@ public class SeparatorBasedDivision implements DivisionInterface {
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(List<String> strings)
+	public List<String> split(List<String> strings)
 	{	List<String> result = new ArrayList<String>();
 		for(String string: strings)
 		{	String temp[] = string.split(separator);
