@@ -41,16 +41,16 @@ public interface DivisionInterface
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a string and returns a list of its components 
+	 * Takes a list of strings and returns a list of their components 
 	 * resulting from the split implemented by this object.
-	 * The list can be empty, if the original string contains
-	 * only noise.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
 	 * 
-	 * @param name
-	 * 		The string to be split. 
+	 * @param strings
+	 * 		The list of strings to be split. 
 	 * @return
 	 * 		A list of substrings resulting from the split.
 	 * 			
 	 */
-	public List<String> divide(String name);
+	public List<String> divide(List<String> strings);
 }

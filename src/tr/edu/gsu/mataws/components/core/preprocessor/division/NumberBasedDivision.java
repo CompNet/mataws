@@ -44,12 +44,14 @@ public class NumberBasedDivision implements DivisionInterface
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<String> divide(String name)
-	{	String temp[] = name.split("[0-9]");
-		List<String> result = new ArrayList<String>();
-		for(String str: temp)
-		{	if(!str.isEmpty())
-				result.add(str);
+	public List<String> divide(List<String> strings)
+	{	List<String> result = new ArrayList<String>();
+		for(String string: strings)
+		{	String temp[] = string.split("[0-9]");
+			for(String str: temp)
+			{	if(!str.isEmpty())
+					result.add(str);
+			}
 		}
 		return result;
 	}

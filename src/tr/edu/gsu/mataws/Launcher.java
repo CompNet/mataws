@@ -103,6 +103,7 @@ public class Launcher
 		KBmanager.getMgr().setPref("kbDir", FileTools.KNOWBASE_FOLDER);
         WordNet.initOnce();
         
+        // TODO init jwordsplitter
 		
 		statistics = StatData.getInstance();
 		statWriter = new StatWritter();

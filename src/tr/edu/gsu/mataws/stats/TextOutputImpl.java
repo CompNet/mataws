@@ -1,30 +1,27 @@
-package tr.edu.gsu.mataws.stats;
-
 /*
- * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
- * Copyright 2010 Cihan Aksoy and Koray Mançuhan
- * Copyright 2011 Cihan Aksoy
- * Copyright 2012 Cihan Aksoy and Vincent Labatut
+ * Mataws - Multimodal Automatic Tool for the Annotation of  Web Services
+ * Copyright 2011 Cihan Aksoy & Koray Mançuhan
  * 
- * This file is part of Mataws - Multimodal Automatic Tool for the Annotation of Web Services.
+ * This file is part of Mataws - Multimodal Automatic Tool for the Annotation of  Web Services.
  * 
- * Mataws - Multimodal Automatic Tool for the Annotation of Web Services is 
+ * Mataws - Multimodal Automatic Tool for the Annotation of  Web Services is 
  * free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  * 
- * Mataws - Multimodal Automatic Tool for the Annotation of Web Services 
+ * Mataws - Multimodal Automatic Tool for the Annotation of  Web Services 
  * is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Mataws - Multimodal Automatic Tool for the Annotation of Web Services.
+ * along with Mataws - Multimodal Automatic Tool for the Annotation of  Web Services.
  * If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+package tr.edu.gsu.mataws.stats;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,27 +31,28 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.core.selector.AnalysisType;
-import tr.edu.gsu.mataws.trace.TraceType;
-import tr.edu.gsu.mataws.trace.TraceableParameter;
+import tr.edu.gsu.mataws.analyzer.AnalysisType;
+import tr.edu.gsu.mataws.components.TraceType;
+import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.output.Output;
+import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 
 /**
  * This class which is an implementation of Output, prepares
  * a string representation of results and saves it as a text file.
  * 
- * @author Cihan Aksoy
- * @author Koray Mancuhan
+ * @author Koray Mancuhan & Cihan Aksoy
+ *
  */
-public class StatWritter
-{
+public class TextOutputImpl implements Output{
 
 	private String result;
-	private StatData statistics;
+	private StatisticsUtil statistics;
 	private NumberFormat numberFormat;
 	
-	public StatWritter(){
+	public TextOutputImpl(){
 		result = "";
-		statistics = StatData.getInstance();
+		statistics = StatisticsUtil.getInstance();
 		numberFormat = new DecimalFormat("#.00");
 	}
 	
@@ -64,29 +62,34 @@ public class StatWritter
 		
 		String string = tParameter.getName();
 		if (preprocessingResult.size() != 0) {
+			string += ",";
 			if (!tParameter.getName().equals(preprocessingResult.get(0))) {
 				for (int i = 0; i < preprocessingResult.size(); i++) {
-					string += ("," + preprocessingResult.get(i));
+					string += (preprocessingResult.get(i)) + "#";
 				}
 			}
 			else{
 				for (int i = 1; i < preprocessingResult.size(); i++) {
-					string += ("," + preprocessingResult.get(i));
+					string += (preprocessingResult.get(i)) + "#";
 				}
 			}
+			
+			string = string.substring(0, string.length()-1);
+			
 			string += "," + wordToAnnotate;
-			string += "," + analysisType;
 			string += "," + concept;
+			string += "," + analysisType;
+			
+			string += ",";
 			
 			for (TraceType tt : tParameter.getTraceList()) {
-				string += "," + tt.toString();
-			}
-			for(String string2:tParameter.getControlList()){
-				string += "," + string2;
+				string += tt.toString() + "|";
 			}
 			
+			string = string.substring(0, string.length()-1);
+			
 		} else {
-			string += ",NoMatch";
+			string += ",,,,,,NoMatch";
 		}
 		result += string + "\n" ;
 	}
@@ -99,6 +102,9 @@ public class StatWritter
 			
 			String annotationResultForTotalParams = numberFormat.format(((double)statistics.getAnnotatedParameters().size() / statistics.getAllParameterObjects().size()) * 100);
 			String annotationResultForDifferentParams = numberFormat.format(((double)statistics.getDifferentAnnotatedParameters().size() / statistics.getAllDifferentParameters().size()) * 100);
+			
+			String annotationResultForTotalWords = numberFormat.format(((double)statistics.getAnnotatedWords().size() / statistics.getAllWords().size()) * 100);
+			String annotationResultForDifferentWords = numberFormat.format(((double)statistics.getDifferentAnnotatedWords().size() / statistics.getAllDifferentWords().size()) * 100);
 			
 			result += "\n\n";
 			result += "******************************Statistics******************************"+"\n";
@@ -118,6 +124,22 @@ public class StatWritter
 			result += "        Number of unique annotated parameters: "+statistics.getDifferentAnnotatedParameters().size()+"\n";
 			result += "        Number of unique non-annotated parameters: "+statistics.getDifferentNonAnnotatedParameters().size()+"\n";
 			result += "        Percent of unique annotated parameters: "+annotationResultForDifferentParams+"\n";
+			result += "*                                                                    *"+"\n";
+			result += "* ****************************************************************** *"+"\n";
+			result += "* *                         Word Statistics                        * *"+"\n";
+			result += "* ****************************************************************** *"+"\n";
+			result += "* *                          Total Results                         * *"+"\n";
+			result += "* *     ******************************************************     * *"+"\n";
+			result += "        Total number of words: "+statistics.getAllWords().size()+"\n";
+			result += "        Number of annotated words: "+statistics.getAnnotatedWords().size()+"\n";
+			result += "        Number of non-annotated words: "+statistics.getNonAnnotatedWords().size()+"\n";
+			result += "        Percent of annotated words: "+annotationResultForTotalWords+"\n";
+			result += "* *                         Unique Results                         * *"+"\n";
+			result += "* *     ******************************************************     * *"+"\n";
+			result += "        Number of unique words: "+statistics.getAllDifferentWords().size()+"\n";
+			result += "        Number of unique annotated words: "+statistics.getDifferentAnnotatedWords().size()+"\n";
+			result += "        Number of unique non-annotated words: "+statistics.getDifferentNonAnnotatedWords().size()+"\n";
+			result += "        Percent of unique annotated words: "+annotationResultForDifferentWords+"\n";
 			result += "* ****************************************************************** *"+"\n";
 			result += "*                                                                    *"+"\n";
 			result += "* *                        Analyze Statistics                      * *"+"\n";
@@ -133,9 +155,13 @@ public class StatWritter
 			result += "        Number of NounAdjunct: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.NounAdjunct)+"\n";
 			result += "        Number of NoAnalysis: "+statistics.getAnalyzeTypesCounter().get(AnalysisType.NoAnalysis)+"\n";
 			result += "* ****************************************************************** *"+"\n";
-			result += "* *                             MATAWS                             * *"+"\n";
+			result += "* *                           MATAWS v1.4                          * *"+"\n";
 			result += "**********************************************************************"+"\n";
 
+			//word statistics will be integrated with the table above
+			
+			
+			
 			bw.write(result);
 			bw.close();
 		} catch (IOException e) {

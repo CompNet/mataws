@@ -90,6 +90,7 @@ This product includes the following softwares:
     Daniel Naber
     http://www.danielnaber.de/jwordsplitter/index_en.html
     Used by Mataws to split strings.
+    Modified to allow a programmatic access.
     
   + Log4J v1.2.14
     Apache Foundation
@@ -160,6 +161,12 @@ TODO    Class com.articulate.sigma.WordNet has been modified by initializing a c
     Codehaus
     http://woodstox.codehaus.org/
     Required by OWL-S API
+  
+  + WordSplit v0.0.26
+    White Magic Software
+    http://www.whitemagicsoftware.com/software/java/wordsplit/
+    Used by Mataws to split parameter and type names.
+    Modified to allow a programmatic access.
 
   + Xerces v2.7.1 - A processor for parsing, validating, serializing and manipulating XML
     Apache Foundation
