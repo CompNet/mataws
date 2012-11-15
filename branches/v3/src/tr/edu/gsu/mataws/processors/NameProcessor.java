@@ -28,13 +28,31 @@ package tr.edu.gsu.mataws.processors;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.components.core.preprocessor.AbstractPreprocessor;
+import tr.edu.gsu.mataws.components.core.preprocessor.DefaultPreprocessor;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
+ * This class is in charge for processing
+ * parameter and type names. It first preprocess
+ * them, then apply a selector, and finally
+ * an associator to get the concept associated
+ * to the original name.
+ * 
  * @author Vincent Labatut
  */
 public class NameProcessor
 {	
+	/**
+	 * Construit un processeur de nom.
+	 * 
+	 */
+	public NameProcessor()
+	{	preprocessor = new DefaultPreprocessor();
+		
+		
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	MODE								///////////////////
 	///////////////////////////////////////////////////////////
@@ -55,6 +73,9 @@ public class NameProcessor
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Preprocessor in charge of the first step */
+	private static AbstractPreprocessor preprocessor;
+	
 	// mode=parameter or type
 	// returns true if one concept could be retrieved
 	public static boolean process(MatawsParameter parameter, Mode mode)
@@ -68,16 +89,13 @@ public class NameProcessor
 			string = parameter.getTypeName();
 	
 		// perform preprocessing
-		List<String> strings = null;
-		// TODO call to Preprocessor
+		List<String> strings = preprocessor.preprocess(string);
 		if(!strings.isEmpty())
-		{	
-			// select representative word
+		{	// select representative word
 			String representativeWord = null;
 			// TODO call to Selector
 			if(representativeWord!=null)
 			{	parameter.setRepresentativeWord(representativeWord);
-				
 				// associate concept
 				String concept = null;
 				// TODO call to Associator
