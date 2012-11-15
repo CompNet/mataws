@@ -27,6 +27,7 @@ package tr.edu.gsu.mataws.component.core.selector;
  */
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import tr.edu.gsu.mataws.component.core.selector.identifier.IdentifierInterface;
@@ -80,7 +81,9 @@ public abstract class AbstractSelector<T>
 		
 		// result
 		IdentifiedWord<T> result = null;
-		if(!temp.isEmpty())
+		if(temp.size()>1)
+			throw new IllegalArgumentException("Problem during selection: final word list should not contain more than one word.");
+		else if(!temp.isEmpty())
 			result = temp.get(0);
 		
 		return result;
@@ -121,12 +124,23 @@ public abstract class AbstractSelector<T>
 
 	/**
 	 * Applies the sequence of simplifiers.
+	 * After this process, there should remain
+	 * only either one word, or none at all.
 	 * 
 	 * @param words
 	 * 		List of words to be processed.
 	 */
 	protected void simplify(List<IdentifiedWord<T>> words)
-	{	for(SimplifierInterface<T> simplifier: simplifiers)
-			simplifier.simplify(words);
+	{	// repeat the whole process as long as at least one simplifier is successful
+		boolean effect;
+		do
+		{	effect = false;
+			Iterator<SimplifierInterface<T>> it = simplifiers.iterator();
+			while(it.hasNext() && words.size()>1)
+			{	SimplifierInterface<T> simplifier = it.next();
+				effect = simplifier.simplify(words) || effect;
+			}
+		}
+		while(effect);
 	}
 }

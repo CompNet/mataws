@@ -141,6 +141,16 @@ public class AbbreviationNormalizer implements NormalizerInterface
 		
 		if(caseSensitive)
 		{	for(String string: strings)
+			{	String fullWord = abbreviations.get(string);
+				if(fullWord==null)
+					result.add(string);
+				else
+					result.add(fullWord);
+			}
+		}
+		
+		else
+		{	for(String string: strings)
 			{	boolean found = false;
 				Iterator<Entry<String,String>> it = abbreviations.entrySet().iterator();
 				while(it.hasNext() && !found)
@@ -152,16 +162,6 @@ public class AbbreviationNormalizer implements NormalizerInterface
 				}
 				if(!found)
 					result.add(string);
-			}
-		}
-		
-		else
-		{	for(String string: strings)
-			{	String fullWord = abbreviations.get(string);
-				if(fullWord==null)
-					result.add(string);
-				else
-					result.add(fullWord);
 			}
 		}
 		

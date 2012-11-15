@@ -27,6 +27,7 @@ package tr.edu.gsu.mataws.component.core.preprocessor;
  */
 
 import tr.edu.gsu.mataws.component.core.preprocessor.filter.FilterInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.filter.RedundancyFilter;
 import tr.edu.gsu.mataws.component.core.preprocessor.filter.StopWordFilter;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.AbbreviationNormalizer;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.CaseNormalizer;
@@ -102,6 +103,9 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 	{	FilterInterface filter;
 	
 		filter = new StopWordFilter();
+		filters.add(filter);
+		
+		filter = new RedundancyFilter();
 		filters.add(filter);
 	}
 }

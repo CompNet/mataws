@@ -132,6 +132,13 @@ public class StopWordFilter implements FilterInterface
 		
 		if(caseSensitive)
 		{	for(String string: strings)
+			{	if(!stopWords.contains(string))
+					result.add(string);
+			}
+		}
+		
+		else
+		{	for(String string: strings)
 			{	boolean found = false;
 				Iterator<String> it = stopWords.iterator();
 				while(it.hasNext() && !found)
@@ -139,13 +146,6 @@ public class StopWordFilter implements FilterInterface
 					found = stopWord.equalsIgnoreCase(string);
 				}
 				if(!found)
-					result.add(string);
-			}
-		}
-		
-		else
-		{	for(String string: strings)
-			{	if(!stopWords.contains(string))
 					result.add(string);
 			}
 		}

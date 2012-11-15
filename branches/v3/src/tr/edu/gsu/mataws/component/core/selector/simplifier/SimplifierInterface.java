@@ -47,12 +47,15 @@ public interface SimplifierInterface<T>
 	 * Takes a list of words and tries to simplify it,
 	 * i.e. to reduce its size while minimizing the information
 	 * loss caused by this operation.
+	 * <br/>
+	 * The returned boolean indicates whether or not the
+	 * simplifier could actually simplify the original list. 
 	 * 
 	 * @param words
 	 * 		The list of strings to be simplified. 
 	 * @return
-	 * 		A simplified list of words
+	 * 		{@code true} iff the simplifier could simplify the list.
 	 * 			
 	 */
-	public List<IdentifiedWord<T>> simplify(List<IdentifiedWord<T>> words);
+	public boolean simplify(List<IdentifiedWord<T>> words);
 }
