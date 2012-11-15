@@ -42,11 +42,13 @@ import edu.mit.jwi.morph.WordnetStemmer;
 /**
  * This class contains various methods and variables used 
  * all over the software when accessing WordNet through JWI.
- * 
- * Notes:
- * - IIndexWord = unique form (lemma + pos)
- * - IWord = instance of unique form (IIndexWord + synset)
- * - ISynset = synset (meaning + set of IWord)
+ * <br/>
+ * Note to self:
+ * <ul>
+ * <li>{@code IIndexWord} = unique form, characterized by: lemma + pos.</li>
+ * <li>{@code IWord} = instance of unique form, characterized by: index word + meaning).</li>
+ * <li>{@code ISynset} = all IWord with the same meaning.</li>
+ * </ul>
  * 
  * @author Vincent Labatut
  */
@@ -92,6 +94,19 @@ public class JwiTools
 		return access;
 	}
 
+	/**
+	 * Returns an object allowing to access the
+	 * stem of words recorded in WordNet.
+	 * 
+	 * @return
+	 * 		A WordNet stemmer.
+	 */
+	public static WordnetStemmer getStemmer()
+	{	if(stemmer==null)
+			init();
+		return stemmer;
+	}
+	
 	/**
 	 * Retrieves the stem of the specified word
 	 * from WordNet, even when the POS in unknown.
