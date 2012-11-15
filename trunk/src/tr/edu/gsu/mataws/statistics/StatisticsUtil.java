@@ -136,20 +136,25 @@ public class StatisticsUtil {
 		/////////////////////////////////////////////////////////////////////
 		//////////////WORD STATISTICS////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
-		for (String string : preprocessingResult) {
-			allWords.add(string);
-			if(!SigmaUtil.findConcept(string).equals("NoMatch"))
-				annotatedWords.add(string);
-			else
-				nonAnnotatedWords.add(string);
-			
-			if(!allDifferentWords.contains(string)){
-				allDifferentWords.add(string);
-				if(!SigmaUtil.findConcept(string).equals("NoMatch"))
-					differentAnnotatedWords.add(string);
-				else
-					differentNonAnnotatedWords.add(string);
+		allWords.add(wordToAnnotate);
+		if(!concept.equals("NoMatch"))
+			annotatedWords.add(wordToAnnotate);
+		else
+			nonAnnotatedWords.add(wordToAnnotate);
+		
+		boolean b = false;
+		for (String string : allDifferentWords) {
+			if(string.equalsIgnoreCase(wordToAnnotate)){
+				b = true;
+				break;
 			}
+		}
+		if(!b){
+			allDifferentWords.add(wordToAnnotate);
+			if(!concept.equals("NoMatch"))
+				differentAnnotatedWords.add(wordToAnnotate);
+			else
+				differentNonAnnotatedWords.add(wordToAnnotate);
 		}
 		
 		
