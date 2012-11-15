@@ -27,18 +27,20 @@ package tr.edu.gsu.mataws.component.core.preprocessor;
  */
 
 import tr.edu.gsu.mataws.component.core.preprocessor.filter.FilterInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.filter.LengthFilter;
 import tr.edu.gsu.mataws.component.core.preprocessor.filter.RedundancyFilter;
 import tr.edu.gsu.mataws.component.core.preprocessor.filter.StopWordFilter;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.AbbreviationNormalizer;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.CaseNormalizer;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.DiacriticsNormalizer;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.NormalizerInterface;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LettercaseBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.NumberBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SeparatorBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LetterCaseSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.NumberSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SeparatorSplitter;
 import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SplitterInterface;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconBasedSplitter.Mode;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconSplitter.Mode;
 
 /**
  * Series of processings corresponding to the
@@ -57,20 +59,20 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 	protected void initSplitters()
 	{	SplitterInterface splitter;
 	
-		splitter = new SeparatorBasedSplitter("_");
+		splitter = new SeparatorSplitter("_");
 		splitters.add(splitter);
-		splitter = new SeparatorBasedSplitter("-");
+		splitter = new SeparatorSplitter("-");
 		splitters.add(splitter);
-		splitter = new SeparatorBasedSplitter(" ");
+		splitter = new SeparatorSplitter(" ");
 		splitters.add(splitter);
 		
-		splitter = new NumberBasedSplitter();
+		splitter = new NumberSplitter();
 		splitters.add(splitter);
 	
-		splitter = new LettercaseBasedSplitter();
+		splitter = new LetterCaseSplitter();
 		splitters.add(splitter);
 		
-		splitter = new LexiconBasedSplitter(Mode.JWORDSPLITTER);
+		splitter = new LexiconSplitter(Mode.JWORDSPLITTER);
 //		splitter = new LexiconBasedDivision(Mode.WORDSPLIT);	//TODO to be tested
 		splitters.add(splitter);
 	}
@@ -89,6 +91,10 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 		normalizer = new AbbreviationNormalizer();
 		normalizers.add(normalizer);
 
+		// TODO is this one really necessary?
+		normalizer = new DiacriticsNormalizer();
+		normalizers.add(normalizer);
+		
 		// TODO seems a better idea not to do that here, because it causes information loss
 		normalizer = new StemNormalizer(tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer.Mode.JWAS);
 //		normalizer = new StemNormalizer(tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer.Mode.JWI);
@@ -106,6 +112,9 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 		filters.add(filter);
 		
 		filter = new RedundancyFilter();
+		filters.add(filter);
+		
+		filter = new LengthFilter(1);
 		filters.add(filter);
 	}
 }

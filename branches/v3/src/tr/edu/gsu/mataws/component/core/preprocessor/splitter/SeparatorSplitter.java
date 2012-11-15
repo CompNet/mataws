@@ -39,7 +39,7 @@ import java.util.List;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class SeparatorBasedSplitter implements SplitterInterface {
+public class SeparatorSplitter implements SplitterInterface {
 	
 	/**
 	 * Creates an instance for the specified separator string.
@@ -47,7 +47,7 @@ public class SeparatorBasedSplitter implements SplitterInterface {
 	 * @param separator
 	 * 		String separating substring.
 	 */
-	public SeparatorBasedSplitter(String separator)
+	public SeparatorSplitter(String separator)
 	{	this.separator = separator;
 	}
 	

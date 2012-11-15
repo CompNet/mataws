@@ -216,10 +216,27 @@ public class Launcher
 
 
 /* TODO TODO
+ * changes:
+ * - new architecture
+ * - preprocessor:
+ * 		- splitter:
+ * 			- possibility to use a different lexicon
+ * 		- normalizer:
+ * 			- we don't change case anymore, because it conveys information (acronyms, etc.)
+ * 				- is it sure ? TODO
+ *				- it can still be done later, e.g. just before sigma TODO
+ *			- new alternate stem normalizer.
+ *				- we don't use it anymore neither, because of the changes in the selector.
+ * 			- unlike the explanations in the paper, the diacritic marks are removed in the normalization phase, and not in the split phase.
+ * 				- TODO not impletemented yet
+ * 		- filter:
+ * 			- new redundancy filter
+ * 			- new length filter (to avoid having letter-parameters)
+ * - selector:
+ * - associator:
  * 
- * - unlike the explanations in the paper, the diacritic marks are 
- *   removed in the normalization phase, and not in the split phase.
- *   
+ * 
+ * others:
  * - it might be interesting not to use the stems in the preprocessing,
  *   because the form of the word can be used to determine its grammatical type
  *   and/or meaning. to this cleaning should be let to a latter time 
