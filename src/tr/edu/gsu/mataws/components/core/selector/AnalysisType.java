@@ -27,5 +27,12 @@ package tr.edu.gsu.mataws.components.core.selector;
  */
 
 public enum AnalysisType {
-	NonNounVerbAnnotation, OnlyOneRemaining, OnlyOneRepresenter, HypernymialRelation, HolonymialRelation, SimpleVerbAnnotation, NounAdjunct, NoAnalysis
+	NonNounVerbAnnotation, 
+	OnlyOneRemaining, 
+	OnlyOneRepresenter, 
+	HypernymialRelation, 
+	HolonymialRelation, 
+	SimpleVerbAnnotation, 
+	NounAdjunct, 
+	NoAnalysis
 }
