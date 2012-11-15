@@ -233,7 +233,10 @@ public class Launcher
  * 			- new redundancy filter
  * 			- new length filter (to avoid having letter-parameters)
  * - selector:
+ * 		- new separation between identifier and simplifier
+ * 		- now it outputs the word and the synset, to avoid information loss
  * - associator:
+ * 		- no more syntactic work: the synset allows retrieving the concept without any ambiguity
  * 
  * 
  * others:
