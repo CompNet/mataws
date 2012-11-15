@@ -108,26 +108,24 @@ public class CsvOutputImpl implements Output {
 		}
 
 		// word statistics are calculated
-		for (String string : preprocessingResult) {
-			CsvObjectForWords coForWord = new CsvObjectForWords(string, concept);
+		CsvObjectForWords coForWord = new CsvObjectForWords(wordToAnnotate, concept);
 
-			if (!isWordFound(coForWord)) {
-				controlListForUniqueWords.add(coForWord);
-				int selected = 0;
+		if (!isWordFound(coForWord)) {
+			controlListForUniqueWords.add(coForWord);
+			int selected = 0;
 
-				if (Math.random() > 0.5)
-					selected = 1;
+			if (Math.random() > 0.5)
+				selected = 1;
 
-				coForWord.setSelected(selected);
-				coForWord.setOccurence(1);
-			} else {
-				int index = controlListForUniqueWords.indexOf(foundWord);
-				CsvObjectForWords toModify = controlListForUniqueWords
-						.get(index);
-				int occurence = toModify.getOccurence();
-				toModify.setOccurence(occurence + 1);
-				controlListForUniqueWords.set(index, toModify);
-			}
+			coForWord.setSelected(selected);
+			coForWord.setOccurence(1);
+		} else {
+			int index = controlListForUniqueWords.indexOf(foundWord);
+			CsvObjectForWords toModify = controlListForUniqueWords
+					.get(index);
+			int occurence = toModify.getOccurence();
+			toModify.setOccurence(occurence + 1);
+			controlListForUniqueWords.set(index, toModify);
 		}
 
 	}
@@ -172,7 +170,7 @@ public class CsvOutputImpl implements Output {
 
 	private boolean isWordFound(CsvObjectForWords coForWord) {
 		for (CsvObjectForWords cofw : controlListForUniqueWords) {
-			if (cofw.getWord().equals(coForWord.getWord())) {
+			if (cofw.getWord().equalsIgnoreCase(coForWord.getWord())) {
 				foundWord = cofw;
 				return true;
 			}
