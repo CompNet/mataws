@@ -43,6 +43,11 @@ import edu.mit.jwi.morph.WordnetStemmer;
  * This class contains various methods and variables used 
  * all over the software when accessing WordNet through JWI.
  * 
+ * Notes:
+ * - IIndexWord = unique form (lemma + pos)
+ * - IWord = instance of unique form (IIndexWord + synset)
+ * - ISynset = synset (meaning + set of IWord)
+ * 
  * @author Vincent Labatut
  */
 public class JwiTools
