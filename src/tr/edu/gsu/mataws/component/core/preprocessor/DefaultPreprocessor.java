@@ -81,13 +81,16 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 	protected void initNormalizers()
 	{	NormalizerInterface normalizer;
 	
+		// TODO not sure this should be done here, because Sigma actually seems to be able to take advantage of that.
 		normalizer = new CaseNormalizer();
 		normalizers.add(normalizer);
 		
 		normalizer = new AbbreviationNormalizer();
 		normalizers.add(normalizer);
-		
-		normalizer = new StemNormalizer();	// TODO seems a better idea not to do that here, because it causes information loss
+
+		// TODO seems a better idea not to do that here, because it causes information loss
+		normalizer = new StemNormalizer(tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer.Mode.JWAS);
+//		normalizer = new StemNormalizer(tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer.Mode.JWI);
 		normalizers.add(normalizer);
 	}
 	
