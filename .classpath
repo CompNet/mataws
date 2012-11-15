@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="lib/xercesImpl-2.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/xml.jar"/>
 	<classpathentry kind="lib" path="lib/xsdlib-20030225.jar"/>
+	<classpathentry kind="lib" path="lib/edu.mit.jwi_2.2.3.jar" sourcepath="lib/edu.mit.jwi_2.2.3_src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -69,7 +69,7 @@ This product includes the following softwares:
   + JAWS v1.3 - Java API for WordNet Searching  
     Brett Spell
     http://lyle.smu.edu/~tspell/jaws/index.html
-    Used by Mataws to preprocess the parameter names.
+    Used by Mataws to access WordNet.
 
   + JCL over SLF4J v1.1.1 - Jakarta Commons Logging over Simple Logging Facade for Java
     QOS.ch 
@@ -85,6 +85,11 @@ This product includes the following softwares:
     University of Calgary
     http://www.junit.org/
     Used by Sine for unit testing.
+    
+  + JWI v2.2.3 - MIT Java Wordnet Interface
+  	Massachusetts Institute of Technology
+    http://projects.csail.mit.edu/jwi/
+    Used by Mataws to access WordNet.
     
   + JWordSplitter v3.3
     Daniel Naber
@@ -157,6 +162,12 @@ TODO    Class com.articulate.sigma.WordNet has been modified by initializing a c
   + UPnP v1.0
     Fujitsu
     Required by OWL-S API
+
+  + WordNet - A lexical database for English
+    Princeton University
+    http://wordnet.princeton.edu/
+    Used by Sigma when defining its mapping to SUMO.
+    Used by Mataws to preprocess and select parameter names.
 
   + WoodSToX XML-processor v3.2.9
     Codehaus
