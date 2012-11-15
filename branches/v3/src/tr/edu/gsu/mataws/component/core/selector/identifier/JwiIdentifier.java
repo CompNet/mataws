@@ -31,15 +31,17 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.tools.JawsTools;
 import tr.edu.gsu.mataws.tools.JwiTools;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.IIndexWord;
+import edu.mit.jwi.item.ISenseEntry;
+import edu.mit.jwi.item.ISenseKey;
 import edu.mit.jwi.item.ISynset;
-import edu.smu.tspell.wordnet.Synset;
-import edu.smu.tspell.wordnet.SynsetType;
-import edu.smu.tspell.wordnet.WordNetDatabase;
+import edu.mit.jwi.item.IWord;
+import edu.mit.jwi.item.IWordID;
+import edu.mit.jwi.item.POS;
+import edu.mit.jwi.morph.WordnetStemmer;
 
 /**
  * This class uses Jwi and WordNet to identify the 
@@ -56,73 +58,59 @@ public class JwiIdentifier implements IdentifierInterface<ISynset>
 	@Override
 	public List<IdentifiedWord<ISynset>> identify(List<String> strings)
 	{	// init
-		List<IdentifiedWord<Synset>> result = new ArrayList<IdentifiedWord<Synset>>(); 
+		List<IdentifiedWord<ISynset>> result = new ArrayList<IdentifiedWord<ISynset>>(); 
 		IDictionary jwiObject = JwiTools.getAccess();
+		WordnetStemmer stemmer = JwiTools.getStemmer();
 		
 		// order the pos depending on their relavance regarding our context (parameter names)
-		List<SynsetType> posList = Arrays.asList
-		(	SynsetType.NOUN,
-			SynsetType.VERB,
-			SynsetType.ADJECTIVE,
-			SynsetType.ADJECTIVE_SATELLITE,
-			SynsetType.ADVERB
+		List<POS> posList = Arrays.asList
+		(	POS.NOUN,
+			POS.VERB,
+			POS.ADJECTIVE,
+			POS.ADVERB
 		);
 		
 		// process each string separately
 		for(String string: strings)
-		{	IdentifiedWord<Synset> iw = null;
+		{	IdentifiedWord<ISynset> iw = null;
 			 
 			// process each pos one after the other, stop as soon as a synset is found
-			Iterator<SynsetType> it = posList.iterator();
+			Iterator<POS> it = posList.iterator();
 			while(it.hasNext() && iw==null)
-			{	// get all synsets associated to the string for the current pos
-				SynsetType pos = it.next();
-				Synset synsets[] = jwiObject.getSynsets(string,pos);
+			{	// get all stems associated to the string, for the current pos
+				POS pos = it.next();
+				List<String> stems = stemmer.findStems(string,pos);
 				
-				// get all stems associated to this word and pos
-				String proposedStems[] = jwiObject.getBaseFormCandidates(string,pos);
-				
-				// get the appropriate stem for each synset
-				String stems[] = new String[synsets.length];
-				Arrays.fill(stems, null);
-				for(int i=0;i<synsets.length;i++)
-				{	Synset synset = synsets[i];
-					String synsetStems[] = synset.getWordForms();
-					int j = 0;
-					while(j<proposedStems.length && stems[i]==null)
-					{	int k = 0;
-						String proposedStem = proposedStems[j];
-						while(k<synsetStems.length && stems[i]==null)
-						{	String synsetStem = synsetStems[k];
-							if(proposedStem.equals(synsetStem)) // should we ignore case, here ?
-								stems[i] = synsetStem;
-							k++;
-						}
-						j++;
-					}
-				}
-				
-				// select the synset with highest frequency
-				Synset selectedSynset = null;
-				String selectedStem = null;
+				// find the synset associated to the most frequent meaning
 				int maxScore = Integer.MAX_VALUE;
-				for(int i=0;i<synsets.length;i++)
-				{	Synset synset = synsets[i];
-					String stem = stems[i];
-					int score = synset.getTagCount(stem);
-					if(score>maxScore)
-					{	maxScore = score;
-						selectedSynset = synset;
-						selectedStem = stem;
+				ISynset selectedSynset = null;
+				String selectedStem = null;
+				for(String stem: stems)
+				{	// get the corresponding entity (stem + pos)
+					IIndexWord iiw = jwiObject.getIndexWord(stem,pos);
+					// get all associated occurrences (index word + meaning)
+					List<IWordID> wordIds = iiw.getWordIDs();
+					for(IWordID iwi: wordIds)
+					{	IWord w = jwiObject.getWord(iwi);
+						// get the corresponding meaning
+						ISenseKey sk = w.getSenseKey();
+						ISenseEntry se = jwiObject.getSenseEntry(sk);
+//						int score = se.getSenseNumber(); // TODO not sure which one should be used, here
+						int score = se.getTagCount();
+						if(score>maxScore)
+						{	selectedSynset = w.getSynset();
+							selectedStem = stem;
+						}
 					}
 				}
 				
-				iw = new IdentifiedWord<Synset>(string, selectedStem, selectedSynset);
+				// build identified word
+				iw = new IdentifiedWord<ISynset>(string, selectedStem, selectedSynset);
 			}
 			
 			// add to result list
 			if(iw==null)
-				iw = new IdentifiedWord<Synset>(string,null,null);
+				iw = new IdentifiedWord<ISynset>(string,null,null);
 			result.add(iw);
 		}
 		
