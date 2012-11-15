@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.filters;
+package tr.edu.gsu.mataws.component.core.preprocessor.splitter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,30 +26,35 @@ package tr.edu.gsu.mataws.component.core.preprocessor.filters;
  * 
  */
 
-import java.util.List;
+import java.util.*;
 
 /**
- * Interface for classes in charge of filtering strings.
- *  
+ * Split a word according to the presence of digits.
+ * Empty strings are not returned.
+ * <br/>
+ * Example: {@code "myParam64Out"} -> {@code "myParam"},{@code "Out"}
+ *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface FilterInterface
-{
+public class NumberBasedSplitter implements SplitterInterface
+{	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Takes a list of strings and filters it.
-	 * The list can be empty, if the original strings contain
-	 * only noise, or if the original list is empty.
-	 * 
-	 * @param strings
-	 * 		The list of strings to be filtered. 
-	 * @return
-	 * 		The list of strings remaining after the filtering.
-	 * 			
-	 */
-	public List<String> filter(List<String> strings);
+	@Override
+	public List<String> split(List<String> strings)
+	{	List<String> result = new ArrayList<String>();
+		
+		for(String string: strings)
+		{	String temp[] = string.split("[0-9]");
+			for(String str: temp)
+			{	if(!str.isEmpty())
+					result.add(str);
+			}
+		}
+		
+		return result;
+	}
 }

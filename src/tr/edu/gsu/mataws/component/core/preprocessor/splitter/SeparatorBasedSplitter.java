@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
+package tr.edu.gsu.mataws.component.core.preprocessor.splitter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,31 +26,50 @@ package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
  * 
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Interface for classes in charge of splitting strings.
- *  
+ * Split a word according to the presence of a specific substring
+ * acting as a separator. Empty strings are not returned.
+ * <br/>
+ * Example: {@code "myParam_Out"} -> {@code "myParam"},{@code "Out"}
+ *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface SplitterInterface
-{
+public class SeparatorBasedSplitter implements SplitterInterface {
+	
+	/**
+	 * Creates an instance for the specified separator string.
+	 * 
+	 * @param separator
+	 * 		String separating substring.
+	 */
+	public SeparatorBasedSplitter(String separator)
+	{	this.separator = separator;
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	SEPARATOR							///////////////////
+	///////////////////////////////////////////////////////////
+	/** Separator used to perform the split */
+	private String separator;
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Takes a list of strings and returns a list of their components 
-	 * resulting from the split implemented by this object.
-	 * The list can be empty, if the original strings contain
-	 * only noise, or if the original list is empty.
-	 * 
-	 * @param strings
-	 * 		The list of strings to be split. 
-	 * @return
-	 * 		A list of substrings resulting from the split.
-	 * 			
-	 */
-	public List<String> split(List<String> strings);
+	@Override
+	public List<String> split(List<String> strings)
+	{	List<String> result = new ArrayList<String>();
+		for(String string: strings)
+		{	String temp[] = string.split(separator);
+			for(String str: temp)
+			{	if(!str.isEmpty())
+					result.add(str);
+			}
+		}
+		return result;
+	}
 }

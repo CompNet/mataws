@@ -26,18 +26,18 @@ package tr.edu.gsu.mataws.component.core.preprocessor;
  * 
  */
 
-import tr.edu.gsu.mataws.component.core.preprocessor.filters.FilterInterface;
-import tr.edu.gsu.mataws.component.core.preprocessor.filters.StopWordFilter;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizers.AbbreviationNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizers.CaseNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizers.NormalizerInterface;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizers.StemNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.LettercaseBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.LexiconBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.NumberBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.SeparatorBasedSplitter;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.SplitterInterface;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.LexiconBasedSplitter.Mode;
+import tr.edu.gsu.mataws.component.core.preprocessor.filter.FilterInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.filter.StopWordFilter;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.AbbreviationNormalizer;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.CaseNormalizer;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.NormalizerInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LettercaseBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.NumberBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SeparatorBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SplitterInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconBasedSplitter.Mode;
 
 /**
  * Series of processings corresponding to the

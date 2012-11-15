@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
+package tr.edu.gsu.mataws.component.core.preprocessor.normalizer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,35 +26,29 @@ package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
  * 
  */
 
-import java.util.*;
+import java.util.List;
 
 /**
- * Split a word according to the presence of digits.
- * Empty strings are not returned.
- * <br/>
- * Example: {@code "myParam64Out"} -> {@code "myParam"},{@code "Out"}
- *   
+ * Interface for classes in charge of normalizing strings.
+ *  
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class NumberBasedSplitter implements SplitterInterface
-{	
+public interface NormalizerInterface
+{
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	@Override
-	public List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
-		
-		for(String string: strings)
-		{	String temp[] = string.split("[0-9]");
-			for(String str: temp)
-			{	if(!str.isEmpty())
-					result.add(str);
-			}
-		}
-		
-		return result;
-	}
+	/**
+	 * Takes a list of strings and normalizes each one of them.
+	 * The resulting list can be empty, if the original list is empty.
+	 * 
+	 * @param strings
+	 * 		The list of strings to be normalized. 
+	 * @return
+	 * 		The list of strings obtained after the normalization.
+	 * 			
+	 */
+	public List<String> normalize(List<String> strings);
 }

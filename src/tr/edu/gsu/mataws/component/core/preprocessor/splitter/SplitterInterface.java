@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.normalizers;
+package tr.edu.gsu.mataws.component.core.preprocessor.splitter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,26 +29,28 @@ package tr.edu.gsu.mataws.component.core.preprocessor.normalizers;
 import java.util.List;
 
 /**
- * Interface for classes in charge of normalizing strings.
+ * Interface for classes in charge of splitting strings.
  *  
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface NormalizerInterface
+public interface SplitterInterface
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a list of strings and normalizes each one of them.
-	 * The resulting list can be empty, if the original list is empty.
+	 * Takes a list of strings and returns a list of their components 
+	 * resulting from the split implemented by this object.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
 	 * 
 	 * @param strings
-	 * 		The list of strings to be normalized. 
+	 * 		The list of strings to be split. 
 	 * @return
-	 * 		The list of strings obtained after the normalization.
+	 * 		A list of substrings resulting from the split.
 	 * 			
 	 */
-	public List<String> normalize(List<String> strings);
+	public List<String> split(List<String> strings);
 }

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.normalizers;
+package tr.edu.gsu.mataws.component.core.preprocessor.normalizer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
