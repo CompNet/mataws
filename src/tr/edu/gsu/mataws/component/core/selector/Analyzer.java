@@ -93,7 +93,7 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 					tParameter.addControlList(string);
 				}
 				return analyzeWords(tParameter, controlList);
-			}
+			} 
 		}
 		else if(wa.hypernymialRelationFinder(analyzeList) != null){
 			controlList = wa.hypernymialRelationFinder(analyzeList);
