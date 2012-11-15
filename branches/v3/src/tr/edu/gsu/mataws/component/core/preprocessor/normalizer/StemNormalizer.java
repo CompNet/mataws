@@ -29,12 +29,8 @@ package tr.edu.gsu.mataws.component.core.preprocessor.normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.smu.tspell.wordnet.Synset;
-import edu.smu.tspell.wordnet.SynsetType;
-import edu.smu.tspell.wordnet.WordNetDatabase;
-
 import tr.edu.gsu.mataws.tools.JawsTools;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
+import tr.edu.gsu.mataws.tools.JwiTools;
 
 /**
  * Replace a word by its stem (or lemma form).
@@ -48,74 +44,83 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 public class StemNormalizer implements NormalizerInterface
 {	
 	/**
-	 * Builds and initialize a stem normalizer
-	 * relying on Jaws to access WordNet.
-	 * (Could be easily extended to other
-	 * libraries or lexicons). 
+	 * Builds and initialize a stem normalizer.
+	 * 
+	 * @param mode 
+	 * 		Specifies how WordNet is accessed.
 	 */
-	public StemNormalizer()
-	{	initJaws();
+	public StemNormalizer(Mode mode)
+	{	this.mode = mode;
 	}
+	
+	///////////////////////////////////////////////////////////
+	//	MODE								///////////////////
+	///////////////////////////////////////////////////////////
+	/** Represents the access mode of this normalizer to Word the lexicon */
+	public enum Mode
+	{	/** Use the Jaws API to access WordNet */
+		JWAS,
+		/** Use the JWI API to access WordNet */
+		JWI;
+	}
+	
+	/** Represents the library used to perform the normalization */
+	private Mode mode;
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Object allowing accessing WordNet through Jaws */
-	private WordNetDatabase jawsObject = null;
-	/** Levenshtein similarity used to compare stems */
-	private Levenshtein similarity = null;
-	
-	/**
-	 * Init the object granting access to WordNet
-	 * through the Jaws library.
-	 */
-	private void initJaws()
-	{	jawsObject = JawsTools.getJawsObject();
-		similarity = new Levenshtein();
-	}
-	
 	@Override
 	public List<String> normalize(List<String> strings)
+	{	List<String> result = null; 
+	
+		if(mode==Mode.JWAS)
+			result = applyJaws(strings);
+		else if(mode==Mode.JWI)
+			result = applyJwi(strings);
+		
+		return result;
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	JAWS								///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Use Jaws to normalize the strings.
+	 * 
+	 * @param strings
+	 * 		List of string to be normalized.
+	 * @return
+	 * 		Result of the normalization.
+	 */
+	public List<String> applyJaws(List<String> strings)
 	{	List<String> result = new ArrayList<String>(); 
 		
 		for(String string: strings)
-		{	// get all synsets associated to the string
-			Synset[] synsets = jawsObject.getSynsets(string);
-			// get their corresponding synset types
-			List<SynsetType> types = new ArrayList<SynsetType>();
-			for(Synset synset: synsets)
-			{	SynsetType type = synset.getType();
-				if(!types.contains(type))
-					types.add(type);
-			}
-			
-			// lookup the stems for each type
-			List<String> stems = new ArrayList<String>();
-			for(SynsetType type: types)
-			{	String proposedStem[] = jawsObject.getBaseFormCandidates(string,type);
-				for(String stem: proposedStem)
-				{	if(!stems.contains(stem))
-						stems.add(stem);
-				}
-			}
-			
-			// select the most appropriate stem. we'd like to select
-			// the stem associated to the most frequent synset, but
-			// this information is not available. so let us use the
-			// one syntactically closest to the original word
-			float maxSim = Float.MIN_VALUE;
-			String selectedStem = null;
-			for(String stem: stems)
-			{	float d = similarity.getSimilarity(string,stem);
-				if(d>maxSim)
-					selectedStem = stem;
-			}
-			
-			// add to result list
-			if(selectedStem == null)
-				result.add(string);
-			else
-				result.add(selectedStem);
+		{	String stem = JawsTools.getStem(string);
+			result.add(stem);
+		}
+		
+		return result;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	JWI									///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Use Jaws to normalize the strings.
+	 * 
+	 * @param strings
+	 * 		List of string to be normalized.
+	 * @return
+	 * 		Result of the normalization.
+	 */
+	public List<String> applyJwi(List<String> strings)
+	{	List<String> result = new ArrayList<String>(); 
+		
+		for(String string: strings)
+		{	String stem = JwiTools.getStem(string);
+			result.add(stem);
 		}
 		
 		return result;

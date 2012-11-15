@@ -62,6 +62,10 @@ public class LexiconBasedSplitter implements SplitterInterface
 	 */
 	public LexiconBasedSplitter(Mode mode)
 	{	this.mode = mode;
+		if(mode==Mode.JWORDSPLITTER)
+			initJWordSplitter();
+		else if(mode==Mode.WORDSPLIT)
+			initWordSplit();
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -131,11 +135,7 @@ public class LexiconBasedSplitter implements SplitterInterface
 	 * 		List of resulting substrings.
 	 */
 	public List<String> applyJWordSplitter(List<String> strings)
-	{	// possibly init the library
-		if(jWordSplitter == null)
-			initJWordSplitter();
-		
-		List<String> result = new ArrayList<String>();
+	{	List<String> result = new ArrayList<String>();
 		for(String string: strings)
 		{	// apply the splitter
 			Collection<String> temp = jWordSplitter.splitWord(string);
@@ -178,11 +178,7 @@ public class LexiconBasedSplitter implements SplitterInterface
 	 * 		List of resulting substrings.
 	 */
 	public List<String> applyWordSplit(List<String> strings)
-	{	// possibly init the library
-		if(wordSplit == null)
-			initWordSplit();
-
-		List<String> result = new ArrayList<String>();
+	{	List<String> result = new ArrayList<String>();
 		for(String string: strings)
 		{	// apply the splitter
 			List<String> temp = wordSplit.split(string);
