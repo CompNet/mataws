@@ -51,7 +51,7 @@ import de.abelssoft.wordtools.jwordsplitter.impl.EnglishWordSplitter;
  * TODO question: are the libs case-sensitive?
  * if yes, then the strings can be lowered here (temporary)
  */
-public class LexiconBasedSplitter implements SplitterInterface
+public class LexiconSplitter implements SplitterInterface
 {	
 	/**
 	 * Buils a lexicon-based splitter using the
@@ -60,7 +60,7 @@ public class LexiconBasedSplitter implements SplitterInterface
 	 * @param mode
 	 * 		Represents the split library.
 	 */
-	public LexiconBasedSplitter(Mode mode)
+	public LexiconSplitter(Mode mode)
 	{	this.mode = mode;
 		if(mode==Mode.JWORDSPLITTER)
 			initJWordSplitter();

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.splitter;
+package tr.edu.gsu.mataws.tools;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,35 +26,33 @@ package tr.edu.gsu.mataws.component.core.preprocessor.splitter;
  * 
  */
 
-import java.util.*;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 
 /**
- * Split a word according to the presence of digits.
- * Empty strings are not returned.
- * <br/>
- * Example: {@code "myParam64Out"} -> {@code "myParam"},{@code "Out"}
- *   
- * @author Koray Mancuhan
- * @author Cihan Aksoy
+ * This class contains various methods and variables used all over the
+ * software to handle strings.
+ * 
  * @author Vincent Labatut
  */
-public class NumberBasedSplitter implements SplitterInterface
+public class StringTools
 {	
-	///////////////////////////////////////////////////////////
-	//	PROCESS								///////////////////
-	///////////////////////////////////////////////////////////
-	@Override
-	public List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
-		
-		for(String string: strings)
-		{	String temp[] = string.split("[0-9]");
-			for(String str: temp)
-			{	if(!str.isEmpty())
-					result.add(str);
-			}
-		}
-		
+	
+	/**
+	 * Removes all diactrics (accents, cedilla, umlaut, etc.)
+	 * from the specified text.
+	 * <br/>
+	 * source: <a href="http://www.drillio.com/en/software-development/java/removing-accents-diacritics-in-any-language/">Drillio web site</a>
+	 * 
+	 * @param string
+	 * 		The text to process.
+	 * @return
+	 * 		The same text, but without any diacritics.
+	 * 
+	 * @author	Drillio
+	 */
+	public static String removeDiacritics(String string)
+	{	String result = Normalizer.normalize(string,Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 		return result;
 	}
 }

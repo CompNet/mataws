@@ -27,9 +27,8 @@ package tr.edu.gsu.mataws.component.core.selector.simplifier;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
@@ -46,8 +45,6 @@ import tr.edu.gsu.mataws.tools.JawsTools;
  * @param <T>
  * 		Class used to represent the synsets. 
  *  
- * @author Koray Mancuhan
- * @author Cihan Aksoy
  * @author Vincent Labatut
  */
 public class FusionSimplifier<T> implements SimplifierInterface<T>
@@ -58,91 +55,63 @@ public class FusionSimplifier<T> implements SimplifierInterface<T>
 	@Override
 	public boolean simplify(List<IdentifiedWord<T>> words)
 	{	WordNetDatabase jawsObject = JawsTools.getAccess();
+		boolean result = false;
 		
-		// build the list of strings only
-		List<List<Integer>> indices = new ArrayList<List<Integer>>();
-		for(int i=0;i<words.size();i++)
-		{	List<Integer> list = new ArrayList<Integer>();
-			list.add(i);
-			indices.add(list);
-		}
-		
-		// process all combinations of indices
+		// process all appropriate combinations of indices
+		List<List<Integer>> indices = initIndexList(words.size());
 		List<List<Integer>> combinations = generateAllCombis(indices);
 		
 		// lookup the corresponding combinations of strings in WordNet
-		for()
-		jawsObject.getSynsets(string);
-		
-		public List<String> onlyOneRepresenter(List<String> preprocessedResult){
-			List<String> result = new ArrayList<String>();
-			String temp = onlyOneRepresenterCore(preprocessedResult);
-
-			if(temp!=null){
-				result.add(temp);
-				return result;
+		List<String> stringList = new ArrayList<String>();
+		List<Synset[]> synsetList = new ArrayList<Synset[]>();
+		List<List<Integer>> indexList = new ArrayList<List<Integer>>();
+		while(combinations.size()>0)
+		{	// get the next combination
+			List<Integer> combi = combinations.get(0);
+			combinations.remove(0);
+			// retrieve the corresponding string
+			String string = buildStringFromIndices(words, combi);
+			// check if WordNet knows it 
+			Synset[] synsets = jawsObject.getSynsets(string);
+			if(synsets!=null && synsets.length>0)
+			{	// remove all combinations containing these indices
+				clearIndices(combinations,combi);
+				// update variables
+				stringList.add(string);
+				synsetList.add(synsets);
+				indexList.add(combi);
+				result = true;
 			}
-			else if(preprocessedResult.size() > 2){
-				List<String> tempList = new ArrayList<String>();
-				for(int i=preprocessedResult.size()-1;i>1;i--){
-					for(int j = 0;j<preprocessedResult.size()-i+1;j++){
-						tempList = new ArrayList<String>();
-						for(int k = 0; k<i;k++){
-							tempList.add(preprocessedResult.get(k+j));
-						}
-						temp = onlyOneRepresenterCore(tempList);
-						if(temp!=null){
-							result = new ArrayList<String>(preprocessedResult);
-							String first = tempList.get(0);
-							int index = preprocessedResult.indexOf(first);
-							result.add(index, temp);
-							for (String string : tempList) {
-								result.remove(string);
-							}
-							return result;
-						}
-					}
-				}
-			}
-			return null;
 		}
 		
-		public String onlyOneRepresenterCore(List<String> preprocessedResult){
+		// process the mergeable words
+		for(int i=0;i<synsetList.size();i++)
+		{	Synset[] synset = synsetList.get(i);
+			List<Integer> index = indexList.get(i);
+			String string = stringList.get(i);
 			
-			StringBuilder sb = new StringBuilder();
-			StringBuilder sb2 = new StringBuilder();
-			
-			for (String string : preprocessedResult) {
-				if(string.length()!=0)
-					sb.append(string.charAt(0));
-			}
-			
-			String abbrev = sb.toString().toUpperCase(Locale.ENGLISH);
-			
-			for (String string : preprocessedResult) {
-				sb2.append(string);
-				sb2.append(" ");
-			}
-			String compoundWord = sb2.toString();
-			compoundWord = compoundWord.substring(0, compoundWord.length()-1);
-			
-			Synset[] synsets = wd.getSynsets(compoundWord);
-			if(synsets.length != 0){
-				for (Synset synset : synsets) {
-					String[] strings = synset.getWordForms();
-					
-					for (String string : strings) {
-						String[] splitted = string.split(" ");
-						if(splitted.length == 1){
-							if(!splitted[0].equals(abbrev))
-								return splitted[0];
-						}
-					}
-				}
-			}
-			return null;
 		}
 		
+		return result;
+	}		
+	
+	/**
+	 * Builds a list of lists, each one containing
+	 * an integer value.
+	 *  
+	 * @param size
+	 * 		Number of sublists.
+	 * @return
+	 * 		A list of integer lists.
+	 */
+	private List<List<Integer>> initIndexList(int size)
+	{	List<List<Integer>> result = new ArrayList<List<Integer>>();
+		for(int i=0;i<size;i++)
+		{	List<Integer> list = new ArrayList<Integer>();
+			list.add(i);
+			result.add(list);
+		}
+		return result;
 	}
 	
 	/**
@@ -161,8 +130,7 @@ public class FusionSimplifier<T> implements SimplifierInterface<T>
 			result.add(indices.get(0));
 		
 		else if(indices.size()>1)
-		{	result.addAll(indices);
-			List<List<Integer>> tempList = new ArrayList<List<Integer>>();
+		{	List<List<Integer>> tempList = new ArrayList<List<Integer>>();
 			for(int i=0;i<indices.size()-1;i++)
 			{	List<Integer> str0 = indices.get(i);
 				List<Integer> str1 = indices.get(i+1);
@@ -173,8 +141,49 @@ public class FusionSimplifier<T> implements SimplifierInterface<T>
 			}
 			List<List<Integer>> tempList2 = generateAllCombis(tempList);
 			result.addAll(tempList2);
+			result.addAll(indices);
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Combines the words in the specified list, according
+	 * to the specified list of indices, in order to generate
+	 * a string.
+	 * 
+	 * @param words
+	 * 		Original words.
+	 * @param indices
+	 * 		Indices of the words to concatenate.
+	 * @return
+	 * 		String resulting from the concatenation.
+	 */
+	private String buildStringFromIndices(List<IdentifiedWord<T>> words, List<Integer> indices)
+	{	String result = "";
+		for(int i: indices)
+			result = result + " " + words.get(i).getOriginal();
+		result = result.substring(0,result.length()-1);
+		return result;
+	}
+	
+	/**
+	 * Removes from {@code list} all lists containing at least one value
+	 * from {@code indices}.
+	 * 
+	 * @param list
+	 * 		Original list of index lists.
+	 * @param indices
+	 * 		The indices to remove.
+	 */
+	private void clearIndices(List<List<Integer>> list, List<Integer> indices)
+	{	Iterator<List<Integer>> it = list.iterator();
+		while(it.hasNext())
+		{	List<Integer> temp = it.next();
+			List<Integer> tempCp = new ArrayList<Integer>(temp);
+			tempCp.retainAll(indices);
+			if(!tempCp.isEmpty())
+				it.remove();
+		}
 	}
 }

@@ -37,7 +37,7 @@ import tr.edu.gsu.mataws.component.core.preprocessor.AbstractPreprocessor;
 import tr.edu.gsu.mataws.component.core.preprocessor.DefaultPreprocessor;
 import tr.edu.gsu.mataws.component.core.preprocessor.PreprocessingStrategy;
 import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconSplitter;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 
@@ -191,7 +191,7 @@ public class Core
 		//splitting operation is applied if necessary
 		List<String> splittedWords = new ArrayList<String>();
 		if(nonAnnotableWords2.size()>0){
-			preprocessingStrategy = new LexiconBasedSplitter();
+			preprocessingStrategy = new LexiconSplitter();
 			splittedWords = preprocessingStrategy.split(nonAnnotableWords2);
 		}
 		for (String string : splittedWords) {
