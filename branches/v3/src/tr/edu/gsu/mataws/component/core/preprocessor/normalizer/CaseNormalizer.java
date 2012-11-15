@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
+package tr.edu.gsu.mataws.component.core.preprocessor.normalizer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,48 +28,33 @@ package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
- * Split a word according to the presence of a specific substring
- * acting as a separator. Empty strings are not returned.
- * <br/>
- * Example: {@code "myParam_Out"} -> {@code "myParam"},{@code "Out"}
+ * Transform uppercase letters into their lowercase equivalent.
+ * This process is not applied if the whole word is in uppercase letters,
+ * because it might be an acronym.
  *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class SeparatorBasedSplitter implements SplitterInterface {
-	
-	/**
-	 * Creates an instance for the specified separator string.
-	 * 
-	 * @param separator
-	 * 		String separating substring.
-	 */
-	public SeparatorBasedSplitter(String separator)
-	{	this.separator = separator;
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	SEPARATOR							///////////////////
-	///////////////////////////////////////////////////////////
-	/** Separator used to perform the split */
-	private String separator;
-	
+public class CaseNormalizer implements NormalizerInterface
+{	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	@Override
-	public List<String> split(List<String> strings)
+    @Override
+	public List<String> normalize(List<String> strings)
 	{	List<String> result = new ArrayList<String>();
+		
 		for(String string: strings)
-		{	String temp[] = string.split(separator);
-			for(String str: temp)
-			{	if(!str.isEmpty())
-					result.add(str);
-			}
+		{	String temp = string;
+			if(string.length()>1 && !Character.isUpperCase(string.charAt(1)))
+				temp = string.toLowerCase(Locale.ENGLISH);
+			result.add(temp);
 		}
+		
 		return result;
 	}
 }

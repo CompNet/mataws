@@ -29,9 +29,9 @@ package tr.edu.gsu.mataws.component.core.preprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.core.preprocessor.filters.FilterInterface;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizers.NormalizerInterface;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.SplitterInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.filter.FilterInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.NormalizerInterface;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SplitterInterface;
 
 /**
  * General interface of the preprocessor component.

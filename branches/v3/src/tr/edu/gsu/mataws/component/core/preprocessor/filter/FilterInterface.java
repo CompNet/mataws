@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.normalizers;
+package tr.edu.gsu.mataws.component.core.preprocessor.filter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,35 +26,30 @@ package tr.edu.gsu.mataws.component.core.preprocessor.normalizers;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
- * Transform uppercase letters into their lowercase equivalent.
- * This process is not applied if the whole word is in uppercase letters,
- * because it might be an acronym.
- *   
+ * Interface for classes in charge of filtering strings.
+ *  
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class CaseNormalizer implements NormalizerInterface
-{	
+public interface FilterInterface
+{
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-    @Override
-	public List<String> normalize(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
-		
-		for(String string: strings)
-		{	String temp = string;
-			if(string.length()>1 && !Character.isUpperCase(string.charAt(1)))
-				temp = string.toLowerCase(Locale.ENGLISH);
-			result.add(temp);
-		}
-		
-		return result;
-	}
+	/**
+	 * Takes a list of strings and filters it.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
+	 * 
+	 * @param strings
+	 * 		The list of strings to be filtered. 
+	 * @return
+	 * 		The list of strings remaining after the filtering.
+	 * 			
+	 */
+	public List<String> filter(List<String> strings);
 }

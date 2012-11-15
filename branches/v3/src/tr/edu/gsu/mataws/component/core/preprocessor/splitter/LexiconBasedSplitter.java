@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.splitters;
+package tr.edu.gsu.mataws.component.core.preprocessor.splitter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
