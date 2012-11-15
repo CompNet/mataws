@@ -28,27 +28,31 @@ package tr.edu.gsu.mataws.component.core.selector.simplifier;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
+
 /**
  * Interface for classes in charge of retaining only relevant strings.
  *  
+ * @param <T>
+ * 		Class used to represent the synsets. 
+ *  
  * @author Vincent Labatut
  */
-public interface SimplifierInterface
+public interface SimplifierInterface<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a list of strings and returns a list of their components 
-	 * resulting from the split implemented by this object.
-	 * The list can be empty, if the original strings contain
-	 * only noise, or if the original list is empty.
+	 * Takes a list of words and tries to simplify it,
+	 * i.e. to reduce its size while minimizing the information
+	 * loss caused by this operation.
 	 * 
-	 * @param strings
-	 * 		The list of strings to be split. 
+	 * @param words
+	 * 		The list of strings to be simplified. 
 	 * @return
-	 * 		A list of substrings resulting from the split.
+	 * 		A simplified list of words
 	 * 			
 	 */
-	public List<String> split(List<String> strings);
+	public List<IdentifiedWord<T>> simplify(List<IdentifiedWord<T>> words);
 }

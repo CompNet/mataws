@@ -29,123 +29,104 @@ package tr.edu.gsu.mataws.component.core.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.components.core.preprocessor.filters.FilterInterface;
-import tr.edu.gsu.mataws.components.core.preprocessor.normalizers.NormalizerInterface;
-import tr.edu.gsu.mataws.components.core.preprocessor.splitters.SplitterInterface;
+import tr.edu.gsu.mataws.component.core.selector.identifier.IdentifierInterface;
+import tr.edu.gsu.mataws.component.core.selector.simplifier.SimplifierInterface;
 
 /**
  * General interface of the selector component.
+ * 
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
  *  
  * @author Vincent Labatut
  */
-public abstract class AbstractSelector
+public abstract class AbstractSelector<T>
 {	
 	/**
-	 * Initializes all the necessary object
+	 * Initializes all the necessary objects
 	 * for this selector.
 	 */
 	public AbstractSelector()
-	{	initSplitters();
-		initNormalizers();
-		initFilters();
+	{	initIdentifiers();
+		initSimplifiers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	protected List<SimplifierInterface>
 	
-	public String select(String string)
-	{	List<String> temp = new ArrayList<String>();
-		temp.add(string);
+	/**
+	 * Takes a list of strings and selects it, 
+	 * which generally results in a single word.
+	 * 
+	 * @param strings
+	 * 		The list of strings to process.
+	 * @return
+	 * 		The resulting {@link IdentifiedWord}, or {@code null} if the selection was inconclusive.
+	 */
+	public IdentifiedWord<T> select(List<String> strings)
+	{	// init
+		List<IdentifiedWord<T>> temp = new ArrayList<IdentifiedWord<T>>();
+		for(String string: strings)
+		{	IdentifiedWord<T> word = new IdentifiedWord<T>(string);
+			temp.add(word);
+		}
 		
+		// identification
+		identify(temp);
 		
+		// simplification
+		simplify(temp);
+		
+		// result
+		IdentifiedWord<T> result = null;
+		if(!temp.isEmpty())
+			result = temp.get(0);
 		
 		return result;
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	SPLIT								///////////////////
+	//	IDENTIFY							///////////////////
 	///////////////////////////////////////////////////////////
-	/** Sequence of splitters applied as is */
-	protected final List<SplitterInterface> splitters = new ArrayList<SplitterInterface>();
+	/** Sequence of identifiers applied as is */
+	protected final List<IdentifierInterface<T>> identifiers = new ArrayList<IdentifierInterface<T>>();
 
 	/**
-	 * Initializes the sequence of splitters.
+	 * Initializes the sequence of identifiers.
 	 */
-	protected abstract void initSplitters();
+	protected abstract void initIdentifiers();
 
 	/**
-	 * Applies the sequence of splitters.
+	 * Applies the sequence of identifiers.
 	 * 
-	 * @param strings
-	 * 		List of strings to be processed.
-	 * @return
-	 * 		Sequence of strings resulting from the split. 
+	 * @param words
+	 * 		List of words to be processed.
 	 */
-	protected List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
-		for(SplitterInterface splitter: splitters)
-		{	List<String> temp = splitter.split(strings);
-			result.addAll(temp);
-		}
-		return result;
+	protected void identify(List<IdentifiedWord<T>> words)
+	{	for(IdentifierInterface<T> identifier: identifiers)
+			identifier.identify(words);
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	NORMALIZATION						///////////////////
 	///////////////////////////////////////////////////////////
-	/** Sequence of normalizes applied as is */
-	protected final List<NormalizerInterface> normalizers = new ArrayList<NormalizerInterface>();
+	/** Sequence of simplifiers applied as is */
+	protected final List<SimplifierInterface<T>> simplifiers = new ArrayList<SimplifierInterface<T>>();
 
 	/**
-	 * Initializes the sequence of normalizers.
+	 * Initializes the sequence of simplifiers.
 	 */
-	protected abstract void initNormalizers();
+	protected abstract void initSimplifiers();
 
 	/**
-	 * Applies the sequence of normalizers.
+	 * Applies the sequence of simplifiers.
 	 * 
-	 * @param strings
-	 * 		List of strings to be processed.
-	 * @return
-	 * 		Sequence of strings resulting from the normalization. 
+	 * @param words
+	 * 		List of words to be processed.
 	 */
-	protected List<String> normalize(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
-		for(NormalizerInterface normalizer: normalizers)
-		{	List<String> temp = normalizer.normalize(strings);
-			result.addAll(temp);
-		}
-		return result;
+	protected void simplify(List<IdentifiedWord<T>> words)
+	{	for(SimplifierInterface<T> simplifier: simplifiers)
+			simplifier.simplify(words);
 	}
-	
-	///////////////////////////////////////////////////////////
-	//	FILTERING							///////////////////
-	///////////////////////////////////////////////////////////
-	/** Sequence of filters applied as is */
-	protected final List<FilterInterface> filters = new ArrayList<FilterInterface>();
-
-	/**
-	 * Initializes the sequence of filters.
-	 */
-	protected abstract void initFilters();
-	
-	/**
-	 * Applies the sequence of filters.
-	 * 
-	 * @param strings
-	 * 		List of strings to be processed.
-	 * @return
-	 * 		Sequence of strings resulting from the filtering. 
-	 */
-	protected List<String> filter(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
-		for(FilterInterface filter: filters)
-		{	List<String> temp = filter.filter(strings);
-			result.addAll(temp);
-		}
-		return result;
-	}
-	
 }

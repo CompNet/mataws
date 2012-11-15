@@ -43,7 +43,7 @@ import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SplitterInterface;
 public abstract class AbstractPreprocessor
 {	
 	/**
-	 * Initializes all the necessary object
+	 * Initializes all the necessary objects
 	 * for this preprocessor.
 	 */
 	public AbstractPreprocessor()
@@ -106,7 +106,7 @@ public abstract class AbstractPreprocessor
 	///////////////////////////////////////////////////////////
 	//	NORMALIZATION						///////////////////
 	///////////////////////////////////////////////////////////
-	/** Sequence of normalizes applied as is */
+	/** Sequence of normalizers applied as is */
 	protected final List<NormalizerInterface> normalizers = new ArrayList<NormalizerInterface>();
 
 	/**
@@ -158,5 +158,4 @@ public abstract class AbstractPreprocessor
 		}
 		return result;
 	}
-	
 }

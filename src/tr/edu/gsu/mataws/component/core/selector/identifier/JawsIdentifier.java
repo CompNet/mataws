@@ -26,11 +26,11 @@ package tr.edu.gsu.mataws.component.core.selector.identifier;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.JawsTools;
 
 import edu.smu.tspell.wordnet.Synset;
@@ -49,9 +49,8 @@ public class JawsIdentifier implements IdentifierInterface<Synset>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public List<IdentifiedWord<Synset>> identify(List<String> strings)
+	public void identify(List<IdentifiedWord<Synset>> words)
 	{	// init
-		List<IdentifiedWord<Synset>> result = new ArrayList<IdentifiedWord<Synset>>(); 
 		WordNetDatabase jawsObject = JawsTools.getAccess();
 		
 		// order the pos depending on their relavance regarding our context (parameter names)
@@ -64,63 +63,63 @@ public class JawsIdentifier implements IdentifierInterface<Synset>
 		);
 		
 		// process each string separately
-		for(String string: strings)
-		{	IdentifiedWord<Synset> iw = null;
-			 
-			// process each pos one after the other, stop as soon as a synset is found
-			Iterator<SynsetType> it = posList.iterator();
-			while(it.hasNext() && iw==null)
-			{	// get all synsets associated to the string for the current pos
-				SynsetType pos = it.next();
-				Synset synsets[] = jawsObject.getSynsets(string,pos);
+		for(IdentifiedWord<Synset> word: words)
+		{	if(!word.isComplete())
+			{	boolean found = false;
+				String original = word.getOriginal();
 				
-				// get all stems associated to this word and pos
-				String proposedStems[] = jawsObject.getBaseFormCandidates(string,pos);
-				
-				// get the appropriate stem for each synset
-				String stems[] = new String[synsets.length];
-				Arrays.fill(stems, null);
-				for(int i=0;i<synsets.length;i++)
-				{	Synset synset = synsets[i];
-					String synsetStems[] = synset.getWordForms();
-					int j = 0;
-					while(j<proposedStems.length && stems[i]==null)
-					{	int k = 0;
-						String proposedStem = proposedStems[j];
-						while(k<synsetStems.length && stems[i]==null)
-						{	String synsetStem = synsetStems[k];
-							if(proposedStem.equals(synsetStem)) // should we ignore case, here ?
-								stems[i] = synsetStem;
-							k++;
+				// process each pos one after the other, stop as soon as a synset is found
+				Iterator<SynsetType> it = posList.iterator();
+				while(it.hasNext() && !found)
+				{	// get all synsets associated to the string for the current pos
+					SynsetType pos = it.next();
+					Synset synsets[] = jawsObject.getSynsets(original,pos);
+					
+					// get all stems associated to this word and pos
+					String proposedStems[] = jawsObject.getBaseFormCandidates(original,pos);
+					
+					// get the appropriate stem for each synset
+					String stems[] = new String[synsets.length];
+					Arrays.fill(stems, null);
+					for(int i=0;i<synsets.length;i++)
+					{	Synset synset = synsets[i];
+						String synsetStems[] = synset.getWordForms();
+						int j = 0;
+						while(j<proposedStems.length && stems[i]==null)
+						{	int k = 0;
+							String proposedStem = proposedStems[j];
+							while(k<synsetStems.length && stems[i]==null)
+							{	String synsetStem = synsetStems[k];
+								if(proposedStem.equals(synsetStem)) // should we ignore case, here ?
+									stems[i] = synsetStem;
+								k++;
+							}
+							j++;
 						}
-						j++;
+					}
+					
+					// select the synset with highest frequency
+					Synset selectedSynset = null;
+					String selectedStem = null;
+					int maxScore = Integer.MAX_VALUE;
+					for(int i=0;i<synsets.length;i++)
+					{	Synset synset = synsets[i];
+						String stem = stems[i];
+						int score = synset.getTagCount(stem);
+						if(score>maxScore)
+						{	maxScore = score;
+							selectedSynset = synset;
+							selectedStem = stem;
+						}
+					}
+					
+					if(selectedSynset!=null)
+					{	found = true;
+						word.setStem(selectedStem);
+						word.setSynset(selectedSynset);
 					}
 				}
-				
-				// select the synset with highest frequency
-				Synset selectedSynset = null;
-				String selectedStem = null;
-				int maxScore = Integer.MAX_VALUE;
-				for(int i=0;i<synsets.length;i++)
-				{	Synset synset = synsets[i];
-					String stem = stems[i];
-					int score = synset.getTagCount(stem);
-					if(score>maxScore)
-					{	maxScore = score;
-						selectedSynset = synset;
-						selectedStem = stem;
-					}
-				}
-				
-				iw = new IdentifiedWord<Synset>(string, selectedStem, selectedSynset);
 			}
-			
-			// add to result list
-			if(iw==null)
-				iw = new IdentifiedWord<Synset>(string,null,null);
-			result.add(iw);
 		}
-		
-		return result;
 	}
 }
