@@ -36,8 +36,8 @@ import tr.edu.gsu.mataws.component.core.associator.Associator;
 import tr.edu.gsu.mataws.component.core.preprocessor.AbstractPreprocessor;
 import tr.edu.gsu.mataws.component.core.preprocessor.DefaultPreprocessor;
 import tr.edu.gsu.mataws.component.core.preprocessor.PreprocessingStrategy;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizers.StemNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitters.LexiconBasedSplitter;
+import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer;
+import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconBasedSplitter;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 

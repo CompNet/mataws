@@ -32,8 +32,8 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
-import tr.edu.gsu.mataws.components.TraceType;
-import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.component.TraceType;
+import tr.edu.gsu.mataws.component.TraceableParameter;
 import tr.edu.gsu.mataws.output.Output;
 import tr.edu.gsu.mataws.statistics.StatisticsUtil;
 

@@ -33,9 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
-import tr.edu.gsu.mataws.components.CsvObjectForParams;
-import tr.edu.gsu.mataws.components.CsvObjectForWords;
-import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.component.CsvObjectForParams;
+import tr.edu.gsu.mataws.component.CsvObjectForWords;
+import tr.edu.gsu.mataws.component.TraceableParameter;
 import tr.edu.gsu.mataws.output.Output;
 import tr.edu.gsu.mataws.toolbox.StandardDeviation;
 

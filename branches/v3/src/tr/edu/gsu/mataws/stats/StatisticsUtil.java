@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.Set;
 
 import tr.edu.gsu.mataws.analyzer.AnalysisType;
-import tr.edu.gsu.mataws.components.Node;
-import tr.edu.gsu.mataws.components.TraceableParameter;
+import tr.edu.gsu.mataws.component.Node;
+import tr.edu.gsu.mataws.component.TraceableParameter;
 import tr.edu.gsu.mataws.toolbox.SigmaUtil;
 
 /**

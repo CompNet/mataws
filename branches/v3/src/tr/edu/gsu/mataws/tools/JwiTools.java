@@ -26,43 +26,62 @@ package tr.edu.gsu.mataws.tools;
  * 
  */
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
-import edu.smu.tspell.wordnet.Synset;
-import edu.smu.tspell.wordnet.SynsetType;
-import edu.smu.tspell.wordnet.WordNetDatabase;
+import edu.mit.jwi.Dictionary;
+import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.POS;
+import edu.mit.jwi.morph.WordnetStemmer;
 
 /**
  * This class contains various methods and variables used 
- * all over the software when accessing WordNet through JAWS.
+ * all over the software when accessing WordNet through JWI.
  * 
  * @author Vincent Labatut
  */
-public class JawsTools
+public class JwiTools
 {	
-	/** Object allowing accessing WordNet through the Jaws library */
-	private static WordNetDatabase access = null;
+	/** Object allowing accessing WordNet through the Jwi library */
+	private static IDictionary access = null;
+	/** Object able to retrieve stems */
+	private static WordnetStemmer stemmer = null;
 	
 	/**
-	 * Initializes the Jaws library once and for all
+	 * Initializes the Jwi library once and for all
 	 */
 	private static void init()
-	{	System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER);
-		access = WordNetDatabase.getFileInstance();
+	{	URL url = null;
+		try
+		{	url = new URL("file", null, FileTools.WORDNET_FOLDER);
+			access = new Dictionary(url);
+			access.open();
+			stemmer = new WordnetStemmer(access);
+		} 
+		catch(MalformedURLException e)
+		{	// problem while accessing the dictionary
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{	// problem while reading the dictionary
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Returns the object allowing accessing WordNet
-	 * through the Jaws library. Initializes this object
+	 * through the Jwi library. Initializes this object
 	 * if necessary.
 	 * 
 	 * @return
-	 * 		The object granting access to the Jaws library.
+	 * 		The object granting access to the Jwi library.
 	 */
-	public static WordNetDatabase getAccess()
+	public static IDictionary getAccess()
 	{	if(access==null)
 			init();
 		return access;
@@ -80,20 +99,10 @@ public class JawsTools
 	 * 		The stem of the specified String.
 	 */
 	public static String getStem(String string)
-	{	// get all synsets associated to the string
-		Synset[] synsets = access.getSynsets(string);
-		// get their corresponding synset types
-		List<SynsetType> types = new ArrayList<SynsetType>();
-		for(Synset synset: synsets)
-		{	SynsetType type = synset.getType();
-			if(!types.contains(type))
-				types.add(type);
-		}
-		
-		// lookup the stems for each type
+	{	// lookup the stems for each type
 		List<String> stems = new ArrayList<String>();
-		for(SynsetType type: types)
-		{	String proposedStems[] = access.getBaseFormCandidates(string,type);
+		for(POS pos: POS.values())
+		{	List<String> proposedStems = stemmer.findStems(string,pos);
 			for(String stem: proposedStems)
 			{	if(!stems.contains(stem))
 					stems.add(stem);
