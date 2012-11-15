@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.selector.identifier;
+package tr.edu.gsu.mataws.component.core.selector;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -40,6 +40,23 @@ public class IdentifiedWord<T>
 {
 	/**
 	 * Builds a new {@code IdentifiedWord}.
+	 * The {@code original} parameter must be
+	 * different from {@code null}. Both {@code stem} 
+	 * and {@code synset} fields are set to {@code null}
+	 * and must be subsequently initialized, in order
+	 * to get a complete object.
+	 * 
+	 * @param original
+	 * 		The original form of the word.
+	 */
+	public IdentifiedWord(String original)
+	{	this(original,null,null);
+	}
+	
+	/**
+	 * Builds a new {@code IdentifiedWord}.
+	 * The {@code original} parameter must be
+	 * different from {@code null}.
 	 * 
 	 * @param original
 	 * 		The original form of the word.
@@ -49,7 +66,10 @@ public class IdentifiedWord<T>
 	 * 		The corresponding WordNet synset.
 	 */
 	public IdentifiedWord(String original, String stem, T synset)
-	{	this.original = original;
+	{	if(original==null)
+			throw new NullPointerException();
+	
+		this.original = original;
 		this.stem = stem;
 		this.synset = synset;
 	}
@@ -88,6 +108,17 @@ public class IdentifiedWord<T>
 	{	return stem;
 	}
 
+	/**
+	 * Change the stem associated to
+	 * this word.
+	 * 
+	 * @param stem
+	 * 		New stem.
+	 */
+	public void setStem(String stem)
+	{	this.stem = stem;
+	}
+
 	///////////////////////////////////////////////////////////
 	//	WORD								///////////////////
 	///////////////////////////////////////////////////////////
@@ -103,5 +134,32 @@ public class IdentifiedWord<T>
 	 */
 	public T getSynset()
 	{	return synset;
+	}
+
+	/**
+	 * Change the synset associated to
+	 * this word.
+	 * 
+	 * @param synset
+	 * 		New synset.
+	 */
+	public void setSynset(T synset)
+	{	this.synset = synset;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	MISC								///////////////////
+	///////////////////////////////////////////////////////////
+	
+	/**
+	 * Check if this word is complete, i.e. if it
+	 * has all the required fields.
+	 * 
+	 * @return
+	 * 		{@code true} iff both stem and synset fields are defined.
+	 */
+	public boolean isComplete()
+	{	boolean result = stem==null || synset==null;
+		return result;
 	}
 }

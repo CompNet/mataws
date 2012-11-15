@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.selector.identifier;
+package tr.edu.gsu.mataws.component.core.selector.simplifier;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -31,28 +31,23 @@ import java.util.List;
 import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 
 /**
- * Interface for classes in charge of identifying the 
- * WordNet synset associated to some word.
+ * Interface for classes in charge of retaining only relevant strings.
  *  
- * @param <T> 
- *		Class used to represent a WordNet synset.
+ * @param <T>
+ * 		Class used to represent the synsets. 
  *  
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface IdentifierInterface<T>
+public class FusionSimplifier<T> implements SimplifierInterface<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Takes a list of {@link IdentifiedWord} objects and 
-	 * updates them. If everything goes fine, each original 
-	 * {@code String} should then be associated to its stem 
-	 * and synset in WordNet.
-	 * 
-	 * @param words
-	 * 		The list of words to be identified. 
-	 * 			
-	 */
-	public void identify(List<IdentifiedWord<T>> words);
+	@Override
+	public List<IdentifiedWord<T>> simplify(List<IdentifiedWord<T>> strings)
+	{	
+		
+	}
 }

@@ -26,11 +26,11 @@ package tr.edu.gsu.mataws.component.core.selector.identifier;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.JwiTools;
 
 import edu.mit.jwi.IDictionary;
@@ -54,11 +54,9 @@ public class JwiIdentifier implements IdentifierInterface<ISynset>
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	
 	@Override
-	public List<IdentifiedWord<ISynset>> identify(List<String> strings)
+	public void identify(List<IdentifiedWord<ISynset>> words)
 	{	// init
-		List<IdentifiedWord<ISynset>> result = new ArrayList<IdentifiedWord<ISynset>>(); 
 		IDictionary jwiObject = JwiTools.getAccess();
 		WordnetStemmer stemmer = JwiTools.getStemmer();
 		
@@ -71,49 +69,48 @@ public class JwiIdentifier implements IdentifierInterface<ISynset>
 		);
 		
 		// process each string separately
-		for(String string: strings)
-		{	IdentifiedWord<ISynset> iw = null;
-			 
-			// process each pos one after the other, stop as soon as a synset is found
-			Iterator<POS> it = posList.iterator();
-			while(it.hasNext() && iw==null)
-			{	// get all stems associated to the string, for the current pos
-				POS pos = it.next();
-				List<String> stems = stemmer.findStems(string,pos);
-				
-				// find the synset associated to the most frequent meaning
-				int maxScore = Integer.MAX_VALUE;
-				ISynset selectedSynset = null;
-				String selectedStem = null;
-				for(String stem: stems)
-				{	// get the corresponding entity (stem + pos)
-					IIndexWord iiw = jwiObject.getIndexWord(stem,pos);
-					// get all associated occurrences (index word + meaning)
-					List<IWordID> wordIds = iiw.getWordIDs();
-					for(IWordID iwi: wordIds)
-					{	IWord w = jwiObject.getWord(iwi);
-						// get the corresponding meaning
-						ISenseKey sk = w.getSenseKey();
-						ISenseEntry se = jwiObject.getSenseEntry(sk);
-//						int score = se.getSenseNumber(); // TODO not sure which one should be used, here
-						int score = se.getTagCount();
-						if(score>maxScore)
-						{	selectedSynset = w.getSynset();
-							selectedStem = stem;
+		for(IdentifiedWord<ISynset> word: words)
+		{	if(!word.isComplete())
+			{	boolean found = false;
+				String original = word.getOriginal();
+				 
+				// process each pos one after the other, stop as soon as a synset is found
+				Iterator<POS> it = posList.iterator();
+				while(it.hasNext() && !found)
+				{	// get all stems associated to the string, for the current pos
+					POS pos = it.next();
+					List<String> stems = stemmer.findStems(original,pos);
+					
+					// find the synset associated to the most frequent meaning
+					int maxScore = Integer.MAX_VALUE;
+					ISynset selectedSynset = null;
+					String selectedStem = null;
+					for(String stem: stems)
+					{	// get the corresponding entity (stem + pos)
+						IIndexWord iiw = jwiObject.getIndexWord(stem,pos);
+						// get all associated occurrences (index word + meaning)
+						List<IWordID> wordIds = iiw.getWordIDs();
+						for(IWordID iwi: wordIds)
+						{	IWord w = jwiObject.getWord(iwi);
+							// get the corresponding meaning
+							ISenseKey sk = w.getSenseKey();
+							ISenseEntry se = jwiObject.getSenseEntry(sk);
+	//						int score = se.getSenseNumber(); // TODO not sure which one should be used, here
+							int score = se.getTagCount();
+							if(score>maxScore)
+							{	selectedSynset = w.getSynset();
+								selectedStem = stem;
+							}
 						}
 					}
+					
+					if(selectedSynset!=null)
+					{	found = true;
+						word.setStem(selectedStem);
+						word.setSynset(selectedSynset);
+					}
 				}
-				
-				// build identified word
-				iw = new IdentifiedWord<ISynset>(string, selectedStem, selectedSynset);
 			}
-			
-			// add to result list
-			if(iw==null)
-				iw = new IdentifiedWord<ISynset>(string,null,null);
-			result.add(iw);
 		}
-		
-		return result;
 	}
 }
