@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.selector;
+package tr.edu.gsu.mataws.tools;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,13 +26,48 @@ package tr.edu.gsu.mataws.component.core.selector;
  * 
  */
 
-public enum AnalysisType {
-	NonNounVerbAnnotation, 
-	OnlyOneRemaining, 
-	OnlyOneRepresenter, 
-	HypernymialRelation, 
-	HolonymialRelation, 
-	SimpleVerbAnnotation, 
-	NounAdjunct, 
-	NoAnalysis
+import java.io.File;
+import java.io.IOException;
+
+import com.whitemagicsoftware.wordsplit.TextSegmenter;
+
+/**
+ * This class contains various methods and variables used 
+ * all over the software when accessing the WordSplit API.
+ * 
+ * @author Vincent Labatut
+ */
+public class WordSplitTools
+{	
+	/** WordSplit object */
+	private static TextSegmenter access = null;
+	
+	/**
+	 * Initializes the WordSplit library once and for all
+	 */
+	private static void init()
+	{	access = new TextSegmenter();
+		String path = FileTools.SPLITTER_FOLDER + File.separator + "english.dic";
+		try
+		{	access.loadLexicon(path);
+		}
+		catch (IOException e)
+		{	// problem while loading the dictionary
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Returns the object allowing accessing the 
+	 * WordSplit library. Initializes this object
+	 * if necessary.
+	 * 
+	 * @return
+	 * 		The object granting access to the Jaws library.
+	 */
+	public static TextSegmenter getAccess()
+	{	if(access==null)
+			init();
+		return access;
+	}
 }

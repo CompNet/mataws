@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.List;
 
 import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws.tools.WordSplitTools;
 
 import com.whitemagicsoftware.wordsplit.TextSegmenter;
 
@@ -64,8 +65,6 @@ public class LexiconSplitter implements SplitterInterface
 	{	this.mode = mode;
 		if(mode==Mode.JWORDSPLITTER)
 			initJWordSplitter();
-		else if(mode==Mode.WORDSPLIT)
-			initWordSplit();
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -151,23 +150,6 @@ public class LexiconSplitter implements SplitterInterface
 	///////////////////////////////////////////////////////////
 	//	WORDSPLIT							///////////////////
 	///////////////////////////////////////////////////////////
-	/** WordSplit object */
-	private static TextSegmenter wordSplit = null;
-	
-	/**
-	 * Initializes the WordSplit library
-	 */
-	private void initWordSplit()
-	{	wordSplit = new TextSegmenter();
-		String path = FileTools.SPLITTER_FOLDER + File.separator + "english.dic";
-		try
-		{	wordSplit.loadLexicon(path);
-		}
-		catch (IOException e)
-		{	// problem while loading the dictionary
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Uses the WordSplit library to split the strings.
@@ -178,7 +160,9 @@ public class LexiconSplitter implements SplitterInterface
 	 * 		List of resulting substrings.
 	 */
 	public List<String> applyWordSplit(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	TextSegmenter wordSplit = WordSplitTools.getAccess();
+		
+		List<String> result = new ArrayList<String>();
 		for(String string: strings)
 		{	// apply the splitter
 			List<String> temp = wordSplit.split(string);

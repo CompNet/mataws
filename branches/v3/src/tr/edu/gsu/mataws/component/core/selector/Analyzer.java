@@ -40,14 +40,6 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 
 public class Analyzer {
 
-	/**
-	 * TODO
-	 * each word should first be turned to a synset, and then we work on synset
-	 * (or we can keep a trace of the original word)
-	 * question: is it possible to retrieve the sigma concept directly from the
-	 * synset id ?
-	 * 
-	 */
 	private AnalysisType analysisType = AnalysisType.NoAnalysis;
 	private WordNetDatabase wd;
 	
@@ -132,35 +124,6 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 			boolean enteredVerb = false;
 			boolean enteredOther = false;
 			
-			//here we try to get only nouns
-			for(String string : preprocessedResult){
-				nounSynsets = wd.getSynsets(string, SynsetType.NOUN);
-				verbSynsets = wd.getSynsets(string, SynsetType.VERB);
-				adjectifSynsets = wd.getSynsets(string, SynsetType.ADJECTIVE);
-				adverbSynsets = wd.getSynsets(string, SynsetType.ADVERB);
-				
-				if(nounSynsets.length > verbSynsets.length && 
-						nounSynsets.length > adjectifSynsets.length && 
-						nounSynsets.length > adverbSynsets.length){
-				
-				} else{
-					analyzeList.remove(string);
-				}
-				if(nounSynsets.length != 0){
-					if(verbSynsets.length !=0){
-						if(((float)((float)nounSynsets.length / verbSynsets.length)) < 0.3)
-							analyzeList.remove(string);
-					}else if(adverbSynsets.length !=0){
-						if(((float)((float)nounSynsets.length / adverbSynsets.length)) < 0.3)
-							analyzeList.remove(string);
-					}else if(adjectifSynsets.length !=0){
-						if(((float)((float)nounSynsets.length / adjectifSynsets.length)) < 0.3)
-							analyzeList.remove(string);
-					}
-				}else
-					analyzeList.remove(string);
-			}
-			
 			//in case of no noun exists in the list, then we try to get only verbs 
 			if(analyzeList.size() == 0){
 				
@@ -213,10 +176,6 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 			}
 		}
 		return result;
-	}
-	
-	public AnalysisType getAnalysisType(){
-		return analysisType;
 	}
 	
 	public String getWordUsage(String word){
