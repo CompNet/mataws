@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.core.preprocessor.normalizer;
+package tr.edu.gsu.mataws.component.core.selector.simplifier;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,28 +26,51 @@ package tr.edu.gsu.mataws.component.core.preprocessor.normalizer;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.tools.StringTools;
+import edu.smu.tspell.wordnet.Synset;
+import edu.smu.tspell.wordnet.SynsetType;
+
+import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 
 /**
- * Removes all diacritics.
- *   
+ * Keeps the word corresponding to the last noun.
+ * The assumption here is we have a nominal group,
+ * with one noun complementing another one, like in
+ * "user's email" for instance. With this simplifier,
+ * the alst noun is considered as the most relevant.
+ * The other parameter might of the form "user's name",
+ * "user's age", so the word "user" is not considered
+ * as informative.
+ *  
  * @author Vincent Labatut
  */
-public class DiacriticsNormalizer implements NormalizerInterface
-{	
+public class LastNounSimplifier implements SimplifierInterface<Synset>
+{
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-    @Override
-	public List<String> normalize(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	@Override
+	public boolean simplify(List<IdentifiedWord<Synset>> words)
+	{	boolean result = false;
 		
-		for(String string: strings)
-		{	String temp = StringTools.removeDiacritics(string);
-			result.add(temp);
+		// look for the last noun
+		IdentifiedWord<Synset> lastNoun = null;
+		int i = words.size() - 1;
+		while(i>=0 && lastNoun==null)
+		{	IdentifiedWord<Synset> word = words.get(i);
+			Synset synset = word.getSynset();
+			SynsetType type = synset.getType();
+			if(type==SynsetType.NOUN)
+				lastNoun = word;
+			i--;
+		}
+		
+		// change the word list accordingly (i.e. no change if there's no noun)
+		if(lastNoun!=null)
+		{	words.clear();
+			words.add(lastNoun);
+			result = true;
 		}
 		
 		return result;

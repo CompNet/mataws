@@ -45,62 +45,6 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 
 public class WordnetAnalyzer {
 
-	private WordNetDatabase wd;
-	
-	public WordnetAnalyzer(){
-		System.setProperty("wordnet.database.dir",System.getProperty("user.dir") + File.separator + "dictionary");
-System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO modif
-		wd = WordNetDatabase.getFileInstance();
-	}
-	
-	
-	public String nounAdjunctFinder(List<String> preprocessedResult){
-		return preprocessedResult.get(preprocessedResult.size()-1);
-	}
-	
-	public String frequentVerbFinder(List<String> preprocessedResult){
-		int frequency = 0;
-		String result = null;
-		for (String string : preprocessedResult) {
-			int i = getWordFrequency(string, SynsetType.VERB);
-			if(i>frequency){
-				frequency = i;
-				result = string;
-			}
-		}
-		if(result!=null)
-			return result;
-		else
-			return preprocessedResult.get(0);
-	}
-	
-	public String frequentAdjectiveOrAdverbFinder(List<String> preprocessedResult){
-		int frequency = 0;
-		String result = null;
-		for (String string : preprocessedResult) {
-			int i = getWordFrequency(string, SynsetType.ADJECTIVE);
-			int k = getWordFrequency(string, SynsetType.ADVERB);
-			int j;
-			if(i>k)
-				j = i;
-			else
-				j = k;
-			if(j>frequency){
-				frequency = i;
-				result = string;
-			}
-		}
-		if(result!=null)
-			return result;
-		else{
-			if(preprocessedResult.size()==0)
-				return "";
-			else
-				return preprocessedResult.get(0);
-		}
-			
-	}
-	
 	public List<String> hypernymialRelationFinder(List<String> preprocessedResult){
 		List<String> result = new ArrayList<String>();
 		String temp = hypernymialRelationFinderCore(preprocessedResult);
@@ -318,26 +262,5 @@ System.setProperty("wordnet.database.dir",FileTools.WORDNET_FOLDER); // TODO mod
 			}
 		}
 		return null;
-	}
-	
-	public int getWordFrequency(String word, SynsetType type){
-		
-		Synset[] synsets = wd.getSynsets(word, type);
-		if(synsets.length==0)
-			return 0;
-		
-		if(type.equals(SynsetType.NOUN)){
-			NounSynset ns = (NounSynset) synsets[0];
-			return ns.getTagCount(ns.getWordForms()[0]);
-		} else if(type.equals(SynsetType.VERB)){
-			VerbSynset vs = (VerbSynset) synsets[0];
-			return vs.getTagCount(vs.getWordForms()[0]);
-		} else if(type.equals(SynsetType.ADJECTIVE)){
-			AdjectiveSynset as = (AdjectiveSynset) synsets[0];
-			return as.getTagCount(as.getWordForms()[0]);
-		} else {
-			AdverbSynset as = (AdverbSynset) synsets[0];
-			return as.getTagCount(as.getWordForms()[0]);
-		}
 	}
 }

@@ -47,13 +47,13 @@ import tr.edu.gsu.mataws.tools.JawsTools;
  *  
  * @author Vincent Labatut
  */
-public class FusionSimplifier<T> implements SimplifierInterface<T>
+public class FusionSimplifier implements SimplifierInterface<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public boolean simplify(List<IdentifiedWord<T>> words)
+	public boolean simplify(List<IdentifiedWord<Synset>> words)
 	{	WordNetDatabase jawsObject = JawsTools.getAccess();
 		boolean result = false;
 		

@@ -235,6 +235,9 @@ public class Launcher
  * - selector:
  * 		- new separation between identifier and simplifier
  * 		- now it outputs the word and the synset, to avoid information loss
+ * 		- unlike what is said in the paper, the frequency returned by wordnet is only relative 
+ * 		  and concerns the other meanings of the considered word (i.e. it allows knowing only 
+ * 		  which meaning is the most frequent). 
  * - associator:
  * 		- no more syntactic work: the synset allows retrieving the concept without any ambiguity
  * 

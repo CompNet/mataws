@@ -78,6 +78,7 @@ public class TextSegmenter {
 	/**
 	 * Returns a number between 0 and 1 that represents how often the word is
 	 * used relative to all the other words in the lexicon.
+	 * 
 	 * @param s 
 	 * @return ?
 	 */
@@ -90,6 +91,24 @@ public class TextSegmenter {
 		}
 	}
 
+	/**
+	 * Returns the frequency associated to the
+	 * specifed word.
+	 * 
+	 * @param word
+	 * 		The word whose frequency is required.
+	 * @return
+	 * 		A real value representing the frequency,
+	 * 		or {@code null} if the word is not contained
+	 * 		in the lexicon.
+	 * 
+	 * @author	Vincent Labatut
+	 */
+	public Double getFrequency(String word)
+	{	Double result = dictionary.get(word); 
+		return result;
+	}
+	
 	/**
 	 * Split the specified strings and returns
 	 * a list of the resulting substrings.
