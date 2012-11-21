@@ -247,4 +247,11 @@ public class Launcher
  *   because the form of the word can be used to determine its grammatical type
  *   and/or meaning. to this cleaning should be let to a latter time 
  *   (might still be required for Sigma)
+ *   
+ * - problems:
+ * 		- manual evaluation (incomplete, imprecise, inconsistant)
+ * 		- process related to evaluation (averages, etc.)
+ * 		- operation names not considered
+ * 		- software not working as it should (not consistant with the paper)
+ * 		- frequency is not absolute but relative to the word
  */

@@ -29,12 +29,16 @@ package tr.edu.gsu.mataws.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
+import edu.smu.tspell.wordnet.NounSynset;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
+import edu.smu.tspell.wordnet.VerbSynset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 
 /**
@@ -179,6 +183,90 @@ public class JawsTools
 			// possibly builds the result
 			if(selectedStem!=null)
 				result = new IdentifiedWord<Synset>(string, selectedStem, selectedSynset);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Checks if the first word is a hypernym of the second one.
+	 * The method looks for a path in the synset network, with
+	 * a maximal length of {@code limit} (can be equal to the limit).
+	 * <br/>
+	 * If such a path exists, the method returns the distance between
+	 * the synsets on this path. Otherwise, the value {@code -1} is 
+	 * returned.
+	 * 
+	 * @param hypernym
+	 * 		The supposed hypernym.
+	 * @param hyponym
+	 * 		The supposed hyponym.
+	 * @param limit
+	 * 		Maximal distance between the synsets.
+	 * @return
+	 * 		The distance between the synsets, or {@code -1} if no path exists.
+	 */
+	public static int isHypernym(Synset hypernym, Synset hyponym, int limit)
+	{	int result = -1;
+		int distance = 0;
+		
+		if(hypernym.equals(hyponym))
+			result = distance;
+		else
+		{	Set<Synset> toProcess = new TreeSet<Synset>();
+			toProcess.add(hyponym);
+			while(result<0 && distance<limit)
+			{	distance++;
+				// get all needed hypernyms
+				Set<Synset> hypernyms = new TreeSet<Synset>();
+				for(Synset synset: toProcess)
+				{	List<Synset> temp = getHypernyms(synset);
+					hypernyms.addAll(temp);
+				}
+				
+				// check if they contain the searched synset
+				if(hypernyms.contains(hypernym))
+					result = distance;
+				// otherwise, go up the next level
+				else
+					toProcess = hypernyms;
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * This methods take a synset and retrieves from
+	 * WordNet the list of associated hypernyms.
+	 * <br/>
+	 * Note: this is defined only for nouns and verbs.
+	 * <br/>
+	 * TODO It seems possible to do some equivalent process
+	 * for adjectives and adverbes, by going through the
+	 * notion of pertainym, i.e. word from which the adverb
+	 * or adjective is derived: if it's a noun or verb,
+	 * it has itself hypernyms.
+	 *  
+	 * @param synset
+	 * 		The concered synset.
+	 * @return
+	 * 		The list of its hypernyms.
+	 */
+	public static List<Synset> getHypernyms(Synset synset)
+	{	List<Synset> result = new ArrayList<Synset>();
+		SynsetType type = synset.getType();
+		
+		if(type==SynsetType.NOUN)
+		{	NounSynset nounSynset = (NounSynset)synset;
+			List<NounSynset> hypernyms = Arrays.asList(nounSynset.getHypernyms());
+			result.addAll(hypernyms);
+		}
+		
+		else if(type==SynsetType.VERB)
+		{	VerbSynset verbSynset = (VerbSynset)synset;
+			List<VerbSynset> hypernyms = Arrays.asList(verbSynset.getHypernyms());
+			result.addAll(hypernyms);
 		}
 		
 		return result;

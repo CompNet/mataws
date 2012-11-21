@@ -40,6 +40,8 @@ import tr.edu.gsu.mataws.tools.JawsTools;
  * correspond to an expression stored in WordNet. In this
  * case, the whole series of words is replaced by the
  * word retrieved from WordNet.
+ * <br>
+ * Example: <b>{@code "Postal"}</b>, <b>{@code "Code"}</b>, {@code "user"} -> </b>{@code "Postcode"}</b>, {@code "user"}
  *  
  * @author Vincent Labatut
  */

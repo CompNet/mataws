@@ -42,6 +42,8 @@ import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
  * The other parameter might of the form "user's name",
  * "user's age", so the word "user" is not considered
  * as informative.
+ * <br>
+ * Example: <b>{@code "Popular"}</b>, <b>{@code "User"}</b>, {@code "Address"} -> {@code "Address"}
  *  
  * @author Vincent Labatut
  */
