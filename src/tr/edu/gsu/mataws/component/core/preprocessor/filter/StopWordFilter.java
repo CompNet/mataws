@@ -41,6 +41,8 @@ import tr.edu.gsu.mataws.tools.FileTools;
  * Uses a predefined list to remove words judged irrelevant.
  * The stop words list is defined as a text file, whose each
  * line corresponds to a different word.
+ * <br/>
+ * Example: {@code "User"} {@code "Parameter"} -> {@code "User"}
  *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy

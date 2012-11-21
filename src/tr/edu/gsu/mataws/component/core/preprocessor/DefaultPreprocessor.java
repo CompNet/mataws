@@ -114,7 +114,7 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 		filter = new RedundancyFilter();
 		filters.add(filter);
 		
-		filter = new LengthFilter(1);
+		filter = new LengthFilter();
 		filters.add(filter);
 	}
 }
