@@ -36,84 +36,84 @@ import tr.edu.gsu.mataws.tools.JawsTools;
 
 /**
  * Considers every pair of words in the list, and looks for a 
- * common hypernym (unlike {@link DirectHypernymSimplifier},
- * which is looking for a direct hypernymial relationship. 
+ * common holonym (unlike {@link DirectHolonymSimplifier},
+ * which is looking for a direct holonymial relationship. 
  * A parameter allows specifying a limit to this search.
- * For instance, a limit of two means we look for hypernyms of hypernyms.
- * The common hypernym is added to the list, while both hyponyms are removed.
+ * For instance, a limit of two means we look for holonyms of holonyms.
+ * The common holoonym is added to the list, while both meronyms are removed.
  * <br>
- * Example: {@code "Client"}, <b>{@code "Interest"}</b>, <b>{@code "Rate"}</b> -> {@code "Client"}, </b>{@code "Proportion"}</b>
+ * Example: {@code "Client"}, <b>{@code "Handlebar"}</b>, <b>{@code "Pedal"}</b> -> {@code "Client"}, </b>{@code "Bicycle"}</b>
  *  
  * @author Vincent Labatut
  */
-public class CommonHypernymSimplifier implements SimplifierInterface<Synset>
+public class CommonHolonymSimplifier implements SimplifierInterface<Synset>
 {
 	/**
-	 * Builds a {@code CommonHypernymSimplifier} using the
+	 * Builds a {@code CommonHolonymSimplifier} using the
 	 * default distance limit of 2.
 	 */
-	public CommonHypernymSimplifier()
+	public CommonHolonymSimplifier()
 	{	this.limit = 2;
 	}
 	
 	/**
-	 * Builds a {@code CommonHypernymSimplifier} using the
+	 * Builds a {@code CommonHolonymSimplifier} using the
 	 * specified distance limit.
 	 * 
 	 * @param limit 
 	 * 		Specified limit.
 	 */
-	public CommonHypernymSimplifier(int limit)
+	public CommonHolonymSimplifier(int limit)
 	{	this.limit = limit;
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Limit used when looking for common hypernyms */
+	/** Limit used when looking for common hyolonyms */
 	private int limit;
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
 	{	boolean result = false;
 		
-		// get all the required hypernyms
-		IdentifiedWord<Synset> hypernym = null;
+		// get all the required holonyms
+		IdentifiedWord<Synset> holonym = null;
 		@SuppressWarnings("unchecked")
-		IdentifiedWord<Synset> hyponyms[] = new IdentifiedWord[2];
-		Arrays.fill(hyponyms,null);
+		IdentifiedWord<Synset> meronyms[] = new IdentifiedWord[2];
+		Arrays.fill(meronyms,null);
 		int i = 0;
-		while(i<words.size()-1 && hypernym!=null)
+		while(i<words.size()-1 && holonym!=null)
 		{	int j = i + 1;
 			IdentifiedWord<Synset> word1 = words.get(i);
 			Synset synset1 = word1.getSynset();
-			List<Synset> hypernyms1 = JawsTools.getAllHypernyms(synset1,limit);
+			List<Synset> holonyms1 = JawsTools.getAllHolonyms(synset1,limit);
 			while(j<words.size() && !result)
 			{	IdentifiedWord<Synset> word2 = words.get(j);
 				Synset synset2 = word2.getSynset();
-				List<Synset> hypernyms2 = JawsTools.getAllHypernyms(synset2,limit);
-				hypernyms2.retainAll(hypernyms1);
-				if(!hypernyms2.isEmpty())
+				List<Synset> holonyms2 = JawsTools.getAllHolonyms(synset2,limit);
+				holonyms2.retainAll(holonyms1);
+				if(!holonyms2.isEmpty())
 				{	// select the most appropriate hypernym: 
 					// use the distance in the hyper/hyponymial graph
 					int minDist = Integer.MAX_VALUE;
-					Synset selectedHypernym = null;
-					for(int k=0;k<hypernyms2.size();k++)
-					{	Synset h = hypernyms2.get(k);
-						int d1 = JawsTools.isHypernym(synset1,h,limit); //should not be negative
-						int d2 = JawsTools.isHypernym(synset2,h,limit); //should not be negative
+					Synset selectedHolonym = null;
+					for(int k=0;k<holonyms2.size();k++)
+					{	Synset h = holonyms2.get(k);
+						int d1 = JawsTools.isHolonym(synset1,h,limit); //should not be negative
+						int d2 = JawsTools.isHolonym(synset2,h,limit); //should not be negative
 						int distance = d1 + d2;
 						if(distance<minDist)
 						{	minDist = distance;
-							selectedHypernym = h;
+							selectedHolonym = h;
 						}
 					}
 					// create the word representing the hypernym
-					hyponyms[0] = word1;
-					hyponyms[1] = word2;
+					meronyms[0] = word1;
+					meronyms[1] = word2;
 					String original = word1.getOriginal() + "vs. " + word2.getOriginal();
-					String stem = JawsTools.getStem(selectedHypernym);
-					hypernym = new IdentifiedWord<Synset>(original,stem,selectedHypernym);
+					String stem = JawsTools.getStem(selectedHolonym);
+					holonym = new IdentifiedWord<Synset>(original,stem,selectedHolonym);
 				}
 				j++;
 			}
@@ -121,11 +121,11 @@ public class CommonHypernymSimplifier implements SimplifierInterface<Synset>
 		}
 		
 		// update the word list
-		if(hypernym!=null)
+		if(holonym!=null)
 		{	result = true;
-			words.remove(hyponyms[0]);
-			words.remove(hyponyms[1]);
-			words.add(hypernym);
+			words.remove(meronyms[0]);
+			words.remove(meronyms[1]);
+			words.add(holonym);
 		}
 		
 		return result;
