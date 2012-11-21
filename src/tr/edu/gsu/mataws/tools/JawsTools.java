@@ -51,6 +51,9 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
  */
 public class JawsTools
 {	
+	///////////////////////////////////////////////////////////
+	//	ACCESS								///////////////////
+	///////////////////////////////////////////////////////////
 	/** Object allowing accessing WordNet through the Jaws library */
 	private static WordNetDatabase access = null;
 	
@@ -76,6 +79,9 @@ public class JawsTools
 		return access;
 	}
 
+	///////////////////////////////////////////////////////////
+	//	STEMS								///////////////////
+	///////////////////////////////////////////////////////////
 	/**
 	 * Retrieves the stem of the specified word
 	 * from WordNet, even when the POS is unknown.
@@ -126,7 +132,7 @@ public class JawsTools
 	}
 	
 	/**
-	 * Retrieces the stem and synset for the specified
+	 * Retrieves the stem and synset for the specified
 	 * word, even when the POS is unknown. If no 
 	 * correspondance is found, the method returns 
 	 * {@code null}.
@@ -218,6 +224,9 @@ public class JawsTools
 		return result;
 	}
 	
+	///////////////////////////////////////////////////////////
+	//	HYPER/HYPONYMS						///////////////////
+	///////////////////////////////////////////////////////////
 	/**
 	 * Checks if the first word is a hypernym of the second one.
 	 * The method looks for a path in the synset network, with
@@ -274,7 +283,7 @@ public class JawsTools
 	 * Note: this is defined only for nouns and verbs.
 	 * <br/>
 	 * TODO It seems possible to do some equivalent process
-	 * for adjectives and adverbes, by going through the
+	 * for adjectives and adverbs, by going through the
 	 * notion of pertainym, i.e. word from which the adverb
 	 * or adjective is derived: if it's a noun or verb,
 	 * it has itself hypernyms.
@@ -285,21 +294,32 @@ public class JawsTools
 	 * 		The list of its hypernyms.
 	 */
 	public static List<Synset> getHypernyms(Synset synset)
-	{	List<Synset> result = new ArrayList<Synset>();
+	{	// init
+		Set<Synset> result0 = new TreeSet<Synset>();
 		SynsetType type = synset.getType();
 		
+		// process nouns
 		if(type==SynsetType.NOUN)
 		{	NounSynset nounSynset = (NounSynset)synset;
-			List<NounSynset> hypernyms = Arrays.asList(nounSynset.getHypernyms());
-			result.addAll(hypernyms);
+			List<NounSynset> hypernyms;
+			// general hypernyms
+			hypernyms = Arrays.asList(nounSynset.getHypernyms());
+			result0.addAll(hypernyms);
+			// instance hypernyms
+			hypernyms = Arrays.asList(nounSynset.getInstanceHypernyms());
+			result0.addAll(hypernyms);
 		}
 		
+		// process verbs
 		else if(type==SynsetType.VERB)
 		{	VerbSynset verbSynset = (VerbSynset)synset;
 			List<VerbSynset> hypernyms = Arrays.asList(verbSynset.getHypernyms());
-			result.addAll(hypernyms);
+			result0.addAll(hypernyms);
 		}
 		
+		// set result
+		List<Synset> result = new ArrayList<Synset>();
+		result.addAll(result0);
 		return result;
 	}
 	
@@ -311,7 +331,7 @@ public class JawsTools
 	 * Note: this is defined only for nouns and verbs.
 	 * <br/>
 	 * TODO It seems possible to do some equivalent process
-	 * for adjectives and adverbes, cf. {@link #getHypernyms}.
+	 * for adjectives and adverbs, cf. {@link #getHypernyms}.
 	 *  
 	 * @param hyponym
 	 * 		The concerned synset.
@@ -342,6 +362,148 @@ public class JawsTools
 			processed.addAll(toProcess);
 			hypernyms.removeAll(processed);
 			toProcess = hypernyms;
+		}
+		
+		// create the result list
+		List<Synset> result = new ArrayList<Synset>();
+		result.addAll(result0);
+		return result;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	HOLO/MERONYMS						///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Checks if the first word is a holonym of the second one.
+	 * The method looks for a path in the synset network, with
+	 * a maximal length of {@code limit} (can be equal to the limit).
+	 * <br/>
+	 * If such a path exists, the method returns the distance between
+	 * the synsets on this path. Otherwise, the value {@code -1} is 
+	 * returned.
+	 * 
+	 * @param holonym
+	 * 		The supposed holonym.
+	 * @param meronym
+	 * 		The supposed meronym.
+	 * @param limit
+	 * 		Maximal distance between the synsets.
+	 * @return
+	 * 		The distance between the synsets, or {@code -1} if no path exists.
+	 */
+	public static int isHolonym(Synset holonym, Synset meronym, int limit)
+	{	int result = -1;
+		int distance = 0;
+		
+		if(holonym.equals(meronym))
+			result = distance;
+		else
+		{	Set<Synset> toProcess = new TreeSet<Synset>();
+			toProcess.add(meronym);
+			while(result<0 && distance<limit)
+			{	distance++;
+				
+				// get all needed holonyms
+				Set<Synset> holonyms = new TreeSet<Synset>();
+				for(Synset synset: toProcess)
+				{	List<Synset> temp = getHolonyms(synset);
+					holonyms.addAll(temp);
+				}
+				
+				// check if they contain the searched synset
+				if(holonyms.contains(holonym))
+					result = distance;
+				// otherwise, go up the next level
+				else
+					toProcess = holonyms;
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * This methods take a synset and retrieves from
+	 * WordNet the list of associated holonyms.
+	 * <br/>
+	 * Note: this is defined only for nouns.
+	 * <br/>
+	 * TODO It seems possible to do some equivalent process
+	 * for adjectives and adverbs, by going through the
+	 * notion of pertainym, i.e. word from which the adverb
+	 * or adjective is derived: if it's a noun,
+	 * it has itself hypernyms.
+	 *  
+	 * @param synset
+	 * 		The concerned synset.
+	 * @return
+	 * 		The list of its holonyms.
+	 */
+	public static List<Synset> getHolonyms(Synset synset)
+	{	// init
+		Set<Synset> result0 = new TreeSet<Synset>();
+		SynsetType type = synset.getType();
+		
+		// process nouns
+		if(type==SynsetType.NOUN)
+		{	NounSynset nounSynset = (NounSynset)synset;
+			List<NounSynset> holonyms;
+			// member holonyms
+			holonyms = Arrays.asList(nounSynset.getMemberHolonyms());
+			result0.addAll(holonyms);
+			// part holonyms
+			holonyms = Arrays.asList(nounSynset.getPartHolonyms());
+			result0.addAll(holonyms);
+			// substance holonyms
+			holonyms = Arrays.asList(nounSynset.getSubstanceHolonyms());
+			result0.addAll(holonyms);
+		}
+		
+		//set result
+		List<Synset> result = new ArrayList<Synset>();
+		result.addAll(result0);
+		return result;
+	}
+
+	/**
+	 * This methods take a synset and retrieves from
+	 * WordNet the list of associated holonyms, up to
+	 * the specified distance.
+	 * <br/>
+	 * Note: this is defined only for nouns.
+	 * <br/>
+	 * TODO It seems possible to do some equivalent process
+	 * for adjectives and adverbs, cf. {@link #getHypernyms}.
+	 *  
+	 * @param meronym
+	 * 		The concerned synset.
+	 * @param limit
+	 * 		The search limit (in terms of distance on the hyper/hyponymial graph).
+	 * @return
+	 * 		The list of all its holonyms.
+	 */
+	public static List<Synset> getAllHolonyms(Synset meronym, int limit)
+	{	Set<Synset> result0 = new TreeSet<Synset>();
+		
+		int distance = 0;
+		Set<Synset> toProcess = new TreeSet<Synset>();
+		Set<Synset> processed = new TreeSet<Synset>();
+		toProcess.add(meronym);
+		while(distance<limit)
+		{	distance++;
+			
+			// get all direct holonyms
+			Set<Synset> holonyms = new TreeSet<Synset>();
+			for(Synset synset: toProcess)
+			{	List<Synset> temp = getHolonyms(synset);
+				holonyms.addAll(temp);
+			}
+			
+			// update sets
+			result0.addAll(holonyms);
+			processed.addAll(toProcess);
+			holonyms.removeAll(processed);
+			toProcess = holonyms;
 		}
 		
 		// create the result list
