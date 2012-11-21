@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.whitemagicsoftware.wordsplit.TextSegmenter;
+
 import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -87,11 +89,39 @@ public class JawsTools
 	 */
 	public static String getStem(String string)
 	{	String result = null;
+		
 		IdentifiedWord<Synset> temp = getIdentifiedWord(string);
 		if(temp!=null)
 			result = temp.getStem();
 		if(result==null)
 			result = string;
+		
+		return result;
+	}
+	
+	/**
+	 * Retrieves the most likely stem for the 
+	 * specified Synset, from WordNet.
+	 * 
+	 * @param synset
+	 * 		Synset to be process.
+	 * @return
+	 * 		The most likely stem for the the specified Synset.
+	 */
+	public static String getStem(Synset synset)
+	{	String result = null;
+		TextSegmenter wordSplitObject = WordSplitTools.getAccess();
+		
+		String stems[] = synset.getWordForms();
+		double maxFrequency = Integer.MIN_VALUE;
+		for(String stem: stems)
+		{	Double freq = wordSplitObject.getFrequency(stem);
+			if(freq!=null && freq>maxFrequency)
+			{	maxFrequency = freq;
+				result = stem;
+			}
+		}
+		
 		return result;
 	}
 	
@@ -217,6 +247,7 @@ public class JawsTools
 			toProcess.add(hyponym);
 			while(result<0 && distance<limit)
 			{	distance++;
+				
 				// get all needed hypernyms
 				Set<Synset> hypernyms = new TreeSet<Synset>();
 				for(Synset synset: toProcess)
@@ -249,7 +280,7 @@ public class JawsTools
 	 * it has itself hypernyms.
 	 *  
 	 * @param synset
-	 * 		The concered synset.
+	 * 		The concerned synset.
 	 * @return
 	 * 		The list of its hypernyms.
 	 */
@@ -269,6 +300,53 @@ public class JawsTools
 			result.addAll(hypernyms);
 		}
 		
+		return result;
+	}
+	
+	/**
+	 * This methods take a synset and retrieves from
+	 * WordNet the list of associated hypernyms, up to
+	 * the specified distance.
+	 * <br/>
+	 * Note: this is defined only for nouns and verbs.
+	 * <br/>
+	 * TODO It seems possible to do some equivalent process
+	 * for adjectives and adverbes, cf. {@link #getHypernyms}.
+	 *  
+	 * @param hyponym
+	 * 		The concerned synset.
+	 * @param limit
+	 * 		The search limit (in terms of distance on the hyper/hyponymial graph).
+	 * @return
+	 * 		The list of all its hypernyms.
+	 */
+	public static List<Synset> getAllHypernyms(Synset hyponym, int limit)
+	{	Set<Synset> result0 = new TreeSet<Synset>();
+		
+		int distance = 0;
+		Set<Synset> toProcess = new TreeSet<Synset>();
+		Set<Synset> processed = new TreeSet<Synset>();
+		toProcess.add(hyponym);
+		while(distance<limit)
+		{	distance++;
+			
+			// get all direct hypernyms
+			Set<Synset> hypernyms = new TreeSet<Synset>();
+			for(Synset synset: toProcess)
+			{	List<Synset> temp = getHypernyms(synset);
+				hypernyms.addAll(temp);
+			}
+			
+			// update sets
+			result0.addAll(hypernyms);
+			processed.addAll(toProcess);
+			hypernyms.removeAll(processed);
+			toProcess = hypernyms;
+		}
+		
+		// create the result list
+		List<Synset> result = new ArrayList<Synset>();
+		result.addAll(result0);
 		return result;
 	}
 }
