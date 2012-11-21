@@ -47,6 +47,8 @@ import tr.edu.gsu.mataws.tools.FileTools;
  * The abbreviations are defined as a text file of
  * coma separated values, such as on each line we have
  * one couple "abbreviation,full word".
+ * <br/>
+ * Example: {@code "My"} {@code "Int"}, {@code "Param"} -> {@code "My"}, {@code "Integer"}, {@code "Parameter"}
  *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy

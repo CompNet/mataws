@@ -34,7 +34,7 @@ import java.util.*;
  * <br/>
  * Example: {@code "MYParamOut"} -> {@code "MY"}, {@code "Param"}, {@code "Out"}
  * <br/>
- * Possible improvement: use a lexicon to determine only relevant splits.
+ * TODO Possible improvement: use a lexicon to determine only relevant splits.
  * 
  * @author Koray Mancuhan
  * @author Cihan Aksoy

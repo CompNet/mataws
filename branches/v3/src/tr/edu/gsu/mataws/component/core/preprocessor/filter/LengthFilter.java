@@ -33,11 +33,23 @@ import java.util.List;
  * Simply removes the words shorter than a given
  * limit. Those are supposed to be irrelevant
  * (e.g. single letters).
+ * <br/>
+ * Example: {@code "A"} {@code "Nice"}, {@code "Parameter"} -> {@code "Nice"}, {@code "Parameter"}
  *   
  * @author Vincent Labatut
  */
 public class LengthFilter implements FilterInterface
 {
+	/**
+	 * Creates a length-based filter 
+	 * using the default limit of 1.
+	 * All words above this length
+	 * (or equal) will be removed.
+	 */
+	public LengthFilter()
+	{	this.limit = 1;
+	}
+	
 	/**
 	 * Creates a length-based filter 
 	 * using the specified limit.

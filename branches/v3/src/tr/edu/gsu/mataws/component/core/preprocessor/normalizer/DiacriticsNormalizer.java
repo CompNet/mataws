@@ -33,6 +33,8 @@ import tr.edu.gsu.mataws.tools.StringTools;
 
 /**
  * Removes all diacritics.
+ * <br/>
+ * Example: {@code "Mon"} <b>{@code "Paramètre"}</b> -> {@code "Mon"}, <b>{@code "Parametre"}</b>
  *   
  * @author Vincent Labatut
  */

@@ -36,6 +36,8 @@ import tr.edu.gsu.mataws.tools.JwiTools;
  * Replace a word by its stem (or lemma form).
  * Plural nouns are replaced by the singular version,
  * conjugated verbs are replaced by the infinitive form, etc.
+ * <br/>
+ * Example: {@code "Number"}, {@code "Of"}, <b>{@code "Tries"}</b> -> {@code "Number"}, {@code "Of"}, <b>{@code "Try"}</b>
  *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy

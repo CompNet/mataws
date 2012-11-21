@@ -34,6 +34,8 @@ import java.util.Locale;
  * Transform uppercase letters into their lowercase equivalent.
  * This process is not applied if the whole word is in uppercase letters,
  * because it might be an acronym.
+ * <br/>
+ * Example: <b>{@code "My"}</b> {@code "CC"}, <b>{@code "Parameter"}</b> -> <b>{@code "my"}</b>, {@code "CC"}, <b>{@code "parameter"}</b>
  *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy

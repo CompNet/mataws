@@ -32,6 +32,8 @@ import java.util.List;
 /**
  * Simply removes the extra occurrences of words 
  * appearing several times in the parameter name.
+ * <br/>
+ * Example: {@code "Param"} {@code "X"}, {@code "Param"} -> {@code "Param"}, {@code "X"}
  *   
  * @author Vincent Labatut
  */
