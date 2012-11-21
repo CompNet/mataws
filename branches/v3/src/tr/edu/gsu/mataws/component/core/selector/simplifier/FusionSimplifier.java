@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.smu.tspell.wordnet.Synset;
-import edu.smu.tspell.wordnet.WordNetDatabase;
 
 import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.JawsTools;
@@ -40,10 +39,7 @@ import tr.edu.gsu.mataws.tools.JawsTools;
  * Checks if any combination of consecutive words could
  * correspond to an expression stored in WordNet. In this
  * case, the whole series of words is replaced by the
- * stem of the word retrieved from WordNet.
- *  
- * @param <T>
- * 		Class used to represent the synsets. 
+ * word retrieved from WordNet.
  *  
  * @author Vincent Labatut
  */
@@ -52,138 +48,117 @@ public class FusionSimplifier implements SimplifierInterface<Synset>
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	@Override
-	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	WordNetDatabase jawsObject = JawsTools.getAccess();
-		boolean result = false;
-		
-		// process all appropriate combinations of indices
-		List<List<Integer>> indices = initIndexList(words.size());
-		List<List<Integer>> combinations = generateAllCombis(indices);
-		
-		// lookup the corresponding combinations of strings in WordNet
-		List<String> stringList = new ArrayList<String>();
-		List<Synset[]> synsetList = new ArrayList<Synset[]>();
-		List<List<Integer>> indexList = new ArrayList<List<Integer>>();
-		while(combinations.size()>0)
-		{	// get the next combination
-			List<Integer> combi = combinations.get(0);
-			combinations.remove(0);
-			// retrieve the corresponding string
-			String string = buildStringFromIndices(words, combi);
-			// check if WordNet knows it 
-			Synset[] synsets = jawsObject.getSynsets(string);
-			if(synsets!=null && synsets.length>0)
-			{	// remove all combinations containing these indices
-				clearIndices(combinations,combi);
-				// update variables
-				stringList.add(string);
-				synsetList.add(synsets);
-				indexList.add(combi);
-				result = true;
-			}
-		}
-		
-		// process the mergeable words
-		for(int i=0;i<synsetList.size();i++)
-		{	Synset[] synset = synsetList.get(i);
-			List<Integer> index = indexList.get(i);
-			String string = stringList.get(i);
-			
-		}
-		
-		return result;
-	}		
+	
 	
 	/**
-	 * Builds a list of lists, each one containing
-	 * an integer value.
-	 *  
-	 * @param size
-	 * 		Number of sublists.
-	 * @return
-	 * 		A list of integer lists.
-	 */
-	private List<List<Integer>> initIndexList(int size)
-	{	List<List<Integer>> result = new ArrayList<List<Integer>>();
-		for(int i=0;i<size;i++)
-		{	List<Integer> list = new ArrayList<Integer>();
-			list.add(i);
-			result.add(list);
-		}
-		return result;
-	}
-	
-	/**
-	 * Generates a list containing all combinations
-	 * of two consecutive strings from the the original list.
-	 * 
-	 * @param indices
-	 * 		List of original strings.
-	 * @return
-	 * 		List of concatenated strings.
-	 */
-	private List<List<Integer>> generateAllCombis(List<List<Integer>> indices)
-	{	List<List<Integer>> result = new ArrayList<List<Integer>>();
-//TODO not tested		
-		if(indices.size()==1)
-			result.add(indices.get(0));
-		
-		else if(indices.size()>1)
-		{	List<List<Integer>> tempList = new ArrayList<List<Integer>>();
-			for(int i=0;i<indices.size()-1;i++)
-			{	List<Integer> str0 = indices.get(i);
-				List<Integer> str1 = indices.get(i+1);
-				List<Integer> tempStr = new ArrayList<Integer>();
-				tempStr.addAll(str0);
-				tempStr.addAll(str1);
-				tempList.add(tempStr);
-			}
-			List<List<Integer>> tempList2 = generateAllCombis(tempList);
-			result.addAll(tempList2);
-			result.addAll(indices);
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * Combines the words in the specified list, according
-	 * to the specified list of indices, in order to generate
-	 * a string.
+	 * Tries to merge the words from the specified list, by groups of 
+	 * {@code n} consecutive words, and to retrieve the corresponding synset 
+	 * in WordNet. If this operation is successfull, then the retrieved 
+	 * {@link IdentifiedWord} is substituted in the input list.
 	 * 
 	 * @param words
-	 * 		Original words.
-	 * @param indices
-	 * 		Indices of the words to concatenate.
+	 * 		The list of words to be merged.
+	 * @param n 
+	 * 		Number of consecutive words to merge.
 	 * @return
-	 * 		String resulting from the concatenation.
+	 * 		{@code true} iff a substitution could be performed.
 	 */
-	private String buildStringFromIndices(List<IdentifiedWord<T>> words, List<Integer> indices)
-	{	String result = "";
-		for(int i: indices)
-			result = result + " " + words.get(i).getOriginal();
-		result = result.substring(0,result.length()-1);
+	private boolean checkFusion(List<IdentifiedWord<Synset>> words, int n)
+	{	boolean result = false;
+		
+		// process each group of n words
+		int i = 0;
+		IdentifiedWord<Synset> merge = null;
+		while(i<=words.size()-n && merge==null)
+		{	// get all possible concatenations
+			List<IdentifiedWord<Synset>> list = new ArrayList<IdentifiedWord<Synset>>();
+			for(int j=i;j<i+n;j++)
+				list.add(words.get(j));
+			List<String> concatenations = generateMerges(list);
+			
+			// look them up in WordNet
+			Iterator<String> it = concatenations.iterator();
+			while(it.hasNext() && merge==null)
+			{	String concatenation = it.next();
+				merge = JawsTools.getIdentifiedWord(concatenation);
+			}
+			
+			i++;
+		}
+		
+		// if we cound find a concatenation, replace in the input list
+		if(merge!=null)
+		{	i--;
+			result = true;
+			for(int j=i;j<i+n;j++)
+				words.remove(i);
+			words.add(i,merge);
+		}
+		
 		return result;
 	}
-	
+
 	/**
-	 * Removes from {@code list} all lists containing at least one value
-	 * from {@code indices}.
+	 * Takes a list of {@link IdentifiedWord} and returns all possible concatenations,
+	 * considering both original strings and stems are considered, with a preference
+	 * given to the former.
 	 * 
-	 * @param list
-	 * 		Original list of index lists.
-	 * @param indices
-	 * 		The indices to remove.
+	 * @param words
+	 * 		The word to be concatenated.
+	 * @return
+	 * 		A list of all possible concatenations.
 	 */
-	private void clearIndices(List<List<Integer>> list, List<Integer> indices)
-	{	Iterator<List<Integer>> it = list.iterator();
-		while(it.hasNext())
-		{	List<Integer> temp = it.next();
-			List<Integer> tempCp = new ArrayList<Integer>(temp);
-			tempCp.retainAll(indices);
-			if(!tempCp.isEmpty())
-				it.remove();
+	private List<String> generateMerges(List<IdentifiedWord<Synset>> words)
+	{	List<String> result = new ArrayList<String>();
+		
+		if(!words.isEmpty())
+		{	IdentifiedWord<Synset> word = words.get(0);
+			String original = word.getOriginal();
+			String stem = word.getStem();
+			
+			// only ine word: simply take the original string and stem
+			if(words.size()==1)
+			{	result.add(original);
+				if(stem!=null)
+					result.add(stem);
+			}
+			
+			// more than one word: first process the strings for the rest
+			// of the list, then concatenate with the first word
+			else if(words.size()>1)
+			{	List<IdentifiedWord<Synset>> rest = new ArrayList<IdentifiedWord<Synset>>(words);
+				rest.remove(0);
+				List<String> strings = generateMerges(rest);
+				for(String string: strings)
+				{	String temp = original + " " + string;
+					result.add(temp);
+				}
+				if(stem!=null)
+				{	for(String string: strings)
+					{	String temp = stem + " " + string;
+						result.add(temp);
+					}
+				}
+			}
 		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean simplify(List<IdentifiedWord<Synset>> words)
+	{	boolean result = false;
+		
+		// try merging consecutive words,
+		// starting with the largest number of words
+		// and then smaller and smaller concatenations,
+		// until one is found in WordNet
+		int n = words.size();
+		while(n>1 && !result)
+		{	result = checkFusion(words,n);
+			n--;
+		}
+		
+		return result;
 	}
 }

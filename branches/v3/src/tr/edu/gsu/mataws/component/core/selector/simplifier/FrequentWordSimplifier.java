@@ -26,13 +26,11 @@ package tr.edu.gsu.mataws.component.core.selector.simplifier;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.whitemagicsoftware.wordsplit.TextSegmenter;
 
 import edu.smu.tspell.wordnet.Synset;
-import edu.smu.tspell.wordnet.SynsetType;
 
 import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.WordSplitTools;
