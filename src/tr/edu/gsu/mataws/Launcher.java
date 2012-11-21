@@ -254,4 +254,5 @@ public class Launcher
  * 		- operation names not considered
  * 		- software not working as it should (not consistant with the paper)
  * 		- frequency is not absolute but relative to the word
+ * 		- hypernyms processing: only consider the first hypernym
  */
