@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import tr.edu.gsu.mataws.tools.FileTools;
-import tr.edu.gsu.mataws.tools.WordSplitTools;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
+import tr.edu.gsu.mataws.tools.strings.WordSplitTools;
 
 import com.whitemagicsoftware.wordsplit.TextSegmenter;
 

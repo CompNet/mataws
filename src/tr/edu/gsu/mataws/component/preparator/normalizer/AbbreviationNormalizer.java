@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
 
 /**
  * Transform abbreviations (or any expression, actually) 

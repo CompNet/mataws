@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
 import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.in.Digger;
 import tr.edu.gsu.sine.in.Language;

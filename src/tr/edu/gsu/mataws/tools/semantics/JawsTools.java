@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.tools;
+package tr.edu.gsu.mataws.tools.semantics;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -35,6 +35,9 @@ import java.util.TreeSet;
 import com.whitemagicsoftware.wordsplit.TextSegmenter;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
+import tr.edu.gsu.mataws.tools.strings.SimmetricsTools;
+import tr.edu.gsu.mataws.tools.strings.WordSplitTools;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import edu.smu.tspell.wordnet.NounSynset;

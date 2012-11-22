@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.tools;
+package tr.edu.gsu.mataws.tools.strings;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,48 +26,32 @@ package tr.edu.gsu.mataws.tools;
  * 
  */
 
-import java.io.IOException;
-
-import com.articulate.sigma.KBmanager;
-import com.articulate.sigma.WordNet;
+import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 /**
  * This class contains various methods and variables used 
- * all over the software when accessing Sigma.
+ * all over the software when accessing {@code String} metrics.
  * 
  * @author Vincent Labatut
  */
-public class SigmaTools
+public class SimmetricsTools
 {	
-	/** Object allowing accessing Sigma */
-	private static WordNet access = null;
+	///////////////////////////////////////////////////////////
+	//	DISTANCES							///////////////////
+	///////////////////////////////////////////////////////////
+	/** Levenshtein similarity */
+	private static Levenshtein levenshteinSimilarity = null;
 	
 	/**
-	 * Initializes the Sigma library once and for all
-	 */
-	private static void init()
-	{	try
-		{	KBmanager.getMgr().initializeOnce();
-			KBmanager.getMgr().setPref("kbDir", FileTools.KNOWBASE_FOLDER);
-			WordNet.initOnce();
-			access = WordNet.wn;
-		}
-		catch (IOException e)
-		{	// problem while loading the knowledge base or the lexicon 
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Returns the object allowing accessing Sigma.
-	 * Initializes this object if necessary.
+	 * Returns an object able to process
+	 * Levenshtein's similarity between two strings.
 	 * 
 	 * @return
-	 * 		The object granting access to the Sigma library.
+	 * 		An object able to process Levenshtein's similarity.
 	 */
-	public static WordNet getAccess()
-	{	if(access==null)
-			init();
-		return access;
+	public static Levenshtein getLevenshteinSimilarity()
+	{	if(levenshteinSimilarity==null)
+			levenshteinSimilarity = new Levenshtein();
+		return levenshteinSimilarity;
 	}
 }

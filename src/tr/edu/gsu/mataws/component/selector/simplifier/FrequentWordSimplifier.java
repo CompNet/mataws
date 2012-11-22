@@ -33,7 +33,7 @@ import com.whitemagicsoftware.wordsplit.TextSegmenter;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.WordSplitTools;
+import tr.edu.gsu.mataws.tools.strings.WordSplitTools;
 
 /**
  * Keeps the most frequent word amongst the remaining one.

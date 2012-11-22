@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.JawsTools;
+import tr.edu.gsu.mataws.tools.semantics.JawsTools;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;

@@ -48,7 +48,7 @@ import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.stats.StatData;
 import tr.edu.gsu.mataws.stats.StatWritter;
-import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 import tr.edu.gsu.sine.col.Collection;

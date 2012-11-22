@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.tools;
+package tr.edu.gsu.mataws.tools.strings;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,33 +26,50 @@ package tr.edu.gsu.mataws.tools;
  * 
  */
 
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
+import java.io.File;
+import java.io.IOException;
+
+import tr.edu.gsu.mataws.tools.misc.FileTools;
+
+import com.whitemagicsoftware.wordsplit.TextSegmenter;
 
 /**
- * This class contains various methods and variables used all over the
- * software to handle strings.
+ * This class contains various methods and variables used 
+ * all over the software when accessing the WordSplit API.
  * 
  * @author Vincent Labatut
  */
-public class StringTools
+public class WordSplitTools
 {	
+	/** WordSplit object */
+	private static TextSegmenter access = null;
 	
 	/**
-	 * Removes all diactrics (accents, cedilla, umlaut, etc.)
-	 * from the specified text.
-	 * <br/>
-	 * source: <a href="http://www.drillio.com/en/software-development/java/removing-accents-diacritics-in-any-language/">Drillio web site</a>
-	 * 
-	 * @param string
-	 * 		The text to process.
-	 * @return
-	 * 		The same text, but without any diacritics.
-	 * 
-	 * @author	Drillio
+	 * Initializes the WordSplit library once and for all
 	 */
-	public static String removeDiacritics(String string)
-	{	String result = Normalizer.normalize(string,Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-		return result;
+	private static void init()
+	{	access = new TextSegmenter();
+		String path = FileTools.SPLITTER_FOLDER + File.separator + "english.dic";
+		try
+		{	access.loadLexicon(path);
+		}
+		catch (IOException e)
+		{	// problem while loading the dictionary
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Returns the object allowing accessing the 
+	 * WordSplit library. Initializes this object
+	 * if necessary.
+	 * 
+	 * @return
+	 * 		The object granting access to the Jaws library.
+	 */
+	public static TextSegmenter getAccess()
+	{	if(access==null)
+			init();
+		return access;
 	}
 }
