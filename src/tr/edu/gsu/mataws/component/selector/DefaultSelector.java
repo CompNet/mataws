@@ -27,8 +27,8 @@ package tr.edu.gsu.mataws.component.selector;
  */
 
 import edu.smu.tspell.wordnet.Synset;
-import tr.edu.gsu.mataws.component.cleaner.identifier.IdentifierInterface;
-import tr.edu.gsu.mataws.component.cleaner.identifier.JawsIdentifier;
+import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
+import tr.edu.gsu.mataws.component.preparator.identifier.JawsIdentifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.CommonHolonymSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.CommonHypernymSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.DirectHolonymSimplifier;
