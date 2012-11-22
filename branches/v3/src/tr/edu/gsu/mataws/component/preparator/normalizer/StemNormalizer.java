@@ -29,8 +29,8 @@ package tr.edu.gsu.mataws.component.preparator.normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.tools.JawsTools;
-import tr.edu.gsu.mataws.tools.JwiTools;
+import tr.edu.gsu.mataws.tools.semantics.JawsTools;
+import tr.edu.gsu.mataws.tools.semantics.JwiTools;
 
 /**
  * Replace a word by its stem (or lemma form).

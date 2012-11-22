@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.tools;
+package tr.edu.gsu.mataws.tools.misc;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,32 +26,30 @@ package tr.edu.gsu.mataws.tools;
  * 
  */
 
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
+import java.io.File;
 
 /**
- * This class contains various methods and variables used 
- * all over the software when accessing {@code String} metrics.
+ * This class contains various methods and variables used all over the
+ * software to retrieve files.
  * 
  * @author Vincent Labatut
  */
-public class SimmetricsTools
-{	
-	///////////////////////////////////////////////////////////
-	//	DISTANCES							///////////////////
-	///////////////////////////////////////////////////////////
-	/** Levenshtein similarity */
-	private static Levenshtein levenshteinSimilarity = null;
-	
-	/**
-	 * Returns an object able to process
-	 * Levenshtein's similarity between two strings.
-	 * 
-	 * @return
-	 * 		An object able to process Levenshtein's similarity.
-	 */
-	public static Levenshtein getLevenshteinSimilarity()
-	{	if(levenshteinSimilarity==null)
-			levenshteinSimilarity = new Levenshtein();
-		return levenshteinSimilarity;
-	}
+public class FileTools
+{	/** Folder containing the original syntactic description files */
+	public static final String INPUT_FOLDER = "input";
+	/** Folder containing the generated semantic description files */
+	public static final String OUTPUT_FOLDER = "output";
+	/** Log folder */
+	public static final String LOG_FOLDER = "log";
+
+	/** General folder for Mataws resources */
+	public static final String RESOURCES_FOLDER = "resource";
+	/** Folder containing Mataws configuration files  */
+	public static final String CONFIG_FOLDER = RESOURCES_FOLDER + File.separator + "config";
+	/** Folder containing Sigma's Knowledge bases */
+	public static final String KNOWBASE_FOLDER = RESOURCES_FOLDER + File.separator + "kbs";
+	/** Folder containing the dictionary for the word splitter */
+	public static final String SPLITTER_FOLDER = RESOURCES_FOLDER + File.separator + "splitter";
+	/** Folder containing WordNet, for JAWS */
+	public static final String WORDNET_FOLDER = RESOURCES_FOLDER + File.separator + "wordnet";
 }

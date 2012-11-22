@@ -33,7 +33,7 @@ import java.util.List;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.JawsTools;
+import tr.edu.gsu.mataws.tools.semantics.JawsTools;
 
 /**
  * Checks if any combination of consecutive words could

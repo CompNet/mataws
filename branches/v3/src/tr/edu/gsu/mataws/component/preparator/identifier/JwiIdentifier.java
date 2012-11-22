@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.JwiTools;
+import tr.edu.gsu.mataws.tools.semantics.JwiTools;
 
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;

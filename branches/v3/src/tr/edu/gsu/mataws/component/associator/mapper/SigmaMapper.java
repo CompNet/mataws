@@ -33,7 +33,7 @@ import java.util.List;
 import com.articulate.sigma.WordNet;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.SigmaTools;
+import tr.edu.gsu.mataws.tools.semantics.SigmaTools;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;

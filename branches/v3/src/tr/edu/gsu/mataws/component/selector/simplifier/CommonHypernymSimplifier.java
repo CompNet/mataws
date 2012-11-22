@@ -32,7 +32,7 @@ import java.util.List;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.JawsTools;
+import tr.edu.gsu.mataws.tools.semantics.JawsTools;
 
 /**
  * Considers every pair of words in the list, and looks for a 

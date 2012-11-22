@@ -29,7 +29,7 @@ package tr.edu.gsu.mataws.component.preparator.normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.tools.StringTools;
+import tr.edu.gsu.mataws.tools.strings.StringTools;
 
 /**
  * Removes all diacritics.

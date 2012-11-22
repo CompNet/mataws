@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.tools.FileTools;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
 
 /**
  * Uses a predefined list to remove words judged irrelevant.
