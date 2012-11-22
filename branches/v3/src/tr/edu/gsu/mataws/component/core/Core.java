@@ -32,12 +32,12 @@ import java.util.List;
 import java.util.Queue;
 
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.mataws.component.core.associator.Associator;
-import tr.edu.gsu.mataws.component.core.preprocessor.AbstractPreprocessor;
-import tr.edu.gsu.mataws.component.core.preprocessor.DefaultPreprocessor;
-import tr.edu.gsu.mataws.component.core.preprocessor.PreprocessingStrategy;
-import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.StemNormalizer;
-import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconSplitter;
+import tr.edu.gsu.mataws.component.associator.Associator;
+import tr.edu.gsu.mataws.component.preprocessor.AbstractPreprocessor;
+import tr.edu.gsu.mataws.component.preprocessor.DefaultPreprocessor;
+import tr.edu.gsu.mataws.component.preprocessor.PreprocessingStrategy;
+import tr.edu.gsu.mataws.component.preprocessor.normalizer.StemNormalizer;
+import tr.edu.gsu.mataws.component.preprocessor.splitter.LexiconSplitter;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 
