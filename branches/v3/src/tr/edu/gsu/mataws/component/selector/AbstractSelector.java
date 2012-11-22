@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.selector.identifier.IdentifierInterface;
+import tr.edu.gsu.mataws.component.cleaner.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 
