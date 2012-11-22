@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.associator.mapper;
+package tr.edu.gsu.mataws.processors.parameter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,31 +26,32 @@ package tr.edu.gsu.mataws.component.associator.mapper;
  * 
  */
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import java.util.ArrayList;
+import java.util.List;
+
+import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Collection;
 
 /**
- * Interface for classes in charge of mapping strings
- * to ontological concepts.
- * 
- * @param <T>
- * 		The class used to represent synsets. 
- *  
  * @author Vincent Labatut
  */
-public interface MapperInterface<T>
-{
+public class ParameterProcessor
+{	
 	///////////////////////////////////////////////////////////
-	//	PROCESS								///////////////////
+	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Takes an identified word and retrieve the associated
-	 * concept, or {@code null} if no concept can be retrieved.
-	 * 
-	 * @param word
-	 * 		The identified word to process. 
-	 * @return
-	 * 		A string representing the associated concept,
-	 * 		or {@code null} if no concept could be retrieved.
-	 */
-	public String map(IdentifiedWord<T> word);
+
+	public static List<MatawsParameter> process(Collection collection)
+	{	// init
+		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+		
+		// process operations
+		
+		
+		// process parameters
+		
+		
+		// return results
+		return result;
+	}
 }
