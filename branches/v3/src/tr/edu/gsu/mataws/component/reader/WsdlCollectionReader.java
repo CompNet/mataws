@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.component.reader;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,49 +27,44 @@ package tr.edu.gsu.mataws.processors;
  */
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Queue;
-import java.util.SortedSet;
+import java.util.logging.Logger;
 
-import com.articulate.sigma.KBmanager;
-import com.articulate.sigma.WordNet;
-
-import tr.edu.gsu.mataws.component.associator.Associator;
-import tr.edu.gsu.mataws.component.core.Core;
-import tr.edu.gsu.mataws.component.reader.CollectionReader;
-import tr.edu.gsu.mataws.component.reader.WsdlCollectionReader;
-import tr.edu.gsu.mataws.component.selector.AnalysisType;
-import tr.edu.gsu.mataws.component.selector.Analyzer;
-import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.stats.StatData;
-import tr.edu.gsu.mataws.stats.StatWritter;
 import tr.edu.gsu.mataws.tools.FileTools;
-import tr.edu.gsu.mataws.trace.TraceableParameter;
-import tr.edu.gsu.mataws.zzzzz.Node;
 import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.col.Parameter;
+import tr.edu.gsu.sine.in.Digger;
+import tr.edu.gsu.sine.in.Language;
 
 /**
+ * This class is used to read the data contained in the input
+ * WSDL files, and represent them as a hierarchy of Java objects.
+ * 
+ * @author Cihan Aksoy
+ * @author Koray Mancuhan
  * @author Vincent Labatut
+ * DONE
  */
-public class OperationProcessor
-{	
-	public static List<MatawsParameter> process(Collection collection)
-	{	// init
-		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+public class WsdlCollectionReader extends CollectionReader
+{
+	@Override
+	public List<MatawsParameter> readCollection(String subfolder) throws FileNotFoundException
+	{	// init path & name
+		String path = FileTools.INPUT_FOLDER;
+		String name = "all";
+		if(subfolder!=null)
+		{	path = path + File.separator + subfolder;
+			name = subfolder;
+		}
+		File folder = new File(path);
 		
-		// process operations
-		
-		
-		// process parameters
-		
-		
-		// return results
+		// init sine digger
+		Digger d = new Digger(Logger.getAnonymousLogger());
+		// read description files
+		Collection collection = d.dig(folder, Language.WSDL, name);
+		// retrieve the parameters
+		List<MatawsParameter> result = extractParameters(collection);
 		return result;
 	}
 }

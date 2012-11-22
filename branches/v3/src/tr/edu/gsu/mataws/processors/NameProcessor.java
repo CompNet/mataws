@@ -28,8 +28,8 @@ package tr.edu.gsu.mataws.processors;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.core.preprocessor.AbstractPreprocessor;
-import tr.edu.gsu.mataws.component.core.preprocessor.DefaultPreprocessor;
+import tr.edu.gsu.mataws.component.preprocessor.AbstractPreprocessor;
+import tr.edu.gsu.mataws.component.preprocessor.DefaultPreprocessor;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
