@@ -32,7 +32,7 @@ import com.whitemagicsoftware.wordsplit.TextSegmenter;
 
 import edu.smu.tspell.wordnet.Synset;
 
-import tr.edu.gsu.mataws.component.selector.IdentifiedWord;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.WordSplitTools;
 
 /**

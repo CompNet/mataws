@@ -41,7 +41,6 @@ import tr.edu.gsu.sine.col.Service;
  * description files, and represent them as a hierarchy of Java objects.
  * 
  * @author Vincent Labatut
- * DONE
  */
 public abstract class CollectionReader
 {

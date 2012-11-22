@@ -32,7 +32,7 @@ import java.util.List;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
 
-import tr.edu.gsu.mataws.component.selector.IdentifiedWord;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
  * Keeps the word corresponding to the most frequent verb.

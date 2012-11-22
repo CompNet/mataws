@@ -28,8 +28,12 @@ package tr.edu.gsu.mataws.processors;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.preprocessor.AbstractPreprocessor;
+import edu.smu.tspell.wordnet.Synset;
+
+import tr.edu.gsu.mataws.component.associator.DefaultAssociator;
 import tr.edu.gsu.mataws.component.preprocessor.DefaultPreprocessor;
+import tr.edu.gsu.mataws.component.selector.DefaultSelector;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
@@ -49,8 +53,8 @@ public class NameProcessor
 	 */
 	public NameProcessor()
 	{	preprocessor = new DefaultPreprocessor();
-		
-		
+		selector = new DefaultSelector();
+		associator = new DefaultAssociator();
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -74,8 +78,27 @@ public class NameProcessor
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Preprocessor in charge of the first step */
-	private static AbstractPreprocessor preprocessor;
+	private static DefaultPreprocessor preprocessor;
+	/** Selector in charge of the second step */
+	private static DefaultSelector selector;
+	/** Associator in charge of the third step */
+	private static DefaultAssociator associator;
 	
+	/**
+	 * Applies the name process procedure to the specified parameter.
+	 * Depending on the mode parameter, the process will be applied
+	 * either to the parameter name, or to its data type name.
+	 * <br/>
+	 * The method returns a boolean indicating whether or not
+	 * the name could be associated to a concept.
+	 * 
+	 * @param parameter
+	 * 		The parameter to process.
+	 * @param mode
+	 * 		Mode of the processing (parameter name or data type name).
+	 * @return
+	 * 		{@code true} iff a concept could be retrieved for the processed name.
+	 */
 	// mode=parameter or type
 	// returns true if one concept could be retrieved
 	public static boolean process(MatawsParameter parameter, Mode mode)
@@ -92,13 +115,11 @@ public class NameProcessor
 		List<String> strings = preprocessor.preprocess(string);
 		if(!strings.isEmpty())
 		{	// select representative word
-			String representativeWord = null;
-			// TODO call to Selector
+			IdentifiedWord<Synset> representativeWord = selector.select(strings);
 			if(representativeWord!=null)
 			{	parameter.setRepresentativeWord(representativeWord);
 				// associate concept
-				String concept = null;
-				// TODO call to Associator
+				String concept = associator.associate(representativeWord);
 				if(concept!=null)
 				{	result = true;
 					parameter.setRepresentativeWord(representativeWord);

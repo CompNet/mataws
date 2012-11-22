@@ -44,7 +44,6 @@ import tr.edu.gsu.sine.in.Language;
  * @author Cihan Aksoy
  * @author Koray Mancuhan
  * @author Vincent Labatut
- * DONE
  */
 public class WsdlCollectionReader extends CollectionReader
 {

@@ -32,7 +32,7 @@ import java.util.List;
 
 import com.articulate.sigma.WordNet;
 
-import tr.edu.gsu.mataws.component.selector.IdentifiedWord;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.SigmaTools;
 
 import edu.smu.tspell.wordnet.Synset;

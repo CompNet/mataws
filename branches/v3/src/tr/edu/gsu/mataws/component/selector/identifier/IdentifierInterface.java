@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.component.selector.identifier;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.selector.IdentifiedWord;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
  * Interface for classes in charge of identifying the 

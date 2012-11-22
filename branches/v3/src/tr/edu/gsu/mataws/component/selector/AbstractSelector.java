@@ -32,6 +32,7 @@ import java.util.List;
 
 import tr.edu.gsu.mataws.component.selector.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
  * Abstract class of the selector component.
