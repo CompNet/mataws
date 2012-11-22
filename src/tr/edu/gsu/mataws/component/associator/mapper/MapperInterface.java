@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.component.associator.mapper;
  * 
  */
 
-import tr.edu.gsu.mataws.component.selector.IdentifiedWord;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
  * Interface for classes in charge of mapping strings
