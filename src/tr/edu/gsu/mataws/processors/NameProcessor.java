@@ -67,7 +67,7 @@ public class NameProcessor
 	 * 
 	 * @author Vincent Labatut
 	 */
-	public enum Mode
+	private enum Mode
 	{	/** Process the parameter name */
 		PARAMETER,
 		/** Process the data type name */
@@ -85,11 +85,30 @@ public class NameProcessor
 	private static DefaultAssociator associator;
 	
 	/**
+	 * Applies the name process procedure to the specified parameter,
+	 * using its parameter name and possibly data type name.
+	 * <br/>
+	 * The method returns a {@code boolean} indicating whether or not
+	 * the parameter could be associated to a concept.
+	 * 
+	 * @param parameter
+	 * 		The parameter to process.
+	 * @return
+	 * 		{@code true} iff a concept could be retrieved for the processed parameter.
+	 */
+	public static boolean process(MatawsParameter parameter)
+	{	boolean result = process(parameter,Mode.PARAMETER);
+		if(!result)
+			process(parameter,Mode.TYPE);
+		return result;
+	}
+	
+	/**
 	 * Applies the name process procedure to the specified parameter.
 	 * Depending on the mode parameter, the process will be applied
 	 * either to the parameter name, or to its data type name.
 	 * <br/>
-	 * The method returns a boolean indicating whether or not
+	 * The method returns a {@code boolean} indicating whether or not
 	 * the name could be associated to a concept.
 	 * 
 	 * @param parameter
@@ -99,9 +118,7 @@ public class NameProcessor
 	 * @return
 	 * 		{@code true} iff a concept could be retrieved for the processed name.
 	 */
-	// mode=parameter or type
-	// returns true if one concept could be retrieved
-	public static boolean process(MatawsParameter parameter, Mode mode)
+	private static boolean process(MatawsParameter parameter, Mode mode)
 	{	boolean result = false;
 	
 		// init initial string

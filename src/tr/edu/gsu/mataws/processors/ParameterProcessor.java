@@ -35,12 +35,12 @@ import tr.edu.gsu.sine.col.Collection;
 /**
  * @author Vincent Labatut
  */
-public class OperationProcessor
+public class ParameterProcessor
 {	
-	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+
 	public static List<MatawsParameter> process(Collection collection)
 	{	// init
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();

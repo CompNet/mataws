@@ -135,7 +135,7 @@ public abstract class AbstractSelector<T>
 	 * @param words
 	 * 		List of words to be processed.
 	 */
-	protected void simplify(List<IdentifiedWord<T>> words)
+	public void simplify(List<IdentifiedWord<T>> words)
 	{	// repeat the whole process as long as at least one simplifier is successful
 		boolean effect;
 		do

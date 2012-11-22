@@ -38,16 +38,10 @@ import java.util.SortedSet;
 import com.articulate.sigma.KBmanager;
 import com.articulate.sigma.WordNet;
 
-import tr.edu.gsu.mataws.component.associator.Associator;
-import tr.edu.gsu.mataws.component.core.Core;
 import tr.edu.gsu.mataws.component.reader.CollectionReader;
 import tr.edu.gsu.mataws.component.reader.WsdlCollectionReader;
-import tr.edu.gsu.mataws.component.selector.AnalysisType;
-import tr.edu.gsu.mataws.component.selector.Analyzer;
 import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.stats.StatData;
-import tr.edu.gsu.mataws.stats.StatWritter;
 import tr.edu.gsu.mataws.tools.FileTools;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
