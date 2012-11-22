@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.processors.name;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -31,10 +31,8 @@ import java.util.List;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.component.associator.DefaultAssociator;
-import tr.edu.gsu.mataws.component.preprocessor.DefaultPreprocessor;
-import tr.edu.gsu.mataws.component.selector.DefaultSelector;
+import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
  * This class is in charge for processing
@@ -45,80 +43,24 @@ import tr.edu.gsu.mataws.data.MatawsParameter;
  * 
  * @author Vincent Labatut
  */
-public class NameProcessor
+public class NameProcessor extends AbstractNameProcessor
 {	
 	/**
-	 * Construit un processeur de nom.
-	 * 
+	 * Builds a name processor.
 	 */
 	public NameProcessor()
-	{	preprocessor = new DefaultPreprocessor();
-		selector = new DefaultSelector();
+	{	super();
 		associator = new DefaultAssociator();
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	MODE								///////////////////
-	///////////////////////////////////////////////////////////
-	/**
-	 * Represents the functioning mode
-	 * of this processing. The focus is either
-	 * on the parameter name, or data type name.
-	 * 
-	 * @author Vincent Labatut
-	 */
-	private enum Mode
-	{	/** Process the parameter name */
-		PARAMETER,
-		/** Process the data type name */
-		TYPE;
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	/** Preprocessor in charge of the first step */
-	private static DefaultPreprocessor preprocessor;
-	/** Selector in charge of the second step */
-	private static DefaultSelector selector;
 	/** Associator in charge of the third step */
 	private static DefaultAssociator associator;
 	
-	/**
-	 * Applies the name process procedure to the specified parameter,
-	 * using its parameter name and possibly data type name.
-	 * <br/>
-	 * The method returns a {@code boolean} indicating whether or not
-	 * the parameter could be associated to a concept.
-	 * 
-	 * @param parameter
-	 * 		The parameter to process.
-	 * @return
-	 * 		{@code true} iff a concept could be retrieved for the processed parameter.
-	 */
-	public static boolean process(MatawsParameter parameter)
-	{	boolean result = process(parameter,Mode.PARAMETER);
-		if(!result)
-			process(parameter,Mode.TYPE);
-		return result;
-	}
-	
-	/**
-	 * Applies the name process procedure to the specified parameter.
-	 * Depending on the mode parameter, the process will be applied
-	 * either to the parameter name, or to its data type name.
-	 * <br/>
-	 * The method returns a {@code boolean} indicating whether or not
-	 * the name could be associated to a concept.
-	 * 
-	 * @param parameter
-	 * 		The parameter to process.
-	 * @param mode
-	 * 		Mode of the processing (parameter name or data type name).
-	 * @return
-	 * 		{@code true} iff a concept could be retrieved for the processed name.
-	 */
-	private static boolean process(MatawsParameter parameter, Mode mode)
+	@Override
+	protected boolean process(AbstractMatawsParameter parameter, Mode mode)
 	{	boolean result = false;
 	
 		// init initial string
@@ -139,7 +81,7 @@ public class NameProcessor
 				String concept = associator.associate(representativeWord);
 				if(concept!=null)
 				{	result = true;
-					parameter.setRepresentativeWord(representativeWord);
+					parameter.setConcept(concept);
 				}
 			}
 		}

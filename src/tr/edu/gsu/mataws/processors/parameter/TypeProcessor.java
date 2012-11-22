@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.processors.parameter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,8 +26,12 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.smu.tspell.wordnet.Synset;
+
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.data.MatawsSubParameter;
 
@@ -36,25 +40,35 @@ import tr.edu.gsu.mataws.data.MatawsSubParameter;
  */
 public class TypeProcessor
 {	
+	public TypeProcessor()
+	{	subParameterProcessor = new SubparameterProcessor(this);
+		
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Processor used to treat all child parameters */
+	private SubparameterProcessor subParameterProcessor;
+	/** Selector used to combine the resulting words */
+	private 
 	
-	
-	public static void process(MatawsParameter parameter)
-	{	// retrieve the subfields and process them individually
+	public void process(MatawsParameter parameter)
+	{	// process each children individually
 		List<MatawsSubParameter> children = parameter.getChildren();
-		
+		List<IdentifiedWord<Synset>> words = new ArrayList<IdentifiedWord<Synset>>();
 		for(MatawsSubParameter child: children)
-		{	
-			
+		{	// apply standard subparameter processing
+			IdentifiedWord<Synset> word = subParameterProcessor.process(child);
+			if(word!=null)
+				words.add(word);
 		}
 		
-		// select representative word
-			// renvoie un mot
-		
-		// associate concept
-			// renvoie un concept
-		
+		// simplifies the resulting list of words
+		if(!words.isEmpty())
+		{	selector.simplify(words);
+			if(!words.isEmpty())
+				result = words.get(0);
+		}
 	}
 }

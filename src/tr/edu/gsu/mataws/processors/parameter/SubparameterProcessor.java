@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.processors.parameter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -36,6 +36,8 @@ import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsSubParameter;
+import tr.edu.gsu.mataws.processors.name.NameProcessor;
+import tr.edu.gsu.mataws.processors.name.SubNameProcessor;
 
 /**
  * This processor is able to receive a subparameter
@@ -54,19 +56,19 @@ public class SubparameterProcessor
 	 * based on defaults processors.
 	 * 
 	 */
-	public SubparameterProcessor()
-	{	preprocessor = new DefaultPreprocessor();
-		selector = new DefaultSelector();
+	public SubparameterProcessor(TypeProcessor typeProcessor)
+	{	nameProcessor = new SubNameProcessor();
+		this.typeProcessor = typeProcessor;
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	/** Preprocessor in charge of the first step */
-	private static DefaultPreprocessor preprocessor;
-	/** Selector in charge of the second step */
-	private static DefaultSelector selector;
-
+	/** Processor used to treat the parameter and data type names */
+	private SubNameProcessor nameProcessor;
+	/** Processor used to treat the data type structure */
+	private TypeProcessor typeProcessor;
+	
 	/**
 	 * Process a subparameter in order to extract its
 	 * representative word, or {@code null} if none
@@ -76,50 +78,26 @@ public class SubparameterProcessor
 	 * name, then its data type name, then its children
 	 * (if it has a complext XSD data type).
 	 * 
-	 * @param subparameter
+	 * @param subParameter
 	 * 		The subparameter to process.
 	 * @return
 	 * 		A representative word, or {@code null} if none could be found.
 	 */
-	public static IdentifiedWord<Synset> process(AbstractMatawsParameter subparameter)
+	@SuppressWarnings("unchecked")
+	public IdentifiedWord<Synset> process(MatawsSubParameter subParameter)
 	{	// init
 		IdentifiedWord<Synset> result = null;
 		
 		// first, try to take advantage of the subparameter name,
 		// and possibly of its data type name
-		String string[] = {subparameter.getName(),subparameter.getTypeName()};
-		int i = 0;
-		while(i<string.length && result==null)
-		{	// perform preprocessing
-			List<String> strings = preprocessor.preprocess(string[i]);
-			if(!strings.isEmpty())
-			{	// select representative word
-				IdentifiedWord<Synset> representativeWord = selector.select(strings);
-				if(representativeWord!=null)
-				{	subparameter.setRepresentativeWord(representativeWord);
-					result = representativeWord;
-				}
-			}
-			i++;
-		}
+		boolean res = nameProcessor.process(subParameter);
+		if(res)
+			result = (IdentifiedWord<Synset>)subParameter.getRepresentativeWord();
 		
 		// if it is unconclusive, then we take advantage of the data type itself
-		if(result==null)
-		{	// apply the same process to all children
-			List<MatawsSubParameter> children = subparameter.getChildren();
-			List<IdentifiedWord<Synset>> words = new ArrayList<IdentifiedWord<Synset>>();
-			for(MatawsSubParameter child: children)
-			{	IdentifiedWord<Synset> word = process(child);
-				if(word!=null)
-					words.add(word);
-			}
+		else
+		{	typeProcessor.process(subParameter);
 			
-			// simplifies the resulting list of words
-			if(!words.isEmpty())
-			{	selector.simplify(words);
-				if(!words.isEmpty())
-					result = words.get(0);
-			}
 		}
 		
 		return result;

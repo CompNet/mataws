@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.processors.name;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,32 +26,51 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.sine.col.Collection;
+import edu.smu.tspell.wordnet.Synset;
+
+import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
+ * This class is in charge for processing
+ * subparameter and type names. It first preprocess
+ * them, and then apply a selector, to get a 
+ * single representative word associated
+ * to the original name. So the difference with
+ * the full parameter {@link NameProcessor} is
+ * the fact we do not need an associator here.
+ * 
  * @author Vincent Labatut
  */
-public class ParameterProcessor
+public class SubNameProcessor extends AbstractNameProcessor
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-
-	public static List<MatawsParameter> process(Collection collection)
-	{	// init
-		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+	@Override
+	protected boolean process(AbstractMatawsParameter parameter, Mode mode)
+	{	boolean result = false;
+	
+		// init initial string
+		String string;
+		if(mode==Mode.PARAMETER)
+			string = parameter.getName();
+		else
+			string = parameter.getTypeName();
+	
+		// perform preprocessing
+		List<String> strings = preprocessor.preprocess(string);
+		if(!strings.isEmpty())
+		{	// select representative word
+			IdentifiedWord<Synset> representativeWord = selector.select(strings);
+			if(representativeWord!=null)
+			{	parameter.setRepresentativeWord(representativeWord);
+				result = true;
+			}
+		}
 		
-		// process operations
-		
-		
-		// process parameters
-		
-		
-		// return results
 		return result;
 	}
 }
