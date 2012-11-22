@@ -44,7 +44,7 @@ import tr.edu.gsu.mataws.component.core.preprocessor.splitter.LexiconSplitter.Mo
 
 /**
  * Series of processings corresponding to the
- * default Preprocessor.
+ * default Preprocessor component.
  *   
  * @author Koray Mancuhan
  * @author Cihan Aksoy

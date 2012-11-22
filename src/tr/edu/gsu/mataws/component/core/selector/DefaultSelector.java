@@ -41,9 +41,8 @@ import tr.edu.gsu.mataws.component.core.selector.simplifier.SimplifierInterface;
 
 /**
  * Series of processings corresponding to the
- * default Selector.
+ * default Selector component.
  *   
- * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */

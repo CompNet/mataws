@@ -34,7 +34,12 @@ import tr.edu.gsu.mataws.component.core.selector.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.core.selector.simplifier.SimplifierInterface;
 
 /**
- * General interface of the selector component.
+ * Abstract class of the selector component.
+ * <br/>
+ * Other selectors can be designed by using
+ * different combinations of identifiers and
+ * simplifiers, and/or different identifiers
+ * and simplifiers.
  * 
  * @param <T> 
  *		Class used to represent a WordNet synset.
