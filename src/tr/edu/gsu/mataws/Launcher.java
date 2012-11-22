@@ -214,7 +214,7 @@ public class Launcher
 /* TODO TODO
  * changes:
  * - new architecture
- * - preprocessor:
+ * - preprocessor: becomes 'cleaner'
  * 		- splitter:
  * 			- possibility to use a different lexicon
  * 		- normalizer:
@@ -228,15 +228,16 @@ public class Launcher
  * 		- filter:
  * 			- new redundancy filter
  * 			- new length filter (to avoid having letter-parameters)
+ * 		- identifier:
+ * 			- new component outputing the word and the synset, to avoid information loss
  * - selector:
- * 		- new separation between identifier and simplifier
- * 		- now it outputs the word and the synset, to avoid information loss
  * 		- unlike what is said in the paper, the frequency returned by wordnet is only relative 
  * 		  and concerns the other meanings of the considered word (i.e. it allows knowing only 
- * 		  which meaning is the most frequent). 
+ * 		  which meaning is the most frequent).
+ * 		- creation of the notion of simplifier. other steps could be used if needed. 
  * - associator:
  * 		- no more syntactic work: the synset allows retrieving the concept without any ambiguity
- * 		- some concepts returned by sigma are actually the opposite of the considered words
+ * 		- some concepts returned by sigma are actually the opposite of the considered words >> those are ignored
  * 		- some words in WordNet 3 are not annotated in sigma
  * 
  * 

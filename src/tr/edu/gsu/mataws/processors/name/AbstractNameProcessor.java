@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.processors.name;
  * 
  */
 
-import tr.edu.gsu.mataws.component.preprocessor.DefaultPreprocessor;
+import tr.edu.gsu.mataws.component.cleaner.DefaultPreprocessor;
 import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 
