@@ -42,10 +42,12 @@ import tr.edu.gsu.mataws.component.reader.CollectionReader;
 import tr.edu.gsu.mataws.component.reader.WsdlCollectionReader;
 import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
 import tr.edu.gsu.mataws.tools.FileTools;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
 import tr.edu.gsu.sine.col.Collection;
+import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
 
 /**
@@ -53,6 +55,15 @@ import tr.edu.gsu.sine.col.Parameter;
  */
 public class GeneralProcessor
 {	
+	public GeneralProcessor()
+	{	operationProcessor = new OperationProcessor();
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	PROCESS							///////////////////////
+	///////////////////////////////////////////////////////////
+	private OperationProcessor operationProcessor;
+	
 	/**
 	 * Implements the general algorithm for the 
 	 * annotation process.
@@ -62,13 +73,13 @@ public class GeneralProcessor
 	{	// init
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		
-		// process operations
+		// process each operation separately
+		SortedSet<Operation> operations = collection.getOperations();
+		for(Operation operation: operations)
+		{	List<MatawsParameter> parameters = operationProcessor.process(operation);
+			result.addAll(parameters);
+		}
 		
-		
-		// process parameters
-		
-		
-		// return results
 		
 	
 		

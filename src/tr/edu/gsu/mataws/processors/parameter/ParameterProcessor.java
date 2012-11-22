@@ -45,7 +45,6 @@ public class ParameterProcessor
 	public ParameterProcessor()
 	{	nameProcessor = new NameProcessor();
 		typeProcessor = new TypeProcessor();
-		subParameterProcessor = new SubParameterProcessor(typeProcessor);
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -55,8 +54,6 @@ public class ParameterProcessor
 	private NameProcessor nameProcessor;
 	/** Processor used to treat the data type structure */
 	private TypeProcessor typeProcessor;
-	/** Processor used to treat the fields constituting the data type structure */
-	private SubParameterProcessor subParameterProcessor;
 
 	/**
 	 * Process a parameter in order to extract its concept.

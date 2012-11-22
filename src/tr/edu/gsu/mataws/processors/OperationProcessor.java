@@ -30,25 +30,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
 import tr.edu.gsu.sine.col.Collection;
+import tr.edu.gsu.sine.col.Operation;
 
 /**
  * @author Vincent Labatut
  */
 public class OperationProcessor
 {	
+	public OperationProcessor()
+	{	parameterProcessor = new ParameterProcessor();
+	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	public List<MatawsParameter> process(Collection collection)
-	{	// init
-		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+	private ParameterProcessor parameterProcessor;
+
+	public List<MatawsParameter> process(Operation operation)
+	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		
-		// process operations
+		// process the operation name
 		
+		MatawsParameter remainingParameters;
 		
-		// process parameters
+		// process the remaining parameters
+		for(MatawsParameter parameter: remainingParameters)
+		{	parameterProcessor.process(parameter);
+			
+		}
 		
 		
 		// return results
