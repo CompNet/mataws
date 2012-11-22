@@ -41,7 +41,7 @@ public class OperationProcessor
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	public static List<MatawsParameter> process(Collection collection)
+	public List<MatawsParameter> process(Collection collection)
 	{	// init
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		

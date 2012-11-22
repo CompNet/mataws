@@ -26,14 +26,6 @@ package tr.edu.gsu.mataws.processors.parameter;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.smu.tspell.wordnet.Synset;
-
-import tr.edu.gsu.mataws.component.preparator.DefaultPreprocessor;
-import tr.edu.gsu.mataws.component.selector.DefaultSelector;
-import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsSubParameter;
 import tr.edu.gsu.mataws.processors.name.NameProcessor;
@@ -55,6 +47,9 @@ public class SubParameterProcessor
 	 * Builds a subparameter processor,
 	 * based on defaults processors.
 	 * 
+	 * @param typeProcessor
+	 * 		The type processor to use when processing subparameters. 
+	 * 
 	 */
 	public SubParameterProcessor(TypeProcessor typeProcessor)
 	{	nameProcessor = new SubNameProcessor();
@@ -71,35 +66,26 @@ public class SubParameterProcessor
 	
 	/**
 	 * Process a subparameter in order to extract its
-	 * representative word, or {@code null} if none
-	 * can be found.
+	 * representative word.
 	 * <br/>
 	 * The processor first tries to use the parameter
 	 * name, then its data type name, then its children
-	 * (if it has a complext XSD data type).
+	 * (if it has a complex XSD data type).
 	 * 
 	 * @param subParameter
 	 * 		The subparameter to process.
 	 * @return
-	 * 		A representative word, or {@code null} if none could be found.
+	 * 		{@code true} iff a representative word could be found for the subparameter.
 	 */
-	@SuppressWarnings("unchecked")
-	public IdentifiedWord<Synset> process(MatawsSubParameter subParameter)
-	{	// init
-		IdentifiedWord<Synset> result = null;
-		
-		// first, try to take advantage of the subparameter name,
+	public boolean process(MatawsSubParameter subParameter)
+	{	// first, try to take advantage of the subparameter name,
 		// and possibly of its data type name
-		boolean res = nameProcessor.process(subParameter);
-		if(res)
-			result = (IdentifiedWord<Synset>)subParameter.getRepresentativeWord();
+		boolean result = nameProcessor.process(subParameter);
 		
 		// if it is unconclusive, then we take advantage of the data type itself
-		else
-		{	typeProcessor.process(subParameter);
-			
-		}
-		
+		if(!result)
+			result = typeProcessor.process(subParameter);
+
 		return result;
 	}
 }

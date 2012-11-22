@@ -26,32 +26,59 @@ package tr.edu.gsu.mataws.processors.parameter;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.sine.col.Collection;
+import tr.edu.gsu.mataws.processors.name.NameProcessor;
 
 /**
+ * This processor is able to receive a parameter and
+ * retrieve the associated concept. It takes advantage
+ * of its name, then the name of its data type, then
+ * the structure of its data type.
+ * 
  * @author Vincent Labatut
  */
 public class ParameterProcessor
 {	
+	/**
+	 * Builds a standard parameter processor.
+	 */
+	public ParameterProcessor()
+	{	nameProcessor = new NameProcessor();
+		typeProcessor = new TypeProcessor();
+		subParameterProcessor = new SubParameterProcessor(typeProcessor);
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Processor used to treat the parameter and data type names */
+	private NameProcessor nameProcessor;
+	/** Processor used to treat the data type structure */
+	private TypeProcessor typeProcessor;
+	/** Processor used to treat the fields constituting the data type structure */
+	private SubParameterProcessor subParameterProcessor;
 
-	public static List<MatawsParameter> process(Collection collection)
-	{	// init
-		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+	/**
+	 * Process a parameter in order to extract its concept.
+	 * <br/>
+	 * The processor first tries to use the parameter
+	 * name, then its data type name, then its children
+	 * (if it has a complex XSD data type).
+	 * 
+	 * @param parameter
+	 * 		The parameter to process.
+	 * @return
+	 * 		{@code true} iff a concept could be found for the parameter.
+	 */
+	public boolean process(MatawsParameter parameter)
+	{	// first, try to take advantage of the subparameter name,
+		// and possibly of its data type name
+		boolean result = nameProcessor.process(parameter);
 		
-		// process operations
-		
-		
-		// process parameters
-		
-		
-		// return results
+		// if it is unconclusive, then we take advantage of the data type itself
+		if(!result)
+			result = typeProcessor.process(parameter);
+
 		return result;
 	}
 }

@@ -27,8 +27,6 @@ package tr.edu.gsu.mataws.component.selector;
  */
 
 import edu.smu.tspell.wordnet.Synset;
-import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
-import tr.edu.gsu.mataws.component.preparator.identifier.JawsIdentifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.CommonHolonymSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.CommonHypernymSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.DirectHolonymSimplifier;
@@ -48,17 +46,6 @@ import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
  */
 public class DefaultSelector extends AbstractSelector<Synset>
 {	
-	///////////////////////////////////////////////////////////
-	//	IDENTIFICATION						///////////////////
-	///////////////////////////////////////////////////////////
-	@Override
-	protected void initIdentifiers()
-	{	IdentifierInterface<Synset> identifier;
-	
-		identifier = new JawsIdentifier();
-		identifiers.add(identifier);
-	}
-
 	///////////////////////////////////////////////////////////
 	//	SIMPLIFICATION						///////////////////
 	///////////////////////////////////////////////////////////

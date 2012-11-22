@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.processors.name;
  * 
  */
 
-import tr.edu.gsu.mataws.component.preparator.DefaultPreprocessor;
+import tr.edu.gsu.mataws.component.preparator.DefaultPreparator;
 import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 
@@ -45,7 +45,7 @@ public abstract class AbstractNameProcessor
 	 * Builds a name processor.
 	 */
 	public AbstractNameProcessor()
-	{	preprocessor = new DefaultPreprocessor();
+	{	preprocessor = new DefaultPreparator();
 		selector = new DefaultSelector();
 	}
 	
@@ -70,7 +70,7 @@ public abstract class AbstractNameProcessor
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Preprocessor in charge of the first step */
-	protected static DefaultPreprocessor preprocessor;
+	protected static DefaultPreparator preprocessor;
 	/** Selector in charge of the second step */
 	protected static DefaultSelector selector;
 

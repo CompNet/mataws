@@ -26,10 +26,13 @@ package tr.edu.gsu.mataws.component.preparator;
  * 
  */
 
+import edu.smu.tspell.wordnet.Synset;
 import tr.edu.gsu.mataws.component.preparator.filter.FilterInterface;
 import tr.edu.gsu.mataws.component.preparator.filter.LengthFilter;
 import tr.edu.gsu.mataws.component.preparator.filter.RedundancyFilter;
 import tr.edu.gsu.mataws.component.preparator.filter.StopWordFilter;
+import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
+import tr.edu.gsu.mataws.component.preparator.identifier.JawsIdentifier;
 import tr.edu.gsu.mataws.component.preparator.normalizer.AbbreviationNormalizer;
 import tr.edu.gsu.mataws.component.preparator.normalizer.CaseNormalizer;
 import tr.edu.gsu.mataws.component.preparator.normalizer.DiacriticsNormalizer;
@@ -50,7 +53,7 @@ import tr.edu.gsu.mataws.component.preparator.splitter.LexiconSplitter.Mode;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class DefaultPreprocessor extends AbstractPreprocessor
+public class DefaultPreparator extends AbstractPreparator<Synset>
 {	
 	///////////////////////////////////////////////////////////
 	//	SPLIT								///////////////////
@@ -116,5 +119,16 @@ public class DefaultPreprocessor extends AbstractPreprocessor
 		
 		filter = new LengthFilter();
 		filters.add(filter);
+	}
+
+	///////////////////////////////////////////////////////////
+	//	IDENTIFICATION						///////////////////
+	///////////////////////////////////////////////////////////
+	@Override
+	protected void initIdentifiers()
+	{	IdentifierInterface<Synset> identifier;
+	
+		identifier = new JawsIdentifier();
+		identifiers.add(identifier);
 	}
 }
