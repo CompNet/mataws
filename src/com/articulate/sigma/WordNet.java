@@ -14,7 +14,6 @@ August 9, Acapulco, Mexico.  See also http://sigmakee.sourceforge.net
 package com.articulate.sigma;
 
 import java.io.*;
-import java.lang.reflect.Member;
 import java.util.*;
 import java.util.regex.*;
 
@@ -28,16 +27,23 @@ import java.util.regex.*;
 *  @author Ian Niles
 *  @author Adam Pease
 */
+@SuppressWarnings({"rawtypes", "unchecked", "unused" })
 public class WordNet {
-
+	/** */
     public static WordNet wn;
+	/** */
     private static String baseDir = "";
+	/** */
     private static File baseDirFile = null;
+	/** */
     public static boolean initNeeded = true;
     
-    //control string
+    /** control string */
     private String control;
 
+    /**
+     * 
+     */
     private static final String[][] wnFilenamePatterns = 
     { { "noun_mappings",    "WordNetMappings.*noun.*txt" },
       { "verb_mappings",    "WordNetMappings.*verb.*txt" },
@@ -214,19 +220,31 @@ public class WordNet {
         return;
     }
 
+	/** */
     private Hashtable nounSynsetHash = new Hashtable();   // Words in root form are String keys, 
+	/** */
     private Hashtable verbSynsetHash = new Hashtable();   // String values are synset lists.    
+	/** */
     private Hashtable adjectiveSynsetHash = new Hashtable();
+	/** */
     private Hashtable adverbSynsetHash = new Hashtable();
 
+	/** */
     private Hashtable verbDocumentationHash = new Hashtable();       // Keys are synset Strings, values 
+	/** */
     private Hashtable adjectiveDocumentationHash = new Hashtable();  // are documentation strings.    
+	/** */
     private Hashtable adverbDocumentationHash = new Hashtable();
+	/** */
     private Hashtable nounDocumentationHash = new Hashtable();
 
+	/** */
     public Hashtable nounSUMOHash = new Hashtable();   // Keys are synset Strings, values are SUMO 
+	/** */
     public Hashtable verbSUMOHash = new Hashtable();   // terms with the &% prefix and =, +, @ or [ suffix.    
+	/** */
     public Hashtable adjectiveSUMOHash = new Hashtable();
+	/** */
     public Hashtable adverbSUMOHash = new Hashtable();
 
     /** Keys are SUMO terms, values are ArrayLists(s) of 
@@ -237,12 +255,16 @@ public class WordNet {
     /** Keys are String POS-prefixed synsets.  Values 
      * are ArrayList(s) of String(s) which are words. Note
      * that the order of words in the file is preserved. */
-    public Hashtable synsetsToWords = new Hashtable(); 
+	public Hashtable synsetsToWords = new Hashtable(); 
 
+	/** */
     private Hashtable exceptionNounHash = new Hashtable();  // list of irregular plural forms where the key is the plural, singular is the value.
+	/** */
     private Hashtable exceptionVerbHash = new Hashtable();  // key is past tense, value is infinitive (without "to")
                                                                     
+	/** */
     private Hashtable exceptionNounPluralHash = new Hashtable();    // The reverse index of the above 
+	/** */
     private Hashtable exceptionVerbPastHash = new Hashtable();
 
     /** Keys are POS-prefixed synsets, values are ArrayList(s) of AVPair(s)
@@ -278,20 +300,29 @@ public class WordNet {
      * the sense in WordNet. */
     private HashMap wordsToSenses = new HashMap();
   
+    /** */
     private Pattern p;
+    /** */
     private Matcher m;
 
+    /** */
     public static final int NOUN                = 1;
+    /** */
     public static final int VERB                = 2;
+    /** */
     public static final int ADJECTIVE           = 3;
+    /** */
     public static final int ADVERB              = 4;
+    /** */
     public static final int ADJECTIVE_SATELLITE = 5;
 
     /** ***************************************************************
      * Add a synset (with part of speech number prefix) and the SUMO
      * term that maps to it.
+     * @param term 
+     * @param synset 
      */
-    private void addSUMOHash(String term, String synset) {
+	private void addSUMOHash(String term, String synset) {
 
         //System.out.println("INFO in WordNet.addSUMOHash(): SUMO term: " + key);
         //System.out.println("INFO in WordNet.addSUMOHash(): synset: " + value);
@@ -306,6 +337,8 @@ public class WordNet {
 
     /** ***************************************************************
      * Return an ArrayList of the string split by spaces.
+     * @param st 
+     * @return ?
      */
     private ArrayList splitToArrayList(String st) {
 
@@ -317,6 +350,9 @@ public class WordNet {
     /** ***************************************************************
      * Add a synset and its corresponding word to the synsetsToWords
      * variable.  Prefix the synset with its part of speech before adding.
+     * @param word 
+     * @param synsetStr 
+     * @param POS 
      */
     private void addToSynsetsToWords (String word, String synsetStr, String POS) {
 
@@ -380,6 +416,8 @@ public class WordNet {
      * http://wordnet.princeton.edu/man/wndb.5WN . synset must include
      * the POS-prefix.  Input should be of the form
      * lex_filenum  ss_type  w_cnt  word  lex_id  [word  lex_id...]  p_cnt  [ptr...]  [frames...] 
+     * @param synset 
+     * @param pointers 
      */
     private void processPointers(String synset, String pointers) {
 
@@ -489,7 +527,9 @@ public class WordNet {
         return;
     }
 
-    /** ***************************************************************
+    /** *
+     * @param SUMO 
+     * @param synset **************************************************************
      */
     private void addSUMOMapping(String SUMO, String synset) {
 
@@ -509,6 +549,8 @@ public class WordNet {
     
     /** ***************************************************************
      * Get the SUMO mapping for a POS-prefixed synset
+     * @param synset 
+     * @return ?
      */
     public String getSUMOMapping(String synset) {
 
@@ -531,6 +573,8 @@ public class WordNet {
      *  nounSUMOhash and exceptionNounHash that contain the WordNet
      *  noun synsets, word definitions, mappings to SUMO, and plural
      *  exception forms, respectively.
+     *  
+     * @throws java.io.IOException 
      *  Throws an IOException if the files are not found.
      */
     private void readNouns () throws java.io.IOException {
@@ -648,6 +692,8 @@ public class WordNet {
      *  verbSUMOhash and exceptionVerbHash that contain the WordNet
      *  verb synsets, word definitions, mappings to SUMO, and plural
      *  exception forms, respectively.
+     *  
+     * @throws java.io.IOException 
      *  Throws an IOException if the files are not found.
      */
     private void readVerbs () throws java.io.IOException {
@@ -744,6 +790,8 @@ public class WordNet {
      *  Create the hashtables adjectiveSynsetHash, adjectiveDocumentationHash,
      *  and adjectiveSUMOhash that contain the WordNet
      *  adjective synsets, word definitions, and mappings to SUMO, respectively.
+     *  
+     * @throws java.io.IOException 
      *  Throws an IOException if the files are not found.
      */
     private void readAdjectives() throws java.io.IOException {
@@ -808,6 +856,8 @@ public class WordNet {
      *  Create the hashtables adverbSynsetHash, adverbDocumentationHash,
      *  and adverbSUMOhash that contain the WordNet
      *  adverb synsets, word definitions, and mappings to SUMO, respectively.
+     *  
+     * @throws java.io.IOException 
      *  Throws an IOException if the files are not found.
      */
     private void readAdverbs() throws java.io.IOException {
@@ -1067,6 +1117,10 @@ public class WordNet {
      * context of the sentence.  Returns an ArrayList consisting of
      * a 9-digit WordNet synset, the corresponding SUMO term, and the score
      * reflecting the quality of the guess the given synset is the right one.
+     * @param word 
+     * @param words 
+     * @param POS 
+     * @return ?
      */
     private ArrayList findSUMOWordSenseArray(String word, ArrayList words, int POS) {
 
@@ -1138,6 +1192,10 @@ public class WordNet {
     /** ***************************************************************
      * Return the best guess at the synset for the given word in the 
      * context of the sentence.  Returns a SUMO term.
+     * @param word 
+     * @param words 
+     * @param POS 
+     * @return ?
      */
     private String findSUMOWordSense(String word, ArrayList words, int POS) {
 
@@ -1148,6 +1206,9 @@ public class WordNet {
     /** ***************************************************************
      * Return the best guess at the synset for the given word in the 
      * context of the sentence.  Returns a SUMO term.
+     * @param word 
+     * @param words 
+     * @return ?
      */
     public String findSUMOWordSense(String word, ArrayList words) {
 
@@ -1180,6 +1241,8 @@ public class WordNet {
 
     /** ***************************************************************
      * Remove punctuation and contractions from a sentence.
+     * @param sentence 
+     * @return ?
      */
     private String removePunctuation(String sentence) {
 
@@ -1256,6 +1319,8 @@ public class WordNet {
 
     /** ***************************************************************
      * Remove stop words from a sentence.
+     * @param sentence 
+     * @return ?
      */
     private String removeStopWords(String sentence) {
 
@@ -1276,6 +1341,8 @@ public class WordNet {
     /** ***************************************************************
      * Collect all the SUMO terms that represent the best guess at 
      * meanings for all the words in a sentence.
+     * @param word 
+     * @return ?
      */
     public String getBestDefaultSense(String word) {
 
@@ -1298,6 +1365,8 @@ public class WordNet {
     /** ***************************************************************
      * Collect all the SUMO terms that represent the best guess at 
      * meanings for all the words in a sentence.
+     * @param sentence 
+     * @return ?
      */
     public String collectSUMOWordSenses(String sentence) {
 
@@ -1335,6 +1404,8 @@ public class WordNet {
 
     /** ***************************************************************
      *  Read the WordNet files only on initialization of the class.
+     *  
+     * @throws java.io.IOException 
      */
     public static void initOnce() throws java.io.IOException {
    
@@ -1360,6 +1431,9 @@ public class WordNet {
     /** ***************************************************************
      * Split apart the block of synsets, and return the separated values 
      * as an array.
+     * 
+     * @param synsetBlock 
+     * @return ?
      */
     private static String[] splitSynsets(String synsetBlock) {
 
@@ -1372,9 +1446,12 @@ public class WordNet {
     /** ***************************************************************
      *  The main routine which looks up the search word in the hashtables
      *  to find the relevant word definitions and SUMO mappings.
+     * @param synsetBlock 
      *  @param word is the word the user is asking to search for.
      *  @param type is whether the word is a noun or verb (we need to add capability for adjectives and adverbs.
-     *  @param
+     * @param sumokbname 
+     * @param synsetNum 
+     * @return ?
      */
     private String sumoDisplay(String synsetBlock, String word, String type, String sumokbname, String synsetNum) {
 
@@ -1446,6 +1523,9 @@ public class WordNet {
 
     /** ***************************************************************
      * Return the root form of the noun, or null if it's not in the lexicon.
+     * @param mixedCase 
+     * @param input 
+     * @return ?
      */
     public String nounRootForm(String mixedCase, String input) {
 
@@ -1503,6 +1583,11 @@ public class WordNet {
      *  list to find the synsets in the NOUN.DAT file.
      *  If the word is not in the exception list, check to see if the lower case version of
      *  the input value is a plural and search over NOUN.DAT in the singular form if it is.
+     * @param sumokbname 
+     * @param mixedCase 
+     * @param input 
+     * @param synset 
+     * @return ?
      */
     private String processNoun (String sumokbname, String mixedCase, String input, String synset) {
 
@@ -1521,6 +1606,9 @@ public class WordNet {
     /** ***************************************************************
      * Return the present tense singular form of the verb, or null if
      * it's not in the lexicon.
+     * @param mixedCase 
+     * @param input 
+     * @return ?
      */
     public String verbRootForm(String mixedCase, String input) {
 
@@ -1581,6 +1669,11 @@ public class WordNet {
      *  list to find the synsets in the VERB.DAT file.
      *  If the word is not in the exception list, check to see if the lower case version of the
      *  input value is a singular form and search over VERB.DAT with the infinitive form if it is.
+     * @param sumokbname 
+     * @param mixedCase 
+     * @param input 
+     * @param synset 
+     * @return ?
      */
     private String processVerb(String sumokbname, String mixedCase, String input, String synset) {
 
@@ -1599,6 +1692,11 @@ public class WordNet {
     /** ***************************************************************
      * This routine gets the synsets for an adverb, then passes those
      * synsets to sumoDisplay() for processing.
+     * @param sumokbname 
+     * @param mixedCase 
+     * @param input 
+     * @param synset 
+     * @return ?
      */
     private String processAdverb(String sumokbname, String mixedCase, String input, String synset) {
 
@@ -1614,6 +1712,11 @@ public class WordNet {
     /** ***************************************************************
      * This routine gets the synsets for an adjective, then passes those
      * synsets to sumoDisplay() for processing.
+     * @param sumokbname 
+     * @param mixedCase 
+     * @param input 
+     * @param synset 
+     * @return ?
      */
     private String processAdjective(String sumokbname, String mixedCase, String input, String synset) {
 
@@ -1628,6 +1731,7 @@ public class WordNet {
 
     /** *************************************************************** 
      * Get all the synsets for a given word.
+     * @param word 
      * @return a TreeMap of word keys and values that are ArrayLists of 
      * synset Strings
      */
@@ -1681,6 +1785,8 @@ public class WordNet {
     /** *************************************************************** 
      * Get the words and synsets corresponding to a SUMO term. The 
      * return is a Map of words with their corresponding synset number.
+     * @param SUMOterm 
+     * @return ?
      */
     public TreeMap getWordsFromTerm(String SUMOterm) {
 
@@ -1709,6 +1815,9 @@ public class WordNet {
 
     /** *************************************************************** 
      * Get the SUMO term for the given root form word and part of speech.
+     * @param word 
+     * @param pos 
+     * @return ?
      */
     public String getSUMOterm(String word, int pos) {
 
@@ -1765,6 +1874,9 @@ public class WordNet {
 
     /** *************************************************************** 
      * Does WordNet contain the given word.
+     * @param word 
+     * @param pos 
+     * @return ?
      */
     public boolean containsWord(String word, int pos) {
 
@@ -1790,6 +1902,8 @@ public class WordNet {
      * 
      *  @param inp The string the user is searching for.
      *  @param pos The part of speech of the word 1=noun, 2=verb, 3=adjective, 4=adverb
+     * @param sumokbname 
+     * @param synset 
      *  @return A string contained the HTML formatted search result.
      */
     public String page (String inp, int pos, String sumokbname, String synset) {
@@ -1822,7 +1936,9 @@ public class WordNet {
     }
 
     /** *************************************************************** 
+     * @param sumokbname 
      * @param synset is a synset with POS-prefix
+     * @return ?
      */
     public String displaySynset (String sumokbname, String synset) {
 
@@ -1895,7 +2011,9 @@ public class WordNet {
         return buf.toString();
     }
 
-    /** ***************************************************************
+    /** *
+     * @param configuration 
+     * @return ?
      */
     private String fromXML(SimpleElement configuration) {
 
@@ -1907,7 +2025,8 @@ public class WordNet {
         return "";
     }
 
-    /** ***************************************************************
+    /** *
+     * @return ?
      */
     private SimpleElement toXML() {
 
@@ -1972,7 +2091,8 @@ public class WordNet {
         return top;
     }
 
-    /** ***************************************************************
+    /** *
+     * @throws IOException 
      */
     public void writeXML () throws IOException {
 
@@ -2000,7 +2120,10 @@ public class WordNet {
         }
     }
 
-    /** *************************************************************
+    /** *
+     * @param ar 
+     * @param value 
+     * @return ?
      */
     private static boolean arrayContains(int[] ar, int value) {
 
@@ -2017,6 +2140,9 @@ public class WordNet {
      *   intransitive - 1,2,3,4,7,23,35
      *   transitive - everything else
      *   ditransitive - 15,16,17,18,19
+     * @param synset 
+     * @param word 
+     * @return ?
      */
     private String getTransitivity(String synset, String word) {
 
@@ -2050,6 +2176,8 @@ public class WordNet {
     /** *************************************************************
      * Replace underscores with commas, wrap hyphenatid and apostrophed words in single
      * quotes, and wrap the whole phrase in brackets.
+     * @param word 
+     * @return ?
      */
     private static String processMultiWord(String word) {
 
@@ -2076,6 +2204,9 @@ public class WordNet {
      * transitive, ditransitive], [intransitive, transitive, no], [no, no, no],
      * [intransitive, no, ditransitive]}, singular,  {simple, prepositional,
      * compound, phrasal}, {event, state}, SUMOMapping., Synset_ID).
+     * @param pw 
+     * @param kb 
+     * @throws IOException 
      */
     private void writeVerbsProlog(PrintWriter pw, KB kb) throws IOException {
 
@@ -2123,6 +2254,9 @@ public class WordNet {
     /** *************************************************************
      * adjective_in_lexicon(Adj, CELT_form, {normal, two_place}, {positive,
      * ungraded, comparative, superlative}, SUMOMapping).
+     * @param pw 
+     * @param kb 
+     * @throws IOException 
      */
     private void writeAdjectivesProlog(PrintWriter pw, KB kb) throws IOException {
 
@@ -2162,6 +2296,9 @@ public class WordNet {
     /** *************************************************************
      * adverb_in_lexicon(Adv, {location, direction, time, duration, frequency,
      * manner}, SUMOMapping).
+     * @param pw 
+     * @param kb 
+     * @throws IOException 
      */
     private void writeAdverbsProlog(PrintWriter pw, KB kb) throws IOException {
 
@@ -2199,6 +2336,9 @@ public class WordNet {
 
     /** *************************************************************
      *  noun_in_lexicon(Noun,{object, person, time}, neuter, {count, mass}, singular, SUMOMapping, Synset_ID).
+     * @param pw 
+     * @param kb 
+     * @throws IOException 
      */
     private void writeNounsProlog(PrintWriter pw, KB kb) throws IOException {
 
@@ -2261,7 +2401,9 @@ public class WordNet {
         }
     }
 
-    /** ***************************************************************
+    /** *
+     * @param kb 
+     * @throws IOException **************************************************************
      */
     public void writeProlog (KB kb) throws IOException {
 
@@ -2291,7 +2433,9 @@ public class WordNet {
         }
     }
 
-    /** ***************************************************************
+    /** *
+     * @param senseKey 
+     * @return ?
      */
     private String senseKeyPOS (String senseKey) {
 
@@ -2303,7 +2447,9 @@ public class WordNet {
         return senseKey.substring(underscore1+1, underscore2);      
     }
 
-    /** ***************************************************************
+    /** *
+     * @param senseKey 
+     * @return ?
      */
     private String senseKeySenseNum (String senseKey) {
 
@@ -2320,6 +2466,10 @@ public class WordNet {
      * Find the "word number" of a word and synset, which is its place
      * in the list of words belonging to a given synset.  Return -1 if
      * not found.
+     * @param POS 
+     * @param synset 
+     * @param word 
+     * @return ?
      */
     private int findWordNum(String POS, String synset, String word) {
 
@@ -2339,7 +2489,9 @@ public class WordNet {
         return -1;
     }
 
-    /** ***************************************************************
+    /** *
+     * @param word 
+     * @return ?
      */
     private String processWordForProlog(String word) {
 
@@ -2363,6 +2515,7 @@ public class WordNet {
      * in the following format:
      * s(Synset_ID, Word_No_in_the_Synset, Word, SS_Type, 
      * Synset_Rank_By_the_Word,Tag_Count)
+     * @throws IOException 
      */
     public void writeWordNetS () throws IOException {
 
@@ -2412,7 +2565,8 @@ public class WordNet {
         }
     }
 
-    /** ***************************************************************
+    /** *
+     * @throws IOException 
      */
     public void writeWordNetHyp () throws IOException {
 
@@ -2461,6 +2615,8 @@ public class WordNet {
 
     /** ***************************************************************
      * Double any single quotes that appear.
+     * @param doc 
+     * @return ?
      */
     public String processPrologString (String doc) {
 
@@ -2478,7 +2634,8 @@ public class WordNet {
         return doc;
     }
 
-    /** ***************************************************************
+    /** *
+     * @throws IOException 
      */
     public void writeWordNetG () throws IOException {
 
@@ -2532,7 +2689,8 @@ public class WordNet {
         }
     }
 
-    /** ***************************************************************
+    /** *
+     * @throws IOException 
      */
     public void writeWordNetProlog () throws IOException {
 
@@ -2577,10 +2735,16 @@ public class WordNet {
         return;
     }
 
+    /**
+     * @return ?
+     */
     public String getControl() {
 		return control;
 	}
 
+	/**
+	 * @param control
+	 */
 	public void setControl(String control) {
 		this.control = control;
 	}
@@ -2588,6 +2752,7 @@ public class WordNet {
 	/** ***************************************************************
      *  A main method, used only for testing.  It should not be called
      *  during normal operation.
+	 * @param args 
      */
     public static void main (String[] args) {
 

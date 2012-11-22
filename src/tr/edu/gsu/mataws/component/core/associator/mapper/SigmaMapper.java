@@ -127,7 +127,6 @@ public class SigmaMapper implements MapperInterface<Synset>
 			while(it.hasNext() && result==null)
 			{	int pos = it.next();
 				result = sigmaObject.getSUMOterm(string,pos);
-			
 			}
 		}
 		
