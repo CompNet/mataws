@@ -34,7 +34,7 @@ import java.util.TreeSet;
 
 import com.whitemagicsoftware.wordsplit.TextSegmenter;
 
-import tr.edu.gsu.mataws.component.core.selector.IdentifiedWord;
+import tr.edu.gsu.mataws.component.selector.IdentifiedWord;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import edu.smu.tspell.wordnet.NounSynset;
