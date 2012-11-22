@@ -26,43 +26,29 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.SortedSet;
 
-import com.articulate.sigma.KBmanager;
-import com.articulate.sigma.WordNet;
-
-import tr.edu.gsu.mataws.components.core.Core;
-import tr.edu.gsu.mataws.components.core.Core;
-import tr.edu.gsu.mataws.components.core.associator.Associator;
-import tr.edu.gsu.mataws.components.core.selector.AnalysisType;
-import tr.edu.gsu.mataws.components.core.selector.Analyzer;
-import tr.edu.gsu.mataws.components.io.reader.CollectionReader;
-import tr.edu.gsu.mataws.components.io.reader.WsdlCollectionReader;
-import tr.edu.gsu.mataws.components.io.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.stats.StatData;
-import tr.edu.gsu.mataws.stats.StatWritter;
-import tr.edu.gsu.mataws.tools.FileTools;
-import tr.edu.gsu.mataws.trace.TraceableParameter;
-import tr.edu.gsu.mataws.zzzzz.Node;
-import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.col.Parameter;
+import tr.edu.gsu.mataws.data.MatawsSubParameter;
 
 /**
  * @author Vincent Labatut
  */
 public class TypeProcessor
 {	
+	///////////////////////////////////////////////////////////
+	//	PROCESS							///////////////////////
+	///////////////////////////////////////////////////////////
+	
+	
 	public static void process(MatawsParameter parameter)
 	{	// retrieve the subfields and process them individually
-		parameter.get
+		List<MatawsSubParameter> children = parameter.getChildren();
+		
+		for(MatawsSubParameter child: children)
+		{	
+			
+		}
 		
 		// select representative word
 			// renvoie un mot
