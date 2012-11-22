@@ -41,7 +41,7 @@ import tr.edu.gsu.mataws.data.MatawsSubParameter;
 public class TypeProcessor
 {	
 	public TypeProcessor()
-	{	subParameterProcessor = new SubparameterProcessors(this);
+	{	subParameterProcessor = new SubParameterProcessor(this);
 		
 	}
 	
@@ -49,7 +49,7 @@ public class TypeProcessor
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Processor used to treat all child parameters */
-	private SubparameterProcessors subParameterProcessor;
+	private SubParameterProcessor subParameterProcessor;
 	/** Selector used to combine the resulting words */
 	private 
 	

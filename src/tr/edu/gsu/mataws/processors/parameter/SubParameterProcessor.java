@@ -49,14 +49,14 @@ import tr.edu.gsu.mataws.processors.name.SubNameProcessor;
  * 
  * @author Vincent Labatut
  */
-public class SubparameterProcessors
+public class SubParameterProcessor
 {	
 	/**
 	 * Builds a subparameter processor,
 	 * based on defaults processors.
 	 * 
 	 */
-	public SubparameterProcessors(TypeProcessor typeProcessor)
+	public SubParameterProcessor(TypeProcessor typeProcessor)
 	{	nameProcessor = new SubNameProcessor();
 		this.typeProcessor = typeProcessor;
 	}
