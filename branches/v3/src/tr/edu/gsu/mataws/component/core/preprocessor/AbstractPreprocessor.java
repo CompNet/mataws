@@ -34,7 +34,12 @@ import tr.edu.gsu.mataws.component.core.preprocessor.normalizer.NormalizerInterf
 import tr.edu.gsu.mataws.component.core.preprocessor.splitter.SplitterInterface;
 
 /**
- * General interface of the preprocessor component.
+ * Abstract class of the preprocessor component.
+ * <br/>
+ * Other preprocessors can be designed by using
+ * different combinations of splitters, normalizers
+ * and filters, and/or different splitters, normalizes
+ * and filters.
  *  
  * @author Koray Mancuhan
  * @author Cihan Aksoy

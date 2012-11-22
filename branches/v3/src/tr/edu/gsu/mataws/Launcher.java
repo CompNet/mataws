@@ -98,11 +98,7 @@ public class Launcher
 	 */
 	private static void init() throws IOException
 	{	// init sigma
-		KBmanager.getMgr().initializeOnce();
-		KBmanager.getMgr().setPref("kbDir", FileTools.KNOWBASE_FOLDER);
-        WordNet.initOnce();
-        
-        // TODO init jwordsplitter
+		
 		
 		statistics = StatData.getInstance();
 		statWriter = new StatWritter();
@@ -240,6 +236,8 @@ public class Launcher
  * 		  which meaning is the most frequent). 
  * - associator:
  * 		- no more syntactic work: the synset allows retrieving the concept without any ambiguity
+ * 		- some concepts returned by sigma are actually the opposite of the considered words
+ * 		- some words in WordNet 3 are not annotated in sigma
  * 
  * 
  * others:
