@@ -31,7 +31,7 @@ import java.util.List;
 
 import edu.smu.tspell.wordnet.Synset;
 
-import tr.edu.gsu.mataws.component.cleaner.DefaultPreprocessor;
+import tr.edu.gsu.mataws.component.preparator.DefaultPreprocessor;
 import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;

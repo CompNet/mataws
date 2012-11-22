@@ -214,7 +214,7 @@ public class Launcher
 /* TODO TODO
  * changes:
  * - new architecture
- * - preprocessor: becomes 'cleaner'
+ * - preprocessor: becomes 'preparator'
  * 		- splitter:
  * 			- possibility to use a different lexicon
  * 		- normalizer:
