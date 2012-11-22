@@ -31,18 +31,30 @@ import java.util.List;
 
 import edu.smu.tspell.wordnet.Synset;
 
+import tr.edu.gsu.mataws.component.selector.DefaultSelector;
+import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.data.MatawsSubParameter;
 
 /**
+ * This class is in charge for processing the
+ * structure of data types. It takes a parameter
+ * as input (its names have supposedly been tested
+ * before). It explores the structure of its data type,
+ * provided it is a complex XSD type. It possibly
+ * retrieves several representative words, which
+ * are combined by means of a selector component.
+ * 
  * @author Vincent Labatut
  */
 public class TypeProcessor
 {	
+	/**
+	 * Builds a standard type processor.
+	 */
 	public TypeProcessor()
 	{	subParameterProcessor = new SubParameterProcessor(this);
-		
+		selector = new DefaultSelector();
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -51,24 +63,48 @@ public class TypeProcessor
 	/** Processor used to treat all child parameters */
 	private SubParameterProcessor subParameterProcessor;
 	/** Selector used to combine the resulting words */
-	private 
+	private DefaultSelector selector;
 	
-	public void process(MatawsParameter parameter)
-	{	// process each children individually
+	/**
+	 * Receives a parameter and takes advantage of its
+	 * data type structure to extract a series of
+	 * representative words. Those are then combined
+	 * using a Selector, in order to tget a single 
+	 * representative word. Finally, the parameter object
+	 * is updated in order to contain this word.
+	 * 
+	 * @param parameter
+	 * 		The parameter to process.
+	 * @return
+	 * 		{@code true} iff the processor could retrieve a representative 
+	 * 		word for this parameter, thanks to its data type structure. 
+	 */
+	public boolean process(AbstractMatawsParameter parameter)
+	{	boolean result = false;
+		
+		// process each children individually
 		List<MatawsSubParameter> children = parameter.getChildren();
 		List<IdentifiedWord<Synset>> words = new ArrayList<IdentifiedWord<Synset>>();
 		for(MatawsSubParameter child: children)
 		{	// apply standard subparameter processing
-			IdentifiedWord<Synset> word = subParameterProcessor.process(child);
-			if(word!=null)
+			boolean res = subParameterProcessor.process(child);
+			if(res)
+			{	@SuppressWarnings("unchecked")
+				IdentifiedWord<Synset> word = (IdentifiedWord<Synset>)child.getRepresentativeWord();
 				words.add(word);
+			}
 		}
 		
 		// simplifies the resulting list of words
 		if(!words.isEmpty())
-		{	selector.simplify(words);
-			if(!words.isEmpty())
-				result = words.get(0);
+		{	IdentifiedWord<Synset> representativeWord = selector.select(words);
+			if(representativeWord!=null)
+			{	result = true;
+				// update the parameter
+				parameter.setRepresentativeWord(representativeWord);
+			}
 		}
+		
+		return result;
 	}
 }

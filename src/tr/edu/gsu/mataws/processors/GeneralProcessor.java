@@ -58,7 +58,7 @@ public class GeneralProcessor
 	 * annotation process.
 	 * 
 	 */
-	public static List<MatawsParameter> process(Collection collection)
+	public List<MatawsParameter> process(Collection collection)
 	{	// init
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		
@@ -136,7 +136,7 @@ public class GeneralProcessor
 	 *             indicates a problem if an error occurs during the creation of
 	 *             parameter list.
 	 */
-	public static List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception
+	public List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception
 	{	List<TraceableParameter> result = new ArrayList<TraceableParameter>();
 		CollectionReader sineUtil = new CollectionReader();
 		SortedSet<Parameter> sortedSet = sineUtil.readCollection(collectionName);
@@ -159,7 +159,7 @@ public class GeneralProcessor
 	 * @return a parameter list in which each parameter is represented by a Node
 	 *         object.
 	 */
-	public static List<Node> createParameterNodes(List<TraceableParameter> allParameterObjects)
+	public List<Node> createParameterNodes(List<TraceableParameter> allParameterObjects)
 	{	List<Node> result = new ArrayList<Node>();
 		for (int i = 0; i < allParameterObjects.size(); i++)
 		{	Node node = new Node(allParameterObjects.get(i), 0);

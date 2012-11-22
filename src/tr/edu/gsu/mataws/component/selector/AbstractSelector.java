@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 
@@ -38,9 +37,8 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  * Abstract class of the selector component.
  * <br/>
  * Other selectors can be designed by using
- * different combinations of identifiers and
- * simplifiers, and/or different identifiers
- * and simplifiers.
+ * different combinations of simplifiers, 
+ * and/or different simplifiers.
  * 
  * @param <T> 
  *		Class used to represent a WordNet synset.
@@ -54,70 +52,38 @@ public abstract class AbstractSelector<T>
 	 * for this selector.
 	 */
 	public AbstractSelector()
-	{	initIdentifiers();
-		initSimplifiers();
+	{	initSimplifiers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a list of strings and selects it, 
-	 * which generally results in a single word.
+	 * Takes a list of words and selects the most
+	 * relevant, leading to a single word.
 	 * 
-	 * @param strings
-	 * 		The list of strings to process.
+	 * @param words
+	 * 		The list of identified words to process.
 	 * @return
-	 * 		The resulting {@link IdentifiedWord}, or {@code null} if the selection was inconclusive.
+	 * 		The resulting {@link IdentifiedWord}, or {@code null} 
+	 * 		if the selection was inconclusive.
 	 */
-	public IdentifiedWord<T> select(List<String> strings)
-	{	// init
-		List<IdentifiedWord<T>> temp = new ArrayList<IdentifiedWord<T>>();
-		for(String string: strings)
-		{	IdentifiedWord<T> word = new IdentifiedWord<T>(string);
-			temp.add(word);
-		}
-		
-		// identification
-		identify(temp);
-		
-		// simplification
-		simplify(temp);
+	public IdentifiedWord<T> select(List<IdentifiedWord<T>> words)
+	{	// simplification
+		simplify(words);
 		
 		// result
 		IdentifiedWord<T> result = null;
-		if(temp.size()>1)
+		if(words.size()>1)
 			throw new IllegalArgumentException("Problem during selection: final word list should not contain more than one word.");
-		else if(!temp.isEmpty())
-			result = temp.get(0);
+		else if(!words.isEmpty())
+			result = words.get(0);
 		
 		return result;
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	IDENTIFY							///////////////////
-	///////////////////////////////////////////////////////////
-	/** Sequence of identifiers applied as is */
-	protected final List<IdentifierInterface<T>> identifiers = new ArrayList<IdentifierInterface<T>>();
-
-	/**
-	 * Initializes the sequence of identifiers.
-	 */
-	protected abstract void initIdentifiers();
-
-	/**
-	 * Applies the sequence of identifiers.
-	 * 
-	 * @param words
-	 * 		List of words to be processed.
-	 */
-	protected void identify(List<IdentifiedWord<T>> words)
-	{	for(IdentifierInterface<T> identifier: identifiers)
-			identifier.identify(words);
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	NORMALIZATION						///////////////////
+	//	SIMPLIFICATION						///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of simplifiers applied as is */
 	protected final List<SimplifierInterface<T>> simplifiers = new ArrayList<SimplifierInterface<T>>();

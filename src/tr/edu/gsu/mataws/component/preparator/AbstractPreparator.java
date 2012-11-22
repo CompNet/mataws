@@ -30,52 +30,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tr.edu.gsu.mataws.component.preparator.filter.FilterInterface;
+import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.preparator.normalizer.NormalizerInterface;
 import tr.edu.gsu.mataws.component.preparator.splitter.SplitterInterface;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
- * Abstract class of the preprocessor component.
+ * Abstract class of the preparator component.
  * <br/>
- * Other preprocessors can be designed by using
+ * Other preparators can be designed by using
  * different combinations of splitters, normalizers
- * and filters, and/or different splitters, normalizes
- * and filters.
+ * filters and identifiers, and/or different splitters, 
+ * normalizers, filters and identifiers.
+ * 
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
  *  
  * @author Koray Mancuhan
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public abstract class AbstractPreprocessor
+public abstract class AbstractPreparator<T>
 {	
 	/**
 	 * Initializes all the necessary objects
-	 * for this preprocessor.
+	 * for this preparator.
 	 */
-	public AbstractPreprocessor()
-	{	initSplitters();
+	public AbstractPreparator()
+	{	// init string-related preprocessing
+		initSplitters();
 		initNormalizers();
 		initFilters();
+		
+		// init word-related preprocessing
+		initIdentifiers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a string and preprocesses it, 
-	 * which generally results in a list of strings.
+	 * Takes a string and prepare it, which 
+	 * results in a list of identified words.
 	 * 
 	 * @param string
 	 * 		Original string.
 	 * @return
-	 * 		The list of strings resulting from its preprocessing.
+	 * 		The list of identified words resulting from its preprocessing.
 	 */
-	public List<String> preprocess(String string)
-	{	List<String> result = new ArrayList<String>();
-		result.add(string);
+	public List<IdentifiedWord<T>> preprocess(String string)
+	{	// init
+		List<String> strings = new ArrayList<String>();
+		strings.add(string);
 		
-		result = split(result);
-		result = normalize(result);
-		result = filter(result);
+		// clean strings
+		strings = split(strings);
+		strings = normalize(strings);
+		strings = filter(strings);
+		
+		// retrieve synsets
+		List<IdentifiedWord<T>> result = identify(strings);
 		
 		return result;
 	}
@@ -161,6 +175,40 @@ public abstract class AbstractPreprocessor
 		{	List<String> temp = filter.filter(strings);
 			result.addAll(temp);
 		}
+		return result;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	IDENTIFICATION						///////////////////
+	///////////////////////////////////////////////////////////
+	/** Sequence of identifiers applied as is */
+	protected final List<IdentifierInterface<T>> identifiers = new ArrayList<IdentifierInterface<T>>();
+
+	/**
+	 * Initializes the sequence of identifiers.
+	 */
+	protected abstract void initIdentifiers();
+
+	/**
+	 * Applies the sequence of identifiers.
+	 * 
+	 * @param strings
+	 * 		List of strings to be processed.
+	 * @return
+	 * 		List of identified words resulting from the processing.
+	 */
+	protected List<IdentifiedWord<T>> identify(List<String> strings)
+	{	// init
+		List<IdentifiedWord<T>> result = new ArrayList<IdentifiedWord<T>>();
+		for(String string: strings)
+		{	IdentifiedWord<T> word = new IdentifiedWord<T>(string);
+			result.add(word);
+		}
+		
+		// identify
+		for(IdentifierInterface<T> identifier: identifiers)
+			identifier.identify(result);
+		
 		return result;
 	}
 }
