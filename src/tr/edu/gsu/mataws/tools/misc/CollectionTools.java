@@ -97,7 +97,8 @@ public class CollectionTools
 		{	List<Parameter> inParameters = operation.getParameters(Way.IN);
 			for(Way way: Way.values())
 			{	for(Parameter parameter: inParameters)
-				{	printWriter.print(operation.getUniqueName() + "\t");
+				{	printWriter.print(operation.getParent().getName() + "\t");
+					printWriter.print(operation.getName() + "\t");
 					printWriter.print(way.toString() + "\t");
 					printWriter.print(parameter.getName() + "\t");
 					printWriter.print(parameter.getTypeName());
