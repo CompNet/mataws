@@ -37,8 +37,6 @@ import tr.edu.gsu.mataws.tools.misc.TimeTools;
  * using the offset associated to the
  * log record by the logger.
  * 
- * @since 1
- * @version 1
  * @author Vincent Labatut
  */
 public class HierarchicalFormatter extends SimpleFormatter

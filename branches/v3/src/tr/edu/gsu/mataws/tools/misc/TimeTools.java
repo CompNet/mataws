@@ -34,8 +34,6 @@ import java.util.Calendar;
  * They are mainly used by the log classes to add
  * time and date to log messages.
  * 
- * @since 1
- * @version 2
  * @author Vincent Labatut
  */
 public class TimeTools
