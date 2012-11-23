@@ -32,8 +32,6 @@ import java.util.HashMap;
  * General manager to handle all
  * the created {@link HierarchicalLogger} objects.
  * 
- * @since 1
- * @version 1
  * @author Vincent Labatut
  */
 public class HierarchicalLoggerManager
