@@ -26,6 +26,7 @@ package tr.edu.gsu.mataws.tools.misc;
  * 
  */
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -79,29 +80,34 @@ public class CollectionTools
 	 */
 	public static void extractOperations(String subfolder) throws FileNotFoundException
 	{	// read the collection
+		System.out.println("Reading the collection");
 		CollectionReader readCollection = new WsdlCollectionReader();
 		Collection collection = readCollection.readCollection(subfolder);
 		SortedSet<Operation> operations = collection.getOperations();
 		
 		// open the output text file
-		FileOutputStream fileOut = new FileOutputStream(FileTools.OTHERS_FOLDER);
+		String outFile = FileTools.OTHERS_FOLDER + File.separator + "operations.txt";
+		FileOutputStream fileOut = new FileOutputStream(outFile);
 		OutputStreamWriter writer = new OutputStreamWriter(fileOut);
 		PrintWriter printWriter = new PrintWriter(writer);
 
 		// write the data in the text file
+		System.out.println("Writing the text file");
 		for(Operation operation: operations)
 		{	List<Parameter> inParameters = operation.getParameters(Way.IN);
 			for(Way way: Way.values())
 			{	for(Parameter parameter: inParameters)
-				{	printWriter.println(operation.getUniqueName() + "\\t");
-					printWriter.println(way.toString() + "\\t");
-					printWriter.println(parameter.getName() + "\\t");
-					printWriter.println(parameter.getTypeName());
+				{	printWriter.print(operation.getUniqueName() + "\t");
+					printWriter.print(way.toString() + "\t");
+					printWriter.print(parameter.getName() + "\t");
+					printWriter.print(parameter.getTypeName());
+					printWriter.print("\n");
 				}
 			}
 		}
 		
 		// close the text file
 		printWriter.close();
+		System.out.println("All done");
 	}
 }
