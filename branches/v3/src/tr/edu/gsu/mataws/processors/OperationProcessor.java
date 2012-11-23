@@ -35,32 +35,34 @@ import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Operation;
 
 /**
+ * This class takes advantage of an operation name to
+ * analyze the names of its parameter. Some operation names
+ * have a certain form, which gives a hint about the meaning
+ * of its parameters. 
+ * <br/>
+ * For instance, for an operation whose name is 
+ * {@code celsiusToFahrenheit} and parameters are {@code inParam}
+ * and {@code outParam}, we can suppose the first parameter 
+ * represents Celsisus degrees while the second is Fahrenheit degrees.
+ * 
  * @author Vincent Labatut
  */
 public class OperationProcessor
 {	
+	/**
+	 * Builds a standard operation processor.
+	 */
 	public OperationProcessor()
-	{	parameterProcessor = new ParameterProcessor();
+	{	
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	private ParameterProcessor parameterProcessor;
-
 	public List<MatawsParameter> process(Operation operation)
 	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		
 		// process the operation name
-		
-		MatawsParameter remainingParameters;
-		
-		// process the remaining parameters
-		for(MatawsParameter parameter: remainingParameters)
-		{	parameterProcessor.process(parameter);
-			
-		}
-		
 		
 		// return results
 		return result;
