@@ -26,156 +26,86 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
-import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.SortedSet;
-
-import com.articulate.sigma.KBmanager;
-import com.articulate.sigma.WordNet;
 
 import tr.edu.gsu.mataws.component.reader.CollectionReader;
 import tr.edu.gsu.mataws.component.reader.WsdlCollectionReader;
-import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
-import tr.edu.gsu.mataws.tools.misc.FileTools;
-import tr.edu.gsu.mataws.trace.TraceableParameter;
-import tr.edu.gsu.mataws.zzzzz.Node;
 import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Operation;
-import tr.edu.gsu.sine.col.Parameter;
 
 /**
+ * This class handles the general algorithm for
+ * the annotation of a whole collection of WS descriptions.
+ * 
  * @author Vincent Labatut
  */
 public class GeneralProcessor
 {	
+	/**
+	 * Builds a standard general processor.
+	 */
 	public GeneralProcessor()
-	{	operationProcessor = new OperationProcessor();
+	{	collectionReader = new WsdlCollectionReader();
+		operationProcessor = new OperationProcessor();
+		parameterProcessor = new ParameterProcessor();	
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Component in charge of loading the collection */
+	private CollectionReader collectionReader;
+	/** Processor used to take advantage of the operation details */
 	private OperationProcessor operationProcessor;
+	/** Processor used to annotate the rest of the parameter */
+	private ParameterProcessor parameterProcessor;
 	
 	/**
 	 * Implements the general algorithm for the 
-	 * annotation process.
+	 * annotation process. Will read the collection,
+	 * then annotate it, and finally record the new
+	 * description files.
 	 * 
+	 * @param subfolder
+	 * 		Subfolder containing the collection, or {@code null} to
+	 * 		process the whole input folder.
+	 * 
+	 * @throws FileNotFoundException 
+	 * 		Problem while reading the collection or recording the collection
+	 * 		or statistics.
 	 */
-	public List<MatawsParameter> process(Collection collection)
+	public void process(String subfolder) throws FileNotFoundException
 	{	// init
-		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+		List<MatawsParameter> remainingParameters = new ArrayList<MatawsParameter>();
+		List<MatawsParameter> processedParameters = new ArrayList<MatawsParameter>();
+
+		// load the collection
+		Collection collection = collectionReader.readCollection(subfolder);
 		
 		// process each operation separately
 		SortedSet<Operation> operations = collection.getOperations();
 		for(Operation operation: operations)
 		{	List<MatawsParameter> parameters = operationProcessor.process(operation);
-			result.addAll(parameters);
-		}
-		
-		
-	
-		
-		
-		
-		// load the syntactic descriptions
-		CollectionReader reader = new WsdlCollectionReader();
-		List<MatawsParameter> parameters = reader.readCollection(inFolder);
-		
-		// apply the core processing
-		
-		
-		// record the semantic descriptions
-		// record the statistics
-		
-		
-		String[] collections = new File(System.getProperty("user.dir")
-				+ File.separator + "input").list();
-		for (int i = 0; i < collections.length; i++) {
-			statistics
-					.setAllParameterObjects(extractParameterCollection(collections[i]));
-			statistics.setAllNodeObjects(createParameterNodes(statistics
-					.getAllParameterObjects()));
-
-			for (int j = 0; j < statistics.getAllParameterObjects().size(); j++) {
-				Node node = statistics.getAllNodeObjects().get(j);
-				TraceableParameter tparameter = node.getTraceableParameter();
-				List<String> preprocessingResult = new ArrayList<String>();
-				String wordToAnnotate = null;
-				String concept = null;
-				AnalysisType analysisType;
-				String wordUsage;
-				Queue<Node> queue = new LinkedList<Node>();
-				queue.offer(node);
-
-				preprocessingResult = core.process(queue);
-				wordToAnnotate = analyzer.analyzeWords(tparameter,
-						preprocessingResult);
-				analysisType = analyzer.getAnalysisType();
-				wordUsage = analyzer.getWordUsage(wordToAnnotate);
-				concept = Associator.findConcept(wordToAnnotate, wordUsage);
-
-				statistics.calculateStatistics(tparameter, preprocessingResult,
-						wordToAnnotate, analysisType, concept);
-				output.write(tparameter, preprocessingResult, wordToAnnotate,
-						analysisType, concept);
+			for(MatawsParameter parameter: parameters)
+			{	if(parameter.getConcept()==null)
+					remainingParameters.add(parameter);
+				else
+					processedParameters.add(parameter);
 			}
-
-			output.save();
-
-			colTransUtil = new CollectionTransformationUtil(collections[i]);
-			colTransUtil.createSemanticCollection();
 		}
-	}
-
-	/**
-	 * Service method creating a parameter list in which each parameter is
-	 * represented by a Parameter object.
-	 * 
-	 * @param collectionName
-	 *            collection name to extract the parameter list.
-	 * @return parameter list in which each parameter is represented by a
-	 *         Parameter object.
-	 * @throws Exception
-	 *             indicates a problem if an error occurs during the creation of
-	 *             parameter list.
-	 */
-	public List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception
-	{	List<TraceableParameter> result = new ArrayList<TraceableParameter>();
-		CollectionReader sineUtil = new CollectionReader();
-		SortedSet<Parameter> sortedSet = sineUtil.readCollection(collectionName);
-		Iterator<Parameter> iterator = sortedSet.iterator();
-		while (iterator.hasNext())
-		{	Parameter param = iterator.next();
-			TraceableParameter tp = new TraceableParameter(param);
-			result.add(tp);
+		
+		// process each non-annotated parameter separately
+		for(MatawsParameter parameter: remainingParameters)
+		{	parameterProcessor.process(parameter);
+			processedParameters.add(parameter);
 		}
-		return result;
-	}
-
-	/**
-	 * Service method creating a parameter list in which each parameter is
-	 * represented by a Node object.
-	 * 
-	 * @param allParameterObjects
-	 *            a parameter list in which each parameter is represented by a
-	 *            Parameter object
-	 * @return a parameter list in which each parameter is represented by a Node
-	 *         object.
-	 */
-	public List<Node> createParameterNodes(List<TraceableParameter> allParameterObjects)
-	{	List<Node> result = new ArrayList<Node>();
-		for (int i = 0; i < allParameterObjects.size(); i++)
-		{	Node node = new Node(allParameterObjects.get(i), 0);
-			result.add(node);
-		}
-		return result;
+	
+		// record the collection and stats
+		
 	}
 }

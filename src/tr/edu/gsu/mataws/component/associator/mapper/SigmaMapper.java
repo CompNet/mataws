@@ -126,6 +126,10 @@ public class SigmaMapper implements MapperInterface<Synset>
 			Iterator<Integer> it = posList.iterator();
 			while(it.hasNext() && result==null)
 			{	int pos = it.next();
+				// TODO if several concepts are associated to the word;
+				// Sigma arbitrarily retrieves the first one.
+				// >> this could be improved by using the most
+				// frequent instead (for instance)
 				result = sigmaObject.getSUMOterm(string,pos);
 			}
 		}

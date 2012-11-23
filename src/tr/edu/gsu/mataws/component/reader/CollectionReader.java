@@ -27,14 +27,8 @@ package tr.edu.gsu.mataws.component.reader;
  */
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 
-import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.col.Operation;
-import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.sine.col.Service;
 
 /**
  * This class is used to read the data contained in the input
@@ -54,16 +48,17 @@ public abstract class CollectionReader
 	 * @param subfolder
 	 *		The folder containing the collection.
 	 * @return 
-	 * 		A list of parameter objects.
+	 * 		The sine object representing a WS collection. 
 	 * 
 	 * @throws FileNotFoundException 
 	 * 		If no file could be found at the specified location. 
 	 */
-	public abstract List<MatawsParameter> readCollection(String subfolder) throws FileNotFoundException;
+	public abstract Collection readCollection(String subfolder) throws FileNotFoundException;
+//	public abstract List<MatawsParameter> readCollection(String subfolder) throws FileNotFoundException;
 	
 	/**
 	 * Analyzes the specified Sine object representing a collection,
-	 * and extract all parameters. Those are embedded in Mataws object,
+	 * and extract all parameters. Those are embedded in Mataws objects,
 	 * to allow further processing.
 	 * 
 	 * @param collection
@@ -71,7 +66,7 @@ public abstract class CollectionReader
 	 * @return
 	 * 		A list of Mataws parameter objects.
 	 */
-	protected List<MatawsParameter> extractParameters(Collection collection)
+/*	protected List<MatawsParameter> extractParameters(Collection collection)
 	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		
 		for(Service service: collection.getServices())
@@ -85,4 +80,5 @@ public abstract class CollectionReader
 		
 		return result;
 	}
+*/	
 }
