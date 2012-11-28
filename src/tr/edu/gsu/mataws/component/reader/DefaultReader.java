@@ -33,7 +33,7 @@ import tr.edu.gsu.mataws.component.reader.collection.WsdlCollectionReader;
  * 
  * @author Vincent Labatut
  */
-public abstract class DefaultReader extends AbstractReader
+public class DefaultReader extends AbstractReader
 {	
 	///////////////////////////////////////////////////////////
 	//	COLLECTION							///////////////////

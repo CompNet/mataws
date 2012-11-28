@@ -1,0 +1,29 @@
+id,identity
+bcc,blindCourtesyCopy
+cc,carbonCopy
+cd,compactDisc
+css,cascadeStyleSheets
+cv,curriculumVitae
+dvd,digitalVersatileDisc
+gcd,greatCircleDistance
+gsm,globalSystemForMobileCommunications
+html,hypertextMarkupLanguage
+icd,internationalCodeDesignator
+ip,internetProtocol
+sms,shortMessageService
+smtp,simpleMailTransportProtocol
+soap,simpleObjectAccessProtocol
+sql,structuredQueryLanguage
+tns,targetNamespace
+uddi,universalDescriptionDiscoveryAndIntergration
+dna, deoxyriboNucleicAcid
+udh,userDataHeader
+un,unitedNations
+upc,universalProductCode
+url,uniformResourceLocator
+wap,wirelessApplicationProtocol
+ws,webService
+wsdl,WebServiceDescriptionLanguage
+xml,ExtensibleMarkupLanguage
+xslt,ExtensibleStylesheetLanguageTransformation
+xsd, ExtensibleSchemeDefinition 

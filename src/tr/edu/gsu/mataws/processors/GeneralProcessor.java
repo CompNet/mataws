@@ -31,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
-import tr.edu.gsu.mataws.component.reader.CollectionReader;
-import tr.edu.gsu.mataws.component.reader.WsdlCollectionReader;
+import tr.edu.gsu.mataws.component.reader.AbstractReader;
+import tr.edu.gsu.mataws.component.reader.DefaultReader;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
 import tr.edu.gsu.sine.col.Collection;
@@ -50,7 +50,7 @@ public class GeneralProcessor
 	 * Builds a standard general processor.
 	 */
 	public GeneralProcessor()
-	{	collectionReader = new WsdlCollectionReader();
+	{	reader = new DefaultReader();
 		operationProcessor = new OperationProcessor();
 		parameterProcessor = new ParameterProcessor();	
 	}
@@ -59,7 +59,7 @@ public class GeneralProcessor
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Component in charge of loading the collection */
-	private CollectionReader collectionReader;
+	private AbstractReader reader;
 	/** Processor used to take advantage of the operation details */
 	private OperationProcessor operationProcessor;
 	/** Processor used to annotate the rest of the parameter */
@@ -85,7 +85,7 @@ public class GeneralProcessor
 		List<MatawsParameter> processedParameters = new ArrayList<MatawsParameter>();
 
 		// load the collection
-		Collection collection = collectionReader.readCollection(subfolder);
+		Collection collection = reader.read(subfolder);
 		
 		// process each operation separately
 		SortedSet<Operation> operations = collection.getOperations();
