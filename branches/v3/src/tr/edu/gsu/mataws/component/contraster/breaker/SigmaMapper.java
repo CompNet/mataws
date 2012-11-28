@@ -51,6 +51,7 @@ public class SigmaMapper implements BreakerInterface<Synset>
 	{	boolean result = false;
 		
 		
+		
 		return result;
 	}
 }
