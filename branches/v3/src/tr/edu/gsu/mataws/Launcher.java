@@ -40,8 +40,8 @@ import com.articulate.sigma.WordNet;
 
 import tr.edu.gsu.mataws.component.associator.Associator;
 import tr.edu.gsu.mataws.component.core.Core;
-import tr.edu.gsu.mataws.component.reader.CollectionReader;
-import tr.edu.gsu.mataws.component.reader.WsdlCollectionReader;
+import tr.edu.gsu.mataws.component.reader.collection.AbstractCollectionReader;
+import tr.edu.gsu.mataws.component.reader.collection.WsdlCollectionReader;
 import tr.edu.gsu.mataws.component.selector.AnalysisType;
 import tr.edu.gsu.mataws.component.selector.Analyzer;
 import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
@@ -116,7 +116,7 @@ public class Launcher
 	public static void process()
 	{	
 		// load the syntactic descriptions
-		CollectionReader reader = new WsdlCollectionReader();
+		AbstractCollectionReader reader = new WsdlCollectionReader();
 		List<MatawsParameter> parameters = reader.readCollection(inFolder);
 		
 		// apply the core processing
@@ -179,7 +179,7 @@ public class Launcher
 	 */
 	public static List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception
 	{	List<TraceableParameter> result = new ArrayList<TraceableParameter>();
-		CollectionReader sineUtil = new CollectionReader();
+		AbstractCollectionReader sineUtil = new AbstractCollectionReader();
 		SortedSet<Parameter> sortedSet = sineUtil.readCollection(collectionName);
 		Iterator<Parameter> iterator = sortedSet.iterator();
 		while (iterator.hasNext())
@@ -246,8 +246,10 @@ public class Launcher
  *   because the form of the word can be used to determine its grammatical type
  *   and/or meaning. to this cleaning should be let to a latter time 
  *   (might still be required for Sigma)
- * - i removed all acrobyms from the "abbreviations" list. see if WN can retrieve
- *   full words from acronyms, even when in lower case.
+ * - i removed all acronyms from the "abbreviations" list. 
+ * 		> see if WN can retrieve full words from acronyms, even when in lower case.
+ * 		> maybe acronyms should be processed using a separate list
+ *   
  *   
  * - problems:
  * 		- manual evaluation (incomplete, imprecise, inconsistant)

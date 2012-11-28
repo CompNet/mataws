@@ -11,19 +11,21 @@ bool,boolean
 calc,calculate
 cat,category
 cert,certificate
+cnt,content
 col,column
 comm,comment
 config,configuration
 curr,currency
 cust,customer
 dcm,decimal
+del,delete
 dep,departure
 desc,description
 dest,destination
 dev,deviation
 dir,directory
 dis,distance
-distrib,distribution
+distrib,distribute
 doc,document
 dyn,dynamic
 exp,expiry
@@ -45,6 +47,7 @@ mbx,mailbox
 meth,method
 min,minimum
 msg,message
+nav,navigation
 nbr,number
 net,network
 no,number
@@ -76,5 +79,6 @@ tmp,temperature
 trans,transaction
 tx,taxonomy
 txt,text
+upd,update
 vid,video
 whois,whoIs
