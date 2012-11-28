@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.component.preparator.AbstractPreparator;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
@@ -38,7 +40,7 @@ import tr.edu.gsu.sine.col.Parameter;
 /**
  * Abstract class of the associator component.
  *  
-* @param <T> 
+ * @param <T> 
  *		Class used to represent a WordNet synset.
  *
  * @author Vincent Labatut
@@ -76,9 +78,38 @@ public abstract class AbstractContraster<T>
 			result.add(p);
 		}
 		
-		// apply the breakers
-		breakk(operation,result);
+		// prepare the operation name
+		List<IdentifiedWord<T>> operationList = preparate(operation);
 		
+		// apply the breakers
+		breakk(operationList,result);
+		
+		return result;
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	PREPARATOR							///////////////////
+	///////////////////////////////////////////////////////////
+	/** Preparator component used to split the operation name */
+	protected AbstractPreparator<T> preparator;
+	
+	/**
+	 * Initializes the preparator.
+	 */
+	protected abstract void initPreparator();
+	
+	/**
+	 * Applies the preparator and splits the operation
+	 * name into several substrigs.
+	 * 
+	 * @param operation
+	 * 		The operation to process.
+	 * @return
+	 * 		The list of words resulting from the split.
+	 */
+	private List<IdentifiedWord<T>> preparate(Operation operation)
+	{	String opName = operation.getName();
+		List<IdentifiedWord<T>> result = preparator.preparate(opName);
 		return result;
 	}
 	
@@ -86,7 +117,7 @@ public abstract class AbstractContraster<T>
 	//	MAP									///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of breakers applied as is */
-	protected final List<BreakerInterface> breakers = new ArrayList<BreakerInterface>();
+	protected final List<BreakerInterface<T>> breakers = new ArrayList<BreakerInterface<T>>();
 
 	/**
 	 * Initializes the sequence of breakers.
@@ -96,21 +127,21 @@ public abstract class AbstractContraster<T>
 	/**
 	 * Applies the sequence of breakers.
 	 * 
-	 * @param operation
-	 * 		The operation to be processed.
+	 * @param operationList
+	 * 		List of words composing the operation name.
 	 * @param parameters
 	 * 		The Mataws parameters, to be possibly modified depending on the success
 	 * 		of the annotation process.
 	 * @return
 	 * 		{@code true} iff one parameter could be annotated. 
 	 */
-	protected boolean breakk(Operation operation, List<MatawsParameter> parameters)
+	protected boolean breakk(List<IdentifiedWord<T>> operationList, List<MatawsParameter> parameters)
 	{	boolean result = false;
 		
-		Iterator<BreakerInterface> it = breakers.iterator();
+		Iterator<BreakerInterface<T>> it = breakers.iterator();
 		while(it.hasNext() && !result)
-		{	BreakerInterface breaker = it.next();
-			result = breaker.breakk(operation,parameters);
+		{	BreakerInterface<T> breaker = it.next();
+			result = breaker.breakk(operationList,parameters);
 		}
 		
 		return result;

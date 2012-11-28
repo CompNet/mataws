@@ -61,7 +61,7 @@ public class SubNameProcessor extends AbstractNameProcessor
 			string = parameter.getTypeName();
 	
 		// perform preprocessing
-		List<IdentifiedWord<Synset>> words = preprocessor.preprocess(string);
+		List<IdentifiedWord<Synset>> words = preprocessor.preparate(string);
 		if(!words.isEmpty())
 		{	// select representative word
 			IdentifiedWord<Synset> representativeWord = selector.select(words);

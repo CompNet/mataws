@@ -28,17 +28,20 @@ package tr.edu.gsu.mataws.component.contraster.breaker;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.sine.col.Operation;
 
 /**
  * Interface for classes in charge of breaking 
  * down operation names and using this result
  * to improve the annotation of their parameters.
  * 
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
+ * 
  * @author Vincent Labatut
  */
-public interface BreakerInterface
+public interface BreakerInterface<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
@@ -51,14 +54,14 @@ public interface BreakerInterface
 	 * Depending on how the annotation process went, parameters
 	 * in the received list are updated.
 	 * 
-	 * @param operation
-	 * 		The operation to process. 
+	 * @param operationList
+	 * 		The list of words composing the operation name. 
 	 * @param parameters
 	 * 		The parameters to annotate. 
 	 * @return
 	 * 		{@code true} iff the method could annotate at least one parameter.
 	 */
-	public boolean breakk(Operation operation, List<MatawsParameter> parameters);
+	public boolean breakk(List<IdentifiedWord<T>> operationList, List<MatawsParameter> parameters);
 }
 
 /*
