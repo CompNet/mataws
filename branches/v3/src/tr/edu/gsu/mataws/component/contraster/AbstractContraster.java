@@ -30,8 +30,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.associator.mapper.MapperInterface;
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Operation;
+import tr.edu.gsu.sine.col.Parameter;
 
 /**
  * Abstract class of the associator component.
@@ -41,33 +43,41 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  *
  * @author Vincent Labatut
  */
-public abstract class AbstractAssociator<T>
+public abstract class AbstractContraster<T>
 {	
 	/**
 	 * Initializes all the necessary objects
-	 * for this associator.
+	 * for this contraster.
 	 */
-	public AbstractAssociator()
-	{	initMappers();
+	public AbstractContraster()
+	{	initBreakers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes an identified word, and find the associated
-	 * concepts, which takes the form of a string.
+	 * Takes an operation (including its name and parameters), 
+	 * and associates a concept to each parameter, using comparisons
+	 * and patterns in operation names and parameters..
 	 * 
-	 * @param word
-	 * 		Identified word.
+	 * @param operation
+	 * 		The operation to process.
 	 * @return
-	 * 		A string representing the associated concept, or {@code null} if
-	 * 		no concept could be retrieved for the word.
+	 * 		A list of parameters, some of which can be annotated.
 	 */
-	public String associate(IdentifiedWord<T> word)
-	{	String result = null;
+	public List<MatawsParameter> contrast(Operation operation)
+	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		
-		result = map(word);
+		// get the list of parameters
+		List<Parameter> parameters = operation.getParameters();
+		for(Parameter parameter: parameters)
+		{	MatawsParameter p = new MatawsParameter(parameter);
+			result.add(p);
+		}
+		
+		// apply the breakers
+		breakk(operation,result);
 		
 		return result;
 	}
@@ -75,30 +85,32 @@ public abstract class AbstractAssociator<T>
 	///////////////////////////////////////////////////////////
 	//	MAP									///////////////////
 	///////////////////////////////////////////////////////////
-	/** Sequence of mappers applied as is */
-	protected final List<MapperInterface<T>> mappers = new ArrayList<MapperInterface<T>>();
+	/** Sequence of breakers applied as is */
+	protected final List<BreakerInterface> breakers = new ArrayList<BreakerInterface>();
 
 	/**
-	 * Initializes the sequence of mappers.
+	 * Initializes the sequence of breakers.
 	 */
-	protected abstract void initMappers();
+	protected abstract void initBreakers();
 
 	/**
-	 * Applies the sequence of mappers.
+	 * Applies the sequence of breakers.
 	 * 
-	 * @param word
-	 * 		The identified word to be processed.
+	 * @param operation
+	 * 		The operation to be processed.
+	 * @param parameters
+	 * 		The Mataws parameters, to be possibly modified depending on the success
+	 * 		of the annotation process.
 	 * @return
-	 * 		Associated concept, or {@code null} if
-	 * 		none could be found. 
+	 * 		{@code true} iff one parameter could be annotated. 
 	 */
-	protected String map(IdentifiedWord<T> word)
-	{	String result = null;
+	protected boolean breakk(Operation operation, List<MatawsParameter> parameters)
+	{	boolean result = false;
 		
-		Iterator<MapperInterface<T>> it = mappers.iterator();
-		while(it.hasNext() && result==null)
-		{	MapperInterface<T> mapper = it.next();
-			result = mapper.map(word);
+		Iterator<BreakerInterface> it = breakers.iterator();
+		while(it.hasNext() && !result)
+		{	BreakerInterface breaker = it.next();
+			result = breaker.breakk(operation,parameters);
 		}
 		
 		return result;
