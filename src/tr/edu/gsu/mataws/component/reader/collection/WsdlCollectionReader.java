@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader;
+package tr.edu.gsu.mataws.component.reader.collection;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -43,7 +43,7 @@ import tr.edu.gsu.sine.in.Language;
  * @author Koray Mancuhan
  * @author Vincent Labatut
  */
-public class WsdlCollectionReader extends CollectionReader
+public class WsdlCollectionReader extends AbstractCollectionReader
 {
 /*	@Override
 	public List<MatawsParameter> readCollection(String subfolder) throws FileNotFoundException

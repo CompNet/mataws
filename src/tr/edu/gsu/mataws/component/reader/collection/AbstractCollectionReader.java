@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader;
+package tr.edu.gsu.mataws.component.reader.collection;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -36,7 +36,7 @@ import tr.edu.gsu.sine.col.Collection;
  * 
  * @author Vincent Labatut
  */
-public abstract class CollectionReader
+public abstract class AbstractCollectionReader
 {
 	/**
 	 * Loads the collection of syntactic descriptions 
