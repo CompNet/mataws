@@ -76,8 +76,8 @@ public interface BreakerInterface<T>
 
 + nom de l'opération
 	- patterns courants :
-		- getXxxxxbyYyyyyReturn >>> Xxxxx
-		- getXxxxxbyYyyyyParameter >>> Yyyyy
+		- getXxxxxByYyyyyReturn >>> Xxxxx
+		- getXxxxxByYyyyyParameter >>> Yyyyy
 		- "get" est optionel
 		- "by" peut etre remplacé par from, for...
 		- variante : userForId >>> user
