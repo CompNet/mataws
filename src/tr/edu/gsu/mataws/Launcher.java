@@ -246,6 +246,8 @@ public class Launcher
  *   because the form of the word can be used to determine its grammatical type
  *   and/or meaning. to this cleaning should be let to a latter time 
  *   (might still be required for Sigma)
+ * - i removed all acrobyms from the "abbreviations" list. see if WN can retrieve
+ *   full words from acronyms, even when in lower case.
  *   
  * - problems:
  * 		- manual evaluation (incomplete, imprecise, inconsistant)
