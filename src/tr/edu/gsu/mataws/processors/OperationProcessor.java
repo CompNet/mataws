@@ -26,10 +26,14 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.List;
 
+import edu.smu.tspell.wordnet.Synset;
+
+import tr.edu.gsu.mataws.component.contraster.AbstractContraster;
+import tr.edu.gsu.mataws.component.contraster.DefaultContraster;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
 import tr.edu.gsu.sine.col.Operation;
 
 /**
@@ -52,41 +56,38 @@ public class OperationProcessor
 	 */
 	public OperationProcessor()
 	{	
+		parameterProcessor = new ParameterProcessor();
+		contraster = new DefaultContraster();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Component used to take advantage of the operation name and parameters comparison*/
+	private AbstractContraster<Synset> contraster;
+	/** Processor used to annotate the rest of the parameters */
+	private ParameterProcessor parameterProcessor;
+
+	/**
+	 * Processes one operation. Fist, it tries to use the
+	 * name of the operation to help annotating the parameters.
+	 * If this fails, then each parameter is processed separately.
+	 * 
+	 * @param operation
+	 * 		A Sine object representing the operation to process. 
+	 * @return
+	 * 		A list of supposedly annotated parameters from this operation.
+	 */
 	public List<MatawsParameter> process(Operation operation)
-	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+	{	// process the operation name
+		List<MatawsParameter> result = contraster.contrast(operation);
 		
-		// process the operation name
+		// process the rest of the parameters separately
+		for(MatawsParameter parameter: result)
+		{	if(parameter.getConcept()==null)
+				parameterProcessor.process(parameter);
+		}
 		
-	
-	/*
-	
-		+ comparaison de paramètres:
-			- exemples :
-				- username, userage et userid >> user n'est pas pertinent. les concepts seraient name, age, et id
-				- username, adminname et clientname >> alors ça le devient. les concepts seraient user, admin et client.
-			- contre-exemple :
-				- userTel, adminTel >> on voudrait plutot savoir qu'il s'agit de téléphones plutot que d'user et admin (?)
-				  ceci devrait être considéré lors de l'évaluation manuelle (nature des autres paramètres) >> mais ça implique que chaque instance de paramètre doive être évaluée séparément, puisque le contexte (potentiellement différent) serait pris en compte.
-		
-		+ nom de l'opération
-			- patterns courants :
-				- getXxxxxbyYyyyyReturn >>> Xxxxx
-				- getXxxxxbyYyyyyParameter >>> Yyyyy
-				- "get" est optionel
-				- "by" peut etre remplacé par from, for...
-				- variante : userForId >>> user
-			- pattern pas forcément caractérisé par des alternances de min/majuscules
-			  parfois il s'agit uniquement d'unités
-			  ex: PoundsPerSqrInch
-			- autre pattern : getXxxxReturn >> Xxxxxx	
-	
-	*/
-		// return results
 		return result;
 	}
 }

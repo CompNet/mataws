@@ -34,7 +34,6 @@ import java.util.SortedSet;
 import tr.edu.gsu.mataws.component.reader.AbstractReader;
 import tr.edu.gsu.mataws.component.reader.DefaultReader;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
 import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Operation;
 
@@ -52,7 +51,6 @@ public class GeneralProcessor
 	public GeneralProcessor()
 	{	reader = new DefaultReader();
 		operationProcessor = new OperationProcessor();
-		parameterProcessor = new ParameterProcessor();	
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -62,8 +60,6 @@ public class GeneralProcessor
 	private AbstractReader reader;
 	/** Processor used to take advantage of the operation details */
 	private OperationProcessor operationProcessor;
-	/** Processor used to annotate the rest of the parameter */
-	private ParameterProcessor parameterProcessor;
 	
 	/**
 	 * Implements the general algorithm for the 
@@ -80,31 +76,17 @@ public class GeneralProcessor
 	 * 		or statistics.
 	 */
 	public void process(String subfolder) throws FileNotFoundException
-	{	// init
-		List<MatawsParameter> remainingParameters = new ArrayList<MatawsParameter>();
-		List<MatawsParameter> processedParameters = new ArrayList<MatawsParameter>();
-
-		// load the collection
+	{	// load the collection
 		Collection collection = reader.read(subfolder);
 		
 		// process each operation separately
 		SortedSet<Operation> operations = collection.getOperations();
+		List<MatawsParameter> parameters = new ArrayList<MatawsParameter>();
 		for(Operation operation: operations)
-		{	List<MatawsParameter> parameters = operationProcessor.process(operation);
-			for(MatawsParameter parameter: parameters)
-			{	if(parameter.getConcept()==null)
-					remainingParameters.add(parameter);
-				else
-					processedParameters.add(parameter);
-			}
+		{	List<MatawsParameter> temp = operationProcessor.process(operation);
+			parameters.addAll(temp);
 		}
 		
-		// process each non-annotated parameter separately
-		for(MatawsParameter parameter: remainingParameters)
-		{	parameterProcessor.process(parameter);
-			processedParameters.add(parameter);
-		}
-	
 		// record the collection and stats
 		// TODO
 	}

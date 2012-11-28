@@ -33,9 +33,10 @@ import tr.edu.gsu.sine.col.Service;
 /**
  * This class represents a parameter, in order
  * Mataws to perform specific processes.
+ * <br/>
+ * TODO note: {@code message} elements are ignored
  * 
  * @author Vincent Labatut
- * TODO note: message are ignored
  */
 public class MatawsParameter extends AbstractMatawsParameter
 {	
@@ -45,15 +46,11 @@ public class MatawsParameter extends AbstractMatawsParameter
 	 * 
 	 * @param parameter
 	 * 		Sine object representing this parameter.
-	 * @param operation
-	 * 		Sine object representing the operation containing this parameter.
-	 * @param service
-	 * 		Sine object representing the service containing this parameter.
 	 */
-	public MatawsParameter(Parameter parameter, Operation operation, Service service)
+	public MatawsParameter(Parameter parameter)
 	{	super(parameter);
-		sineOperation = operation;
-		sineService = service;
+		sineOperation = (Operation)parameter.getParent();
+		sineService = (Service)sineOperation.getParent();
 	}
 	
 	///////////////////////////////////////////////////////////

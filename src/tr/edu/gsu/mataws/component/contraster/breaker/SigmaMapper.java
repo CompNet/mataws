@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.contraster;
+package tr.edu.gsu.mataws.component.contraster.breaker;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,29 +26,29 @@ package tr.edu.gsu.mataws.component.contraster;
  * 
  */
 
-import edu.smu.tspell.wordnet.Synset;
-import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
-import tr.edu.gsu.mataws.component.contraster.breaker.SigmaMapper;
+import java.util.List;
+
+import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Operation;
 
 /**
- * Series of processings corresponding to the
- * default Contraster component.
+ * Uses Sigma to retrieve the SUMO concept
+ * associated to the received WordNet synset.
  * <br/>
- * Other contrasters can be designed by using
- * different combinations of breakers.
+ * Example: {@code "Password"} -> {@code "LinguisticExpression"}
  *   
  * @author Vincent Labatut
  */
-public class DefaultContraster extends AbstractContraster<Synset>
-{	
+public class SigmaMapper implements BreakerInterface
+{
 	///////////////////////////////////////////////////////////
-	//	MAPPING								///////////////////
+	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	protected void initBreakers()
-	{	BreakerInterface breaker;
-	
-		breaker = new SigmaMapper();
-		breakers.add(breaker);
+	public boolean breakk(Operation operation, List<MatawsParameter> parameters)
+	{	boolean result = false;
+		
+		
+		return result;
 	}
 }
