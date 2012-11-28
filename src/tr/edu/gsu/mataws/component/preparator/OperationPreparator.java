@@ -30,7 +30,6 @@ import edu.smu.tspell.wordnet.Synset;
 import tr.edu.gsu.mataws.component.preparator.filter.FilterInterface;
 import tr.edu.gsu.mataws.component.preparator.filter.LengthFilter;
 import tr.edu.gsu.mataws.component.preparator.filter.RedundancyFilter;
-import tr.edu.gsu.mataws.component.preparator.filter.StopWordFilter;
 import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.preparator.identifier.JawsIdentifier;
 import tr.edu.gsu.mataws.component.preparator.normalizer.AbbreviationNormalizer;
@@ -47,13 +46,11 @@ import tr.edu.gsu.mataws.component.preparator.splitter.LexiconSplitter.Mode;
 
 /**
  * Series of processings corresponding to the
- * default Preparator component.
+ * preparation of an operation name.
  *   
- * @author Koray Mancuhan
- * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class DefaultPreparator extends AbstractPreparator<Synset>
+public class OperationPreparator extends AbstractPreparator<Synset>
 {	
 	///////////////////////////////////////////////////////////
 	//	SPLIT								///////////////////
@@ -111,8 +108,8 @@ public class DefaultPreparator extends AbstractPreparator<Synset>
 	protected void initFilters()
 	{	FilterInterface filter;
 	
-		filter = new StopWordFilter();
-		filters.add(filter);
+//		filter = new StopWordFilter();
+//		filters.add(filter);
 		
 		filter = new RedundancyFilter();
 		filters.add(filter);

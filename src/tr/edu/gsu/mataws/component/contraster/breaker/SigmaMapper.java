@@ -28,8 +28,10 @@ package tr.edu.gsu.mataws.component.contraster.breaker;
 
 import java.util.List;
 
+import edu.smu.tspell.wordnet.Synset;
+
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.sine.col.Operation;
 
 /**
  * Uses Sigma to retrieve the SUMO concept
@@ -39,13 +41,13 @@ import tr.edu.gsu.sine.col.Operation;
  *   
  * @author Vincent Labatut
  */
-public class SigmaMapper implements BreakerInterface
+public class SigmaMapper implements BreakerInterface<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public boolean breakk(Operation operation, List<MatawsParameter> parameters)
+	public boolean breakk(List<IdentifiedWord<Synset>> operationList, List<MatawsParameter> parameters)
 	{	boolean result = false;
 		
 		

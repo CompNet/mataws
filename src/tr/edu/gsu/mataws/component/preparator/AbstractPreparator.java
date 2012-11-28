@@ -70,7 +70,7 @@ public abstract class AbstractPreparator<T>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a string and prepare it, which 
+	 * Takes a string and prepares it, which 
 	 * results in a list of identified words.
 	 * 
 	 * @param string
@@ -78,7 +78,7 @@ public abstract class AbstractPreparator<T>
 	 * @return
 	 * 		The list of identified words resulting from its preprocessing.
 	 */
-	public List<IdentifiedWord<T>> preprocess(String string)
+	public List<IdentifiedWord<T>> preparate(String string)
 	{	// init
 		List<String> strings = new ArrayList<String>();
 		strings.add(string);
