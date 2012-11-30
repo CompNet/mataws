@@ -36,7 +36,7 @@ import edu.smu.tspell.wordnet.Synset;
  *  
  * @author Vincent Labatut
  */
-public class IdentifiedWord<T>
+public class IdentifiedWord<T> implements Comparable<IdentifiedWord<?>>
 {
 	/**
 	 * Builds a new {@code IdentifiedWord}.
@@ -147,6 +147,38 @@ public class IdentifiedWord<T>
 	{	this.synset = synset;
 	}
 
+	///////////////////////////////////////////////////////////
+	//	COMPARABLE							///////////////////
+	///////////////////////////////////////////////////////////
+	@Override
+	public boolean equals(Object obj)
+	{	boolean result = false;
+		if(obj!=null && obj instanceof IdentifiedWord<?>)
+		{	IdentifiedWord<?> word2 = (IdentifiedWord<?>) obj;
+			int compare = compareTo(word2);
+			result = compare==0;
+		}
+		return result;
+	}
+	
+	/**
+	 * The comparison is only based on the original
+	 * word, the rest is ignored.
+	 */
+	@Override
+	public int compareTo(IdentifiedWord<?> word2)
+	{	int result = 0;
+		String original2 = word2.getOriginal();
+		result = original.compareTo(original2);
+		return result;
+	}
+
+	@Override
+	public int hashCode()
+	{	int result = original.hashCode();
+		return result;
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	MISC								///////////////////
 	///////////////////////////////////////////////////////////

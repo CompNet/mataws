@@ -29,15 +29,22 @@ package tr.edu.gsu.mataws.data;
 import tr.edu.gsu.sine.col.Parameter;
 
 /**
- * This class represents a parameter, in order
+ * This class represents a sub-parameter, in order
  * Mataws to perform specific processes.
  * 
  * @author Vincent Labatut
- * TODO note: message are ignored
+ * TODO note: messages are ignored
  */
 public class MatawsSubParameter extends AbstractMatawsParameter
 {	
 	/**
+	 * Builds a new parameter, using the specified
+	 * Sine object and parameter parent.
+	 * 
+	 * @param parameter
+	 * 		The Sine object corresponding to this parameter. 
+	 * @param parent
+	 * 		The Mataws object parent of this new parameter.
 	 */
 	public MatawsSubParameter(Parameter parameter, AbstractMatawsParameter parent)
 	{	super(parameter);
