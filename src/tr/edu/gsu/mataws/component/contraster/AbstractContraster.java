@@ -31,11 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
-import tr.edu.gsu.mataws.component.preparator.AbstractPreparator;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.sine.col.Operation;
-import tr.edu.gsu.sine.col.Parameter;
 
 /**
  * Abstract class of the associator component.
@@ -61,60 +58,24 @@ public abstract class AbstractContraster<T>
 	/**
 	 * Takes an operation (including its name and parameters), 
 	 * and associates a concept to each parameter, using comparisons
-	 * and patterns in operation names and parameters..
+	 * and patterns in operation names and parameters.
 	 * 
-	 * @param operation
-	 * 		The operation to process.
-	 * @return
+	 * @param operationName
+	 * 		A list of the words composing the operation name.
+	 * @param parameters
 	 * 		A list of parameters, some of which can be annotated.
-	 */
-	public List<MatawsParameter> contrast(Operation operation)
-	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
-		
-		// get the list of parameters
-		List<Parameter> parameters = operation.getParameters();
-		for(Parameter parameter: parameters)
-		{	MatawsParameter p = new MatawsParameter(parameter);
-			result.add(p);
-		}
-		
-		// prepare the operation name
-		List<IdentifiedWord<T>> operationList = preparate(operation);
-		
-		// apply the breakers
-		breakk(operationList,result);
-		
-		return result;
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	PREPARATOR							///////////////////
-	///////////////////////////////////////////////////////////
-	/** Preparator component used to split the operation name */
-	protected AbstractPreparator<T> preparator;
-	
-	/**
-	 * Initializes the preparator.
-	 */
-	protected abstract void initPreparator();
-	
-	/**
-	 * Applies the preparator and splits the operation
-	 * name into several substrigs.
-	 * 
-	 * @param operation
-	 * 		The operation to process.
 	 * @return
-	 * 		The list of words resulting from the split.
+	 * 		{@code true} iff at least one parameter could be annotated.
 	 */
-	private List<IdentifiedWord<T>> preparate(Operation operation)
-	{	String opName = operation.getName();
-		List<IdentifiedWord<T>> result = preparator.preparate(opName);
+	public boolean contrast(List<IdentifiedWord<T>> operationName, List<MatawsParameter> parameters)
+	{	// apply the breakers
+		boolean result = breakk(operationName,parameters);
+		
 		return result;
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	MAP									///////////////////
+	//	BREAK						///////////////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of breakers applied as is */
 	protected final List<BreakerInterface<T>> breakers = new ArrayList<BreakerInterface<T>>();
@@ -141,7 +102,7 @@ public abstract class AbstractContraster<T>
 		Iterator<BreakerInterface<T>> it = breakers.iterator();
 		while(it.hasNext() && !result)
 		{	BreakerInterface<T> breaker = it.next();
-			result = breaker.breakk(operationList,parameters);
+			result = breaker.breakk(operationList,parameters) || result;
 		}
 		
 		return result;

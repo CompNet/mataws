@@ -26,15 +26,20 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.component.contraster.AbstractContraster;
-import tr.edu.gsu.mataws.component.contraster.DefaultContraster;
+import tr.edu.gsu.mataws.component.contraster.PostContraster;
+import tr.edu.gsu.mataws.component.contraster.PreContraster;
+import tr.edu.gsu.mataws.component.preparator.AbstractPreparator;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
 import tr.edu.gsu.sine.col.Operation;
+import tr.edu.gsu.sine.col.Parameter;
 
 /**
  * This class takes advantage of an operation name to
@@ -57,14 +62,19 @@ public class OperationProcessor
 	public OperationProcessor()
 	{	
 		parameterProcessor = new ParameterProcessor();
-		contraster = new DefaultContraster();
+		preContraster = new PreContraster();
+		postContraster = new PostContraster();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
-	/** Component used to take advantage of the operation name and parameters comparison*/
-	private AbstractContraster<Synset> contraster;
+	/** Preparator component used to split the operation name */
+	protected AbstractPreparator<Synset> preparator;
+	/** Component used to take advantage of the operation name and parameters comparison before processing each parameter individually */
+	private AbstractContraster<Synset> preContraster;
+	/** Component used to take advantage of the operation name and parameters comparison after having processed each parameter individually */
+	private AbstractContraster<Synset> postContraster;
 	/** Processor used to annotate the rest of the parameters */
 	private ParameterProcessor parameterProcessor;
 
@@ -79,14 +89,29 @@ public class OperationProcessor
 	 * 		A list of supposedly annotated parameters from this operation.
 	 */
 	public List<MatawsParameter> process(Operation operation)
-	{	// process the operation name
-		List<MatawsParameter> result = contraster.contrast(operation);
+	{	// split the operation name once and for all
+		String opName = operation.getName();
+		List<IdentifiedWord<Synset>> operationName = preparator.preparate(opName);
+		
+		// get the list of its parameters
+		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
+		List<Parameter> params = operation.getParameters();
+		for(Parameter param: params)
+		{	MatawsParameter parameter = new MatawsParameter(param);
+			result.add(parameter);
+		}
+		
+		// process the operation name
+		preContraster.contrast(operationName,result);
 		
 		// process the rest of the parameters separately
 		for(MatawsParameter parameter: result)
 		{	if(parameter.getConcept()==null)
 				parameterProcessor.process(parameter);
 		}
+		
+		// process the operation name
+		postContraster.contrast(operationName,result);
 		
 		return result;
 	}
