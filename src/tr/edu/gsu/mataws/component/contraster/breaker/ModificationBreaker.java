@@ -26,6 +26,7 @@ package tr.edu.gsu.mataws.component.contraster.breaker;
  * 
  */
 
+import java.util.Arrays;
 import java.util.List;
 
 import edu.smu.tspell.wordnet.Synset;
@@ -34,23 +35,38 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
- * Uses Sigma to retrieve the SUMO concept
- * associated to the received WordNet synset.
+ * Anlyzes the name of a modification method, using some predefined
+ * patterns to identify parameter meanings.
  * <br/>
- * Example: {@code "Password"} -> {@code "LinguisticExpression"}
+ * For example, the {@code "addStudentToDepartment"} method should have
+ * two input parameters representing a student and a department.
  *   
  * @author Vincent Labatut
  */
-public class SigmaMapper implements BreakerInterface<Synset>
+public class ModificationBreaker implements BreakerInterface<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** List of action names likely to appear in a modification method */
+	private final static List<String> ACTIONS = Arrays.asList("add","change","delete","edit","create","remove","set"); 
+	/** Words likely to separate parameters */
+	private final static List<String> CONNECTORS = Arrays.asList("by","for","from","to","with"); 
+
 	@Override
 	public boolean breakk(List<IdentifiedWord<Synset>> operationList, List<MatawsParameter> parameters)
 	{	boolean result = false;
 		
-		
+		/*
+		 *  - dans le nom de la méthode, on distingue les params d'entrée/sortie
+		 *    - la forme le permet-elle ? si non >> échec
+		 *    - si oui, on identifie le mot correspondant
+		 *  - qui en entrée, qui en sortie ? >> soit les mêmes, soit différents
+		 *  	- les mêmes >> on continue normalement
+		 *  	- différents >> on les traite séparément
+		 *  	- un peu des deux >> ??
+		 *  
+		 */
 		
 		return result;
 	}

@@ -27,8 +27,6 @@ package tr.edu.gsu.mataws.component.contraster;
  */
 
 import edu.smu.tspell.wordnet.Synset;
-import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
-import tr.edu.gsu.mataws.component.contraster.breaker.SigmaMapper;
 
 /**
  * Series of processings corresponding to the
@@ -46,9 +44,6 @@ public class PreContraster extends AbstractContraster<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initBreakers()
-	{	BreakerInterface<Synset> breaker;
-	
-		breaker = new SigmaMapper();
-		breakers.add(breaker);
+	{	// not used yet
 	}
 }
