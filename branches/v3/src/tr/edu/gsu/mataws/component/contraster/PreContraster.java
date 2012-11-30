@@ -29,7 +29,6 @@ package tr.edu.gsu.mataws.component.contraster;
 import edu.smu.tspell.wordnet.Synset;
 import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.component.contraster.breaker.SigmaMapper;
-import tr.edu.gsu.mataws.component.preparator.OperationPreparator;
 
 /**
  * Series of processings corresponding to the
@@ -40,16 +39,8 @@ import tr.edu.gsu.mataws.component.preparator.OperationPreparator;
  *   
  * @author Vincent Labatut
  */
-public class DefaultContraster extends AbstractContraster<Synset>
+public class PreContraster extends AbstractContraster<Synset>
 {	
-	///////////////////////////////////////////////////////////
-	//	PREPARATOR							///////////////////
-	///////////////////////////////////////////////////////////
-	@Override
-	protected void initPreparator()
-	{	preparator = new OperationPreparator();
-	}
-
 	///////////////////////////////////////////////////////////
 	//	MAPPING								///////////////////
 	///////////////////////////////////////////////////////////
