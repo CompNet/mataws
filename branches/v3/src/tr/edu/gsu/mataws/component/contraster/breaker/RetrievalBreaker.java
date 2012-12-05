@@ -78,7 +78,7 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 				// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel
 				//		1) s'il manque le concept pr les deux >> on ne peut rien faire
 				//		2) s'il y a un concept pr l'un des deux >> distance avec les deux concepts trouvés ici ?
-				//			(>> besoin de n'avoir qu'un seul mot rep dès le breaker, et non pas en remontant au contaster)
+				//			(>> besoin de n'avoir qu'un seul mot rep dès le breaker, et non pas en remontant au contraster)
 				
 				
 				// pb : comment faire remonter ça ?
