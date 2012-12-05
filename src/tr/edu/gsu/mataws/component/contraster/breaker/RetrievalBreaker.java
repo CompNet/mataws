@@ -83,6 +83,9 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 				
 				// pb : comment faire remonter ça ?
 				// >> faire remonter une map, et mettre à jour les params dans le contraster
+				// >> ça empêche de faire de l'identification si le nombre de paramètres ne colle pas
+				// >> suffit de faire remonter les idWords annotés puis de faire le matching avec les params séparément
+				//    après tout c'est une tâche générique. on doit définir un nouveau type de composant pour ça.
 				
 			}
 		}
