@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.contraster.breaker;
+package tr.edu.gsu.mataws.component.indentificator.breaker;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
