@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.contraster.matcher;
+package tr.edu.gsu.mataws.component.assorter.matcher;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
