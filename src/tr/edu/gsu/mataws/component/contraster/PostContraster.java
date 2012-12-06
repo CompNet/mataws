@@ -50,15 +50,4 @@ public class PostContraster extends AbstractContraster<Synset>
 //		breaker = new SigmaMapper();
 //		breakers.add(breaker);
 	}
-
-	///////////////////////////////////////////////////////////
-	//	MAP									///////////////////
-	///////////////////////////////////////////////////////////
-	protected void initMappers()
-	{	
-//		BreakerInterface<Synset> breaker;
-	
-//		breaker = new SigmaMapper();
-//		breakers.add(breaker);
-	}
 }
