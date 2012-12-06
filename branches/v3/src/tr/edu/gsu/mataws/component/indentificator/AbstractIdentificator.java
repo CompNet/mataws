@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.contraster;
+package tr.edu.gsu.mataws.component.indentificator;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,27 +29,30 @@ package tr.edu.gsu.mataws.component.contraster;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.component.indentificator.matcher.MatcherInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Way;
 
 /**
- * Abstract class of the contraster component.
+ * Abstract class of the identificator component.
  *  
  * @param <T> 
  *		Class used to represent a WordNet synset.
  *
  * @author Vincent Labatut
  */
-public abstract class AbstractContraster<T>
+public abstract class AbstractIdentificator<T>
 {	
 	/**
 	 * Initializes all the necessary objects
-	 * for this contraster.
+	 * for this identificator.
 	 */
-	public AbstractContraster()
-	{	initBreakers();
+	public AbstractIdentificator()
+	{	initMatchers();
 	}
 
 	///////////////////////////////////////////////////////////
@@ -67,7 +70,7 @@ public abstract class AbstractContraster<T>
 	 * @return
 	 * 		{@code true} iff at least one parameter could be annotated.
 	 */
-	public boolean contrast(List<IdentifiedWord<T>> operationName, List<MatawsParameter> parameters)
+	public boolean identify(List<IdentifiedWord<T>> operationName, List<MatawsParameter> parameters)
 	{	// apply the breakers
 		boolean result = breakk(operationName,parameters);
 		
@@ -75,34 +78,34 @@ public abstract class AbstractContraster<T>
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	BREAK						///////////////////////////
+	//	MATCH						///////////////////////////
 	///////////////////////////////////////////////////////////
-	/** Sequence of breakers applied as is */
-	protected final List<BreakerInterface<T>> breakers = new ArrayList<BreakerInterface<T>>();
+	/** Sequence of matchers applied as is */
+	protected final List<MatcherInterface<T>> matchers = new ArrayList<MatcherInterface<T>>();
 
 	/**
-	 * Initializes the sequence of breakers.
+	 * Initializes the sequence of matchers.
 	 */
-	protected abstract void initBreakers();
+	protected abstract void initMatchers();
 
 	/**
-	 * Applies the sequence of breakers.
+	 * Applies the sequence of matchers.
 	 * 
-	 * @param operationList
-	 * 		List of words composing the operation name.
+	 * @param operationMap
+	 * 		Maps of words composing the operation name.
 	 * @param parameters
 	 * 		The Mataws parameters, to be possibly modified depending on the success
 	 * 		of the annotation process.
 	 * @return
 	 * 		{@code true} iff one parameter could be annotated. 
 	 */
-	protected boolean breakk(List<IdentifiedWord<T>> operationList, List<MatawsParameter> parameters)
+	protected boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
 	{	boolean result = false;
 		
-		Iterator<BreakerInterface<T>> it = breakers.iterator();
+		Iterator<MatcherInterface<T>> it = matchers.iterator();
 		while(it.hasNext() && !result)
-		{	BreakerInterface<T> breaker = it.next();
-			result = breaker.breakk(operationList,parameters) || result;
+		{	MatcherInterface<T> matcher = it.next();
+			result = matcher.match(operationMap,parameters) || result;
 		}
 		
 		return result;

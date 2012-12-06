@@ -46,12 +46,4 @@ public class PreContraster extends AbstractContraster<Synset>
 	protected void initBreakers()
 	{	// not used yet
 	}
-
-	///////////////////////////////////////////////////////////
-	//	MAPPING								///////////////////
-	///////////////////////////////////////////////////////////
-	@Override
-	protected void initMatchers()
-	{	// not used yet
-	}
 }

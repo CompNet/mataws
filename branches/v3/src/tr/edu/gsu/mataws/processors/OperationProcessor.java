@@ -60,8 +60,7 @@ public class OperationProcessor
 	 * Builds a standard operation processor.
 	 */
 	public OperationProcessor()
-	{	
-		parameterProcessor = new ParameterProcessor();
+	{	parameterProcessor = new ParameterProcessor();
 		preContraster = new PreContraster();
 		postContraster = new PostContraster();
 	}
