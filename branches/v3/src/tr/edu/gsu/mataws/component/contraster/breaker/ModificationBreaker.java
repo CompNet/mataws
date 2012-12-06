@@ -57,7 +57,8 @@ public class ModificationBreaker implements BreakerInterface<Synset>
 	public boolean breakk(List<IdentifiedWord<Synset>> operationList, List<MatawsParameter> parameters)
 	{	boolean result = false;
 		
-		/*
+		/* TODO TODO
+		 * 
 		 *  - dans le nom de la méthode, on distingue les params d'entrée/sortie
 		 *    - la forme le permet-elle ? si non >> échec
 		 *    - si oui, on identifie le mot correspondant
