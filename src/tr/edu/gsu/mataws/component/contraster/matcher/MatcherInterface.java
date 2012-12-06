@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.contraster;
+package tr.edu.gsu.mataws.component.contraster.matcher;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,28 +26,45 @@ package tr.edu.gsu.mataws.component.contraster;
  * 
  */
 
-import edu.smu.tspell.wordnet.Synset;
+import java.util.List;
+import java.util.Map;
+
+import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Way;
 
 /**
- * Series of processings corresponding to the
- * default Contraster component.
- * <br/>
- * Other contrasters can be designed by using
- * different combinations of breakers.
- *   
+ * Interface for classes in charge of matching 
+ * parts of operation names and parameters.
+ * Used when the parameter names and types do
+ * not convey enough information to allow the
+ * annotation.
+ * 
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
+ * 
  * @author Vincent Labatut
  */
-public class DefaultContraster extends AbstractContraster<Synset>
-{	
+public interface MatcherInterface<T>
+{
 	///////////////////////////////////////////////////////////
-	//	BREAK								///////////////////
+	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	@Override
-	protected void initBreakers()
-	{	
-//		BreakerInterface<Synset> breaker;
-	
-//		breaker = new SigmaMapper();
-//		breakers.add(breaker);
-	}
+	/**
+	 * Takes a map coming from a {@link BreakerInterface}, i.e.
+	 * associating identified words to an operation name,
+	 * and tries to match those words to the parameters.
+	 * <br/>
+	 * Depending on how the matching process went, parameters
+	 * in the received list are updated.
+	 * 
+	 * @param operationMap
+	 * 		The mapping of identified words to parts of the operation name. 
+	 * @param parameters
+	 * 		The parameters to annotate. 
+	 * @return
+	 * 		{@code true} iff the method could match at least one parameter.
+	 */
+	public boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters);
 }

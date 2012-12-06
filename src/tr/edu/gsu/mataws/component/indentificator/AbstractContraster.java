@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.contraster;
+package tr.edu.gsu.mataws.component.indentificator;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.contraster.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 
