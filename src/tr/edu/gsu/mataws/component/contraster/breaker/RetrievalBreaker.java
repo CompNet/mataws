@@ -90,7 +90,8 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 			}
 		}
 		
-		/*
+		/* TODO TODO
+		 * 
 		 *  - dans le nom de la méthode, on distingue les params d'entrée/sortie
 		 *    - la forme le permet-elle ? si non >> échec
 		 *    - si oui, on identifie le mot correspondant
