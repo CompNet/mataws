@@ -33,6 +33,7 @@ import java.util.Map;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.component.assorter.AbstractAssorter;
+import tr.edu.gsu.mataws.component.assorter.DefaultAssorter;
 import tr.edu.gsu.mataws.component.indentificator.AbstractIdentificator;
 import tr.edu.gsu.mataws.component.indentificator.DefaultIdentificator;
 import tr.edu.gsu.mataws.component.preparator.AbstractPreparator;
