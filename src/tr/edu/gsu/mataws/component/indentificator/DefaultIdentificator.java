@@ -37,7 +37,7 @@ import edu.smu.tspell.wordnet.Synset;
  *   
  * @author Vincent Labatut
  */
-public class DefaultContraster extends AbstractContraster<Synset>
+public class DefaultIdentificator extends AbstractIdentificator<Synset>
 {	
 	///////////////////////////////////////////////////////////
 	//	BREAK								///////////////////

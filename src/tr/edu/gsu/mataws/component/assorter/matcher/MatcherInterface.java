@@ -38,8 +38,8 @@ import tr.edu.gsu.sine.col.Way;
  * Interface for classes in charge of matching 
  * parts of operation names and parameters.
  * Used when the parameter names and types do
- * not convey enough information to allow the
- * annotation.
+ * not convey enough information to allow a
+ * more direct annotation.
  * 
  * @param <T> 
  *		Class used to represent a WordNet synset.
