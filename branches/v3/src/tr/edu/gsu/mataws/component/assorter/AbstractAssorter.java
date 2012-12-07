@@ -32,26 +32,25 @@ import java.util.List;
 import java.util.Map;
 
 import tr.edu.gsu.mataws.component.assorter.matcher.MatcherInterface;
-import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.sine.col.Way;
 
 /**
- * Abstract class of the identificator component.
+ * Abstract class of the assorter component.
  *  
  * @param <T> 
  *		Class used to represent a WordNet synset.
  *
  * @author Vincent Labatut
  */
-public abstract class AbstractIdentificator<T>
+public abstract class AbstractAssorter<T>
 {	
 	/**
-	 * Initializes all the necessary objects
-	 * for this identificator.
+	 * Find a match between the parameters and the
+	 * various parts identified in the operation name.
 	 */
-	public AbstractIdentificator()
+	public AbstractAssorter()
 	{	initMatchers();
 	}
 
@@ -59,20 +58,21 @@ public abstract class AbstractIdentificator<T>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes an operation (including its name and parameters), 
-	 * and associates a concept to each parameter, using comparisons
-	 * and patterns in operation names and parameters.
+	 * Takes the parameters of an operation and the result
+	 * of a preprocess applied to the operation name,
+	 * then try to find a match between the actual parameters
+	 * and what could be infered from the operation name.
 	 * 
-	 * @param operationName
+	 * @param operationMap
 	 * 		A list of the words composing the operation name.
 	 * @param parameters
 	 * 		A list of parameters, some of which can be annotated.
 	 * @return
 	 * 		{@code true} iff at least one parameter could be annotated.
 	 */
-	public boolean identify(List<IdentifiedWord<T>> operationName, List<MatawsParameter> parameters)
+	public boolean assort(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
 	{	// apply the breakers
-		boolean result = breakk(operationName,parameters);
+		boolean result = match(operationMap,parameters);
 		
 		return result;
 	}

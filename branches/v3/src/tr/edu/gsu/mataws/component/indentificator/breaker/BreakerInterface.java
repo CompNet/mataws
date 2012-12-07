@@ -27,14 +27,15 @@ package tr.edu.gsu.mataws.component.indentificator.breaker;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Way;
 
 /**
- * Interface for classes in charge of breaking 
- * down operation names and using this result
- * to improve the annotation of their parameters.
+ * Interface for classes in charge of identifying  
+ * parts of operation names which can be used to
+ * describe their parameters, eg. {@code getIdForName}.
  * 
  * @param <T> 
  *		Class used to represent a WordNet synset.
@@ -47,21 +48,15 @@ public interface BreakerInterface<T>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes an operation and analyses its name, then takes
-	 * advantage of this to annotate its parameters. It returns
-	 * {@code true} if it could annotate at least one parameter.
-	 * <br/>
-	 * Depending on how the annotation process went, parameters
-	 * in the received list are updated.
+	 * Takes an operation and analyses its name, in order to
+	 * extract information regarding its parameters.
 	 * 
 	 * @param operationList
 	 * 		The list of words composing the operation name. 
-	 * @param parameters
-	 * 		The parameters to annotate. 
 	 * @return
-	 * 		{@code true} iff the method could annotate at least one parameter.
+	 * 		A map of the identified parts, or null if none could be identified.
 	 */
-	public boolean breakk(List<IdentifiedWord<T>> operationList, List<MatawsParameter> parameters);
+	public Map<Way,List<IdentifiedWord<T>>> breakk(List<IdentifiedWord<T>> operationList);
 }
 
 /* TODO TODO

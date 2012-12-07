@@ -29,26 +29,27 @@ package tr.edu.gsu.mataws.component.indentificator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Way;
 
 /**
- * Abstract class of the contraster component.
+ * Abstract class of the identificator component.
  *  
  * @param <T> 
  *		Class used to represent a WordNet synset.
  *
  * @author Vincent Labatut
  */
-public abstract class AbstractContraster<T>
+public abstract class AbstractIdentificator<T>
 {	
 	/**
 	 * Initializes all the necessary objects
-	 * for this contraster.
+	 * for this identificator.
 	 */
-	public AbstractContraster()
+	public AbstractIdentificator()
 	{	initBreakers();
 	}
 
@@ -56,20 +57,18 @@ public abstract class AbstractContraster<T>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes an operation (including its name and parameters), 
-	 * and associates a concept to each parameter, using comparisons
-	 * and patterns in operation names and parameters.
+	 * Takes an operation name already split in identified words,
+	 * and tries to identify distinct parts in this name, corresponding
+	 * to distinct parameters.
 	 * 
 	 * @param operationName
 	 * 		A list of the words composing the operation name.
-	 * @param parameters
-	 * 		A list of parameters, some of which can be annotated.
 	 * @return
-	 * 		{@code true} iff at least one parameter could be annotated.
+	 * 		A map representing the distinct parts identified in the operation name.
 	 */
-	public boolean contrast(List<IdentifiedWord<T>> operationName, List<MatawsParameter> parameters)
+	public Map<Way,List<IdentifiedWord<T>>> identify(List<IdentifiedWord<T>> operationName)
 	{	// apply the breakers
-		boolean result = breakk(operationName,parameters);
+		Map<Way,List<IdentifiedWord<T>>> result = breakk(operationName);
 		
 		return result;
 	}
@@ -90,19 +89,16 @@ public abstract class AbstractContraster<T>
 	 * 
 	 * @param operationList
 	 * 		List of words composing the operation name.
-	 * @param parameters
-	 * 		The Mataws parameters, to be possibly modified depending on the success
-	 * 		of the annotation process.
 	 * @return
-	 * 		{@code true} iff one parameter could be annotated. 
+	 * 		The map representing the distinct parts identified in the operation name. 
 	 */
-	protected boolean breakk(List<IdentifiedWord<T>> operationList, List<MatawsParameter> parameters)
-	{	boolean result = false;
+	protected Map<Way,List<IdentifiedWord<T>>> breakk(List<IdentifiedWord<T>> operationList)
+	{	Map<Way,List<IdentifiedWord<T>>> result = null;
 		
 		Iterator<BreakerInterface<T>> it = breakers.iterator();
-		while(it.hasNext() && !result)
+		while(it.hasNext() && result==null)
 		{	BreakerInterface<T> breaker = it.next();
-			result = breaker.breakk(operationList,parameters) || result;
+			result = breaker.breakk(operationList);
 		}
 		
 		return result;
