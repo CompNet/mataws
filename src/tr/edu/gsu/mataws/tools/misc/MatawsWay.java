@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.indentificator;
+package tr.edu.gsu.mataws.tools.misc;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,33 +26,16 @@ package tr.edu.gsu.mataws.component.indentificator;
  * 
  */
 
-import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
-import tr.edu.gsu.mataws.component.indentificator.breaker.ModificationBreaker;
-import tr.edu.gsu.mataws.component.indentificator.breaker.RetrievalBreaker;
-import edu.smu.tspell.wordnet.Synset;
-
 /**
- * Series of processings corresponding to the
- * default Contraster component.
- * <br/>
- * Other contrasters can be designed by using
- * different combinations of breakers.
+ * Represents the position of a parameter in an operation.
  *   
  * @author Vincent Labatut
  */
-public class DefaultIdentificator extends AbstractIdentificator<Synset>
-{	
-	///////////////////////////////////////////////////////////
-	//	BREAK								///////////////////
-	///////////////////////////////////////////////////////////
-	@Override
-	protected void initBreakers()
-	{	BreakerInterface<Synset> breaker;
-	
-		breaker = new RetrievalBreaker();
-		breakers.add(breaker);
-
-		breaker = new ModificationBreaker();
-		breakers.add(breaker);
-	}
+public enum MatawsWay
+{	/** First input parameter TODO: could be more precise */
+	IN_1,
+	/** First input parameter TODO: could be more precise */
+	IN_2,
+	/** Output parameter */
+	OUT;
 }

@@ -28,12 +28,14 @@ package tr.edu.gsu.mataws.component.indentificator.breaker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.misc.MatawsWay;
 
 /**
  * Anlyzes the name of a retrieval method, using some predefined
@@ -56,9 +58,9 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 	private final static List<String> CONNECTORS = Arrays.asList("by","for","from","to","with"); 
 	
 	@Override
-	public boolean breakk(List<IdentifiedWord<Synset>> operationName, List<MatawsParameter> parameters)
-	{	boolean result = false;
-		List<IdentifiedWord<Synset>> opnameCopy = new ArrayList<IdentifiedWord<Synset>>(operationName);
+	public Map<MatawsWay, List<IdentifiedWord<Synset>>> breakk(List<IdentifiedWord<Synset>> operationList)
+	{	Map<MatawsWay, List<IdentifiedWord<Synset>>> result = null;
+		List<IdentifiedWord<Synset>> opnameCopy = new ArrayList<IdentifiedWord<Synset>>(operationList);
 		
 		// check if the operation name contains a relevant action
 		int indexAct = indexOfIn(opnameCopy, ACTIONS);
@@ -69,10 +71,14 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 			int indexCnct = indexOfIn(opnameCopy,CONNECTORS);
 			if(indexCnct>0 && indexCnct<opnameCopy.size()-1)
 			{	// get the input and output parameters in the name list
-				List<IdentifiedWord<Synset>> outParam = opnameCopy.subList(0, indexCnct);
-				List<IdentifiedWord<Synset>> inParam = opnameCopy.subList(indexCnct+1,opnameCopy.size());
+				List<IdentifiedWord<Synset>> outParam = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(0, indexCnct));
+				List<IdentifiedWord<Synset>> inParam = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(indexCnct+1,opnameCopy.size()));
 				
-				// get the actual parameters in the operation
+				// set the result map
+				result = new HashMap<MatawsWay, List<IdentifiedWord<Synset>>>();
+				result.put(MatawsWay.IN_1, inParam);
+				result.put(MatawsWay.OUT, outParam);
+				
 				
 				// si deux parametres : facile, on fait en fonction de in/out
 				// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel
