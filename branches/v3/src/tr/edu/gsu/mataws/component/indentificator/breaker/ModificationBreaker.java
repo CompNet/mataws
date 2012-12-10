@@ -26,13 +26,16 @@ package tr.edu.gsu.mataws.component.indentificator.breaker;
  * 
  */
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.misc.MatawsWay;
 
 /**
  * Anlyzes the name of a modification method, using some predefined
@@ -54,8 +57,43 @@ public class ModificationBreaker implements BreakerInterface<Synset>
 	private final static List<String> CONNECTORS = Arrays.asList("by","for","from","to","with"); 
 
 	@Override
-	public boolean breakk(List<IdentifiedWord<Synset>> operationList, List<MatawsParameter> parameters)
-	{	boolean result = false;
+	public Map<MatawsWay, List<IdentifiedWord<Synset>>> breakk(List<IdentifiedWord<Synset>> operationList)
+	{	Map<MatawsWay, List<IdentifiedWord<Synset>>> result = null;
+		List<IdentifiedWord<Synset>> opnameCopy = new ArrayList<IdentifiedWord<Synset>>(operationList);
+		
+		// check if the operation name contains a relevant action
+		int indexAct = indexOfIn(opnameCopy, ACTIONS);
+		if(indexAct==0 || indexAct == opnameCopy.size()-1)
+		{	// remove it, because we don't need it anymore
+			opnameCopy.remove(indexAct);
+			// look for a connector
+			int indexCnct = indexOfIn(opnameCopy,CONNECTORS);
+			if(indexCnct>0 && indexCnct<opnameCopy.size()-1)
+			{	// get the input and output parameters in the name list
+				List<IdentifiedWord<Synset>> inParam1 = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(0, indexCnct));
+				List<IdentifiedWord<Synset>> inParam2 = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(indexCnct+1,opnameCopy.size()));
+				
+				// set the result map
+				result = new HashMap<MatawsWay, List<IdentifiedWord<Synset>>>();
+				result.put(MatawsWay.IN_1, inParam1);
+				result.put(MatawsWay.IN_2, inParam2);
+				
+				
+				// si deux parametres : facile, on fait en fonction de in/out
+				// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel
+				//		1) s'il manque le concept pr les deux >> on ne peut rien faire
+				//		2) s'il y a un concept pr l'un des deux >> distance avec les deux concepts trouvés ici ?
+				//			(>> besoin de n'avoir qu'un seul mot rep dès le breaker, et non pas en remontant au contraster)
+				
+				
+				// pb : comment faire remonter ça ?
+				// >> faire remonter une map, et mettre à jour les params dans le contraster
+				// >> ça empêche de faire de l'identification si le nombre de paramètres ne colle pas
+				// >> suffit de faire remonter les idWords annotés puis de faire le matching avec les params séparément
+				//    après tout c'est une tâche générique. on doit définir un nouveau type de composant pour ça.
+				
+			}
+		}
 		
 		/* TODO TODO
 		 * 
@@ -69,6 +107,35 @@ public class ModificationBreaker implements BreakerInterface<Synset>
 		 *  
 		 */
 		
+		return result;
+	}
+
+	/**
+	 * Checks if one of the words in {@code strings} is contained
+	 * in the list of identified words. If it is the case,
+	 * it returns the position of the concerned word in
+	 * the list of identified words; otherwise it 
+	 * returns -1. 
+	 * 
+	 * 
+	 * @param operationName
+	 * 		List of identified words.
+	 * @param strings
+	 * 		List of reference strings.
+	 * @return
+	 * 		The position of the matching word in the first list.
+	 */
+	private int indexOfIn(List<IdentifiedWord<Synset>> operationName, List<String> strings)
+	{	int result = -1;
+		int i = 0;
+		while(i<operationName.size() && result==-1)
+		{	IdentifiedWord<Synset> word = operationName.get(i);
+			String orig = word.getOriginal();
+			if(strings.contains(orig))
+				result = i;
+			else
+				i++;
+		}
 		return result;
 	}
 }

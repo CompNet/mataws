@@ -33,7 +33,7 @@ import java.util.Map;
 
 import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.sine.col.Way;
+import tr.edu.gsu.mataws.tools.misc.MatawsWay;
 
 /**
  * Abstract class of the identificator component.
@@ -66,9 +66,9 @@ public abstract class AbstractIdentificator<T>
 	 * @return
 	 * 		A map representing the distinct parts identified in the operation name.
 	 */
-	public Map<Way,List<IdentifiedWord<T>>> identify(List<IdentifiedWord<T>> operationName)
+	public Map<MatawsWay,List<IdentifiedWord<T>>> identify(List<IdentifiedWord<T>> operationName)
 	{	// apply the breakers
-		Map<Way,List<IdentifiedWord<T>>> result = breakk(operationName);
+		Map<MatawsWay,List<IdentifiedWord<T>>> result = breakk(operationName);
 		
 		return result;
 	}
@@ -92,8 +92,8 @@ public abstract class AbstractIdentificator<T>
 	 * @return
 	 * 		The map representing the distinct parts identified in the operation name. 
 	 */
-	protected Map<Way,List<IdentifiedWord<T>>> breakk(List<IdentifiedWord<T>> operationList)
-	{	Map<Way,List<IdentifiedWord<T>>> result = null;
+	protected Map<MatawsWay,List<IdentifiedWord<T>>> breakk(List<IdentifiedWord<T>> operationList)
+	{	Map<MatawsWay,List<IdentifiedWord<T>>> result = null;
 		
 		Iterator<BreakerInterface<T>> it = breakers.iterator();
 		while(it.hasNext() && result==null)

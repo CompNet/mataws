@@ -40,9 +40,9 @@ import tr.edu.gsu.mataws.component.preparator.AbstractPreparator;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
+import tr.edu.gsu.mataws.tools.misc.MatawsWay;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
-import tr.edu.gsu.sine.col.Way;
 
 /**
  * This class takes advantage of an operation name to
@@ -91,11 +91,7 @@ public class OperationProcessor
 	 * 		A list of supposedly annotated parameters from this operation.
 	 */
 	public List<MatawsParameter> process(Operation operation)
-	{	// split the operation name once and for all
-		String opName = operation.getName();
-		List<IdentifiedWord<Synset>> operationList = preparator.preparate(opName);
-		
-		// get the list of its parameters
+	{	// get the list of the operation parameters
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		List<Parameter> params = operation.getParameters();
 		for(Parameter param: params)
@@ -109,8 +105,11 @@ public class OperationProcessor
 				parameterProcessor.process(parameter);
 		}
 		
+		// split the operation name
+		String opName = operation.getName();
+		List<IdentifiedWord<Synset>> operationList = preparator.preparate(opName);
 		// process the operation name
-		Map<Way,List<IdentifiedWord<Synset>>> operationMap = identificator.identify(operationList);
+		Map<MatawsWay,List<IdentifiedWord<Synset>>> operationMap = identificator.identify(operationList);
 		assorter.assort(operationMap, result);
 		
 		return result;
