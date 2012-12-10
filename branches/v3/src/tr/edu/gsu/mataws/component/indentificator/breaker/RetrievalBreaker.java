@@ -35,7 +35,7 @@ import java.util.Map;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.misc.MatawsWay;
+import tr.edu.gsu.sine.col.Way;
 
 /**
  * Anlyzes the name of a retrieval method, using some predefined
@@ -58,8 +58,8 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 	private final static List<String> CONNECTORS = Arrays.asList("by","for","from","to","with"); 
 	
 	@Override
-	public Map<MatawsWay, List<IdentifiedWord<Synset>>> breakk(List<IdentifiedWord<Synset>> operationList)
-	{	Map<MatawsWay, List<IdentifiedWord<Synset>>> result = null;
+	public Map<Way,List<List<IdentifiedWord<Synset>>>> breakk(List<IdentifiedWord<Synset>> operationList)
+	{	Map<Way,List<List<IdentifiedWord<Synset>>>> result = null;
 		List<IdentifiedWord<Synset>> opnameCopy = new ArrayList<IdentifiedWord<Synset>>(operationList);
 		
 		// check if the operation name contains a relevant action
@@ -75,10 +75,13 @@ public class RetrievalBreaker implements BreakerInterface<Synset>
 				List<IdentifiedWord<Synset>> inParam = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(indexCnct+1,opnameCopy.size()));
 				
 				// set the result map
-				result = new HashMap<MatawsWay, List<IdentifiedWord<Synset>>>();
-				result.put(MatawsWay.IN_1, inParam);
-				result.put(MatawsWay.OUT, outParam);
-				
+				result = new HashMap<Way,List<List<IdentifiedWord<Synset>>>>();
+				List<List<IdentifiedWord<Synset>>> inList = new ArrayList<List<IdentifiedWord<Synset>>>();
+				inList.add(inParam);
+				result.put(Way.IN, inList);
+				List<List<IdentifiedWord<Synset>>> outList = new ArrayList<List<IdentifiedWord<Synset>>>();
+				outList.add(outParam);
+				result.put(Way.OUT, outList);
 				
 				// si deux parametres : facile, on fait en fonction de in/out
 				// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel

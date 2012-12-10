@@ -33,7 +33,7 @@ import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.tools.misc.MatawsWay;
+import tr.edu.gsu.sine.col.Way;
 
 /**
  * Anlyzes the name of a modification method, using some predefined
@@ -50,7 +50,7 @@ public class OneInOneOutMatcher implements MatcherInterface<Synset>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public boolean match(Map<MatawsWay, List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
+	public boolean match(Map<Way,List<List<IdentifiedWord<Synset>>>> operationMap, List<MatawsParameter> parameters)
 	{
 		boolean result = false;
 		
