@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.tools.misc.MatawsWay;
+import tr.edu.gsu.sine.col.Way;
 
 /**
  * Interface for classes in charge of identifying  
@@ -56,7 +56,7 @@ public interface BreakerInterface<T>
 	 * @return
 	 * 		A map of the identified parts, or null if none could be identified.
 	 */
-	public Map<MatawsWay,List<IdentifiedWord<T>>> breakk(List<IdentifiedWord<T>> operationList);
+	public Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList);
 }
 
 /* TODO TODO

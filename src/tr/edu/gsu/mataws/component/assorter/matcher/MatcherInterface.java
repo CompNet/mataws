@@ -32,7 +32,7 @@ import java.util.Map;
 import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.mataws.tools.misc.MatawsWay;
+import tr.edu.gsu.sine.col.Way;
 
 /**
  * Interface for classes in charge of matching 
@@ -66,5 +66,5 @@ public interface MatcherInterface<T>
 	 * @return
 	 * 		{@code true} iff the method could match at least one parameter.
 	 */
-	public boolean match(Map<MatawsWay,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters);
+	public boolean match(Map<Way,List<List<IdentifiedWord<T>>>> operationMap, List<MatawsParameter> parameters);
 }
