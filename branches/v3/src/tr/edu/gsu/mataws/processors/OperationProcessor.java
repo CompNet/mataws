@@ -27,22 +27,25 @@ package tr.edu.gsu.mataws.processors;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.smu.tspell.wordnet.Synset;
 
+import tr.edu.gsu.mataws.component.associator.DefaultAssociator;
 import tr.edu.gsu.mataws.component.assorter.AbstractAssorter;
 import tr.edu.gsu.mataws.component.assorter.DefaultAssorter;
 import tr.edu.gsu.mataws.component.indentificator.AbstractIdentificator;
 import tr.edu.gsu.mataws.component.indentificator.DefaultIdentificator;
 import tr.edu.gsu.mataws.component.preparator.AbstractPreparator;
+import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
-import tr.edu.gsu.mataws.tools.misc.MatawsWay;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
+import tr.edu.gsu.sine.col.Way;
 
 /**
  * This class takes advantage of an operation name to
@@ -65,20 +68,26 @@ public class OperationProcessor
 	public OperationProcessor()
 	{	parameterProcessor = new ParameterProcessor();
 		identificator = new DefaultIdentificator();
+		selector = new DefaultSelector();
 		assorter = new DefaultAssorter();
+		associator = new DefaultAssociator();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Processor used to annotate the parameters */
+	private ParameterProcessor parameterProcessor;
 	/** Preparator component used to split the operation name */
 	protected AbstractPreparator<Synset> preparator;
 	/** Identificator component used to identify distinct part in the split operation name */
 	private AbstractIdentificator<Synset> identificator;
+	/** Selector component used to simplify the list of words extracted from operation names */
+	protected static DefaultSelector selector;
 	/** Assorter component used to match parts identified in the operation name and parameters */
 	private AbstractAssorter<Synset> assorter;
-	/** Processor used to annotate the rest of the parameters */
-	private ParameterProcessor parameterProcessor;
+	/** Associator component used to identify a concept for a parameter */
+	private static DefaultAssociator associator;
 
 	/**
 	 * Processes one operation. Fist, it tries to use the
@@ -108,9 +117,30 @@ public class OperationProcessor
 		// split the operation name
 		String opName = operation.getName();
 		List<IdentifiedWord<Synset>> operationList = preparator.preparate(opName);
-		// process the operation name
-		Map<MatawsWay,List<IdentifiedWord<Synset>>> operationMap = identificator.identify(operationList);
-		assorter.assort(operationMap, result);
+		// identify its parts
+		Map<Way,List<List<IdentifiedWord<Synset>>>> operationMap = identificator.identify(operationList);
+		// reduce them to one word by parameter
+		Map<Way,List<IdentifiedWord<Synset>>> wordMap = new HashMap<Way, List<IdentifiedWord<Synset>>>();
+		for(Way way: Way.values())
+		{	List<List<IdentifiedWord<Synset>>> lists = operationMap.get(way);
+			List<IdentifiedWord<Synset>> tempList = new ArrayList<IdentifiedWord<Synset>>();
+			for(List<IdentifiedWord<Synset>> list: lists)
+			{	IdentifiedWord<Synset> word = selector.select(list);
+				tempList.add(word);
+			}
+			wordMap.put(way, tempList);
+		}
+		// try assorting words and parameters
+		assorter.assort(wordMap, result);
+		// associate concepts to the concerned parameters
+		for(MatawsParameter param: result)
+		{	@SuppressWarnings("unchecked")
+			IdentifiedWord<Synset> word = (IdentifiedWord<Synset>)param.getRepresentativeWord();
+			if(word!=null && param.getConcept()==null)
+			{	String concept = associator.associate(word);
+				param.setConcept(concept);
+			}
+		}
 		
 		return result;
 	}

@@ -26,6 +26,7 @@ package tr.edu.gsu.mataws.component.assorter;
  * 
  */
 
+import tr.edu.gsu.mataws.component.assorter.matcher.AllInMatcher;
 import tr.edu.gsu.mataws.component.assorter.matcher.AllInOutMatcher;
 import tr.edu.gsu.mataws.component.assorter.matcher.MatcherInterface;
 import tr.edu.gsu.mataws.component.assorter.matcher.OneInOneOutMatcher;
@@ -47,10 +48,12 @@ public class DefaultAssorter extends AbstractAssorter<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initMatchers()
-	{	
-		MatcherInterface<Synset> matcher;
+	{	MatcherInterface<Synset> matcher;
 	
 		matcher = new OneInOneOutMatcher();
+		matchers.add(matcher);
+		
+		matcher = new AllInMatcher();
 		matchers.add(matcher);
 		
 		matcher = new AllInOutMatcher();

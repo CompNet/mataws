@@ -70,7 +70,7 @@ public abstract class AbstractAssorter<T>
 	 * @return
 	 * 		{@code true} iff at least one parameter could be annotated.
 	 */
-	public boolean assort(Map<Way,List<List<IdentifiedWord<T>>>> operationMap, List<MatawsParameter> parameters)
+	public boolean assort(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
 	{	// apply the breakers
 		boolean result = match(operationMap,parameters);
 		
@@ -99,7 +99,7 @@ public abstract class AbstractAssorter<T>
 	 * @return
 	 * 		{@code true} iff one parameter could be annotated. 
 	 */
-	protected boolean match(Map<Way,List<List<IdentifiedWord<T>>>> operationMap, List<MatawsParameter> parameters)
+	protected boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
 	{	boolean result = false;
 		
 		Iterator<MatcherInterface<T>> it = matchers.iterator();

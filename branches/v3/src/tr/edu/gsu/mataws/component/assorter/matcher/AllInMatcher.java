@@ -27,7 +27,6 @@ package tr.edu.gsu.mataws.component.assorter.matcher;
  */
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,15 +39,13 @@ import tr.edu.gsu.sine.col.Way;
 /**
  * Match previously identified parts of operation names
  * and parameters. Here, we suppose all parameters are 
- * both inputs and outputs. If only inputs or only outputs
- * could be identified in the operation name, and if the
- * numbers match, then each operation name part is used
- * to complete each parameter (both the input and output 
- * versions.) 
+ * inputs. If all the parts previously identified in the
+ * operation name are also inputs, and if the number
+ * match, then the parts are used to complete the parameters.
  *   
  * @author Vincent Labatut
  */
-public class AllInOutMatcher implements MatcherInterface<Synset>
+public class AllInMatcher implements MatcherInterface<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
@@ -56,7 +53,7 @@ public class AllInOutMatcher implements MatcherInterface<Synset>
 	@Override
 	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
 	{	boolean result = false;
-	
+		
 		// distinguish parameters
 		List<MatawsParameter> inParams = new ArrayList<MatawsParameter>();
 		List<MatawsParameter> outParams = new ArrayList<MatawsParameter>();
@@ -74,45 +71,18 @@ public class AllInOutMatcher implements MatcherInterface<Synset>
 				outNames.add(name);
 			}
 		}
-		
-		// compare input and output parameters
-		boolean similar = true;
-		Iterator<MatawsParameter> it1 = inParams.iterator();
-		while(it1.hasNext() && similar)
-		{	MatawsParameter parameter = it1.next();
-			String name = parameter.getName();
-			similar = outNames.contains(name);
-		}
-		Iterator<MatawsParameter> it2 = outParams.iterator();
-		while(it2.hasNext() && similar)
-		{	MatawsParameter parameter = it2.next();
-			String name = parameter.getName();
-			similar = inNames.contains(name);
-		}
-		
-		// verify the situation is appropriate for this matcher: same parameters as inputs and outputs
-		if(similar)
-		{	// retrieve the operation part list 
+
+		// verify the situation is appropriate for this matcher: all are inputs, none are outputs
+		if(outParams.isEmpty() && !inParams.isEmpty())
+		{	// verify the situation is appropriate for this matcher: the number of input parameters match
 			List<IdentifiedWord<Synset>> inList = operationMap.get(Way.IN);
-			List<IdentifiedWord<Synset>> outList = operationMap.get(Way.OUT);
-			List<IdentifiedWord<Synset>> list = null;
-			if(inList.isEmpty() && !outList.isEmpty())
-				list = outList;
-			else if(!inList.isEmpty() && outList.isEmpty())
-				list = inList;
-			// verify the situation is appropriate for this matcher: only input or output parts were identified
-			if(list!=null)
-			{	// verify the situation is appropriate for this matcher: same number of parameters and parts
-				if(list.size()==inParams.size())
-				{	for(int i=0;i<list.size();i++)
-					{	IdentifiedWord<Synset> word = list.get(i);
-						MatawsParameter inParameter = inParams.get(i);
-						if(inParameter.getRepresentativeWord()==null)
-							inParameter.setRepresentativeWord(word);
-						MatawsParameter outParameter = outParams.get(i);
-						if(outParameter.getRepresentativeWord()==null)
-							outParameter.setRepresentativeWord(word);
-					}
+			if(inList.size()==inParams.size())
+			{	// process each parameter
+				for(int i=0;i<inList.size();i++)
+				{	IdentifiedWord<Synset> word = inList.get(i);
+					MatawsParameter parameter = inParams.get(i);
+					if(parameter.getRepresentativeWord()==null)
+						parameter.setRepresentativeWord(word);
 				}
 			}
 		}

@@ -26,8 +26,6 @@ package tr.edu.gsu.mataws.component.assorter.matcher;
  * 
  */
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,11 +36,12 @@ import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.sine.col.Way;
 
 /**
- * Anlyzes the name of a modification method, using some predefined
- * patterns to identify parameter meanings.
- * <br/>
- * For example, the {@code "addStudentToDepartment"} method should have
- * two input parameters representing a student and a department.
+ * Match previously identified parts of operation names
+ * and parameters. Here, we suppose there are only two
+ * parameters, one is the input and the other the output.
+ * If two parts (one input, one output) were also retrieved
+ * from the operation name, then those are used to complete
+ * the parameters. 
  *   
  * @author Vincent Labatut
  */
@@ -75,10 +74,21 @@ public class OneInOneOutMatcher implements MatcherInterface<Synset>
 				String outName = outParam.getName();
 				// verify the situation is appropriate for this matcher: two different parameters
 				if(!inName.equals(outName))
-				{	List<IdentifiedWord<Synset>> inList = operationMap.get(Way.IN);
-					inParam.set
+				{	// TODO here we could try to compare the new words and the possibly previously retrieved ones (when processing parameters independtly)
+					// process the input parameter
+					List<IdentifiedWord<Synset>> inList = operationMap.get(Way.IN);
+					if(!inList.isEmpty())
+					{	IdentifiedWord<Synset> inWord = inList.get(0);
+						if(inParam.getRepresentativeWord()==null)
+							inParam.setRepresentativeWord(inWord);
+					}
+					// process the output parameter
 					List<IdentifiedWord<Synset>> outList = operationMap.get(Way.OUT);
-					
+					if(!outList.isEmpty())
+					{	IdentifiedWord<Synset> outWord = outList.get(0);
+						if(outParam.getRepresentativeWord()==null)
+							outParam.setRepresentativeWord(outWord);
+					}
 				}
 			}
 			
