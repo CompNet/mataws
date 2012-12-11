@@ -239,12 +239,14 @@ public class Launcher
  * 		- no more syntactic work: the synset allows retrieving the concept without any ambiguity
  * 		- some concepts returned by sigma are actually the opposite of the considered words >> those are ignored
  * 		- some words in WordNet 3 are not annotated in sigma
+ * - operation:
+ * 		- takes advantage of the operation names
  * 
  * 
  * others:
  * - it might be interesting not to use the stems in the preprocessing,
  *   because the form of the word can be used to determine its grammatical type
- *   and/or meaning. to this cleaning should be let to a latter time 
+ *   and/or meaning. so this cleaning should be let to a latter time 
  *   (might still be required for Sigma)
  * - i removed all acronyms from the "abbreviations" list. 
  * 		> see if WN can retrieve full words from acronyms, even when in lower case.
@@ -258,4 +260,7 @@ public class Launcher
  * 		- software not working as it should (not consistant with the paper)
  * 		- frequency is not absolute but relative to the word
  * 		- hypernyms processing: only consider the first hypernym
+ * 
+ * - todo:
+ * 		- include the log to get a trace
  */
