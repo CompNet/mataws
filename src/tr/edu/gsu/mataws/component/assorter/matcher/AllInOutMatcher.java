@@ -26,6 +26,8 @@ package tr.edu.gsu.mataws.component.assorter.matcher;
  * 
  */
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,17 +46,52 @@ import tr.edu.gsu.sine.col.Way;
  *   
  * @author Vincent Labatut
  */
-public class AllInAllOutMatcher implements MatcherInterface<Synset>
+public class AllInOutMatcher implements MatcherInterface<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public boolean match(Map<Way,List<List<IdentifiedWord<Synset>>>> operationMap, List<MatawsParameter> parameters)
-	{
-		boolean result = false;
+	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
+	{	boolean result = false;
+	
+		// distinguish parameters
+		List<MatawsParameter> inParams = new ArrayList<MatawsParameter>();
+		List<MatawsParameter> outParams = new ArrayList<MatawsParameter>();
+		List<String> inNames = new ArrayList<String>();
+		List<String> outNames = new ArrayList<String>();
+		for(MatawsParameter parameter: parameters)
+		{	Way way = parameter.getSineParameter().getWay();
+			String name = parameter.getName();
+			if(way==Way.IN)
+			{	inParams.add(parameter);
+				inNames.add(name);
+			}
+			else
+			{	outParams.add(parameter);
+				outNames.add(name);
+			}
+		}
 		
+		// compare them
+		boolean similar = true;
+		Iterator<MatawsParameter> it1 = inParams.iterator();
+		while(it1.hasNext() && similar)
+		{	MatawsParameter parameter = it1.next();
+			String name = parameter.getName();
+			similar = outNames.contains(name);
+		}
+		Iterator<MatawsParameter> it2 = outParams.iterator();
+		while(it2.hasNext() && similar)
+		{	MatawsParameter parameter = it2.next();
+			String name = parameter.getName();
+			similar = inNames.contains(name);
+		}
 		
+		if(!similar)
+		{	// TODO
+			
+		}
 		
 		return result;
 	}

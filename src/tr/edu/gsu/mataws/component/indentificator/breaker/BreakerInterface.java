@@ -58,27 +58,3 @@ public interface BreakerInterface<T>
 	 */
 	public Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList);
 }
-
-/* TODO TODO
-
-+ comparaison de paramètres:
-	- exemples :
-		- username, userage et userid >> user n'est pas pertinent. les concepts seraient name, age, et id
-		- username, adminname et clientname >> alors ça le devient. les concepts seraient user, admin et client.
-	- contre-exemple :
-		- userTel, adminTel >> on voudrait plutot savoir qu'il s'agit de téléphones plutot que d'user et admin (?)
-		  ceci devrait être considéré lors de l'évaluation manuelle (nature des autres paramètres) >> mais ça implique que chaque instance de paramètre doive être évaluée séparément, puisque le contexte (potentiellement différent) serait pris en compte.
-
-+ nom de l'opération
-	- patterns courants :
-		- getXxxxxByYyyyyReturn >>> Xxxxx
-		- getXxxxxByYyyyyParameter >>> Yyyyy
-		- "get" est optionel
-		- "by" peut etre remplacé par from, for...
-		- variante : userForId >>> user
-	- pattern pas forcément caractérisé par des alternances de min/majuscules
-	  parfois il s'agit uniquement d'unités
-	  ex: PoundsPerSqrInch
-	- autre pattern : getXxxxReturn >> Xxxxxx	
-
-*/

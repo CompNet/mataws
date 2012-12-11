@@ -26,6 +26,8 @@ package tr.edu.gsu.mataws.component.assorter.matcher;
  * 
  */
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,11 +52,42 @@ public class OneInOneOutMatcher implements MatcherInterface<Synset>
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	public boolean match(Map<Way,List<List<IdentifiedWord<Synset>>>> operationMap, List<MatawsParameter> parameters)
-	{
-		boolean result = false;
+	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
+	{	boolean result = false;
 		
-		
+		// verify the situation is appropriate for this matcher: exactly 2 parameters
+		if(parameters.size()==2)
+		{	// distinguish parameters
+			MatawsParameter inParam = null;
+			MatawsParameter outParam = null;
+			for(int i=0;i<2;i++)
+			{	MatawsParameter parameter = parameters.get(i);
+				Way way = parameter.getSineParameter().getWay();
+				if(way==Way.IN)
+					inParam = parameter;
+				else
+					outParam = parameter;
+			}
+			
+			// verify the situation is appropriate for this matcher: one in and one out parameters
+			if(inParam!=null && outParam!=null)
+			{	String inName = inParam.getName();
+				String outName = outParam.getName();
+				// verify the situation is appropriate for this matcher: two different parameters
+				if(!inName.equals(outName))
+				{	List<IdentifiedWord<Synset>> inList = operationMap.get(Way.IN);
+					inParam.set
+					List<IdentifiedWord<Synset>> outList = operationMap.get(Way.OUT);
+					
+				}
+			}
+			
+			// si deux parametres : facile, on fait en fonction de in/out
+			// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel
+			//		1) s'il manque le concept pr les deux >> on ne peut rien faire
+			//		2) s'il y a un concept pr l'un des deux >> distance avec les deux concepts trouvés ici ?
+			//			(>> besoin de n'avoir qu'un seul mot rep dès le breaker, et non pas en remontant au contraster)
+		}
 		
 		return result;
 	}
