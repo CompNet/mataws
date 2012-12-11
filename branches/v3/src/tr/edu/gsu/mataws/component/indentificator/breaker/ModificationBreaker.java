@@ -79,35 +79,8 @@ public class ModificationBreaker implements BreakerInterface<Synset>
 				inList.add(inParam2);
 				result = new HashMap<Way,List<List<IdentifiedWord<Synset>>>>();
 				result.put(Way.IN,inList);
-				
-				
-				// si deux parametres : facile, on fait en fonction de in/out
-				// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel
-				//		1) s'il manque le concept pr les deux >> on ne peut rien faire
-				//		2) s'il y a un concept pr l'un des deux >> distance avec les deux concepts trouvés ici ?
-				//			(>> besoin de n'avoir qu'un seul mot rep dès le breaker, et non pas en remontant au contraster)
-				
-				
-				// pb : comment faire remonter ça ?
-				// >> faire remonter une map, et mettre à jour les params dans le contraster
-				// >> ça empêche de faire de l'identification si le nombre de paramètres ne colle pas
-				// >> suffit de faire remonter les idWords annotés puis de faire le matching avec les params séparément
-				//    après tout c'est une tâche générique. on doit définir un nouveau type de composant pour ça.
-				
 			}
 		}
-		
-		/* TODO TODO
-		 * 
-		 *  - dans le nom de la méthode, on distingue les params d'entrée/sortie
-		 *    - la forme le permet-elle ? si non >> échec
-		 *    - si oui, on identifie le mot correspondant
-		 *  - qui en entrée, qui en sortie ? >> soit les mêmes, soit différents
-		 *  	- les mêmes >> on continue normalement
-		 *  	- différents >> on les traite séparément
-		 *  	- un peu des deux >> ??
-		 *  
-		 */
 		
 		return result;
 	}

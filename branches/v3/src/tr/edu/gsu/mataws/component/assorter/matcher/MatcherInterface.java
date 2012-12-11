@@ -66,5 +66,5 @@ public interface MatcherInterface<T>
 	 * @return
 	 * 		{@code true} iff the method could match at least one parameter.
 	 */
-	public boolean match(Map<Way,List<List<IdentifiedWord<T>>>> operationMap, List<MatawsParameter> parameters);
+	public boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters);
 }
