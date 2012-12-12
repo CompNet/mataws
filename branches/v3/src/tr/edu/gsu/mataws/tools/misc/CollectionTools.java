@@ -34,8 +34,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.SortedSet;
 
-import tr.edu.gsu.mataws.component.reader.collection.CollectionReaderInterface;
-import tr.edu.gsu.mataws.component.reader.collection.WsdlCollectionReader;
+import tr.edu.gsu.mataws.component.reader.collection.DescriptionReaderInterface;
+import tr.edu.gsu.mataws.component.reader.collection.WsdlDescriptionReader;
 import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
@@ -81,7 +81,7 @@ public class CollectionTools
 	public static void extractOperations(String subfolder) throws FileNotFoundException
 	{	// read the collection
 		System.out.println("Reading the collection");
-		CollectionReaderInterface readCollection = new WsdlCollectionReader();
+		DescriptionReaderInterface readCollection = new WsdlDescriptionReader();
 		Collection collection = readCollection.readCollection(subfolder);
 		SortedSet<Operation> operations = collection.getOperations();
 		
