@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader.collection;
+package tr.edu.gsu.mataws.component.reader.descriptions;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,40 +26,32 @@ package tr.edu.gsu.mataws.component.reader.collection;
  * 
  */
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.logging.Logger;
 
-import tr.edu.gsu.mataws.tools.misc.FileTools;
 import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.in.Digger;
-import tr.edu.gsu.sine.in.Language;
 
 /**
  * This class is used to read the data contained in the input
- * WSDL files, and represent them as a hierarchy of Java objects.
+ * description files, and represent them as a hierarchy of Java objects.
  * 
- * @author Cihan Aksoy
- * @author Koray Mancuhan
  * @author Vincent Labatut
  */
-public class WsdlDescriptionReader implements DescriptionReaderInterface
+public interface DescriptionReaderInterface
 {
-	@Override
-	public Collection readCollection(String subfolder) throws FileNotFoundException
-	{	// init path & name
-		String path = FileTools.INPUT_FOLDER;
-		String name = "all";
-		if(subfolder!=null)
-		{	path = path + File.separator + subfolder;
-			name = subfolder;
-		}
-		File folder = new File(path);
-		
-		// init sine digger
-		Digger d = new Digger(Logger.getAnonymousLogger());
-		// read description files
-		Collection result = d.dig(folder, Language.WSDL, name);
-		return result;
-	}
+	/**
+	 * Loads the collection of syntactic descriptions 
+	 * contained in the specified folder,
+	 * which must be contained itself in Mataws input folder.
+	 * <br/>
+	 * If it is {@code null}, then all description files are processed.
+	 * 
+	 * @param subfolder
+	 *		The folder containing the collection.
+	 * @return 
+	 * 		The sine object representing a WS collection. 
+	 * 
+	 * @throws FileNotFoundException 
+	 * 		If no file could be found at the specified location. 
+	 */
+	public Collection readCollection(String subfolder) throws FileNotFoundException;
 }

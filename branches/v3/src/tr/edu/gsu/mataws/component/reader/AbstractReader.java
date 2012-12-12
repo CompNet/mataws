@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.component.reader;
 
 import java.io.FileNotFoundException;
 
-import tr.edu.gsu.mataws.component.reader.collection.DescriptionReaderInterface;
+import tr.edu.gsu.mataws.component.reader.descriptions.DescriptionReaderInterface;
 import tr.edu.gsu.sine.col.Collection;
 
 /**
