@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader.collection;
+package tr.edu.gsu.mataws.component.writer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,40 +26,34 @@ package tr.edu.gsu.mataws.component.reader.collection;
  * 
  */
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.logging.Logger;
-
-import tr.edu.gsu.mataws.tools.misc.FileTools;
-import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.in.Digger;
-import tr.edu.gsu.sine.in.Language;
+import tr.edu.gsu.mataws.component.writer.descriptions.DescriptionWriterInterface;
+import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
 
 /**
- * This class is used to read the data contained in the input
- * WSDL files, and represent them as a hierarchy of Java objects.
+ * Default class for writing the collection.
  * 
- * @author Cihan Aksoy
- * @author Koray Mancuhan
  * @author Vincent Labatut
  */
-public class WsdlCollectionReader implements CollectionReaderInterface
+public class DefaultWriter extends AbstractWriter
 {
+
+	///////////////////////////////////////////////////////////
+	//	DESCRIPTIONS						///////////////////
+	///////////////////////////////////////////////////////////
 	@Override
-	public Collection readCollection(String subfolder) throws FileNotFoundException
-	{	// init path & name
-		String path = FileTools.INPUT_FOLDER;
-		String name = "all";
-		if(subfolder!=null)
-		{	path = path + File.separator + subfolder;
-			name = subfolder;
-		}
-		File folder = new File(path);
+	protected void initDescriptionWriters()
+	{	DescriptionWriterInterface writer;
 		
-		// init sine digger
-		Digger d = new Digger(Logger.getAnonymousLogger());
-		// read description files
-		Collection result = d.dig(folder, Language.WSDL, name);
-		return result;
+		// TODO Auto-generated method stub
 	}
+
+	///////////////////////////////////////////////////////////
+	//	STATISTICS							///////////////////
+	///////////////////////////////////////////////////////////
+	@Override
+	protected void initStatisticsWriters()
+	{	StatisticsWriterInterface writer;
+		
+		// TODO Auto-generated method stub
+	}	
 }

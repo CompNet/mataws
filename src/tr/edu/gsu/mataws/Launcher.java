@@ -40,7 +40,7 @@ import com.articulate.sigma.WordNet;
 
 import tr.edu.gsu.mataws.component.associator.Associator;
 import tr.edu.gsu.mataws.component.core.Core;
-import tr.edu.gsu.mataws.component.reader.collection.AbstractCollectionReader;
+import tr.edu.gsu.mataws.component.reader.collection.CollectionReaderInterface;
 import tr.edu.gsu.mataws.component.reader.collection.WsdlCollectionReader;
 import tr.edu.gsu.mataws.component.selector.AnalysisType;
 import tr.edu.gsu.mataws.component.selector.Analyzer;
@@ -116,7 +116,7 @@ public class Launcher
 	public static void process()
 	{	
 		// load the syntactic descriptions
-		AbstractCollectionReader reader = new WsdlCollectionReader();
+		CollectionReaderInterface reader = new WsdlCollectionReader();
 		List<MatawsParameter> parameters = reader.readCollection(inFolder);
 		
 		// apply the core processing
@@ -179,7 +179,7 @@ public class Launcher
 	 */
 	public static List<TraceableParameter> extractParameterCollection(String collectionName) throws Exception
 	{	List<TraceableParameter> result = new ArrayList<TraceableParameter>();
-		AbstractCollectionReader sineUtil = new AbstractCollectionReader();
+		CollectionReaderInterface sineUtil = new CollectionReaderInterface();
 		SortedSet<Parameter> sortedSet = sineUtil.readCollection(collectionName);
 		Iterator<Parameter> iterator = sortedSet.iterator();
 		while (iterator.hasNext())

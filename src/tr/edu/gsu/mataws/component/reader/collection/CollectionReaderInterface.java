@@ -36,7 +36,7 @@ import tr.edu.gsu.sine.col.Collection;
  * 
  * @author Vincent Labatut
  */
-public abstract class AbstractCollectionReader
+public interface CollectionReaderInterface
 {
 	/**
 	 * Loads the collection of syntactic descriptions 
@@ -53,32 +53,5 @@ public abstract class AbstractCollectionReader
 	 * @throws FileNotFoundException 
 	 * 		If no file could be found at the specified location. 
 	 */
-	public abstract Collection readCollection(String subfolder) throws FileNotFoundException;
-//	public abstract List<MatawsParameter> readCollection(String subfolder) throws FileNotFoundException;
-	
-	/**
-	 * Analyzes the specified Sine object representing a collection,
-	 * and extract all parameters. Those are embedded in Mataws objects,
-	 * to allow further processing.
-	 * 
-	 * @param collection
-	 * 		The Sine collection object.
-	 * @return
-	 * 		A list of Mataws parameter objects.
-	 */
-/*	protected List<MatawsParameter> extractParameters(Collection collection)
-	{	List<MatawsParameter> result = new ArrayList<MatawsParameter>();
-		
-		for(Service service: collection.getServices())
-		{	for(Operation operation: service.getOperations())
-			{	for(Parameter parameter: operation.getParameters())
-				{	MatawsParameter p = new MatawsParameter(parameter, operation, service);
-					result.add(p);
-				}
-			}
-		}
-		
-		return result;
-	}
-*/	
+	public Collection readCollection(String subfolder) throws FileNotFoundException;
 }
