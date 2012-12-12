@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.component.reader.collection.WsdlCollectionReader;
+import tr.edu.gsu.mataws.component.reader.collection.WsdlDescriptionReader;
 
 /**
  * Default class for reading the collection.
@@ -36,13 +36,13 @@ import tr.edu.gsu.mataws.component.reader.collection.WsdlCollectionReader;
 public class DefaultReader extends AbstractReader
 {	
 	///////////////////////////////////////////////////////////
-	//	COLLECTION							///////////////////
+	//	DESCRIPTIONS						///////////////////
 	///////////////////////////////////////////////////////////
 	/**
 	 * Inits the reader used to get the collection
 	 */
-	protected void initCollectionReader()
-	{	collectionReader = new WsdlCollectionReader();
+	protected void initDescriptionReader()
+	{	descriptionReader = new WsdlDescriptionReader();
 	}
 	
 	///////////////////////////////////////////////////////////

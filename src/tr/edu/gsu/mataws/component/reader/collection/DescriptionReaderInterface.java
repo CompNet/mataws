@@ -36,7 +36,7 @@ import tr.edu.gsu.sine.col.Collection;
  * 
  * @author Vincent Labatut
  */
-public interface CollectionReaderInterface
+public interface DescriptionReaderInterface
 {
 	/**
 	 * Loads the collection of syntactic descriptions 
