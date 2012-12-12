@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.component.reader.collection.WsdlDescriptionReader;
+import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
 
 /**
  * Default class for reading the collection.
