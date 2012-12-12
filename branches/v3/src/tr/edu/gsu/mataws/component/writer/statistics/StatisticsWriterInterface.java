@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.writer;
+package tr.edu.gsu.mataws.component.writer.statistics;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,21 +26,32 @@ package tr.edu.gsu.mataws.component.writer;
  * 
  */
 
-/**
- * Interface for transformation of a syntactic description to semantic
- * description.
- * 
- * @author Cihan Aksoy
- *
- */
-public interface CollectionWriter {
+import java.io.FileNotFoundException;
+import java.util.List;
 
+import tr.edu.gsu.mataws.data.MatawsParameter;
+
+/**
+ * This class is used to write some metadata regarding the annotation
+ * process, as various text files.
+ * 
+ * @author Vincent Labatut
+ */
+public interface StatisticsWriterInterface
+{
 	/**
-	 * Method for generating semantic WS collection from a WS collection.
+	 * Records some statistics describing how the annotation
+	 * process went. The generated files will be put in Mataws output folder.
+	 * <br/>
+	 * If {@code subfolder} is {@code null}, then all description files are processed.
 	 * 
-	 * @param sourcePath
-	 * @param destPath
+	 * @param subfolder
+	 *		The folder containing the collection.
+	 * @param parameters
+	 * 		The list of annotated parameters. 
+	 * 
+	 * @throws FileNotFoundException 
+	 * 		If no file could be found at the specified location. 
 	 */
-	public void transform(String sourcePath, String destPath);
-	
+	public void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException;
 }

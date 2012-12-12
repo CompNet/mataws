@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader.collection;
+package tr.edu.gsu.mataws.component.writer.descriptions;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,40 +26,33 @@ package tr.edu.gsu.mataws.component.reader.collection;
  * 
  */
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.logging.Logger;
+import java.util.List;
 
-import tr.edu.gsu.mataws.tools.misc.FileTools;
-import tr.edu.gsu.sine.col.Collection;
-import tr.edu.gsu.sine.in.Digger;
-import tr.edu.gsu.sine.in.Language;
+import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
- * This class is used to read the data contained in the input
- * WSDL files, and represent them as a hierarchy of Java objects.
+ * This class is used to write the data resulting from the annotation
+ * process, as a collection of semantic description files.
  * 
  * @author Cihan Aksoy
- * @author Koray Mancuhan
  * @author Vincent Labatut
  */
-public class WsdlCollectionReader implements CollectionReaderInterface
+public interface DescriptionWriterInterface
 {
-	@Override
-	public Collection readCollection(String subfolder) throws FileNotFoundException
-	{	// init path & name
-		String path = FileTools.INPUT_FOLDER;
-		String name = "all";
-		if(subfolder!=null)
-		{	path = path + File.separator + subfolder;
-			name = subfolder;
-		}
-		File folder = new File(path);
-		
-		// init sine digger
-		Digger d = new Digger(Logger.getAnonymousLogger());
-		// read description files
-		Collection result = d.dig(folder, Language.WSDL, name);
-		return result;
-	}
+	/**
+	 * Records the WS description using a semantic format.
+	 * The generated files will be put in Mataws output folder.
+	 * <br/>
+	 * If {@code subfolder} is {@code null}, then all description files are processed.
+	 * 
+	 * @param subfolder
+	 *		The folder containing the collection.
+	 * @param parameters
+	 * 		The list of annotated parameters. 
+	 * 
+	 * @throws FileNotFoundException 
+	 * 		If no file could be found at the specified location. 
+	 */
+	public void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException;
 }

@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.component.reader;
 
 import java.io.FileNotFoundException;
 
-import tr.edu.gsu.mataws.component.reader.collection.AbstractCollectionReader;
+import tr.edu.gsu.mataws.component.reader.collection.CollectionReaderInterface;
 import tr.edu.gsu.sine.col.Collection;
 
 /**
@@ -81,7 +81,7 @@ public abstract class AbstractReader
 	//	COLLECTION							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Reader used to get the collection of WS descriptions */
-	protected AbstractCollectionReader collectionReader;
+	protected CollectionReaderInterface collectionReader;
 	/** The folder containing the collection (in case it is necessary to the other readers */
 	protected String subfolder;
 

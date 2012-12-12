@@ -116,7 +116,6 @@ This product includes the following softwares:
     Evren Sirin & Thorsten Möller
     http://www.mindswap.org/2004/owl-s/api/
     http://on.cs.unibas.ch/owls-api/
-    Used by Sine to load OWL-S files.
     Used by Mataws to generate OWL-S files.
     
   + Pellet - OWL 2 Reasoner for Java
