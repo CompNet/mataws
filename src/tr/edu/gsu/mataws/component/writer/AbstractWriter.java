@@ -32,6 +32,8 @@ import java.util.List;
 import tr.edu.gsu.mataws.component.writer.descriptions.DescriptionWriterInterface;
 import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Abstract class of the writer component.
@@ -52,13 +54,18 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	public AbstractWriter() throws Exception
-	{	initDescriptionWriters();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		initDescriptionWriters();
 		initStatisticsWriters();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of words and selects the most
 	 * relevant, leading to a single word.
@@ -72,8 +79,12 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	writeDescriptions(subfolder, parameters);
+	{	logger.increaseOffset();
+		
+		writeDescriptions(subfolder, parameters);
 		writeStatistics(subfolder, parameters);
+
+		logger.decreaseOffset();
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -102,8 +113,12 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeDescriptions(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	for(DescriptionWriterInterface writer: descriptionWriters)
+	{	logger.increaseOffset();
+	
+		for(DescriptionWriterInterface writer: descriptionWriters)
 			writer.write(subfolder, parameters);
+
+		logger.decreaseOffset();
 	}
 
 	///////////////////////////////////////////////////////////
@@ -132,7 +147,11 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeStatistics(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	for(StatisticsWriterInterface writer: statisticsWriters)
+	{	logger.increaseOffset();
+	
+		for(StatisticsWriterInterface writer: statisticsWriters)
 			writer.write(subfolder, parameters);
+		
+		logger.decreaseOffset();
 	}
 }

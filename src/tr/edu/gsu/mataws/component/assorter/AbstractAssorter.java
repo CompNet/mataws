@@ -34,6 +34,8 @@ import java.util.Map;
 import tr.edu.gsu.mataws.component.assorter.matcher.MatcherInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Way;
 
 /**
@@ -51,12 +53,17 @@ public abstract class AbstractAssorter<T>
 	 * various parts identified in the operation name.
 	 */
 	public AbstractAssorter()
-	{	initMatchers();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		initMatchers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Takes the parameters of an operation and the result
 	 * of a preprocess applied to the operation name,
@@ -71,9 +78,12 @@ public abstract class AbstractAssorter<T>
 	 * 		{@code true} iff at least one parameter could be annotated.
 	 */
 	public boolean assort(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
-	{	// apply the breakers
+	{	logger.increaseOffset();
+		
+		// apply the matchers
 		boolean result = match(operationMap,parameters);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -100,7 +110,8 @@ public abstract class AbstractAssorter<T>
 	 * 		{@code true} iff one parameter could be annotated. 
 	 */
 	protected boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		Iterator<MatcherInterface<T>> it = matchers.iterator();
 		while(it.hasNext() && !result)
@@ -108,6 +119,7 @@ public abstract class AbstractAssorter<T>
 			result = matcher.match(operationMap,parameters) || result;
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

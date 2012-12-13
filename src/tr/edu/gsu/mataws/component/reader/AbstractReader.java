@@ -29,6 +29,8 @@ package tr.edu.gsu.mataws.component.reader;
 import java.io.FileNotFoundException;
 
 import tr.edu.gsu.mataws.component.reader.descriptions.DescriptionReaderInterface;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Collection;
 
 /**
@@ -45,13 +47,18 @@ public abstract class AbstractReader
 	 * for this reader.
 	 */
 	public AbstractReader()
-	{	initDescriptionReader();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		initDescriptionReader();
 		initOtherReaders();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Reads the collection and possibly other data.
 	 * 
@@ -62,7 +69,9 @@ public abstract class AbstractReader
 	 * 		The read collection.
 	 */
 	public Collection read(String subfolder)
-	{	Collection result = null;
+	{	logger.increaseOffset();
+		Collection result = null;
+	
 		this.subfolder = subfolder;
 		try
 		{	result = descriptionReader.readCollection(subfolder);
@@ -74,6 +83,7 @@ public abstract class AbstractReader
 		
 		readOthers();
 		
+		logger.decreaseOffset();
 		return result;
 	}
 

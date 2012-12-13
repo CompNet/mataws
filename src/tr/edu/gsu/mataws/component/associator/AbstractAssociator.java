@@ -32,6 +32,8 @@ import java.util.List;
 
 import tr.edu.gsu.mataws.component.associator.mapper.MapperInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Abstract class of the associator component.
@@ -48,12 +50,17 @@ public abstract class AbstractAssociator<T>
 	 * for this associator.
 	 */
 	public AbstractAssociator()
-	{	initMappers();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		initMappers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Takes an identified word, and find the associated
 	 * concepts, which takes the form of a string.
@@ -65,10 +72,12 @@ public abstract class AbstractAssociator<T>
 	 * 		no concept could be retrieved for the word.
 	 */
 	public String associate(IdentifiedWord<T> word)
-	{	String result = null;
+	{	logger.increaseOffset();
+		String result = null;
 		
 		result = map(word);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -93,7 +102,8 @@ public abstract class AbstractAssociator<T>
 	 * 		none could be found. 
 	 */
 	protected String map(IdentifiedWord<T> word)
-	{	String result = null;
+	{	logger.increaseOffset();
+		String result = null;
 		
 		Iterator<MapperInterface<T>> it = mappers.iterator();
 		while(it.hasNext() && result==null)
@@ -101,6 +111,7 @@ public abstract class AbstractAssociator<T>
 			result = mapper.map(word);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }
