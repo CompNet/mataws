@@ -35,6 +35,8 @@ import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsSubParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * This class is in charge for processing the
@@ -53,13 +55,17 @@ public class TypeProcessor
 	 * Builds a standard type processor.
 	 */
 	public TypeProcessor()
-	{	subParameterProcessor = new SubParameterProcessor(this);
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		subParameterProcessor = new SubParameterProcessor(this);
 		selector = new DefaultSelector();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
 	/** Processor used to treat all child parameters */
 	private SubParameterProcessor subParameterProcessor;
 	/** Selector used to combine the resulting words */
@@ -80,7 +86,8 @@ public class TypeProcessor
 	 * 		word for this parameter, thanks to its data type structure. 
 	 */
 	public boolean process(AbstractMatawsParameter parameter)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// process each children individually
 		List<MatawsSubParameter> children = parameter.getChildren();
@@ -105,6 +112,7 @@ public class TypeProcessor
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

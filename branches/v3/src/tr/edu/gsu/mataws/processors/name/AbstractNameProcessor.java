@@ -29,6 +29,8 @@ package tr.edu.gsu.mataws.processors.name;
 import tr.edu.gsu.mataws.component.preparator.DefaultPreparator;
 import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * This class is in charge for processing
@@ -45,7 +47,9 @@ public abstract class AbstractNameProcessor
 	 * Builds a name processor.
 	 */
 	public AbstractNameProcessor()
-	{	preprocessor = new DefaultPreparator();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		preprocessor = new DefaultPreparator();
 		selector = new DefaultSelector();
 	}
 	
@@ -69,6 +73,8 @@ public abstract class AbstractNameProcessor
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
 	/** Preprocessor in charge of the first step */
 	protected static DefaultPreparator preprocessor;
 	/** Selector in charge of the second step */
@@ -87,9 +93,13 @@ public abstract class AbstractNameProcessor
 	 * 		{@code true} iff the name could be successfully processed.
 	 */
 	public boolean process(AbstractMatawsParameter parameter)
-	{	boolean result = process(parameter,Mode.PARAMETER);
+	{	logger.increaseOffset();
+		boolean result = process(parameter,Mode.PARAMETER);
+		
 		if(!result)
 			process(parameter,Mode.TYPE);
+		
+		logger.decreaseOffset();
 		return result;
 	}
 	

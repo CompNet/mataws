@@ -26,14 +26,17 @@ package tr.edu.gsu.mataws.processors;
  * 
  */
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
 import tr.edu.gsu.mataws.component.reader.AbstractReader;
 import tr.edu.gsu.mataws.component.reader.DefaultReader;
+import tr.edu.gsu.mataws.component.writer.AbstractWriter;
+import tr.edu.gsu.mataws.component.writer.DefaultWriter;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Operation;
 
@@ -47,19 +50,29 @@ public class GeneralProcessor
 {	
 	/**
 	 * Builds a standard general processor.
+	 * 
+	 * @throws Exception
+	 * 		Problem while accessing the collection files. 
 	 */
-	public GeneralProcessor()
-	{	reader = new DefaultReader();
+	public GeneralProcessor() throws Exception
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+		
+		reader = new DefaultReader();
 		operationProcessor = new OperationProcessor();
+		writer = new DefaultWriter();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
 	/** Component in charge of loading the collection */
 	private AbstractReader reader;
 	/** Processor used to take advantage of the operation details */
 	private OperationProcessor operationProcessor;
+	/** Component in charge of recording the results of the annotation process */
+	private AbstractWriter writer;
 	
 	/**
 	 * Implements the general algorithm for the 
@@ -71,12 +84,13 @@ public class GeneralProcessor
 	 * 		Subfolder containing the collection, or {@code null} to
 	 * 		process the whole input folder.
 	 * 
-	 * @throws FileNotFoundException 
-	 * 		Problem while reading the collection or recording the collection
-	 * 		or statistics.
+	 * @throws Exception 
+	 * 		Problem while accessing the collection files. 
 	 */
-	public void process(String subfolder) throws FileNotFoundException
-	{	// load the collection
+	public void process(String subfolder) throws Exception
+	{	logger.increaseOffset();
+		
+		// load the collection
 		Collection collection = reader.read(subfolder);
 		
 		// process each operation separately
@@ -88,6 +102,8 @@ public class GeneralProcessor
 		}
 		
 		// record the collection and stats
-		// TODO
+		writer.write(subfolder, parameters);
+		
+		logger.decreaseOffset();
 	}
 }

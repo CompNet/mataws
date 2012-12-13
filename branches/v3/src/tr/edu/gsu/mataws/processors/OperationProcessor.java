@@ -43,6 +43,8 @@ import tr.edu.gsu.mataws.component.selector.DefaultSelector;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.parameter.ParameterProcessor;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.sine.col.Way;
@@ -66,7 +68,9 @@ public class OperationProcessor
 	 * Builds a standard operation processor.
 	 */
 	public OperationProcessor()
-	{	parameterProcessor = new ParameterProcessor();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+		
+		parameterProcessor = new ParameterProcessor();
 		identificator = new DefaultIdentificator();
 		selector = new DefaultSelector();
 		assorter = new DefaultAssorter();
@@ -76,6 +80,8 @@ public class OperationProcessor
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
 	/** Processor used to annotate the parameters */
 	private ParameterProcessor parameterProcessor;
 	/** Preparator component used to split the operation name */
@@ -100,7 +106,9 @@ public class OperationProcessor
 	 * 		A list of supposedly annotated parameters from this operation.
 	 */
 	public List<MatawsParameter> process(Operation operation)
-	{	// get the list of the operation parameters
+	{	logger.increaseOffset();
+	
+		// get the list of the operation parameters
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		List<Parameter> params = operation.getParameters();
 		for(Parameter param: params)
@@ -142,6 +150,7 @@ public class OperationProcessor
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }
