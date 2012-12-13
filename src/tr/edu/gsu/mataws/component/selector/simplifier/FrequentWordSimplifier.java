@@ -45,7 +45,7 @@ import tr.edu.gsu.mataws.tools.strings.WordSplitTools;
  *  
  * @author Vincent Labatut
  */
-public class FrequentWordSimplifier implements SimplifierInterface<Synset>
+public class FrequentWordSimplifier extends AbstractSimplifier<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

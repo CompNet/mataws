@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.component.assorter;
 
 import tr.edu.gsu.mataws.component.assorter.matcher.AllInMatcher;
 import tr.edu.gsu.mataws.component.assorter.matcher.AllInOutMatcher;
-import tr.edu.gsu.mataws.component.assorter.matcher.MatcherInterface;
+import tr.edu.gsu.mataws.component.assorter.matcher.AbstractMatcher;
 import tr.edu.gsu.mataws.component.assorter.matcher.OneInOneOutMatcher;
 import edu.smu.tspell.wordnet.Synset;
 
@@ -48,7 +48,7 @@ public class DefaultAssorter extends AbstractAssorter<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initMatchers()
-	{	MatcherInterface<Synset> matcher;
+	{	AbstractMatcher<Synset> matcher;
 	
 		matcher = new OneInOneOutMatcher();
 		matchers.add(matcher);

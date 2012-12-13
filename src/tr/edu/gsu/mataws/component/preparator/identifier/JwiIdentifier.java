@@ -49,7 +49,7 @@ import edu.mit.jwi.morph.WordnetStemmer;
  *  
  * @author Vincent Labatut
  */
-public class JwiIdentifier implements IdentifierInterface<ISynset>
+public class JwiIdentifier extends AbstractIdentifier<ISynset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

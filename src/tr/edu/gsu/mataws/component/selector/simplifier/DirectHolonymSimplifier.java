@@ -44,7 +44,7 @@ import tr.edu.gsu.mataws.tools.semantics.JawsTools;
  *  
  * @author Vincent Labatut
  */
-public class DirectHolonymSimplifier implements SimplifierInterface<Synset>
+public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 {
 	/**
 	 * Builds a {@code DirectHolonymSimplifier} using the

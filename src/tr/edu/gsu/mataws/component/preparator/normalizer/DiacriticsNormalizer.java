@@ -38,7 +38,7 @@ import tr.edu.gsu.mataws.tools.strings.StringTools;
  *   
  * @author Vincent Labatut
  */
-public class DiacriticsNormalizer implements NormalizerInterface
+public class DiacriticsNormalizer extends AbstractNormalizer
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

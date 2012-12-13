@@ -44,7 +44,7 @@ import tr.edu.gsu.mataws.tools.semantics.JawsTools;
  *  
  * @author Vincent Labatut
  */
-public class DirectHypernymSimplifier implements SimplifierInterface<Synset>
+public class DirectHypernymSimplifier extends AbstractSimplifier<Synset>
 {
 	/**
 	 * Builds a {@code DirectHypernymSimplifier} using the

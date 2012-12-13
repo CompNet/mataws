@@ -27,7 +27,7 @@ package tr.edu.gsu.mataws.component.associator;
  */
 
 import edu.smu.tspell.wordnet.Synset;
-import tr.edu.gsu.mataws.component.associator.mapper.MapperInterface;
+import tr.edu.gsu.mataws.component.associator.mapper.AbstractMapper;
 import tr.edu.gsu.mataws.component.associator.mapper.SigmaMapper;
 
 /**
@@ -47,7 +47,7 @@ public class DefaultAssociator extends AbstractAssociator<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initMappers()
-	{	MapperInterface<Synset> mapper;
+	{	AbstractMapper<Synset> mapper;
 	
 		mapper = new SigmaMapper();
 		mappers.add(mapper);

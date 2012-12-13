@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
+import tr.edu.gsu.mataws.component.selector.simplifier.AbstractSimplifier;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
@@ -96,7 +96,7 @@ public abstract class AbstractSelector<T>
 	//	SIMPLIFICATION						///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of simplifiers applied as is */
-	protected final List<SimplifierInterface<T>> simplifiers = new ArrayList<SimplifierInterface<T>>();
+	protected final List<AbstractSimplifier<T>> simplifiers = new ArrayList<AbstractSimplifier<T>>();
 
 	/**
 	 * Initializes the sequence of simplifiers.
@@ -118,9 +118,9 @@ public abstract class AbstractSelector<T>
 		boolean effect;
 		do
 		{	effect = false;
-			Iterator<SimplifierInterface<T>> it = simplifiers.iterator();
+			Iterator<AbstractSimplifier<T>> it = simplifiers.iterator();
 			while(it.hasNext() && words.size()>1)
-			{	SimplifierInterface<T> simplifier = it.next();
+			{	AbstractSimplifier<T> simplifier = it.next();
 				effect = simplifier.simplify(words) || effect;
 			}
 		}

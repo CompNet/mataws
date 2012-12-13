@@ -43,7 +43,7 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
  *  
  * @author Vincent Labatut
  */
-public class JawsIdentifier implements IdentifierInterface<Synset>
+public class JawsIdentifier extends AbstractIdentifier<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

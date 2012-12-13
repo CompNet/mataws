@@ -37,7 +37,7 @@ import java.util.List;
  *   
  * @author Vincent Labatut
  */
-public class RedundancyFilter implements FilterInterface
+public class RedundancyFilter extends AbstractFilter
 {
 	///////////////////////////////////////////////////////////
 	//	CASE SENSITIVE						///////////////////

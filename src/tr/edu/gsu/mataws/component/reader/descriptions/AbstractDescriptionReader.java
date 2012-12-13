@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.indentificator.breaker;
+package tr.edu.gsu.mataws.component.reader.descriptions;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,35 +26,32 @@ package tr.edu.gsu.mataws.component.indentificator.breaker;
  * 
  */
 
-import java.util.List;
-import java.util.Map;
+import java.io.FileNotFoundException;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.sine.col.Way;
+import tr.edu.gsu.sine.col.Collection;
 
 /**
- * Interface for classes in charge of identifying  
- * parts of operation names which can be used to
- * describe their parameters, eg. {@code getIdForName}.
- * 
- * @param <T> 
- *		Class used to represent a WordNet synset.
+ * This class is used to read the data contained in the input
+ * description files, and represent them as a hierarchy of Java objects.
  * 
  * @author Vincent Labatut
  */
-public interface BreakerInterface<T>
+public abstract class AbstractDescriptionReader
 {
-	///////////////////////////////////////////////////////////
-	//	PROCESS								///////////////////
-	///////////////////////////////////////////////////////////
 	/**
-	 * Takes an operation and analyses its name, in order to
-	 * extract information regarding its parameters.
+	 * Loads the collection of syntactic descriptions 
+	 * contained in the specified folder,
+	 * which must be contained itself in Mataws input folder.
+	 * <br/>
+	 * If it is {@code null}, then all description files are processed.
 	 * 
-	 * @param operationList
-	 * 		The list of words composing the operation name. 
-	 * @return
-	 * 		A map of the identified parts, or null if none could be identified.
+	 * @param subfolder
+	 *		The folder containing the collection.
+	 * @return 
+	 * 		The sine object representing a WS collection. 
+	 * 
+	 * @throws FileNotFoundException 
+	 * 		If no file could be found at the specified location. 
 	 */
-	public Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList);
+	public abstract Collection readCollection(String subfolder) throws FileNotFoundException;
 }

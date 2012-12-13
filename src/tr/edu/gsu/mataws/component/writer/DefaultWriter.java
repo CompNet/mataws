@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.component.writer;
  * 
  */
 
-import tr.edu.gsu.mataws.component.writer.descriptions.DescriptionWriterInterface;
+import tr.edu.gsu.mataws.component.writer.descriptions.AbstractDescriptionWriter;
 import tr.edu.gsu.mataws.component.writer.descriptions.OwlsDescriptionWriter;
 import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
 import tr.edu.gsu.mataws.tools.semantics.SigmaTools;
@@ -53,7 +53,7 @@ public class DefaultWriter extends AbstractWriter
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initDescriptionWriters() throws Exception
-	{	DescriptionWriterInterface writer;
+	{	AbstractDescriptionWriter writer;
 		
 		writer = new OwlsDescriptionWriter(SigmaTools.URI);
 		descriptionWriters.add(writer);

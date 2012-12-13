@@ -46,7 +46,7 @@ import tr.edu.gsu.mataws.tools.semantics.JawsTools;
  *  
  * @author Vincent Labatut
  */
-public class CommonHolonymSimplifier implements SimplifierInterface<Synset>
+public class CommonHolonymSimplifier extends AbstractSimplifier<Synset>
 {
 	/**
 	 * Builds a {@code CommonHolonymSimplifier} using the

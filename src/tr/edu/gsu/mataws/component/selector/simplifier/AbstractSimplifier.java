@@ -38,7 +38,7 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  *  
  * @author Vincent Labatut
  */
-public interface SimplifierInterface<T>
+public abstract class AbstractSimplifier<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
@@ -57,5 +57,5 @@ public interface SimplifierInterface<T>
 	 * 		{@code true} iff the simplifier could simplify the list.
 	 * 			
 	 */
-	public boolean simplify(List<IdentifiedWord<T>> words);
+	public abstract boolean simplify(List<IdentifiedWord<T>> words);
 }

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.preparator.filter;
+package tr.edu.gsu.mataws.component.assorter.matcher;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,29 +27,44 @@ package tr.edu.gsu.mataws.component.preparator.filter;
  */
 
 import java.util.List;
+import java.util.Map;
+
+import tr.edu.gsu.mataws.component.indentificator.breaker.AbstractBreaker;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.sine.col.Way;
 
 /**
- * Interface for classes in charge of filtering strings.
- *  
- * @author Koray Mancuhan
- * @author Cihan Aksoy
+ * Interface for classes in charge of matching 
+ * parts of operation names and parameters.
+ * Used when the parameter names and types do
+ * not convey enough information to allow a
+ * more direct annotation.
+ * 
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
+ * 
  * @author Vincent Labatut
  */
-public interface FilterInterface
+public abstract class AbstractMatcher<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a list of strings and filters it.
-	 * The list can be empty, if the original strings contain
-	 * only noise, or if the original list is empty.
+	 * Takes a map coming from a {@link AbstractBreaker}, i.e.
+	 * associating identified words to an operation name,
+	 * and tries to match those words to the parameters.
+	 * <br/>
+	 * Depending on how the matching process went, parameters
+	 * in the received list are updated.
 	 * 
-	 * @param strings
-	 * 		The list of strings to be filtered. 
+	 * @param operationMap
+	 * 		The mapping of identified words to parts of the operation name. 
+	 * @param parameters
+	 * 		The parameters to annotate. 
 	 * @return
-	 * 		The list of strings remaining after the filtering.
-	 * 			
+	 * 		{@code true} iff the method could match at least one parameter.
 	 */
-	public List<String> filter(List<String> strings);
+	public abstract boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters);
 }

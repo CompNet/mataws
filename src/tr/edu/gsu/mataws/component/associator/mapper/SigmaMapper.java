@@ -47,7 +47,7 @@ import edu.smu.tspell.wordnet.impl.file.ReferenceSynset;
  *   
  * @author Vincent Labatut
  */
-public class SigmaMapper implements MapperInterface<Synset>
+public class SigmaMapper extends AbstractMapper<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

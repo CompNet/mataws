@@ -35,7 +35,7 @@ import tr.edu.gsu.mataws.component.selector.simplifier.FrequentVerbSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.FrequentWordSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.FusionSimplifier;
 import tr.edu.gsu.mataws.component.selector.simplifier.LastNounSimplifier;
-import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
+import tr.edu.gsu.mataws.component.selector.simplifier.AbstractSimplifier;
 
 /**
  * Series of processings corresponding to the
@@ -51,7 +51,7 @@ public class DefaultSelector extends AbstractSelector<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initSimplifiers()
-	{	SimplifierInterface<Synset> simplifier;
+	{	AbstractSimplifier<Synset> simplifier;
 	
 		simplifier = new FusionSimplifier();
 		simplifiers.add(simplifier);

@@ -48,7 +48,7 @@ import tr.edu.gsu.mataws.tools.misc.FileTools;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class StopWordFilter implements FilterInterface
+public class StopWordFilter extends AbstractFilter
 {
 	/**
 	 * Creates a stop word filter with the default

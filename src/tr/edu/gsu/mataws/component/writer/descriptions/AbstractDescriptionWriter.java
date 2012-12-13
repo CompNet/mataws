@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.preparator.identifier;
+package tr.edu.gsu.mataws.component.writer.descriptions;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,31 +28,36 @@ package tr.edu.gsu.mataws.component.preparator.identifier;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.MatawsParameter;
 
 /**
- * Interface for classes in charge of identifying the 
- * WordNet synset associated to some word.
- *  
- * @param <T> 
- *		Class used to represent a WordNet synset.
- *  
+ * This class is used to write the data resulting from the annotation
+ * process, as a collection of semantic description files.
+ * 
+ * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface IdentifierInterface<T>
+public abstract class AbstractDescriptionWriter
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Used to mark the absence of any concept */
+	public final static String NO_CONCEPT = "NoMatch";
+	
 	/**
-	 * Takes a list of {@link IdentifiedWord} objects and 
-	 * updates them. If everything goes fine, each original 
-	 * {@code String} should then be associated to its stem 
-	 * and synset in WordNet.
+	 * Records the WS description using a semantic format.
+	 * The generated files will be put in Mataws output folder.
+	 * <br/>
+	 * If {@code subfolder} is {@code null}, then all description files are processed.
 	 * 
-	 * @param words
-	 * 		The list of words to be identified. 
-	 * 			
+	 * @param subfolder
+	 *		The folder containing the collection.
+	 * @param parameters
+	 * 		The list of annotated parameters. 
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	public void identify(List<IdentifiedWord<T>> words);
+	public abstract void write(String subfolder, List<MatawsParameter> parameters) throws Exception;
 }

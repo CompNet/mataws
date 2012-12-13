@@ -45,7 +45,7 @@ import tr.edu.gsu.mataws.tools.semantics.JawsTools;
  *  
  * @author Vincent Labatut
  */
-public class FusionSimplifier implements SimplifierInterface<Synset>
+public class FusionSimplifier extends AbstractSimplifier<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

@@ -43,7 +43,7 @@ import tr.edu.gsu.sine.in.Language;
  * @author Koray Mancuhan
  * @author Vincent Labatut
  */
-public class WsdlDescriptionReader implements DescriptionReaderInterface
+public class WsdlDescriptionReader extends AbstractDescriptionReader
 {
 	@Override
 	public Collection readCollection(String subfolder) throws FileNotFoundException

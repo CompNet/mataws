@@ -29,10 +29,10 @@ package tr.edu.gsu.mataws.component.preparator;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.preparator.filter.FilterInterface;
-import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
-import tr.edu.gsu.mataws.component.preparator.normalizer.NormalizerInterface;
-import tr.edu.gsu.mataws.component.preparator.splitter.SplitterInterface;
+import tr.edu.gsu.mataws.component.preparator.filter.AbstractFilter;
+import tr.edu.gsu.mataws.component.preparator.identifier.AbstractIdentifier;
+import tr.edu.gsu.mataws.component.preparator.normalizer.AbstractNormalizer;
+import tr.edu.gsu.mataws.component.preparator.splitter.AbstractSplitter;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
@@ -107,7 +107,7 @@ public abstract class AbstractPreparator<T>
 	//	SPLIT								///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of splitters applied as is */
-	protected final List<SplitterInterface> splitters = new ArrayList<SplitterInterface>();
+	protected final List<AbstractSplitter> splitters = new ArrayList<AbstractSplitter>();
 
 	/**
 	 * Initializes the sequence of splitters.
@@ -126,7 +126,7 @@ public abstract class AbstractPreparator<T>
 	{	logger.increaseOffset();
 		
 		List<String> result = new ArrayList<String>();
-		for(SplitterInterface splitter: splitters)
+		for(AbstractSplitter splitter: splitters)
 		{	List<String> temp = splitter.split(strings);
 			result.addAll(temp);
 		}
@@ -139,7 +139,7 @@ public abstract class AbstractPreparator<T>
 	//	NORMALIZATION						///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of normalizers applied as is */
-	protected final List<NormalizerInterface> normalizers = new ArrayList<NormalizerInterface>();
+	protected final List<AbstractNormalizer> normalizers = new ArrayList<AbstractNormalizer>();
 
 	/**
 	 * Initializes the sequence of normalizers.
@@ -158,7 +158,7 @@ public abstract class AbstractPreparator<T>
 	{	logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
-		for(NormalizerInterface normalizer: normalizers)
+		for(AbstractNormalizer normalizer: normalizers)
 		{	List<String> temp = normalizer.normalize(strings);
 			result.addAll(temp);
 		}
@@ -171,7 +171,7 @@ public abstract class AbstractPreparator<T>
 	//	FILTERING							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of filters applied as is */
-	protected final List<FilterInterface> filters = new ArrayList<FilterInterface>();
+	protected final List<AbstractFilter> filters = new ArrayList<AbstractFilter>();
 
 	/**
 	 * Initializes the sequence of filters.
@@ -190,7 +190,7 @@ public abstract class AbstractPreparator<T>
 	{	logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
-		for(FilterInterface filter: filters)
+		for(AbstractFilter filter: filters)
 		{	List<String> temp = filter.filter(strings);
 			result.addAll(temp);
 		}
@@ -203,7 +203,7 @@ public abstract class AbstractPreparator<T>
 	//	IDENTIFICATION						///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of identifiers applied as is */
-	protected final List<IdentifierInterface<T>> identifiers = new ArrayList<IdentifierInterface<T>>();
+	protected final List<AbstractIdentifier<T>> identifiers = new ArrayList<AbstractIdentifier<T>>();
 
 	/**
 	 * Initializes the sequence of identifiers.
@@ -229,7 +229,7 @@ public abstract class AbstractPreparator<T>
 		}
 		
 		// identify
-		for(IdentifierInterface<T> identifier: identifiers)
+		for(AbstractIdentifier<T> identifier: identifiers)
 			identifier.identify(result);
 		
 		logger.decreaseOffset();

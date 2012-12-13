@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.preparator.splitter;
+package tr.edu.gsu.mataws.component.associator.mapper;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,31 +26,31 @@ package tr.edu.gsu.mataws.component.preparator.splitter;
  * 
  */
 
-import java.util.List;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
 
 /**
- * Interface for classes in charge of splitting strings.
+ * Interface for classes in charge of mapping strings
+ * to ontological concepts.
+ * 
+ * @param <T>
+ * 		The class used to represent synsets. 
  *  
- * @author Koray Mancuhan
- * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface SplitterInterface
+public abstract class AbstractMapper<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a list of strings and returns a list of their components 
-	 * resulting from the split implemented by this object.
-	 * The list can be empty, if the original strings contain
-	 * only noise, or if the original list is empty.
+	 * Takes an identified word and retrieve the associated
+	 * concept, or {@code null} if no concept can be retrieved.
 	 * 
-	 * @param strings
-	 * 		The list of strings to be split. 
+	 * @param word
+	 * 		The identified word to process. 
 	 * @return
-	 * 		A list of substrings resulting from the split.
-	 * 			
+	 * 		A string representing the associated concept,
+	 * 		or {@code null} if no concept could be retrieved.
 	 */
-	public List<String> split(List<String> strings);
+	public abstract String map(IdentifiedWord<T> word);
 }

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.preparator.normalizer;
+package tr.edu.gsu.mataws.component.preparator.identifier;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,27 +28,31 @@ package tr.edu.gsu.mataws.component.preparator.normalizer;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.data.IdentifiedWord;
+
 /**
- * Interface for classes in charge of normalizing strings.
+ * Interface for classes in charge of identifying the 
+ * WordNet synset associated to some word.
  *  
- * @author Koray Mancuhan
- * @author Cihan Aksoy
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
+ *  
  * @author Vincent Labatut
  */
-public interface NormalizerInterface
+public abstract class AbstractIdentifier<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a list of strings and normalizes each one of them.
-	 * The resulting list can be empty, if the original list is empty.
+	 * Takes a list of {@link IdentifiedWord} objects and 
+	 * updates them. If everything goes fine, each original 
+	 * {@code String} should then be associated to its stem 
+	 * and synset in WordNet.
 	 * 
-	 * @param strings
-	 * 		The list of strings to be normalized. 
-	 * @return
-	 * 		The list of strings obtained after the normalization.
+	 * @param words
+	 * 		The list of words to be identified. 
 	 * 			
 	 */
-	public List<String> normalize(List<String> strings);
+	public abstract void identify(List<IdentifiedWord<T>> words);
 }

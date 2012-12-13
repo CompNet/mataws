@@ -46,7 +46,7 @@ import tr.edu.gsu.mataws.tools.semantics.JawsTools;
  *  
  * @author Vincent Labatut
  */
-public class CommonHypernymSimplifier implements SimplifierInterface<Synset>
+public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 {
 	/**
 	 * Builds a {@code CommonHypernymSimplifier} using the

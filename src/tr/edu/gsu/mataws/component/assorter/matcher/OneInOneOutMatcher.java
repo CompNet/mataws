@@ -45,7 +45,7 @@ import tr.edu.gsu.sine.col.Way;
  *   
  * @author Vincent Labatut
  */
-public class OneInOneOutMatcher implements MatcherInterface<Synset>
+public class OneInOneOutMatcher extends AbstractMatcher<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

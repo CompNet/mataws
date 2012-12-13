@@ -44,7 +44,7 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  *  
  * @author Vincent Labatut
  */
-public class FrequentVerbSimplifier implements SimplifierInterface<Synset>
+public class FrequentVerbSimplifier extends AbstractSimplifier<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

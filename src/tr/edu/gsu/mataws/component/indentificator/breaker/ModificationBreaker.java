@@ -46,7 +46,7 @@ import tr.edu.gsu.sine.col.Way;
  *   
  * @author Vincent Labatut
  */
-public class ModificationBreaker implements BreakerInterface<Synset>
+public class ModificationBreaker extends AbstractBreaker<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

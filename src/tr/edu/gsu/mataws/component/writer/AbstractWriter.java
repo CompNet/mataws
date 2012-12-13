@@ -29,7 +29,7 @@ package tr.edu.gsu.mataws.component.writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.writer.descriptions.DescriptionWriterInterface;
+import tr.edu.gsu.mataws.component.writer.descriptions.AbstractDescriptionWriter;
 import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
@@ -91,7 +91,7 @@ public abstract class AbstractWriter
 	//	DESCRIPTIONS						///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of description writers applied as is */
-	protected final List<DescriptionWriterInterface> descriptionWriters = new ArrayList<DescriptionWriterInterface>();
+	protected final List<AbstractDescriptionWriter> descriptionWriters = new ArrayList<AbstractDescriptionWriter>();
 
 	/**
 	 * Initializes the sequence of description writers.
@@ -115,7 +115,7 @@ public abstract class AbstractWriter
 	private void writeDescriptions(String subfolder, List<MatawsParameter> parameters) throws Exception
 	{	logger.increaseOffset();
 	
-		for(DescriptionWriterInterface writer: descriptionWriters)
+		for(AbstractDescriptionWriter writer: descriptionWriters)
 			writer.write(subfolder, parameters);
 
 		logger.decreaseOffset();

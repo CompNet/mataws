@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader.descriptions;
+package tr.edu.gsu.mataws.component.preparator.filter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,32 +26,30 @@ package tr.edu.gsu.mataws.component.reader.descriptions;
  * 
  */
 
-import java.io.FileNotFoundException;
-
-import tr.edu.gsu.sine.col.Collection;
+import java.util.List;
 
 /**
- * This class is used to read the data contained in the input
- * description files, and represent them as a hierarchy of Java objects.
- * 
+ * Interface for classes in charge of filtering strings.
+ *  
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface DescriptionReaderInterface
+public abstract class AbstractFilter
 {
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
 	/**
-	 * Loads the collection of syntactic descriptions 
-	 * contained in the specified folder,
-	 * which must be contained itself in Mataws input folder.
-	 * <br/>
-	 * If it is {@code null}, then all description files are processed.
+	 * Takes a list of strings and filters it.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
 	 * 
-	 * @param subfolder
-	 *		The folder containing the collection.
-	 * @return 
-	 * 		The sine object representing a WS collection. 
-	 * 
-	 * @throws FileNotFoundException 
-	 * 		If no file could be found at the specified location. 
+	 * @param strings
+	 * 		The list of strings to be filtered. 
+	 * @return
+	 * 		The list of strings remaining after the filtering.
+	 * 			
 	 */
-	public Collection readCollection(String subfolder) throws FileNotFoundException;
+	public abstract List<String> filter(List<String> strings);
 }
