@@ -53,7 +53,9 @@ public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 	 * default distance limit of 2.
 	 */
 	public CommonHypernymSimplifier()
-	{	this.limit = 2;
+	{	super();
+	
+		this.limit = 2;
 	}
 	
 	/**
@@ -64,7 +66,9 @@ public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 	 * 		Specified limit.
 	 */
 	public CommonHypernymSimplifier(int limit)
-	{	this.limit = limit;
+	{	super();
+	
+		this.limit = limit;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -75,7 +79,8 @@ public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// get all the required hypernyms
 		IdentifiedWord<Synset> hypernym = null;
@@ -128,6 +133,7 @@ public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 			words.add(hypernym);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

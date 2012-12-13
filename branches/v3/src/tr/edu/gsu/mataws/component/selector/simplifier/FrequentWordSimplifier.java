@@ -52,7 +52,8 @@ public class FrequentWordSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		TextSegmenter wordSplit = WordSplitTools.getAccess();
 		
 		// get the remaining word with highest frequency
@@ -78,6 +79,7 @@ public class FrequentWordSimplifier extends AbstractSimplifier<Synset>
 			result = true;
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

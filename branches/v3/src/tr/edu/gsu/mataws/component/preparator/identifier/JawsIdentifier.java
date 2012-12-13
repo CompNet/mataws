@@ -50,7 +50,8 @@ public class JawsIdentifier extends AbstractIdentifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public void identify(List<IdentifiedWord<Synset>> words)
-	{	// init
+	{	logger.increaseOffset();
+		// init
 		WordNetDatabase jawsObject = JawsTools.getAccess();
 		
 		// order the pos depending on their relavance regarding our context (parameter names)
@@ -121,5 +122,7 @@ public class JawsIdentifier extends AbstractIdentifier<Synset>
 				}
 			}
 		}
+		
+		logger.decreaseOffset();
 	}
 }

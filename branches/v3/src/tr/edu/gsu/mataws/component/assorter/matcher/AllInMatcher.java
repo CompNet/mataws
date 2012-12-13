@@ -52,7 +52,8 @@ public class AllInMatcher extends AbstractMatcher<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// distinguish parameters
 		List<MatawsParameter> inParams = new ArrayList<MatawsParameter>();
@@ -87,6 +88,7 @@ public class AllInMatcher extends AbstractMatcher<Synset>
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

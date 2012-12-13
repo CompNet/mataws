@@ -62,7 +62,9 @@ public class LexiconSplitter extends AbstractSplitter
 	 * 		Represents the split library.
 	 */
 	public LexiconSplitter(Mode mode)
-	{	this.mode = mode;
+	{	super();
+	
+		this.mode = mode;
 		if(mode==Mode.JWORDSPLITTER)
 			initJWordSplitter();
 	}
@@ -92,11 +94,14 @@ public class LexiconSplitter extends AbstractSplitter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	List<String> result = null;
+	{	logger.increaseOffset();
+		List<String> result = null;
+		
 		if(mode==Mode.JWORDSPLITTER)
 			result = applyJWordSplitter(strings);
 		else if(mode==Mode.WORDSPLIT)
 			result = applyWordSplit(strings);
+		
 		return result;
 	}
 	
@@ -110,7 +115,9 @@ public class LexiconSplitter extends AbstractSplitter
 	 * Initializes the JWordSplitter library.
 	 */
 	private void initJWordSplitter()
-	{	String path = FileTools.SPLITTER_FOLDER + File.separator + "wordsEnglish.ser";
+	{	logger.increaseOffset();
+	
+		String path = FileTools.SPLITTER_FOLDER + File.separator + "wordsEnglish.ser";
 		try
 		{	EnglishWordSplitter.initWords(path);
 			jWordSplitter = new EnglishWordSplitter(true);
@@ -134,7 +141,9 @@ public class LexiconSplitter extends AbstractSplitter
 	 * 		List of resulting substrings.
 	 */
 	public List<String> applyJWordSplitter(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+	
+		List<String> result = new ArrayList<String>();
 		for(String string: strings)
 		{	// apply the splitter
 			Collection<String> temp = jWordSplitter.splitWord(string);
@@ -160,7 +169,8 @@ public class LexiconSplitter extends AbstractSplitter
 	 * 		List of resulting substrings.
 	 */
 	public List<String> applyWordSplit(List<String> strings)
-	{	TextSegmenter wordSplit = WordSplitTools.getAccess();
+	{	logger.increaseOffset();
+		TextSegmenter wordSplit = WordSplitTools.getAccess();
 		
 		List<String> result = new ArrayList<String>();
 		for(String string: strings)
@@ -172,6 +182,7 @@ public class LexiconSplitter extends AbstractSplitter
 			}
 		}
 	
+		logger.decreaseOffset();
 		return result;
 	}
 }

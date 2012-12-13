@@ -50,8 +50,6 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	
-	
 	/**
 	 * Tries to merge the words from the specified list, by groups of 
 	 * {@code n} consecutive words, and to retrieve the corresponding synset 
@@ -66,7 +64,8 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 	 * 		{@code true} iff a substitution could be performed.
 	 */
 	private boolean checkFusion(List<IdentifiedWord<Synset>> words, int n)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// process each group of n words
 		int i = 0;
@@ -111,7 +110,8 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 	 * 		A list of all possible concatenations.
 	 */
 	private List<String> generateMerges(List<IdentifiedWord<Synset>> words)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		if(!words.isEmpty())
 		{	IdentifiedWord<Synset> word = words.get(0);
@@ -149,7 +149,8 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// try merging consecutive words,
 		// starting with the largest number of words
@@ -161,6 +162,7 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 			n--;
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

@@ -29,6 +29,8 @@ package tr.edu.gsu.mataws.component.selector.simplifier;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Interface for classes in charge of retaining only relevant strings.
@@ -40,9 +42,19 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  */
 public abstract class AbstractSimplifier<T>
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractSimplifier()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of words and tries to simplify it,
 	 * i.e. to reduce its size while minimizing the information

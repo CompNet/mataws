@@ -30,6 +30,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * This class is used to write some metadata regarding the annotation
@@ -37,8 +39,21 @@ import tr.edu.gsu.mataws.data.MatawsParameter;
  * 
  * @author Vincent Labatut
  */
-public interface StatisticsWriterInterface
+public abstract class AbstractStatisticsWriter
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractStatisticsWriter()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Records some statistics describing how the annotation
 	 * process went. The generated files will be put in Mataws output folder.
@@ -53,5 +68,5 @@ public interface StatisticsWriterInterface
 	 * @throws FileNotFoundException 
 	 * 		If no file could be found at the specified location. 
 	 */
-	public void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException;
+	public abstract void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException;
 }

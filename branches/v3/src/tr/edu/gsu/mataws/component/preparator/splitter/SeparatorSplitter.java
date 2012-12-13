@@ -39,8 +39,8 @@ import java.util.List;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class SeparatorSplitter extends AbstractSplitter {
-	
+public class SeparatorSplitter extends AbstractSplitter
+{	
 	/**
 	 * Creates an instance for the specified separator string.
 	 * 
@@ -48,7 +48,9 @@ public class SeparatorSplitter extends AbstractSplitter {
 	 * 		String separating substring.
 	 */
 	public SeparatorSplitter(String separator)
-	{	this.separator = separator;
+	{	super();
+	
+		this.separator = separator;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -62,7 +64,9 @@ public class SeparatorSplitter extends AbstractSplitter {
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
+		
 		for(String string: strings)
 		{	String temp[] = string.split(separator);
 			for(String str: temp)
@@ -70,6 +74,8 @@ public class SeparatorSplitter extends AbstractSplitter {
 					result.add(str);
 			}
 		}
+		
+		logger.decreaseOffset();
 		return result;
 	}
 }

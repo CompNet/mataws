@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.component.writer;
 
 import tr.edu.gsu.mataws.component.writer.descriptions.AbstractDescriptionWriter;
 import tr.edu.gsu.mataws.component.writer.descriptions.OwlsDescriptionWriter;
-import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
+import tr.edu.gsu.mataws.component.writer.statistics.AbstractStatisticsWriter;
 import tr.edu.gsu.mataws.tools.semantics.SigmaTools;
 
 /**
@@ -64,7 +64,7 @@ public class DefaultWriter extends AbstractWriter
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initStatisticsWriters()
-	{	StatisticsWriterInterface writer;
+	{	AbstractStatisticsWriter writer;
 		
 		// TODO Auto-generated method stub
 	}	

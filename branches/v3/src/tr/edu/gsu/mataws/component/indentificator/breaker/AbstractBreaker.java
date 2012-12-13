@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Way;
 
 /**
@@ -44,9 +46,19 @@ import tr.edu.gsu.sine.col.Way;
  */
 public abstract class AbstractBreaker<T>
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractBreaker()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes an operation and analyses its name, in order to
 	 * extract information regarding its parameters.

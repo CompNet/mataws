@@ -28,6 +28,8 @@ package tr.edu.gsu.mataws.component.reader.descriptions;
 
 import java.io.FileNotFoundException;
 
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Collection;
 
 /**
@@ -38,6 +40,19 @@ import tr.edu.gsu.sine.col.Collection;
  */
 public abstract class AbstractDescriptionReader
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractDescriptionReader()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Loads the collection of syntactic descriptions 
 	 * contained in the specified folder,

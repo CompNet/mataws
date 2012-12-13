@@ -29,6 +29,8 @@ package tr.edu.gsu.mataws.component.preparator.identifier;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Interface for classes in charge of identifying the 
@@ -41,9 +43,19 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  */
 public abstract class AbstractIdentifier<T>
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractIdentifier()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of {@link IdentifiedWord} objects and 
 	 * updates them. If everything goes fine, each original 

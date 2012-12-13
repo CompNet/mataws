@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.mataws.tools.misc.FileTools;
 
 /**
@@ -61,7 +62,9 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 	 * abbreviation map.
 	 */
 	public AbbreviationNormalizer()
-	{	String path = FileTools.CONFIG_FOLDER + File.separator + "Abbreviations.txt";
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		String path = FileTools.CONFIG_FOLDER + File.separator + "Abbreviations.txt";
 		initData(path);
 	}
 	
@@ -73,7 +76,9 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 	 * 		Path of the file containing the abbreviations.
 	 */
 	public AbbreviationNormalizer(String path)
-	{	initData(path);
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+		
+		initData(path);
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -106,7 +111,8 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 	 * 		Path of the file containing the stop words.
 	 */
 	private void initData(String path)
-	{	// init
+	{	logger.increaseOffset();
+		// init
 		File file = new File(path);		
 		abbreviations = new HashMap<String,String>();
 		
@@ -132,6 +138,8 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 		{	// problem when reading the file
 			e.printStackTrace();
 		}
+		
+		logger.decreaseOffset();
 	}
 
 	///////////////////////////////////////////////////////////
@@ -139,7 +147,8 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> normalize(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		if(caseSensitive)
 		{	for(String string: strings)
@@ -167,6 +176,7 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

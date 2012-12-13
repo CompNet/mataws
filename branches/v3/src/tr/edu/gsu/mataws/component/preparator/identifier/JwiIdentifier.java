@@ -56,7 +56,8 @@ public class JwiIdentifier extends AbstractIdentifier<ISynset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public void identify(List<IdentifiedWord<ISynset>> words)
-	{	// init
+	{	logger.increaseOffset();
+		// init
 		IDictionary jwiObject = JwiTools.getAccess();
 		WordnetStemmer stemmer = JwiTools.getStemmer();
 		
@@ -112,5 +113,7 @@ public class JwiIdentifier extends AbstractIdentifier<ISynset>
 				}
 			}
 		}
+		
+		logger.decreaseOffset();
 	}
 }

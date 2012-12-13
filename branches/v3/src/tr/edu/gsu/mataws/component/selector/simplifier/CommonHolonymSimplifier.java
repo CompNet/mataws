@@ -53,7 +53,9 @@ public class CommonHolonymSimplifier extends AbstractSimplifier<Synset>
 	 * default distance limit of 2.
 	 */
 	public CommonHolonymSimplifier()
-	{	this.limit = 2;
+	{	super();
+		
+		this.limit = 2;
 	}
 	
 	/**
@@ -64,7 +66,9 @@ public class CommonHolonymSimplifier extends AbstractSimplifier<Synset>
 	 * 		Specified limit.
 	 */
 	public CommonHolonymSimplifier(int limit)
-	{	this.limit = limit;
+	{	super();
+	
+		this.limit = limit;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -75,7 +79,8 @@ public class CommonHolonymSimplifier extends AbstractSimplifier<Synset>
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// get all the required holonyms
 		IdentifiedWord<Synset> holonym = null;
@@ -128,6 +133,7 @@ public class CommonHolonymSimplifier extends AbstractSimplifier<Synset>
 			words.add(holonym);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

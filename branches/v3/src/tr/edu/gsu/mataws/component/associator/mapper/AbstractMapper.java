@@ -27,6 +27,8 @@ package tr.edu.gsu.mataws.component.associator.mapper;
  */
 
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Interface for classes in charge of mapping strings
@@ -39,9 +41,19 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  */
 public abstract class AbstractMapper<T>
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractMapper()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes an identified word and retrieve the associated
 	 * concept, or {@code null} if no concept can be retrieved.

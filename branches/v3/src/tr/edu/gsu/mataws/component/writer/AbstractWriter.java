@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tr.edu.gsu.mataws.component.writer.descriptions.AbstractDescriptionWriter;
-import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
+import tr.edu.gsu.mataws.component.writer.statistics.AbstractStatisticsWriter;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
@@ -125,7 +125,7 @@ public abstract class AbstractWriter
 	//	STATISTICS							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of statistics writers applied as is */
-	protected final List<StatisticsWriterInterface> statisticsWriters = new ArrayList<StatisticsWriterInterface>();
+	protected final List<AbstractStatisticsWriter> statisticsWriters = new ArrayList<AbstractStatisticsWriter>();
 
 	/**
 	 * Initializes the sequence of statistics writers.
@@ -149,7 +149,7 @@ public abstract class AbstractWriter
 	private void writeStatistics(String subfolder, List<MatawsParameter> parameters) throws Exception
 	{	logger.increaseOffset();
 	
-		for(StatisticsWriterInterface writer: statisticsWriters)
+		for(AbstractStatisticsWriter writer: statisticsWriters)
 			writer.write(subfolder, parameters);
 		
 		logger.decreaseOffset();

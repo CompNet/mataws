@@ -51,7 +51,9 @@ public class DirectHypernymSimplifier extends AbstractSimplifier<Synset>
 	 * default distance limit of 2.
 	 */
 	public DirectHypernymSimplifier()
-	{	this.limit = 2;
+	{	super();
+	
+		this.limit = 2;
 	}
 	
 	/**
@@ -62,7 +64,9 @@ public class DirectHypernymSimplifier extends AbstractSimplifier<Synset>
 	 * 		Specified limit.
 	 */
 	public DirectHypernymSimplifier(int limit)
-	{	this.limit = limit;
+	{	super();
+	
+		this.limit = limit;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -73,7 +77,8 @@ public class DirectHypernymSimplifier extends AbstractSimplifier<Synset>
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// look for a hypernymial relationship
 		IdentifiedWord<Synset> hypernym = null;
@@ -106,6 +111,7 @@ public class DirectHypernymSimplifier extends AbstractSimplifier<Synset>
 			words.remove(hypernym);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

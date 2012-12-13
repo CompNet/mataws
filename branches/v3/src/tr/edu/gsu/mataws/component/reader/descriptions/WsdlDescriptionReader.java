@@ -45,9 +45,14 @@ import tr.edu.gsu.sine.in.Language;
  */
 public class WsdlDescriptionReader extends AbstractDescriptionReader
 {
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
 	@Override
 	public Collection readCollection(String subfolder) throws FileNotFoundException
-	{	// init path & name
+	{	logger.increaseOffset();
+	
+		// init path & name
 		String path = FileTools.INPUT_FOLDER;
 		String name = "all";
 		if(subfolder!=null)
@@ -60,6 +65,8 @@ public class WsdlDescriptionReader extends AbstractDescriptionReader
 		Digger d = new Digger(Logger.getAnonymousLogger());
 		// read description files
 		Collection result = d.dig(folder, Language.WSDL, name);
+		
+		logger.decreaseOffset();
 		return result;
 	}
 }

@@ -54,7 +54,8 @@ public class SigmaMapper extends AbstractMapper<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public String map(IdentifiedWord<Synset> word)
-	{	String result = null;
+	{	logger.increaseOffset();
+		String result = null;
 		
 		// if the synset if available, directly retrieve the associated sumo concept
 		if(word.getSynset()!=null)
@@ -134,6 +135,7 @@ public class SigmaMapper extends AbstractMapper<Synset>
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

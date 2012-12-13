@@ -52,7 +52,9 @@ public class StemNormalizer extends AbstractNormalizer
 	 * 		Specifies how WordNet is accessed.
 	 */
 	public StemNormalizer(Mode mode)
-	{	this.mode = mode;
+	{	super();
+	
+		this.mode = mode;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -74,13 +76,15 @@ public class StemNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> normalize(List<String> strings)
-	{	List<String> result = null; 
+	{	logger.increaseOffset();
+		List<String> result = null; 
 	
 		if(mode==Mode.JWAS)
 			result = applyJaws(strings);
 		else if(mode==Mode.JWI)
 			result = applyJwi(strings);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -96,13 +100,15 @@ public class StemNormalizer extends AbstractNormalizer
 	 * 		Result of the normalization.
 	 */
 	public List<String> applyJaws(List<String> strings)
-	{	List<String> result = new ArrayList<String>(); 
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>(); 
 		
 		for(String string: strings)
 		{	String stem = JawsTools.getStem(string);
 			result.add(stem);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 
@@ -118,13 +124,15 @@ public class StemNormalizer extends AbstractNormalizer
 	 * 		Result of the normalization.
 	 */
 	public List<String> applyJwi(List<String> strings)
-	{	List<String> result = new ArrayList<String>(); 
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>(); 
 		
 		for(String string: strings)
 		{	String stem = JwiTools.getStem(string);
 			result.add(stem);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

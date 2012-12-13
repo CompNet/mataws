@@ -51,7 +51,8 @@ public class FrequentVerbSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// look for verbs
 		List<IdentifiedWord<Synset>> verbs = new ArrayList<IdentifiedWord<Synset>>();
@@ -90,6 +91,7 @@ public class FrequentVerbSimplifier extends AbstractSimplifier<Synset>
 			result = true;
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }
