@@ -86,12 +86,15 @@ public class TypeProcessor
 	 * 		word for this parameter, thanks to its data type structure. 
 	 */
 	public boolean process(AbstractMatawsParameter parameter)
-	{	logger.increaseOffset();
+	{	logger.log("Process parameter type for "+parameter.getName()+"("+parameter.getTypeName()+")");
+		logger.increaseOffset();
 		boolean result = false;
 		
 		// process each children individually
 		List<MatawsSubParameter> children = parameter.getChildren();
 		List<IdentifiedWord<Synset>> words = new ArrayList<IdentifiedWord<Synset>>();
+		logger.log("Process each subparameter individually");
+		logger.increaseOffset();
 		for(MatawsSubParameter child: children)
 		{	// apply standard subparameter processing
 			boolean res = subParameterProcessor.process(child);
@@ -101,9 +104,12 @@ public class TypeProcessor
 				words.add(word);
 			}
 		}
+		logger.decreaseOffset();
 		
 		// simplifies the resulting list of words
-		if(!words.isEmpty())
+		if(words.isEmpty())
+			logger.log("Word list is empty, so no need for selection");
+		else
 		{	IdentifiedWord<Synset> representativeWord = selector.select(words);
 			if(representativeWord!=null)
 			{	result = true;

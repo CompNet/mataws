@@ -88,7 +88,8 @@ public class GeneralProcessor
 	 * 		Problem while accessing the collection files. 
 	 */
 	public void process(String subfolder) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Starting to process folder"+subfolder);
+		logger.increaseOffset();
 		
 		// load the collection
 		Collection collection = reader.read(subfolder);
@@ -96,14 +97,18 @@ public class GeneralProcessor
 		// process each operation separately
 		SortedSet<Operation> operations = collection.getOperations();
 		List<MatawsParameter> parameters = new ArrayList<MatawsParameter>();
+		logger.log("Processing each operation separately");
+		logger.increaseOffset();
 		for(Operation operation: operations)
 		{	List<MatawsParameter> temp = operationProcessor.process(operation);
 			parameters.addAll(temp);
 		}
+		logger.decreaseOffset();
 		
 		// record the collection and stats
 		writer.write(subfolder, parameters);
 		
 		logger.decreaseOffset();
+		logger.log("Process over for collection "+subfolder);
 	}
 }
