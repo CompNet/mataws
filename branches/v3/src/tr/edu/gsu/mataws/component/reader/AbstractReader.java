@@ -69,7 +69,8 @@ public abstract class AbstractReader
 	 * 		The read collection.
 	 */
 	public Collection read(String subfolder)
-	{	logger.increaseOffset();
+	{	logger.log("Reading folder "+subfolder);
+		logger.increaseOffset();
 		Collection result = null;
 	
 		this.subfolder = subfolder;

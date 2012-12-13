@@ -74,7 +74,8 @@ public abstract class AbstractIdentificator<T>
 	 * 		A map representing the distinct parts identified in the operation name.
 	 */
 	public Map<Way,List<List<IdentifiedWord<T>>>> identify(List<IdentifiedWord<T>> operationName)
-	{	logger.increaseOffset();
+	{	logger.log("Identifying operation name");
+		logger.increaseOffset();
 	
 		// apply the breakers
 		Map<Way,List<List<IdentifiedWord<T>>>> result = breakk(operationName);
@@ -103,7 +104,8 @@ public abstract class AbstractIdentificator<T>
 	 * 		The map representing the distinct parts identified in the operation name. 
 	 */
 	protected Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList)
-	{	logger.increaseOffset();
+	{	logger.log("Breaking operation name");
+		logger.increaseOffset();
 		Map<Way,List<List<IdentifiedWord<T>>>> result = null;
 		
 		Iterator<AbstractBreaker<T>> it = breakers.iterator();

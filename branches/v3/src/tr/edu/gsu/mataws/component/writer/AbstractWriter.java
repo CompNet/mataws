@@ -79,7 +79,8 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Writting subfolder "+subfolder);
+		logger.increaseOffset();
 		
 		writeDescriptions(subfolder, parameters);
 		writeStatistics(subfolder, parameters);
@@ -113,7 +114,8 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeDescriptions(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Writting descriptions ("+subfolder+")");
+		logger.increaseOffset();
 	
 		for(AbstractDescriptionWriter writer: descriptionWriters)
 			writer.write(subfolder, parameters);
@@ -147,7 +149,8 @@ public abstract class AbstractWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeStatistics(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Writting statistics ("+subfolder+")");
+		logger.increaseOffset();
 	
 		for(AbstractStatisticsWriter writer: statisticsWriters)
 			writer.write(subfolder, parameters);

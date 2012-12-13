@@ -72,7 +72,8 @@ public abstract class AbstractAssociator<T>
 	 * 		no concept could be retrieved for the word.
 	 */
 	public String associate(IdentifiedWord<T> word)
-	{	logger.increaseOffset();
+	{	logger.log("Associating word "+word.getOriginal());
+		logger.increaseOffset();
 		String result = null;
 		
 		result = map(word);
@@ -102,7 +103,8 @@ public abstract class AbstractAssociator<T>
 	 * 		none could be found. 
 	 */
 	protected String map(IdentifiedWord<T> word)
-	{	logger.increaseOffset();
+	{	logger.log("Mapping word "+word.getOriginal());
+		logger.increaseOffset();
 		String result = null;
 		
 		Iterator<AbstractMapper<T>> it = mappers.iterator();

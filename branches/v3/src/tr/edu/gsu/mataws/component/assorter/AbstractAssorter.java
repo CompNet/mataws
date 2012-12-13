@@ -78,7 +78,8 @@ public abstract class AbstractAssorter<T>
 	 * 		{@code true} iff at least one parameter could be annotated.
 	 */
 	public boolean assort(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
-	{	logger.increaseOffset();
+	{	logger.log("Assorting operation name parts");
+		logger.increaseOffset();
 		
 		// apply the matchers
 		boolean result = match(operationMap,parameters);
@@ -110,7 +111,8 @@ public abstract class AbstractAssorter<T>
 	 * 		{@code true} iff one parameter could be annotated. 
 	 */
 	protected boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters)
-	{	logger.increaseOffset();
+	{	logger.log("Matching operation name parts");
+		logger.increaseOffset();
 		boolean result = false;
 		
 		Iterator<AbstractMatcher<T>> it = matchers.iterator();

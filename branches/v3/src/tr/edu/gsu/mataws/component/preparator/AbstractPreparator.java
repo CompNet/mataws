@@ -86,7 +86,9 @@ public abstract class AbstractPreparator<T>
 	 * 		The list of identified words resulting from its preprocessing.
 	 */
 	public List<IdentifiedWord<T>> preparate(String string)
-	{	logger.increaseOffset();
+	{	logger.log("Preparing string "+string);
+		logger.increaseOffset();
+		
 		// init
 		List<String> strings = new ArrayList<String>();
 		strings.add(string);
@@ -123,7 +125,8 @@ public abstract class AbstractPreparator<T>
 	 * 		Sequence of strings resulting from the split. 
 	 */
 	protected List<String> split(List<String> strings)
-	{	logger.increaseOffset();
+	{	logger.log("Splitting strings");
+		logger.increaseOffset();
 		
 		List<String> result = new ArrayList<String>();
 		for(AbstractSplitter splitter: splitters)
@@ -155,7 +158,8 @@ public abstract class AbstractPreparator<T>
 	 * 		Sequence of strings resulting from the normalization. 
 	 */
 	protected List<String> normalize(List<String> strings)
-	{	logger.increaseOffset();
+	{	logger.log("Normalizing strings");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
 		for(AbstractNormalizer normalizer: normalizers)
@@ -187,7 +191,8 @@ public abstract class AbstractPreparator<T>
 	 * 		Sequence of strings resulting from the filtering. 
 	 */
 	protected List<String> filter(List<String> strings)
-	{	logger.increaseOffset();
+	{	logger.log("Preparing strings");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
 		for(AbstractFilter filter: filters)
@@ -219,7 +224,8 @@ public abstract class AbstractPreparator<T>
 	 * 		List of identified words resulting from the processing.
 	 */
 	protected List<IdentifiedWord<T>> identify(List<String> strings)
-	{	logger.increaseOffset();
+	{	logger.log("Identifying strings");
+		logger.increaseOffset();
 		
 		// init
 		List<IdentifiedWord<T>> result = new ArrayList<IdentifiedWord<T>>();

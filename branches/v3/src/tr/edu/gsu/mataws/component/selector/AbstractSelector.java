@@ -76,7 +76,8 @@ public abstract class AbstractSelector<T>
 	 * 		if the selection was inconclusive.
 	 */
 	public IdentifiedWord<T> select(List<IdentifiedWord<T>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Selecting words");
+		logger.increaseOffset();
 		
 		// simplification
 		simplify(words);
@@ -112,7 +113,8 @@ public abstract class AbstractSelector<T>
 	 * 		List of words to be processed.
 	 */
 	public void simplify(List<IdentifiedWord<T>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying words");
+		logger.increaseOffset();
 
 		// repeat the whole process as long as at least one simplifier is successful
 		boolean effect;
