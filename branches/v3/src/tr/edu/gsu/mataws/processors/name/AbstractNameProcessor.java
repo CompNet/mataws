@@ -93,10 +93,14 @@ public abstract class AbstractNameProcessor
 	 * 		{@code true} iff the name could be successfully processed.
 	 */
 	public boolean process(AbstractMatawsParameter parameter)
-	{	logger.increaseOffset();
+	{	logger.log("Process parameter names for "+parameter.getName());
+		logger.increaseOffset();
+		
 		boolean result = process(parameter,Mode.PARAMETER);
 		
-		if(!result)
+		if(result)
+			logger.log("The parameter name was conclusive, so there is no need to process its type");
+		else
 			process(parameter,Mode.TYPE);
 		
 		logger.decreaseOffset();

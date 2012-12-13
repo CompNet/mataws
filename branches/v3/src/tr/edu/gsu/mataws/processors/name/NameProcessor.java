@@ -61,22 +61,30 @@ public class NameProcessor extends AbstractNameProcessor
 	
 	@Override
 	protected boolean process(AbstractMatawsParameter parameter, Mode mode)
-	{	logger.increaseOffset();
-		boolean result = false;
+	{	boolean result = false;
 	
 		// init initial string
 		String string;
 		if(mode==Mode.PARAMETER)
-			string = parameter.getName();
+		{	string = parameter.getName();
+			logger.log("Process the subparameter name "+string);
+		}
 		else
-			string = parameter.getTypeName();
-	
+		{	string = parameter.getTypeName();
+			logger.log("Process the subparameter data type name "+string);
+		}
+		logger.increaseOffset();
+		
 		// perform preprocessing
 		List<IdentifiedWord<Synset>> words = preprocessor.preparate(string);
-		if(!words.isEmpty())
+		if(words.isEmpty())
+			logger.log("Word list is empty, so no need for selection");
+		else
 		{	// select representative word
 			IdentifiedWord<Synset> representativeWord = selector.select(words);
-			if(representativeWord!=null)
+			if(representativeWord==null)
+				logger.log("Selection inconclusive, so need for association");
+			else
 			{	parameter.setRepresentativeWord(representativeWord);
 				// associate concept
 				String concept = associator.associate(representativeWord);

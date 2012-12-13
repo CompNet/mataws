@@ -28,6 +28,7 @@ package tr.edu.gsu.mataws.processors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -106,28 +107,51 @@ public class OperationProcessor
 	 * 		A list of supposedly annotated parameters from this operation.
 	 */
 	public List<MatawsParameter> process(Operation operation)
-	{	logger.increaseOffset();
-	
+	{	String opName = operation.getName();
+		logger.log("Processing operation "+opName);
+		logger.increaseOffset();
+		
 		// get the list of the operation parameters
 		List<MatawsParameter> result = new ArrayList<MatawsParameter>();
 		List<Parameter> params = operation.getParameters();
+		logger.log("Getting the "+params.size()+" parameters");
+		logger.increaseOffset();
 		for(Parameter param: params)
 		{	MatawsParameter parameter = new MatawsParameter(param);
+			logger.log(parameter.getTypeName()+" "+parameter.getName());
 			result.add(parameter);
 		}
+		logger.decreaseOffset();
 		
 		// process the parameters separately
+		logger.log("Processing each parameter individually ("+params.size()+")");
+		logger.increaseOffset();
 		for(MatawsParameter parameter: result)
 		{	if(parameter.getConcept()==null)
 				parameterProcessor.process(parameter);
 		}
+		logger.decreaseOffset();
+		
+		// check if they were all annotated
+		boolean finished = true;
+		Iterator<MatawsParameter> it = result.iterator();
+		while(it.hasNext() && finished)
+		{	MatawsParameter parameter = it.next();
+			finished = parameter.getConcept()!=null;
+		}
 		
 		// split the operation name
-		String opName = operation.getName();
+		if(finished)
+			logger.log("All parameters of operation "+opName+" could be annotated");
+		else
+			logger.log("Processing the name of operation "+opName);
+		logger.increaseOffset();
 		List<IdentifiedWord<Synset>> operationList = preparator.preparate(opName);
 		// identify its parts
 		Map<Way,List<List<IdentifiedWord<Synset>>>> operationMap = identificator.identify(operationList);
 		// reduce them to one word by parameter
+		logger.log("Performing a reduction on each part of the operation name ("+opName+")");
+		logger.increaseOffset();
 		Map<Way,List<IdentifiedWord<Synset>>> wordMap = new HashMap<Way, List<IdentifiedWord<Synset>>>();
 		for(Way way: Way.values())
 		{	List<List<IdentifiedWord<Synset>>> lists = operationMap.get(way);
@@ -138,9 +162,12 @@ public class OperationProcessor
 			}
 			wordMap.put(way, tempList);
 		}
+		logger.decreaseOffset();
 		// try assorting words and parameters
 		assorter.assort(wordMap, result);
 		// associate concepts to the concerned parameters
+		logger.log("Associating a concept to each parameter extracted from the operation name ("+opName+")");
+		logger.increaseOffset();
 		for(MatawsParameter param: result)
 		{	@SuppressWarnings("unchecked")
 			IdentifiedWord<Synset> word = (IdentifiedWord<Synset>)param.getRepresentativeWord();
@@ -149,8 +176,11 @@ public class OperationProcessor
 				param.setConcept(concept);
 			}
 		}
+		logger.decreaseOffset();
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
+		logger.log("Process over for operation "+operation.getName());
 		return result;
 	}
 }

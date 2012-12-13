@@ -84,13 +84,17 @@ public class SubParameterProcessor
 	 * 		{@code true} iff a representative word could be found for the subparameter.
 	 */
 	public boolean process(MatawsSubParameter subParameter)
-	{	logger.increaseOffset();
+	{	logger.log("Process subparameter "+subParameter.getName());
+		logger.increaseOffset();
+		
 		// first, try to take advantage of the subparameter name,
 		// and possibly of its data type name
 		boolean result = nameProcessor.process(subParameter);
 		
 		// if it is unconclusive, then we take advantage of the data type itself
-		if(!result)
+		if(result)
+			logger.log("No need to process the type, since the name processing was conclusive");
+		else
 			result = typeProcessor.process(subParameter);
 
 		logger.decreaseOffset();
