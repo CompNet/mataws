@@ -32,6 +32,8 @@ import java.util.List;
 
 import tr.edu.gsu.mataws.component.selector.simplifier.SimplifierInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Abstract class of the selector component.
@@ -52,12 +54,17 @@ public abstract class AbstractSelector<T>
 	 * for this selector.
 	 */
 	public AbstractSelector()
-	{	initSimplifiers();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		initSimplifiers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of words and selects the most
 	 * relevant, leading to a single word.
@@ -69,7 +76,9 @@ public abstract class AbstractSelector<T>
 	 * 		if the selection was inconclusive.
 	 */
 	public IdentifiedWord<T> select(List<IdentifiedWord<T>> words)
-	{	// simplification
+	{	logger.increaseOffset();
+		
+		// simplification
 		simplify(words);
 		
 		// result
@@ -79,6 +88,7 @@ public abstract class AbstractSelector<T>
 		else if(!words.isEmpty())
 			result = words.get(0);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -102,7 +112,9 @@ public abstract class AbstractSelector<T>
 	 * 		List of words to be processed.
 	 */
 	public void simplify(List<IdentifiedWord<T>> words)
-	{	// repeat the whole process as long as at least one simplifier is successful
+	{	logger.increaseOffset();
+
+		// repeat the whole process as long as at least one simplifier is successful
 		boolean effect;
 		do
 		{	effect = false;
@@ -113,5 +125,7 @@ public abstract class AbstractSelector<T>
 			}
 		}
 		while(effect);
+
+		logger.decreaseOffset();
 	}
 }

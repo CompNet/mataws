@@ -34,6 +34,8 @@ import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
 import tr.edu.gsu.mataws.component.preparator.normalizer.NormalizerInterface;
 import tr.edu.gsu.mataws.component.preparator.splitter.SplitterInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * Abstract class of the preparator component.
@@ -57,7 +59,9 @@ public abstract class AbstractPreparator<T>
 	 * for this preparator.
 	 */
 	public AbstractPreparator()
-	{	// init string-related preprocessing
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		// init string-related preprocessing
 		initSplitters();
 		initNormalizers();
 		initFilters();
@@ -69,6 +73,9 @@ public abstract class AbstractPreparator<T>
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Takes a string and prepares it, which 
 	 * results in a list of identified words.
@@ -79,7 +86,8 @@ public abstract class AbstractPreparator<T>
 	 * 		The list of identified words resulting from its preprocessing.
 	 */
 	public List<IdentifiedWord<T>> preparate(String string)
-	{	// init
+	{	logger.increaseOffset();
+		// init
 		List<String> strings = new ArrayList<String>();
 		strings.add(string);
 		
@@ -91,6 +99,7 @@ public abstract class AbstractPreparator<T>
 		// retrieve synsets
 		List<IdentifiedWord<T>> result = identify(strings);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -114,11 +123,15 @@ public abstract class AbstractPreparator<T>
 	 * 		Sequence of strings resulting from the split. 
 	 */
 	protected List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		
+		List<String> result = new ArrayList<String>();
 		for(SplitterInterface splitter: splitters)
 		{	List<String> temp = splitter.split(strings);
 			result.addAll(temp);
 		}
+		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -142,11 +155,15 @@ public abstract class AbstractPreparator<T>
 	 * 		Sequence of strings resulting from the normalization. 
 	 */
 	protected List<String> normalize(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
+		
 		for(NormalizerInterface normalizer: normalizers)
 		{	List<String> temp = normalizer.normalize(strings);
 			result.addAll(temp);
 		}
+		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -170,11 +187,15 @@ public abstract class AbstractPreparator<T>
 	 * 		Sequence of strings resulting from the filtering. 
 	 */
 	protected List<String> filter(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
+		
 		for(FilterInterface filter: filters)
 		{	List<String> temp = filter.filter(strings);
 			result.addAll(temp);
 		}
+		
+		logger.decreaseOffset();
 		return result;
 	}
 
@@ -198,7 +219,9 @@ public abstract class AbstractPreparator<T>
 	 * 		List of identified words resulting from the processing.
 	 */
 	protected List<IdentifiedWord<T>> identify(List<String> strings)
-	{	// init
+	{	logger.increaseOffset();
+		
+		// init
 		List<IdentifiedWord<T>> result = new ArrayList<IdentifiedWord<T>>();
 		for(String string: strings)
 		{	IdentifiedWord<T> word = new IdentifiedWord<T>(string);
@@ -209,6 +232,7 @@ public abstract class AbstractPreparator<T>
 		for(IdentifierInterface<T> identifier: identifiers)
 			identifier.identify(result);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

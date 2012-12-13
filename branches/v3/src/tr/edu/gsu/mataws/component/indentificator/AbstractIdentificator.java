@@ -33,6 +33,8 @@ import java.util.Map;
 
 import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Way;
 
 /**
@@ -50,12 +52,17 @@ public abstract class AbstractIdentificator<T>
 	 * for this identificator.
 	 */
 	public AbstractIdentificator()
-	{	initBreakers();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		initBreakers();
 	}
 
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
+
 	/**
 	 * Takes an operation name already split in identified words,
 	 * and tries to identify distinct parts in this name, corresponding
@@ -67,9 +74,12 @@ public abstract class AbstractIdentificator<T>
 	 * 		A map representing the distinct parts identified in the operation name.
 	 */
 	public Map<Way,List<List<IdentifiedWord<T>>>> identify(List<IdentifiedWord<T>> operationName)
-	{	// apply the breakers
+	{	logger.increaseOffset();
+	
+		// apply the breakers
 		Map<Way,List<List<IdentifiedWord<T>>>> result = breakk(operationName);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -93,7 +103,8 @@ public abstract class AbstractIdentificator<T>
 	 * 		The map representing the distinct parts identified in the operation name. 
 	 */
 	protected Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList)
-	{	Map<Way,List<List<IdentifiedWord<T>>>> result = null;
+	{	logger.increaseOffset();
+		Map<Way,List<List<IdentifiedWord<T>>>> result = null;
 		
 		Iterator<BreakerInterface<T>> it = breakers.iterator();
 		while(it.hasNext() && result==null)
@@ -101,6 +112,7 @@ public abstract class AbstractIdentificator<T>
 			result = breaker.breakk(operationList);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }
