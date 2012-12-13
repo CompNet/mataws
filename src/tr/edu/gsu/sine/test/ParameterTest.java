@@ -20,10 +20,29 @@ import tr.edu.gsu.sine.ext.Similarity;
  */
 public class ParameterTest {
 	
-	private static Parameter pAin1, pAout1, pBin1, pBout1;
-	private static Parameter pAin2, pBout2, pCin2, pCout2;
+	/** */
+	private static Parameter pAin1;
+	/** */
+	private static Parameter pAout1;
+	/** */
+	private static Parameter pBin1;
+	/** */
+	private static Parameter pBout1;
+	/** */
+	private static Parameter pAin2;
+	/** */
+	private static Parameter pBout2;
+	/** */
+	private static Parameter pCin2;
+	/** */
+	private static Parameter pCout2;
+	/** */
 	private static Profile profile;
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		// Parameters do not exist in the wild,
@@ -51,6 +70,9 @@ public class ParameterTest {
 		profile = Profile.IFPSE;
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testInteraction() {
 		Assert.assertFalse(Interaction.exists(pAin1, pAin1, profile));
@@ -67,6 +89,9 @@ public class ParameterTest {
 		Assert.assertFalse(Interaction.exists(pAout1, pBout1, profile));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testSimilarity() {
 		Assert.assertTrue(Similarity.exists(pAin1, pAin1, profile));

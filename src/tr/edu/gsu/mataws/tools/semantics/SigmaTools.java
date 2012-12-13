@@ -40,7 +40,8 @@ import com.articulate.sigma.WordNet;
  * @author Vincent Labatut
  */
 public class SigmaTools
-{	
+{	/** SUMO uri */
+	public final static String URI = "http://www.ontologyportal.org/SUMO.owl";
 	/** Object allowing accessing Sigma */
 	private static WordNet access = null;
 	

@@ -7,10 +7,14 @@ software which incorporates, builds on, or uses this code.*/
 
 package com.articulate.sigma;
 
-
+/**
+ * 
+ *
+ */
 public class AVPair {
-
+	/** */
     public String attribute ="";
+	/** */
     public String value = "";
 
 }

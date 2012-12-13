@@ -19,10 +19,27 @@ import tr.edu.gsu.sine.ext.Profile;
  */
 public class ParamListUtilsTest {
 	
+	/** */
 	private static List<List<Parameter>> allLists;
-	private static List<Parameter> lEmpty, lAB, lABC, lB, lCA, lCBA;
+	/** */
+	private static List<Parameter> lEmpty;
+	/** */
+	private static List<Parameter> lAB;
+	/** */
+	private static List<Parameter> lABC;
+	/** */
+	private static List<Parameter> lB;
+	/** */
+	private static List<Parameter> lCA;
+	/** */
+	private static List<Parameter> lCBA;
+	/** */
 	private static Profile p;
 	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -48,6 +65,9 @@ public class ParamListUtilsTest {
 		p = Profile.IFOSE;
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testAreIdentical() {
 		for (List<Parameter> l : allLists) {
@@ -59,6 +79,9 @@ public class ParamListUtilsTest {
 		Assert.assertTrue(ParamListUtils.areIdentical(lABC, lCBA, p));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testAreOverlapping() {
 		for (List<Parameter> l : allLists) {
@@ -71,6 +94,9 @@ public class ParamListUtilsTest {
 		Assert.assertFalse(ParamListUtils.areOverlapping(lCA, lEmpty, p));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testLooselyIncludes() {
 		for (List<Parameter> l : allLists) {
@@ -83,6 +109,9 @@ public class ParamListUtilsTest {
 		Assert.assertFalse(ParamListUtils.looselyIncludes(lEmpty, lABC, p));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testStrictlyIncludes() {
 		for (List<Parameter> l : allLists) {

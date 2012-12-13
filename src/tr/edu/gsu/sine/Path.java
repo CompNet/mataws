@@ -80,6 +80,8 @@ public enum Path {
 	 * Creates a path with its description and default value as its lower-case.
 	 * <p>
 	 * This constructor is private, as required for an enumerated class.
+	 * 
+	 * @param description 
 	 */
 	private Path(String description) {
 		this.description = description;

@@ -40,8 +40,8 @@ import com.articulate.sigma.WordNet;
 
 import tr.edu.gsu.mataws.component.associator.Associator;
 import tr.edu.gsu.mataws.component.core.Core;
-import tr.edu.gsu.mataws.component.reader.collection.DescriptionReaderInterface;
-import tr.edu.gsu.mataws.component.reader.collection.WsdlDescriptionReader;
+import tr.edu.gsu.mataws.component.reader.descriptions.DescriptionReaderInterface;
+import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
 import tr.edu.gsu.mataws.component.selector.AnalysisType;
 import tr.edu.gsu.mataws.component.selector.Analyzer;
 import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;

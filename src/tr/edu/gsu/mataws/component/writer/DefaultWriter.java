@@ -27,7 +27,9 @@ package tr.edu.gsu.mataws.component.writer;
  */
 
 import tr.edu.gsu.mataws.component.writer.descriptions.DescriptionWriterInterface;
+import tr.edu.gsu.mataws.component.writer.descriptions.OwlsDescriptionWriter;
 import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
+import tr.edu.gsu.mataws.tools.semantics.SigmaTools;
 
 /**
  * Default class for writing the collection.
@@ -36,15 +38,25 @@ import tr.edu.gsu.mataws.component.writer.statistics.StatisticsWriterInterface;
  */
 public class DefaultWriter extends AbstractWriter
 {
+	/**
+	 * Builds a default writer.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
+	 */
+	public DefaultWriter() throws Exception
+	{	super();
+	}
 
 	///////////////////////////////////////////////////////////
 	//	DESCRIPTIONS						///////////////////
 	///////////////////////////////////////////////////////////
 	@Override
-	protected void initDescriptionWriters()
+	protected void initDescriptionWriters() throws Exception
 	{	DescriptionWriterInterface writer;
 		
-		// TODO Auto-generated method stub
+		writer = new OwlsDescriptionWriter(SigmaTools.URI);
+		descriptionWriters.add(writer);
 	}
 
 	///////////////////////////////////////////////////////////

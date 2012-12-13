@@ -20,12 +20,37 @@ import tr.edu.gsu.sine.ext.Profile;
  */
 public class ServiceTest {
 
-	private static Service empty, fromNilToNil, fromNilToABC, fromABCtoNil;
+	/** */
+	private static Service empty;
+	/** */
+	private static Service fromNilToNil;
+	/** */
+	private static Service fromNilToABC;
+	/** */
+	private static Service fromABCtoNil;
 
 	// For interaction tests only
-	private static Service fromAtoB, fromAtoC, fromAtoBC, fromAtoBandC;
-	private static Service fromBtoD, fromCtoD, fromCBtoD, fromCandBtoD;
-	
+	/** */
+	private static Service fromAtoB;
+	/** */
+	private static Service fromAtoC;
+	/** */
+	private static Service fromAtoBC;
+	/** */
+	private static Service fromAtoBandC;
+	/** */
+	private static Service fromBtoD;
+	/** */
+	private static Service fromCtoD;
+	/** */
+	private static Service fromCBtoD;
+	/** */
+	private static Service fromCandBtoD;
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		
@@ -123,6 +148,9 @@ public class ServiceTest {
 		fromCandBtoD.addOperation(B2D);
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testInteraction() {
 		// Full Interaction between operations

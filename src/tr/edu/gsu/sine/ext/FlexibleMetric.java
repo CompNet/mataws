@@ -37,6 +37,11 @@ public enum FlexibleMetric {
 	 */
 	SMOOTHED_LEVENSHTEIN(new SmoothedLevenshtein(), Trait.SMOOTHED);
 
+	/**
+	 * 
+	 * @param profile
+	 * @return ?
+	 */
 	public static FlexibleMetric valueOf(Profile profile) {
 		Trait metricsTrait = profile.getTrait(Category.METRIC);
 		for (FlexibleMetric m : values()) {

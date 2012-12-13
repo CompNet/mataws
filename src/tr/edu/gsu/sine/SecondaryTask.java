@@ -105,6 +105,7 @@ public enum SecondaryTask {
 		}
 	};
 
+	/** */
 	private final String description;
 
 	/**
@@ -114,6 +115,9 @@ public enum SecondaryTask {
 	
 	/**
 	 * This constructor is private, as required for an enumerated class.
+	 * 
+	 * @param description 
+	 * @param enabled 
 	 */
 	private SecondaryTask(String description, boolean enabled) {
 		this.description = description;

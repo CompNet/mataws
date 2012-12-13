@@ -25,10 +25,19 @@ public class FlexibleMetricEval extends Thread {
 	 * Tuple of two parameters names and their similarity score.
 	 */
 	private static class SingleEval implements Comparable<SingleEval> {
+		/** */
 		float score;
+		/** */
 		String name1;
+		/** */
 		String name2;
 
+		/**
+		 * 
+		 * @param score
+		 * @param name1
+		 * @param name2
+		 */
 		SingleEval(float score, String name1, String name2) {
 			this.score = score;
 			this.name1 = name1;
@@ -55,14 +64,25 @@ public class FlexibleMetricEval extends Thread {
 	}
 
 	// Arguments
+	/** */
 	private FlexibleMetric metric;
+	/** */
 	private String[] names;
+	/** */
 	private File baseDir;
 
 	// Results
+	/** */
 	private float[][] metricMatrix;
+	/** */
 	private SortedSet<SingleEval> sortedEvals;
 
+	/**
+	 * 
+	 * @param fm
+	 * @param col
+	 * @param outDir
+	 */
 	public FlexibleMetricEval(FlexibleMetric fm, Collection col, File outDir) {
 		// Create an array of all parameters names, without duplicates.
 		SortedSet<String> sortedNames = new TreeSet<String>();
@@ -76,6 +96,9 @@ public class FlexibleMetricEval extends Thread {
 		sortedEvals = new TreeSet<SingleEval>();
 	}
 
+	/**
+	 * 
+	 */
 	private void evaluate() {
 		// For each distinct couple of names.
 		for (int i = 0; i < names.length; i++) {
@@ -90,6 +113,10 @@ public class FlexibleMetricEval extends Thread {
 		}
 	}
 
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	private void writeList() throws FileNotFoundException {
 		String filename = "metric-" + metric.toString().toLowerCase() + ".txt";
 		File listFile = new File(baseDir, filename);
@@ -102,6 +129,10 @@ public class FlexibleMetricEval extends Thread {
 		pw.close();
 	}
 
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	private void writeImage() throws IOException {
 		String filename = "metric-" + metric.toString().toLowerCase() + ".png";
 		File imgFile = new File(baseDir, filename);

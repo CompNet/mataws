@@ -24,10 +24,13 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 4612165564892807955L;
 
 	// Parent panel
+	/** */
 	private SinePanel sinePanel;
 	
 	// Radio buttons
+	/** */
 	private JRadioButton[] profileButtons;
+	/** */
 	private JRadioButton allProfilesButton;
 
 	/**

@@ -36,11 +36,15 @@ public class SinePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -2213100593410325813L;
 
 	// first-step: parse
+	/** */
 	private SetupPanel setupPanel;
+	/** */
 	private JButton parseButton;
 	
 	// second-step: extract
+	/** */
 	private ProfilePanel profilePanel;
+	/** */
 	private JButton extractButton;
 
 	/**

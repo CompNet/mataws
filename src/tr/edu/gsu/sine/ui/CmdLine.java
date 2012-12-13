@@ -204,6 +204,7 @@ public class CmdLine {
 	 */
 	private static enum Command {
 
+		/** */
 		ALL("\t", "\textract all networks") {
 			public void execute(String param) {
 				// Select all supported networks for extraction.
@@ -213,6 +214,7 @@ public class CmdLine {
 			}
 		},
 		
+		/** */
 		TRAIT("TRAIT", "\textract networks with PROFILES having TRAIT") {
 			public void execute(String param) {
 				Trait t = Trait.valueOfAbbrev(param);
@@ -230,6 +232,7 @@ public class CmdLine {
 			}
 		},
 		
+		/** */
 		PROFILE("PROFILE", "extract the network with PROFILE") {
 			public void execute(String param) {
 				Profile p = Profile.valueOfAbbrev(param);
@@ -244,6 +247,7 @@ public class CmdLine {
 			}
 		},
 
+		/** */
 		SWITCH("SECONDARY TASK", "switch on/off the SECONDARY TASK") {
 			@Override
 			public void execute(String param) {
@@ -261,6 +265,7 @@ public class CmdLine {
 			}
 		},
 		
+		/** */
 		HELP("", "\t\tprint this help") {
 			public void execute(String param) {
 				// Print the usage message and shuts the program down.
@@ -269,6 +274,7 @@ public class CmdLine {
 			}
 		},
 		
+		/** */
 		VERSION("", "\tprint version") {
 			public void execute(String param) {
 				// Print the version of SINE and shuts the program down.
@@ -277,30 +283,57 @@ public class CmdLine {
 			}
 		};
 		
+		/** */
 		private final String paramType;
+		/** */
 		private final String description;
 
+		/**
+		 * 
+		 * @param paramType
+		 * @param description
+		 */
 		private Command(String paramType, String description) {
 			this.paramType = paramType;
 			this.description = description;
 		}
 
+		/**
+		 * 
+		 * @return ?
+		 */
 		public char getShort() {
 			return Character.toLowerCase(name().charAt(0));
 		}
 
+		/**
+		 * 
+		 * @return ?
+		 */
 		public String getLong() {
 			return name().toLowerCase();
 		}
 
+		/**
+		 * 
+		 * @return ?
+		 */
 		public String getParamType() {
 			return paramType;
 		}
 
+		/**
+		 * 
+		 * @return ?
+		 */
 		public String getDescription() {
 			return description;
 		}
-
+		
+		/**
+		 * 
+		 * @param param
+		 */
 		public abstract void execute(String param);
 	}
 }

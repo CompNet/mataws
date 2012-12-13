@@ -12,53 +12,101 @@ import tr.edu.gsu.sine.ext.Trait.Category;
  * @see Trait
  */
 public enum Profile {
+	/** */
 	IFSSE("inte full serv synt equa"),
+	/** */
 	IFSSFJ("inte full serv synt flex jaro"),
+	/** */
 	IFSSFL("inte full serv synt flex leve"),
+	/** */
 	IFSSFS("inte full serv synt flex smoo"),
+	/** */
 	IFSSFW("inte full serv synt flex winc"),
+	/** */
 	IFSME("inte full serv sema exac"),
+	/** */
 	IFSMF("inte full serv sema fiti"),
+	/** */
 	IFSMP("inte full serv sema plug"),
+	/** */
 	IFSMS("inte full serv sema subs"),
+	/** */
 	IFOSE("inte full oper synt equa"),
+	/** */
 	IFOSFJ("inte full oper synt flex jaro"),
+	/** */
 	IFOSFL("inte full oper synt flex leve"),
+	/** */
 	IFOSFS("inte full oper synt flex smoo"),
+	/** */
 	IFOSFW("inte full oper synt flex winc"),
+	/** */
 	IFOME("inte full oper sema exac"),
+	/** */
 	IFOMF("inte full oper sema fiti"),
+	/** */
 	IFOMP("inte full oper sema plug"),
+	/** */
 	IFOMS("inte full oper sema subs"),
+	/** */
 	IFPSE("inte full para synt equa"),
+	/** */
 	IFPME("inte full para sema exac"),
+	/** */
 	IPSSE("inte part serv synt equa"),
+	/** */
 	IPSSFJ("inte part serv synt flex jaro"),
+	/** */
 	IPSSFL("inte part serv synt flex leve"),
+	/** */
 	IPSSFS("inte part serv synt flex smoo"),
+	/** */
 	IPSSFW("inte part serv synt flex winc"),
+	/** */
 	IPSME("inte part serv sema exac"),
+	/** */
 	IPSMF("inte part serv sema fiti"),
+	/** */
 	IPSMP("inte part serv sema plug"),
+	/** */
 	IPSMS("inte part serv sema subs"),
+	/** */
 	IPOSE("inte part oper synt equa"),
+	/** */
 	IPOSFJ("inte part oper synt flex jaro"),
+	/** */
 	IPOSFL("inte part oper synt flex leve"),
+	/** */
 	IPOSFS("inte part oper synt flex smoo"),
+	/** */
 	IPOSFW("inte part oper synt flex winc"),
+	/** */
 	IPOME("inte part oper sema exac"),
+	/** */
 	IPOMF("inte part oper sema fiti"),
+	/** */
 	IPOMP("inte part oper sema plug"),
+	/** */
 	IPOMS("inte part oper sema subs"),
+	/** */
 	IPPSE("inte part para synt equa"),
+	/** */
 	IPPME("inte part para sema exac"),
+	/** */
 	SFOSE("simi full oper synt equa"),
+	/** */
 	SFOME("simi full oper sema exac"),
+	/** */
 	SPOSE("simi part oper synt equa"),
+	/** */
 	SPOME("simi part oper sema exac"),
+	/** */
 	SROSE("simi rela oper synt equa"),
+	/** */
 	SROME("simi rela oper sema exac"),
+	/** */
 	SEOSE("simi exce oper synt equa"),
+	/** */
 	SEOME("simi exce oper sema exac");
 
 	/**

@@ -20,10 +20,45 @@ import tr.edu.gsu.sine.ext.Similarity;
  */
 public class OperationTest {
 
-	private static Operation AtoA, AtoAn2, AtoAs2, AtoB, AtoC, AtoCB, AtoCBA;
-	private static Operation CAtoB, CAtoBC, CtoB, CtoBn2, CtoBs2;
-	private static Operation fromA, fromC, fromABC, toABC, toCBA;
+	/** */
+	private static Operation AtoA;
+	/** */
+	private static Operation AtoAn2;
+	/** */
+	private static Operation AtoAs2;
+	/** */
+	private static Operation AtoB;
+	/** */
+	private static Operation AtoC;
+	/** */
+	private static Operation AtoCB;
+	/** */
+	private static Operation AtoCBA;
+	/** */
+	private static Operation CAtoB;
+	/** */
+	private static Operation CAtoBC;
+	/** */
+	private static Operation CtoB;
+	/** */
+	private static Operation CtoBn2;
+	/** */
+	private static Operation CtoBs2;
+	/** */
+	private static Operation fromA;
+	/** */
+	private static Operation fromC;
+	/** */
+	private static Operation fromABC;
+	/** */
+	private static Operation toABC;
+	/** */
+	private static Operation toCBA;
 	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		
@@ -140,6 +175,9 @@ public class OperationTest {
 		s1.addOperation(toCBA);
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testInteraction() {
 		// Full Interaction between operations
@@ -161,6 +199,9 @@ public class OperationTest {
 		Assert.assertTrue(Interaction.exists(AtoA, AtoA, profile));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testIsFullySimilarTo() {
 		// Full Similarity between operations
@@ -182,6 +223,9 @@ public class OperationTest {
 		Assert.assertTrue(Similarity.exists(CtoB, CtoB, profile));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testIsSimilarWithExcessTo() {
 		// Similarity with excess between operations
@@ -203,6 +247,9 @@ public class OperationTest {
 		Assert.assertFalse(Similarity.exists(fromA, fromABC, profile));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testIsPartlySimilarTo() {
 		// Partial Similarity between operations
@@ -219,6 +266,9 @@ public class OperationTest {
 		Assert.assertFalse(Similarity.exists(CAtoBC, AtoCB, profile));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testIsRelatedTo() {
 		// Relational Similarity between operations

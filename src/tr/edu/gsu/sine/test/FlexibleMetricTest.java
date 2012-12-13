@@ -13,6 +13,9 @@ import junit.framework.TestCase;
  */
 public class FlexibleMetricTest extends TestCase {
 
+	/**
+	 * 
+	 */
 	public void testAnyMatch() {
 		FlexibleMetric.setThreshold(0);
 		String s[] = {"test", "tst", "test_", "_test", "te_st", "wrong"};
@@ -25,6 +28,9 @@ public class FlexibleMetricTest extends TestCase {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void testEqualMatch() {
 		FlexibleMetric.setThreshold(1);
 		String s[] = {"test", "tst", "test_", "_test", "te_st", "wrong"};
