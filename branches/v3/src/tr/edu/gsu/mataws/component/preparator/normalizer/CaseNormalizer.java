@@ -41,7 +41,7 @@ import java.util.Locale;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class CaseNormalizer implements NormalizerInterface
+public class CaseNormalizer extends AbstractNormalizer
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

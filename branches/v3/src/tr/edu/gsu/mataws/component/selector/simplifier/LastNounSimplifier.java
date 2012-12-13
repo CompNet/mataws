@@ -47,7 +47,7 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
  *  
  * @author Vincent Labatut
  */
-public class LastNounSimplifier implements SimplifierInterface<Synset>
+public class LastNounSimplifier extends AbstractSimplifier<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.component.indentificator.breaker.AbstractBreaker;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
@@ -87,7 +87,7 @@ public abstract class AbstractIdentificator<T>
 	//	BREAK						///////////////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of breakers applied as is */
-	protected final List<BreakerInterface<T>> breakers = new ArrayList<BreakerInterface<T>>();
+	protected final List<AbstractBreaker<T>> breakers = new ArrayList<AbstractBreaker<T>>();
 
 	/**
 	 * Initializes the sequence of breakers.
@@ -106,9 +106,9 @@ public abstract class AbstractIdentificator<T>
 	{	logger.increaseOffset();
 		Map<Way,List<List<IdentifiedWord<T>>>> result = null;
 		
-		Iterator<BreakerInterface<T>> it = breakers.iterator();
+		Iterator<AbstractBreaker<T>> it = breakers.iterator();
 		while(it.hasNext() && result==null)
-		{	BreakerInterface<T> breaker = it.next();
+		{	AbstractBreaker<T> breaker = it.next();
 			result = breaker.breakk(operationList);
 		}
 		

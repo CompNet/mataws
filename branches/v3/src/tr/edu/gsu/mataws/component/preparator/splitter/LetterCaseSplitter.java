@@ -40,7 +40,7 @@ import java.util.*;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class LetterCaseSplitter implements SplitterInterface
+public class LetterCaseSplitter extends AbstractSplitter
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

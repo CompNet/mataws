@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.component.associator.mapper.MapperInterface;
+import tr.edu.gsu.mataws.component.associator.mapper.AbstractMapper;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
@@ -85,7 +85,7 @@ public abstract class AbstractAssociator<T>
 	//	MAP									///////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of mappers applied as is */
-	protected final List<MapperInterface<T>> mappers = new ArrayList<MapperInterface<T>>();
+	protected final List<AbstractMapper<T>> mappers = new ArrayList<AbstractMapper<T>>();
 
 	/**
 	 * Initializes the sequence of mappers.
@@ -105,9 +105,9 @@ public abstract class AbstractAssociator<T>
 	{	logger.increaseOffset();
 		String result = null;
 		
-		Iterator<MapperInterface<T>> it = mappers.iterator();
+		Iterator<AbstractMapper<T>> it = mappers.iterator();
 		while(it.hasNext() && result==null)
-		{	MapperInterface<T> mapper = it.next();
+		{	AbstractMapper<T> mapper = it.next();
 			result = mapper.map(word);
 		}
 		

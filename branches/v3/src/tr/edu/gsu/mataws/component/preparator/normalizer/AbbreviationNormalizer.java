@@ -54,7 +54,7 @@ import tr.edu.gsu.mataws.tools.misc.FileTools;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class AbbreviationNormalizer implements NormalizerInterface
+public class AbbreviationNormalizer extends AbstractNormalizer
 {	
 	/**
 	 * Creates an abbreviation normalizer with the default

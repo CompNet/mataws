@@ -55,7 +55,7 @@ import tr.edu.gsu.mataws.tools.misc.FileTools;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class OwlsDescriptionWriter implements DescriptionWriterInterface
+public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 {	
 	/**
 	 * Creates a new description writer,

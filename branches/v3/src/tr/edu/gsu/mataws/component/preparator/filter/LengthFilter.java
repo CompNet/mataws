@@ -38,7 +38,7 @@ import java.util.List;
  *   
  * @author Vincent Labatut
  */
-public class LengthFilter implements FilterInterface
+public class LengthFilter extends AbstractFilter
 {
 	/**
 	 * Creates a length-based filter 

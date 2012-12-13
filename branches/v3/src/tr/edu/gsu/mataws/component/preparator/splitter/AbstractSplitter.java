@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.assorter.matcher;
+package tr.edu.gsu.mataws.component.preparator.splitter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,44 +27,30 @@ package tr.edu.gsu.mataws.component.assorter.matcher;
  */
 
 import java.util.List;
-import java.util.Map;
-
-import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
-import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
-import tr.edu.gsu.sine.col.Way;
 
 /**
- * Interface for classes in charge of matching 
- * parts of operation names and parameters.
- * Used when the parameter names and types do
- * not convey enough information to allow a
- * more direct annotation.
- * 
- * @param <T> 
- *		Class used to represent a WordNet synset.
- * 
+ * Interface for classes in charge of splitting strings.
+ *  
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface MatcherInterface<T>
+public abstract class AbstractSplitter
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes a map coming from a {@link BreakerInterface}, i.e.
-	 * associating identified words to an operation name,
-	 * and tries to match those words to the parameters.
-	 * <br/>
-	 * Depending on how the matching process went, parameters
-	 * in the received list are updated.
+	 * Takes a list of strings and returns a list of their components 
+	 * resulting from the split implemented by this object.
+	 * The list can be empty, if the original strings contain
+	 * only noise, or if the original list is empty.
 	 * 
-	 * @param operationMap
-	 * 		The mapping of identified words to parts of the operation name. 
-	 * @param parameters
-	 * 		The parameters to annotate. 
+	 * @param strings
+	 * 		The list of strings to be split. 
 	 * @return
-	 * 		{@code true} iff the method could match at least one parameter.
+	 * 		A list of substrings resulting from the split.
+	 * 			
 	 */
-	public boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters);
+	public abstract List<String> split(List<String> strings);
 }

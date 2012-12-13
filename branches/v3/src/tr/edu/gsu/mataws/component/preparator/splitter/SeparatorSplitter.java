@@ -39,7 +39,7 @@ import java.util.List;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class SeparatorSplitter implements SplitterInterface {
+public class SeparatorSplitter extends AbstractSplitter {
 	
 	/**
 	 * Creates an instance for the specified separator string.

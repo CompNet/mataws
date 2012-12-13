@@ -47,7 +47,7 @@ import tr.edu.gsu.sine.col.Way;
  *   
  * @author Vincent Labatut
  */
-public class RetrievalBreaker implements BreakerInterface<Synset>
+public class RetrievalBreaker extends AbstractBreaker<Synset>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////

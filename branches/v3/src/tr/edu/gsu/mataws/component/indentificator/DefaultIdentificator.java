@@ -26,7 +26,7 @@ package tr.edu.gsu.mataws.component.indentificator;
  * 
  */
 
-import tr.edu.gsu.mataws.component.indentificator.breaker.BreakerInterface;
+import tr.edu.gsu.mataws.component.indentificator.breaker.AbstractBreaker;
 import tr.edu.gsu.mataws.component.indentificator.breaker.ModificationBreaker;
 import tr.edu.gsu.mataws.component.indentificator.breaker.RetrievalBreaker;
 import edu.smu.tspell.wordnet.Synset;
@@ -47,7 +47,7 @@ public class DefaultIdentificator extends AbstractIdentificator<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initBreakers()
-	{	BreakerInterface<Synset> breaker;
+	{	AbstractBreaker<Synset> breaker;
 	
 		breaker = new RetrievalBreaker();
 		breakers.add(breaker);

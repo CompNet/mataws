@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.associator.mapper;
+package tr.edu.gsu.mataws.component.preparator.normalizer;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,31 +26,29 @@ package tr.edu.gsu.mataws.component.associator.mapper;
  * 
  */
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import java.util.List;
 
 /**
- * Interface for classes in charge of mapping strings
- * to ontological concepts.
- * 
- * @param <T>
- * 		The class used to represent synsets. 
+ * Interface for classes in charge of normalizing strings.
  *  
+ * @author Koray Mancuhan
+ * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public interface MapperInterface<T>
+public abstract class AbstractNormalizer
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
 	/**
-	 * Takes an identified word and retrieve the associated
-	 * concept, or {@code null} if no concept can be retrieved.
+	 * Takes a list of strings and normalizes each one of them.
+	 * The resulting list can be empty, if the original list is empty.
 	 * 
-	 * @param word
-	 * 		The identified word to process. 
+	 * @param strings
+	 * 		The list of strings to be normalized. 
 	 * @return
-	 * 		A string representing the associated concept,
-	 * 		or {@code null} if no concept could be retrieved.
+	 * 		The list of strings obtained after the normalization.
+	 * 			
 	 */
-	public String map(IdentifiedWord<T> word);
+	public abstract List<String> normalize(List<String> strings);
 }

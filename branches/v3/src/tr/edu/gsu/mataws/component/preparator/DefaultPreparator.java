@@ -27,22 +27,22 @@ package tr.edu.gsu.mataws.component.preparator;
  */
 
 import edu.smu.tspell.wordnet.Synset;
-import tr.edu.gsu.mataws.component.preparator.filter.FilterInterface;
+import tr.edu.gsu.mataws.component.preparator.filter.AbstractFilter;
 import tr.edu.gsu.mataws.component.preparator.filter.LengthFilter;
 import tr.edu.gsu.mataws.component.preparator.filter.RedundancyFilter;
 import tr.edu.gsu.mataws.component.preparator.filter.StopWordFilter;
-import tr.edu.gsu.mataws.component.preparator.identifier.IdentifierInterface;
+import tr.edu.gsu.mataws.component.preparator.identifier.AbstractIdentifier;
 import tr.edu.gsu.mataws.component.preparator.identifier.JawsIdentifier;
 import tr.edu.gsu.mataws.component.preparator.normalizer.AbbreviationNormalizer;
 import tr.edu.gsu.mataws.component.preparator.normalizer.CaseNormalizer;
 import tr.edu.gsu.mataws.component.preparator.normalizer.DiacriticsNormalizer;
-import tr.edu.gsu.mataws.component.preparator.normalizer.NormalizerInterface;
+import tr.edu.gsu.mataws.component.preparator.normalizer.AbstractNormalizer;
 import tr.edu.gsu.mataws.component.preparator.normalizer.StemNormalizer;
 import tr.edu.gsu.mataws.component.preparator.splitter.LetterCaseSplitter;
 import tr.edu.gsu.mataws.component.preparator.splitter.LexiconSplitter;
 import tr.edu.gsu.mataws.component.preparator.splitter.NumberSplitter;
 import tr.edu.gsu.mataws.component.preparator.splitter.SeparatorSplitter;
-import tr.edu.gsu.mataws.component.preparator.splitter.SplitterInterface;
+import tr.edu.gsu.mataws.component.preparator.splitter.AbstractSplitter;
 import tr.edu.gsu.mataws.component.preparator.splitter.LexiconSplitter.Mode;
 
 /**
@@ -60,7 +60,7 @@ public class DefaultPreparator extends AbstractPreparator<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initSplitters()
-	{	SplitterInterface splitter;
+	{	AbstractSplitter splitter;
 	
 		splitter = new SeparatorSplitter("_");
 		splitters.add(splitter);
@@ -85,7 +85,7 @@ public class DefaultPreparator extends AbstractPreparator<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initNormalizers()
-	{	NormalizerInterface normalizer;
+	{	AbstractNormalizer normalizer;
 	
 		// TODO not sure this should be done here, because Sigma actually seems to be able to take advantage of that.
 		normalizer = new CaseNormalizer();
@@ -109,7 +109,7 @@ public class DefaultPreparator extends AbstractPreparator<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initFilters()
-	{	FilterInterface filter;
+	{	AbstractFilter filter;
 	
 		filter = new StopWordFilter();
 		filters.add(filter);
@@ -126,7 +126,7 @@ public class DefaultPreparator extends AbstractPreparator<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	protected void initIdentifiers()
-	{	IdentifierInterface<Synset> identifier;
+	{	AbstractIdentifier<Synset> identifier;
 	
 		identifier = new JawsIdentifier();
 		identifiers.add(identifier);

@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import tr.edu.gsu.mataws.component.assorter.matcher.MatcherInterface;
+import tr.edu.gsu.mataws.component.assorter.matcher.AbstractMatcher;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
@@ -91,7 +91,7 @@ public abstract class AbstractAssorter<T>
 	//	MATCH						///////////////////////////
 	///////////////////////////////////////////////////////////
 	/** Sequence of matchers applied as is */
-	protected final List<MatcherInterface<T>> matchers = new ArrayList<MatcherInterface<T>>();
+	protected final List<AbstractMatcher<T>> matchers = new ArrayList<AbstractMatcher<T>>();
 
 	/**
 	 * Initializes the sequence of matchers.
@@ -113,9 +113,9 @@ public abstract class AbstractAssorter<T>
 	{	logger.increaseOffset();
 		boolean result = false;
 		
-		Iterator<MatcherInterface<T>> it = matchers.iterator();
+		Iterator<AbstractMatcher<T>> it = matchers.iterator();
 		while(it.hasNext() && !result)
-		{	MatcherInterface<T> matcher = it.next();
+		{	AbstractMatcher<T> matcher = it.next();
 			result = matcher.match(operationMap,parameters) || result;
 		}
 		

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.writer.descriptions;
+package tr.edu.gsu.mataws.component.indentificator.breaker;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -27,37 +27,34 @@ package tr.edu.gsu.mataws.component.writer.descriptions;
  */
 
 import java.util.List;
+import java.util.Map;
 
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.sine.col.Way;
 
 /**
- * This class is used to write the data resulting from the annotation
- * process, as a collection of semantic description files.
+ * Interface for classes in charge of identifying  
+ * parts of operation names which can be used to
+ * describe their parameters, eg. {@code getIdForName}.
  * 
- * @author Cihan Aksoy
+ * @param <T> 
+ *		Class used to represent a WordNet synset.
+ * 
  * @author Vincent Labatut
  */
-public interface DescriptionWriterInterface
+public abstract class AbstractBreaker<T>
 {
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Used to mark the absence of any concept */
-	public final static String NO_CONCEPT = "NoMatch";
-	
 	/**
-	 * Records the WS description using a semantic format.
-	 * The generated files will be put in Mataws output folder.
-	 * <br/>
-	 * If {@code subfolder} is {@code null}, then all description files are processed.
+	 * Takes an operation and analyses its name, in order to
+	 * extract information regarding its parameters.
 	 * 
-	 * @param subfolder
-	 *		The folder containing the collection.
-	 * @param parameters
-	 * 		The list of annotated parameters. 
-	 * 
-	 * @throws Exception 
-	 * 		Problem while accessing the files.
+	 * @param operationList
+	 * 		The list of words composing the operation name. 
+	 * @return
+	 * 		A map of the identified parts, or null if none could be identified.
 	 */
-	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception;
+	public abstract Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList);
 }

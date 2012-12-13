@@ -43,7 +43,7 @@ import tr.edu.gsu.mataws.tools.semantics.JwiTools;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class StemNormalizer implements NormalizerInterface
+public class StemNormalizer extends AbstractNormalizer
 {	
 	/**
 	 * Builds and initialize a stem normalizer.

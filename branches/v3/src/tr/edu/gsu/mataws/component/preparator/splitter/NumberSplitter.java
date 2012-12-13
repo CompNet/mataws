@@ -38,7 +38,7 @@ import java.util.*;
  * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public class NumberSplitter implements SplitterInterface
+public class NumberSplitter extends AbstractSplitter
 {	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
