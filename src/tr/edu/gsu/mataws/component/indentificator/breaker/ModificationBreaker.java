@@ -58,7 +58,8 @@ public class ModificationBreaker extends AbstractBreaker<Synset>
 
 	@Override
 	public Map<Way,List<List<IdentifiedWord<Synset>>>> breakk(List<IdentifiedWord<Synset>> operationList)
-	{	Map<Way,List<List<IdentifiedWord<Synset>>>> result = null;
+	{	logger.increaseOffset();
+		Map<Way,List<List<IdentifiedWord<Synset>>>> result = null;
 		List<IdentifiedWord<Synset>> opnameCopy = new ArrayList<IdentifiedWord<Synset>>(operationList);
 		
 		// check if the operation name contains a relevant action
@@ -82,6 +83,7 @@ public class ModificationBreaker extends AbstractBreaker<Synset>
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 

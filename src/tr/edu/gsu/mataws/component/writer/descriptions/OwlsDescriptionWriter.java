@@ -69,7 +69,9 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	 * 		Problem with the specified URI.
 	 */
 	public OwlsDescriptionWriter(String ontologyUri) throws URISyntaxException
-	{	// TODO this uri might actually be related to the WS itself
+	{	super();
+	
+		// TODO this uri might actually be related to the WS itself
 		URI uri = new URI(ontologyUri);
 		OWLOntology ontology = OWLFactory.createKB().createOntology(uri);
 		OWLS.addOWLSImports(ontology);
@@ -85,7 +87,9 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	
 	@Override
 	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	// init paths
+	{	logger.increaseOffset();
+	
+		// init paths
 		String inputPath = FileTools.INPUT_FOLDER;
 		String outputPath = FileTools.COLLECTION_FOLDER;
 		if(subfolder!=null)
@@ -107,6 +111,8 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 		if(!outFolder.exists())
 			outFolder.mkdir();
 		writeFolder(inFolder, outFolder, parameterMap);
+
+		logger.decreaseOffset();
 	}
 
 	/**
@@ -123,7 +129,9 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeFolder(File inFolder, File outFolder, Map<String,String> parameters) throws Exception
-	{	// browse the input folder
+	{	logger.increaseOffset();
+	
+		// browse the input folder
 		FilenameFilter filter = new FilenameFilter()
 		{	@Override
 			public boolean accept(File dir, String name)
@@ -155,6 +163,8 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 				writeFile(inFile,outFile,parameters);
 			}
 		}
+		
+		logger.decreaseOffset();
 	}
 	
 	/**
@@ -171,7 +181,9 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeFile(File inFile, File outFile, Map<String,String> parameterMap) throws Exception
-	{	// load wsdl file
+	{	logger.increaseOffset();
+	
+		// load wsdl file
 		WSDLService service = WSDLService.createService(inFile.toURI());
 		List<WSDLOperation> operations = service.getOperations();
 
@@ -221,5 +233,6 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 			translator.writeOWLS(fos);
 			fos.close();
 		}
+		logger.decreaseOffset();
 	}
 }

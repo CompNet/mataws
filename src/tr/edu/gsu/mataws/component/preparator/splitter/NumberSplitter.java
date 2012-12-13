@@ -45,7 +45,8 @@ public class NumberSplitter extends AbstractSplitter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		for(String string: strings)
 		{	String temp[] = string.split("[0-9]");
@@ -55,6 +56,7 @@ public class NumberSplitter extends AbstractSplitter
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

@@ -66,7 +66,7 @@ public class GeneralProcessor
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Logger */
-	private HierarchicalLogger logger;
+	protected HierarchicalLogger logger;
 	/** Component in charge of loading the collection */
 	private AbstractReader reader;
 	/** Processor used to take advantage of the operation details */

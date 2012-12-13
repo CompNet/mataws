@@ -61,7 +61,8 @@ public class RedundancyFilter extends AbstractFilter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> filter(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		if(caseSensitive)
 		{	while(strings.size()>1)
@@ -104,6 +105,7 @@ public class RedundancyFilter extends AbstractFilter
 				result.add(strings.get(0));
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

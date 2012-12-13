@@ -51,7 +51,9 @@ public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 	 * default distance limit of 2.
 	 */
 	public DirectHolonymSimplifier()
-	{	this.limit = 2;
+	{	super();
+	
+		this.limit = 2;
 	}
 	
 	/**
@@ -62,7 +64,9 @@ public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 	 * 		Specified limit.
 	 */
 	public DirectHolonymSimplifier(int limit)
-	{	this.limit = limit;
+	{	super();
+	
+		this.limit = limit;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -73,7 +77,8 @@ public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// look for a holonymial relationship
 		IdentifiedWord<Synset> holonym = null;
@@ -106,6 +111,7 @@ public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 			words.remove(holonym);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

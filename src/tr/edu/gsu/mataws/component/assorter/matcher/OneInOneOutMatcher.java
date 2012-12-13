@@ -52,7 +52,8 @@ public class OneInOneOutMatcher extends AbstractMatcher<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// verify the situation is appropriate for this matcher: exactly 2 parameters
 		if(parameters.size()==2)
@@ -91,14 +92,9 @@ public class OneInOneOutMatcher extends AbstractMatcher<Synset>
 					}
 				}
 			}
-			
-			// si deux parametres : facile, on fait en fonction de in/out
-			// si quatre paramètres (doublons in/out) : faut déterminer lequel est lequel
-			//		1) s'il manque le concept pr les deux >> on ne peut rien faire
-			//		2) s'il y a un concept pr l'un des deux >> distance avec les deux concepts trouvés ici ?
-			//			(>> besoin de n'avoir qu'un seul mot rep dès le breaker, et non pas en remontant au contraster)
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

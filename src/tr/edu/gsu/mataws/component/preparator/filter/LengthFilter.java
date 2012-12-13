@@ -47,7 +47,9 @@ public class LengthFilter extends AbstractFilter
 	 * (or equal) will be removed.
 	 */
 	public LengthFilter()
-	{	this.limit = 1;
+	{	super();
+		
+		this.limit = 1;
 	}
 	
 	/**
@@ -60,7 +62,9 @@ public class LengthFilter extends AbstractFilter
 	 * 		Length limit.
 	 */
 	public LengthFilter(int limit)
-	{	this.limit = limit;
+	{	super();
+		
+		this.limit = limit;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -71,13 +75,15 @@ public class LengthFilter extends AbstractFilter
 	
 	@Override
 	public List<String> filter(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		for(String string: strings)
 		{	if(string.length()>limit)
 				result.add(string);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

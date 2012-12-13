@@ -28,6 +28,8 @@ package tr.edu.gsu.mataws.component.preparator.normalizer;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+
 /**
  * Interface for classes in charge of normalizing strings.
  *  
@@ -40,6 +42,9 @@ public abstract class AbstractNormalizer
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of strings and normalizes each one of them.
 	 * The resulting list can be empty, if the original list is empty.

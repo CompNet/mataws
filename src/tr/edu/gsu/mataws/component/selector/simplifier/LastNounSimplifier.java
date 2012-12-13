@@ -54,7 +54,8 @@ public class LastNounSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 		
 		// look for the last noun
 		IdentifiedWord<Synset> lastNoun = null;
@@ -75,6 +76,7 @@ public class LastNounSimplifier extends AbstractSimplifier<Synset>
 			result = true;
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

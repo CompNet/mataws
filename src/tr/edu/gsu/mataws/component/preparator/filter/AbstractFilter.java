@@ -28,6 +28,9 @@ package tr.edu.gsu.mataws.component.preparator.filter;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
+
 /**
  * Interface for classes in charge of filtering strings.
  *  
@@ -37,9 +40,19 @@ import java.util.List;
  */
 public abstract class AbstractFilter
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractFilter()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of strings and filters it.
 	 * The list can be empty, if the original strings contain

@@ -45,13 +45,15 @@ public class DiacriticsNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
     @Override
 	public List<String> normalize(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		for(String string: strings)
 		{	String temp = StringTools.removeDiacritics(string);
 			result.add(temp);
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

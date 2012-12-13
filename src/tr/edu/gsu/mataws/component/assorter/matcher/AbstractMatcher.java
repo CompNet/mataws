@@ -32,6 +32,8 @@ import java.util.Map;
 import tr.edu.gsu.mataws.component.indentificator.breaker.AbstractBreaker;
 import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Way;
 
 /**
@@ -48,9 +50,19 @@ import tr.edu.gsu.sine.col.Way;
  */
 public abstract class AbstractMatcher<T>
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractMatcher()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes a map coming from a {@link AbstractBreaker}, i.e.
 	 * associating identified words to an operation name,

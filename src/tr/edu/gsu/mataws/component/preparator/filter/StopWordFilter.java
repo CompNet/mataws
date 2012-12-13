@@ -55,7 +55,9 @@ public class StopWordFilter extends AbstractFilter
 	 * stop words list.
 	 */
 	public StopWordFilter()
-	{	String path = FileTools.CONFIG_FOLDER + File.separator + "StopWords.txt";
+	{	super();
+		
+		String path = FileTools.CONFIG_FOLDER + File.separator + "StopWords.txt";
 		initData(path);
 	}
 	
@@ -67,7 +69,9 @@ public class StopWordFilter extends AbstractFilter
 	 * 		Path of the file containing the stop words.
 	 */
 	public StopWordFilter(String path)
-	{	initData(path);
+	{	super();
+	
+		initData(path);
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -100,7 +104,8 @@ public class StopWordFilter extends AbstractFilter
 	 * 		Path of the file containing the stop words.
 	 */
 	private void initData(String path)
-	{	// init
+	{	logger.increaseOffset();
+		// init
 		File file = new File(path);		
 		stopWords = new ArrayList<String>();
 		
@@ -123,6 +128,8 @@ public class StopWordFilter extends AbstractFilter
 		{	// problem when reading the file
 			e.printStackTrace();
 		}
+		
+		logger.decreaseOffset();
 	}
 
 	///////////////////////////////////////////////////////////
@@ -130,7 +137,8 @@ public class StopWordFilter extends AbstractFilter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> filter(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		if(caseSensitive)
 		{	for(String string: strings)
@@ -152,6 +160,7 @@ public class StopWordFilter extends AbstractFilter
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }

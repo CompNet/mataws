@@ -28,6 +28,9 @@ package tr.edu.gsu.mataws.component.preparator.splitter;
 
 import java.util.List;
 
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
+
 /**
  * Interface for classes in charge of splitting strings.
  *  
@@ -37,9 +40,19 @@ import java.util.List;
  */
 public abstract class AbstractSplitter
 {
+	/**
+	 * Builds a component.
+	 */
+	public AbstractSplitter()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	protected HierarchicalLogger logger;
+
 	/**
 	 * Takes a list of strings and returns a list of their components 
 	 * resulting from the split implemented by this object.

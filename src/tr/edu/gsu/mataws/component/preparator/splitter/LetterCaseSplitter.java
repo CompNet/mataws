@@ -47,7 +47,8 @@ public class LetterCaseSplitter extends AbstractSplitter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 		
 		// simple split
 		for(String string1: strings)
@@ -74,7 +75,8 @@ public class LetterCaseSplitter extends AbstractSplitter
 	 * 		The corresponding list of substrings.
 	 */
 	public List<String> lowUpSplit(String string)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 	
 		// too short to be split
 		if(string.length()==1)
@@ -118,7 +120,8 @@ public class LetterCaseSplitter extends AbstractSplitter
 	 * 		The corresponding list of substrings.
 	 */
 	public List<String> upLowSplit(String string)
-	{	List<String> result = new ArrayList<String>();
+	{	logger.increaseOffset();
+		List<String> result = new ArrayList<String>();
 	
 		// too short to be split
 		if(string.length()==1 || string.length()==2)
@@ -147,6 +150,7 @@ public class LetterCaseSplitter extends AbstractSplitter
 				result.add(string);
 		}
 		
+		logger.decreaseOffset();
 		return result;		
 	}
 }
