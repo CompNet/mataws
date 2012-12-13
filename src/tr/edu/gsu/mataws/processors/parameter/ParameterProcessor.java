@@ -28,6 +28,8 @@ package tr.edu.gsu.mataws.processors.parameter;
 
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.processors.name.NameProcessor;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * This processor is able to receive a parameter and
@@ -43,13 +45,17 @@ public class ParameterProcessor
 	 * Builds a standard parameter processor.
 	 */
 	public ParameterProcessor()
-	{	nameProcessor = new NameProcessor();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		nameProcessor = new NameProcessor();
 		typeProcessor = new TypeProcessor();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
 	/** Processor used to treat the parameter and data type names */
 	private NameProcessor nameProcessor;
 	/** Processor used to treat the data type structure */
@@ -68,7 +74,8 @@ public class ParameterProcessor
 	 * 		{@code true} iff a concept could be found for the parameter.
 	 */
 	public boolean process(MatawsParameter parameter)
-	{	// first, try to take advantage of the subparameter name,
+	{	logger.increaseOffset();
+		// first, try to take advantage of the subparameter name,
 		// and possibly of its data type name
 		boolean result = nameProcessor.process(parameter);
 		
@@ -76,6 +83,7 @@ public class ParameterProcessor
 		if(!result)
 			result = typeProcessor.process(parameter);
 
+		logger.decreaseOffset();
 		return result;
 	}
 }

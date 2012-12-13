@@ -30,6 +30,8 @@ import tr.edu.gsu.mataws.data.IdentifiedWord;
 import tr.edu.gsu.mataws.data.MatawsSubParameter;
 import tr.edu.gsu.mataws.processors.name.NameProcessor;
 import tr.edu.gsu.mataws.processors.name.SubNameProcessor;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
  * This processor is able to receive a subparameter
@@ -52,13 +54,17 @@ public class SubParameterProcessor
 	 * 
 	 */
 	public SubParameterProcessor(TypeProcessor typeProcessor)
-	{	nameProcessor = new SubNameProcessor();
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	
+		nameProcessor = new SubNameProcessor();
 		this.typeProcessor = typeProcessor;
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS							///////////////////////
 	///////////////////////////////////////////////////////////
+	/** Logger */
+	private HierarchicalLogger logger;
 	/** Processor used to treat the parameter and data type names */
 	private SubNameProcessor nameProcessor;
 	/** Processor used to treat the data type structure */
@@ -78,7 +84,8 @@ public class SubParameterProcessor
 	 * 		{@code true} iff a representative word could be found for the subparameter.
 	 */
 	public boolean process(MatawsSubParameter subParameter)
-	{	// first, try to take advantage of the subparameter name,
+	{	logger.increaseOffset();
+		// first, try to take advantage of the subparameter name,
 		// and possibly of its data type name
 		boolean result = nameProcessor.process(subParameter);
 		
@@ -86,6 +93,7 @@ public class SubParameterProcessor
 		if(!result)
 			result = typeProcessor.process(subParameter);
 
+		logger.decreaseOffset();
 		return result;
 	}
 }

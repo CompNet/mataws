@@ -51,7 +51,8 @@ public class SubNameProcessor extends AbstractNameProcessor
 	///////////////////////////////////////////////////////////
 	@Override
 	protected boolean process(AbstractMatawsParameter parameter, Mode mode)
-	{	boolean result = false;
+	{	logger.increaseOffset();
+		boolean result = false;
 	
 		// init initial string
 		String string;
@@ -71,6 +72,7 @@ public class SubNameProcessor extends AbstractNameProcessor
 			}
 		}
 		
+		logger.decreaseOffset();
 		return result;
 	}
 }
