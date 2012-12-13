@@ -48,6 +48,8 @@ import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
 import tr.edu.gsu.mataws.data.MatawsParameter;
 import tr.edu.gsu.mataws.stats.StatData;
 import tr.edu.gsu.mataws.stats.StatWritter;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.mataws.tools.misc.FileTools;
 import tr.edu.gsu.mataws.trace.TraceableParameter;
 import tr.edu.gsu.mataws.zzzzz.Node;
@@ -92,12 +94,20 @@ public class Launcher
 	private static Analyzer analyzer;
 	private static CollectionTransformationUtil colTransUtil;
 
+	/** Common object used for logging */
+	private static HierarchicalLogger logger = HierarchicalLoggerManager.getHierarchicalLogger();
+
 	/**
 	 * Intializes the necessary objects.
 	 * @throws IOException 
 	 */
 	private static void init() throws IOException
-	{	// init sigma
+	{	
+		logger.setName("Mataws");
+		
+		
+		
+		// init sigma
 		
 		
 		statistics = StatData.getInstance();
