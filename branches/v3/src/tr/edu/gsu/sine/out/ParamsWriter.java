@@ -93,6 +93,8 @@ public class ParamsWriter extends PrintWriter {
 	 * <p>
 	 * If it fails for any cause, it can still be retried later.
 	 * 
+	 * @param collection 
+	 * 
 	 * @throws IOException
 	 *             if there are IO problems opening the parameters list file
 	 */

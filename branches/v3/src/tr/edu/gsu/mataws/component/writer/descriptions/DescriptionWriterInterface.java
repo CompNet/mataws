@@ -26,7 +26,6 @@ package tr.edu.gsu.mataws.component.writer.descriptions;
  * 
  */
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import tr.edu.gsu.mataws.data.MatawsParameter;
@@ -40,6 +39,12 @@ import tr.edu.gsu.mataws.data.MatawsParameter;
  */
 public interface DescriptionWriterInterface
 {
+	///////////////////////////////////////////////////////////
+	//	PROCESS								///////////////////
+	///////////////////////////////////////////////////////////
+	/** Used to mark the absence of any concept */
+	public final static String NO_CONCEPT = "NoMatch";
+	
 	/**
 	 * Records the WS description using a semantic format.
 	 * The generated files will be put in Mataws output folder.
@@ -51,8 +56,8 @@ public interface DescriptionWriterInterface
 	 * @param parameters
 	 * 		The list of annotated parameters. 
 	 * 
-	 * @throws FileNotFoundException 
-	 * 		If no file could be found at the specified location. 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	public void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException;
+	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception;
 }

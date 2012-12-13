@@ -10,8 +10,12 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
  */
 public class SmoothedLevenshtein extends AbstractStringMetric {
 	
+	/** */
 	private Levenshtein levenshtein;
-	
+
+	/**
+	 * 
+	 */
 	public SmoothedLevenshtein() {
 		levenshtein = new Levenshtein();
 	}

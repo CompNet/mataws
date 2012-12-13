@@ -56,7 +56,7 @@ public class WsdlDescriptionReader implements DescriptionReaderInterface
 		}
 		File folder = new File(path);
 		
-		// init sine digger
+		// init Sine digger
 		Digger d = new Digger(Logger.getAnonymousLogger());
 		// read description files
 		Collection result = d.dig(folder, Language.WSDL, name);

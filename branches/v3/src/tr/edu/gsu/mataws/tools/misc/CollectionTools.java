@@ -34,8 +34,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.SortedSet;
 
-import tr.edu.gsu.mataws.component.reader.collection.DescriptionReaderInterface;
-import tr.edu.gsu.mataws.component.reader.collection.WsdlDescriptionReader;
+import tr.edu.gsu.mataws.component.reader.descriptions.DescriptionReaderInterface;
+import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
 import tr.edu.gsu.sine.col.Collection;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;

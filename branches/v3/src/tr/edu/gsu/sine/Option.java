@@ -13,8 +13,8 @@ public enum Option {
 	 * <p>
 	 * The same threshold is applied to both string similarity metrics.
 	 * 
-	 * @see sine.ext.Trait#FLEXIBLE
-	 * @see sine.ext.FlexibleMetric
+	 * @see tr.edu.gsu.sine.ext.Trait#FLEXIBLE
+	 * @see tr.edu.gsu.sine.ext.FlexibleMetric
 	 */
 	FLEX("<float>", "Flexible matching threshold in [0,1]",
 			Float.toString(FlexibleMetric.getThreshold())) {
@@ -36,7 +36,7 @@ public enum Option {
 	 * This is used to search for services description files and for using
 	 * the corresponding parser.
 	 * 
-	 * @see sine.in.Language
+	 * @see tr.edu.gsu.sine.in.Language
 	 */
 	LANG("[SA]WSDL", "Language of the collection",
 			Language.SAWSDL.toString()) {
@@ -65,32 +65,65 @@ public enum Option {
 		}
 	};
 	
+	/** */
 	private final String type;
+	/** */
 	private final String description;
+	/** */
 	protected String value;
 	
 	/**
 	 * This constructor is private, as required for an enumerated class.
+	 * 
+	 * @param type 
+	 * @param description 
+	 * @param defaultValue 
 	 */
 	private Option(String type, String description, String defaultValue) {
 		this.type = type;
 		this.description = description;
 		this.value = defaultValue;
 	}
+	
+	/**
+	 * @return ?
+	 */
 	public String getShort() {
 		return name().substring(0, 1).toLowerCase();
 	}
+	
+	/**
+	 * @return ?
+	 */
 	public String getLong() {
 		return name().toLowerCase();
 	}
+	
+	/**
+	 * @return ?
+	 */
 	public String getType() {
 		return type;
 	}
+	
+	/**
+	 * @return ?
+	 */
 	public String getDescription() {
 		return description;
 	}
+	
+	/**
+	 * @return ?
+	 */
 	public String getValue() {
 		return value;
 	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @throws Exception
+	 */
 	public abstract void setValue(String value) throws Exception;
 }

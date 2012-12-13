@@ -18,6 +18,9 @@ import tr.edu.gsu.sine.ext.Trait.Category;
  */
 public class OntologyUtils {
 
+	/**
+	 * 
+	 */
 	private static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
 

@@ -26,7 +26,6 @@ package tr.edu.gsu.mataws.component.writer;
  * 
  */
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +47,11 @@ public abstract class AbstractWriter
 	/**
 	 * Initializes all the necessary objects
 	 * for this selector.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	public AbstractWriter()
+	public AbstractWriter() throws Exception
 	{	initDescriptionWriters();
 		initStatisticsWriters();
 	}
@@ -64,11 +66,12 @@ public abstract class AbstractWriter
 	 * @param subfolder
 	 *		The folder containing the collection.
 	 * @param parameters
-	 * 		The list of annotated parameters. 
-	 * @throws FileNotFoundException 
-	 * 		Problem while writing the data.
+	 * 		The list of annotated parameters.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	public void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException
+	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception
 	{	writeDescriptions(subfolder, parameters);
 		writeStatistics(subfolder, parameters);
 	}
@@ -81,8 +84,11 @@ public abstract class AbstractWriter
 
 	/**
 	 * Initializes the sequence of description writers.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	protected abstract void initDescriptionWriters();
+	protected abstract void initDescriptionWriters() throws Exception;
 
 	/**
 	 * Applies the sequence of description writers.
@@ -90,11 +96,12 @@ public abstract class AbstractWriter
 	 * @param subfolder
 	 *		The folder containing the collection.
 	 * @param parameters
-	 * 		The list of annotated parameters. 
-	 * @throws FileNotFoundException 
-	 * 		Problem while writing the data.
+	 * 		The list of annotated parameters.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	private void writeDescriptions(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException
+	private void writeDescriptions(String subfolder, List<MatawsParameter> parameters) throws Exception
 	{	for(DescriptionWriterInterface writer: descriptionWriters)
 			writer.write(subfolder, parameters);
 	}
@@ -107,8 +114,11 @@ public abstract class AbstractWriter
 
 	/**
 	 * Initializes the sequence of statistics writers.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	protected abstract void initStatisticsWriters();
+	protected abstract void initStatisticsWriters() throws Exception;
 
 	/**
 	 * Applies the sequence of statistics writers.
@@ -117,10 +127,11 @@ public abstract class AbstractWriter
 	 *		The folder containing the collection.
 	 * @param parameters
 	 * 		The list of annotated parameters. 
-	 * @throws FileNotFoundException 
-	 * 		Problem while writing the data.
+	 * 
+	 * @throws Exception 
+	 * 		Problem while accessing the files.
 	 */
-	private void writeStatistics(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException
+	private void writeStatistics(String subfolder, List<MatawsParameter> parameters) throws Exception
 	{	for(StatisticsWriterInterface writer: statisticsWriters)
 			writer.write(subfolder, parameters);
 	}

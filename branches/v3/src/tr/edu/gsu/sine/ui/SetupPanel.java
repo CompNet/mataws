@@ -45,18 +45,25 @@ public class SetupPanel extends JPanel implements ActionListener {
 	private static Color ERROR_COLOR = new Color(255, 95, 95);
 	
 	// Parent panel
+	/** */
 	private SinePanel sinePanel;
 	
 	// Paths settings
+	/** */
 	private JTextField[] pathsFields;
+	/** */
 	private JButton[] pathsButtons;
 
 	// Options settings
+	/** */
 	private JTextField nameField;
+	/** */
 	private JComboBox langList;
+	/** */
 	private JFormattedTextField fMaxField;
 	
 	// Not displayed in the main panel
+	/** */
 	private JFileChooser fileChooser;
 	
 	/**

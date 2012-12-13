@@ -142,6 +142,10 @@ public class Sine {
 		return collection;
 	}
 	
+	/**
+	 * 
+	 * @param col
+	 */
 	public static void setCollection(Collection col) {
 		collection = col;
 	}
