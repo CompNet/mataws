@@ -193,4 +193,15 @@ public class IdentifiedWord<T> implements Comparable<IdentifiedWord<?>>
 	{	boolean result = stem==null || synset==null;
 		return result;
 	}
+	
+	@Override
+	public String toString()
+	{	String result = "";
+		result = result + "original: " + original;
+		if(stem!=null)
+			result = result + "stem: " + stem;
+		if(synset!=null)
+			result = result + "synset: " + synset;
+		return result;
+	}
 }
