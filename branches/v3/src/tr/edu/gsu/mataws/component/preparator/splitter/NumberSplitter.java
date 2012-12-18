@@ -45,17 +45,32 @@ public class NumberSplitter extends AbstractSplitter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Spitting using case, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		for(String string: strings)
-		{	String temp[] = string.split("[0-9]");
+		{	logger.log("Processing string '"+string+"'");
+		
+			String temp[] = string.split("[0-9]");
 			for(String str: temp)
 			{	if(!str.isEmpty())
 					result.add(str);
 			}
 		}
+		logger.decreaseOffset();
 		
+		// log result
+		msg = " Result:";
+		for(String s: result)
+			msg = msg + " '"+s+"'";
+		logger.log(msg);
+
 		logger.decreaseOffset();
 		return result;
 	}

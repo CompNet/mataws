@@ -52,12 +52,26 @@ public class OneInOneOutMatcher extends AbstractMatcher<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
-	{	logger.increaseOffset();
+	{	logger.log("Matching operation parts and parameters supposing there is one single input and one single output");
+		logger.increaseOffset();
 		boolean result = false;
 		
 		// verify the situation is appropriate for this matcher: exactly 2 parameters
 		if(parameters.size()==2)
-		{	// distinguish parameters
+		{	// display the operation parts
+			logger.log("Previously detected operation parts:");
+			logger.increaseOffset();
+			for(Way way: Way.values())
+			{	logger.log("Way: "+way);
+				List<IdentifiedWord<Synset>> list = operationMap.get(way);
+				logger.increaseOffset();
+				for(IdentifiedWord<Synset> word: list)
+					logger.log(word.toString());
+				logger.decreaseOffset();
+			}
+			logger.decreaseOffset();
+			
+			// distinguish parameters
 			MatawsParameter inParam = null;
 			MatawsParameter outParam = null;
 			for(int i=0;i<2;i++)
@@ -71,11 +85,19 @@ public class OneInOneOutMatcher extends AbstractMatcher<Synset>
 			
 			// verify the situation is appropriate for this matcher: one in and one out parameters
 			if(inParam!=null && outParam!=null)
-			{	String inName = inParam.getName();
+			{	// display parameters
+				logger.log("Identifying in and out parameters :");
+				logger.increaseOffset();
+				logger.log("Input parameter: "+inParam.getTypeName()+" "+inParam.getName());
+				logger.log("Output parameter: "+outParam.getTypeName()+" "+outParam.getName());
+				logger.decreaseOffset();
+				
+				String inName = inParam.getName();
 				String outName = outParam.getName();
 				// verify the situation is appropriate for this matcher: two different parameters
 				if(!inName.equals(outName))
-				{	// TODO here we could try to compare the new words and the possibly previously retrieved ones (when processing parameters independtly)
+				{	logger.log("Updating parameters");
+					// TODO here we could try to compare the new words and the possibly previously retrieved ones (when processing parameters independtly)
 					// process the input parameter
 					List<IdentifiedWord<Synset>> inList = operationMap.get(Way.IN);
 					if(!inList.isEmpty())
@@ -91,9 +113,15 @@ public class OneInOneOutMatcher extends AbstractMatcher<Synset>
 							outParam.setRepresentativeWord(outWord);
 					}
 				}
+				else
+					logger.log("Both input and output parameters are the same >> stopping here");
 			}
+			else
+				logger.log("The distribution of input/output parameters is not compatible with this matcher >> stopping here");
 		}
-		
+		else
+			logger.log("The number of parameters is not compatible with this matcher >> stopping here");
+				
 		logger.decreaseOffset();
 		return result;
 	}

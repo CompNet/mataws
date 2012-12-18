@@ -52,10 +52,25 @@ public class AllInMatcher extends AbstractMatcher<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean match(Map<Way,List<IdentifiedWord<Synset>>> operationMap, List<MatawsParameter> parameters)
-	{	logger.increaseOffset();
+	{	logger.log("Matching the operation map and parameter list supposing all parameters are inputs");
+		logger.increaseOffset();
 		boolean result = false;
 		
+		// display the operation parts
+		logger.log("Previously detected operation parts:");
+		logger.increaseOffset();
+		for(Way way: Way.values())
+		{	logger.log("Way: "+way);
+			List<IdentifiedWord<Synset>> list = operationMap.get(way);
+			logger.increaseOffset();
+			for(IdentifiedWord<Synset> word: list)
+				logger.log(word.toString());
+			logger.decreaseOffset();
+		}
+		logger.decreaseOffset();
+		
 		// distinguish parameters
+		logger.log("Identifying in and out parameters :");
 		List<MatawsParameter> inParams = new ArrayList<MatawsParameter>();
 		List<MatawsParameter> outParams = new ArrayList<MatawsParameter>();
 		List<String> inNames = new ArrayList<String>();
@@ -72,13 +87,30 @@ public class AllInMatcher extends AbstractMatcher<Synset>
 				outNames.add(name);
 			}
 		}
-
+		
+		// log the parameter names and types
+		logger.increaseOffset();
+		logger.log("Input parameters:");
+		logger.increaseOffset();
+		for(MatawsParameter param: inParams)
+			logger.log(param.getTypeName()+" "+param.getName());
+		logger.decreaseOffset();
+		logger.log("Output parameters:");
+		logger.increaseOffset();
+		for(MatawsParameter param: outParams)
+			logger.log(param.getTypeName()+" "+param.getName());
+		logger.decreaseOffset();
+		logger.decreaseOffset();
+			
 		// verify the situation is appropriate for this matcher: all are inputs, none are outputs
 		if(outParams.isEmpty() && !inParams.isEmpty())
-		{	// verify the situation is appropriate for this matcher: the number of input parameters match
+		{	logger.log("This is indeed an 'all parameters are inputs' situation");
+			// verify the situation is appropriate for this matcher: the number of input parameters match
 			List<IdentifiedWord<Synset>> inList = operationMap.get(Way.IN);
 			if(inList.size()==inParams.size())
-			{	// process each parameter
+			{	logger.log("And the numbers of operation parts and parameters match");
+				// process each parameter
+				logger.log("Updating the reprensetative words of the parameters");
 				for(int i=0;i<inList.size();i++)
 				{	IdentifiedWord<Synset> word = inList.get(i);
 					MatawsParameter parameter = inParams.get(i);
@@ -86,7 +118,11 @@ public class AllInMatcher extends AbstractMatcher<Synset>
 						parameter.setRepresentativeWord(word);
 				}
 			}
+			else
+				logger.log("But the numbers of operation parts and parameters do not match");
 		}
+		else
+			logger.log("This is not an 'all parameters are inputs' situation");
 		
 		logger.decreaseOffset();
 		return result;

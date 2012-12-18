@@ -104,14 +104,16 @@ public class StopWordFilter extends AbstractFilter
 	 * 		Path of the file containing the stop words.
 	 */
 	private void initData(String path)
-	{	logger.increaseOffset();
+	{	logger.log("Initializing the map of abbreviations");
+		logger.increaseOffset();
 		// init
 		File file = new File(path);		
 		stopWords = new ArrayList<String>();
 		
 		// read the file
 		try
-		{	FileReader fr = new FileReader(file);
+		{	logger.log("Reading file "+path);
+			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			String line = br.readLine();
 			while(line!=null)
@@ -137,13 +139,21 @@ public class StopWordFilter extends AbstractFilter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> filter(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Filtering stop words, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
 		if(caseSensitive)
 		{	for(String string: strings)
-			{	if(!stopWords.contains(string))
-					result.add(string);
+			{	if(stopWords.contains(string))
+					logger.log(string+" is removed: stop word");
+				else
+				{	result.add(string);
+					logger.log(string+" is kept: not a stop word");
+				}
 			}
 		}
 		
@@ -155,8 +165,12 @@ public class StopWordFilter extends AbstractFilter
 				{	String stopWord = it.next();
 					found = stopWord.equalsIgnoreCase(string);
 				}
-				if(!found)
-					result.add(string);
+				if(found)
+					logger.log(string+" is removed: stop word");
+				else
+				{	result.add(string);
+					logger.log(string+" is kept: not a stop word");
+				}
 			}
 		}
 		

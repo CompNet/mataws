@@ -52,11 +52,21 @@ public class FrequentWordSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying using frequent words");
+		logger.increaseOffset();
 		boolean result = false;
 		TextSegmenter wordSplit = WordSplitTools.getAccess();
 		
+		// log the inputs
+		logger.log("Applying to the following words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
+		
 		// get the remaining word with highest frequency
+		logger.log("Identifying most frequent word");
+		logger.increaseOffset();
 		IdentifiedWord<Synset> frequentWord = null;
 		double maxFreq = Integer.MIN_VALUE;
 		for(IdentifiedWord<Synset> word: words)
@@ -66,18 +76,28 @@ public class FrequentWordSimplifier extends AbstractSimplifier<Synset>
 			{	string = word.getOriginal();
 				freq = wordSplit.getFrequency(string);
 			}
+			logger.log("Frequence of '"+word+"': "+freq);
 			if(freq!=null && freq>maxFreq)
 			{	maxFreq = freq;
 				frequentWord = word;
 			}
 		}
+		logger.decreaseOffset();
 		
 		// change the word list accordingly
+		logger.log("Updating word list");
 		if(frequentWord!=null)
 		{	words.clear();
 			words.add(frequentWord);
 			result = true;
 		}
+		
+		// log the outputs
+		logger.log("Resulting words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

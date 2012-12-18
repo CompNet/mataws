@@ -149,8 +149,16 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying by fusion");
+		logger.increaseOffset();
 		boolean result = false;
+		
+		// log the inputs
+		logger.log("Applying to the following words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		// try merging consecutive words,
 		// starting with the largest number of words
@@ -161,6 +169,13 @@ public class FusionSimplifier extends AbstractSimplifier<Synset>
 		{	result = checkFusion(words,n);
 			n--;
 		}
+		
+		// log the outputs
+		logger.log("Resulting words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

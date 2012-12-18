@@ -77,12 +77,22 @@ public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying using direct holonyms");
+		logger.increaseOffset();
 		boolean result = false;
+		
+		// log the inputs
+		logger.log("Applying to the following words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		// look for a holonymial relationship
 		IdentifiedWord<Synset> holonym = null;
 		int i = 0;
+		logger.log("Processing each possible pair of words");
+		logger.increaseOffset();
 		while(i<words.size()-1 && holonym!=null)
 		{	int j = i + 1;
 			IdentifiedWord<Synset> word1 = words.get(i);
@@ -90,26 +100,43 @@ public class DirectHolonymSimplifier extends AbstractSimplifier<Synset>
 			while(j<words.size() && !result)
 			{	IdentifiedWord<Synset> word2 = words.get(j);
 				Synset synset2 = word2.getSynset();
+				String msg = "Processing '"+word1+"' vs '"+word2+"'";
+
 				// checking the first way
 				int distance = JawsTools.isHolonym(synset1, synset2, limit);
 				if(distance!=-1)
-					holonym = word1;
+				{	holonym = word1;
+					msg = msg + " '" + word1 + "' is an holonym of '" + word2 + "'";
+				}
 				else
 				{	// checking the other way round
 					distance = JawsTools.isHolonym(synset2, synset1, limit);
 					if(distance!=-1)
-						holonym = word2;
+					{	holonym = word2;
+						msg = msg + " '" + word2 + "' is an hypernym of '" + word1 + "'";
+					}
+					else
+						msg = msg + " no holonymial relationship";
 				}
+				logger.log(msg);
 				j++;
 			}
 			i++;
 		}
+		logger.decreaseOffset();
 		
 		// remove the holonym from the list
 		if(holonym!=null)
 		{	result = true;
 			words.remove(holonym);
 		}
+		
+		// log the outputs
+		logger.log("Resulting words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

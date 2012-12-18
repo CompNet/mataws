@@ -54,33 +54,46 @@ public class JwiIdentifier extends AbstractIdentifier<ISynset>
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** POS ordered depending on their relavance regarding our context (parameter names) */
+	private static final List<POS> POS_LIST = Arrays.asList
+	(	POS.NOUN,
+		POS.VERB,
+		POS.ADJECTIVE,
+		POS.ADVERB
+	);
+	
 	@Override
 	public void identify(List<IdentifiedWord<ISynset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Identifying the following words using Jaws:");
+		for(IdentifiedWord<ISynset> word: words)
+			logger.log(word.toString());
+		logger.increaseOffset();
 		// init
 		IDictionary jwiObject = JwiTools.getAccess();
 		WordnetStemmer stemmer = JwiTools.getStemmer();
 		
-		// order the pos depending on their relavance regarding our context (parameter names)
-		List<POS> posList = Arrays.asList
-		(	POS.NOUN,
-			POS.VERB,
-			POS.ADJECTIVE,
-			POS.ADVERB
-		);
-		
 		// process each string separately
+		logger.log("Processing each string separately");
+		logger.increaseOffset();
 		for(IdentifiedWord<ISynset> word: words)
-		{	if(!word.isComplete())
+		{	logger.log("Word "+word);
+			logger.increaseOffset();
+			
+			if(word.isComplete())
+				logger.log("Word already complete");
+			else
 			{	boolean found = false;
 				String original = word.getOriginal();
 				 
 				// process each pos one after the other, stop as soon as a synset is found
-				Iterator<POS> it = posList.iterator();
+				logger.log("Processing each POS for this word");
+				logger.increaseOffset();
+				Iterator<POS> it = POS_LIST.iterator();
 				while(it.hasNext() && !found)
 				{	// get all stems associated to the string, for the current pos
 					POS pos = it.next();
 					List<String> stems = stemmer.findStems(original,pos);
+					logger.log("POS="+pos);
 					
 					// find the synset associated to the most frequent meaning
 					int maxScore = Integer.MAX_VALUE;
@@ -111,8 +124,11 @@ public class JwiIdentifier extends AbstractIdentifier<ISynset>
 						word.setSynset(selectedSynset);
 					}
 				}
+				logger.decreaseOffset();
 			}
+			logger.decreaseOffset();
 		}
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 	}

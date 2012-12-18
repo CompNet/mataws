@@ -48,15 +48,23 @@ public class CaseNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
     @Override
 	public List<String> normalize(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Normalizing case, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		for(String string: strings)
 		{	String temp = string;
 			if(string.length()>1 && !Character.isUpperCase(string.charAt(1)))
 				temp = string.toLowerCase(Locale.ENGLISH);
 			result.add(temp);
+			logger.log("String '"+string+"' becomes '"+temp+"'");
 		}
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

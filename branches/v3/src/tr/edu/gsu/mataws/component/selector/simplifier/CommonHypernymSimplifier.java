@@ -79,8 +79,16 @@ public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 	
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying using common hypernyms");
+		logger.increaseOffset();
 		boolean result = false;
+		
+		// log the inputs
+		logger.log("Applying to the following words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		// get all the required hypernyms
 		IdentifiedWord<Synset> hypernym = null;
@@ -126,12 +134,20 @@ public class CommonHypernymSimplifier extends AbstractSimplifier<Synset>
 		}
 		
 		// update the word list
+		logger.log("Updating word list");
 		if(hypernym!=null)
 		{	result = true;
 			words.remove(hyponyms[0]);
 			words.remove(hyponyms[1]);
 			words.add(hypernym);
 		}
+		
+		// log the outputs
+		logger.log("Resulting words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

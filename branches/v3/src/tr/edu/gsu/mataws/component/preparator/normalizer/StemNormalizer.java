@@ -76,7 +76,11 @@ public class StemNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> normalize(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Normalizing using stems, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = null; 
 	
 		if(mode==Mode.JWAS)
@@ -100,13 +104,18 @@ public class StemNormalizer extends AbstractNormalizer
 	 * 		Result of the normalization.
 	 */
 	public List<String> applyJaws(List<String> strings)
-	{	logger.increaseOffset();
+	{	logger.log("Using Jaws");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>(); 
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		for(String string: strings)
 		{	String stem = JawsTools.getStem(string);
 			result.add(stem);
+			logger.log("String '"+string+"' becomes '"+stem+"'");
 		}
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;
@@ -124,13 +133,18 @@ public class StemNormalizer extends AbstractNormalizer
 	 * 		Result of the normalization.
 	 */
 	public List<String> applyJwi(List<String> strings)
-	{	logger.increaseOffset();
+	{	logger.log("Using Jwi");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>(); 
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		for(String string: strings)
 		{	String stem = JwiTools.getStem(string);
 			result.add(stem);
+			logger.log("String '"+string+"' becomes '"+stem+"'");
 		}
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

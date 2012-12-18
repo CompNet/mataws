@@ -94,7 +94,11 @@ public class LexiconSplitter extends AbstractSplitter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Spitting using case, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = null;
 		
 		if(mode==Mode.JWORDSPLITTER)
@@ -102,6 +106,7 @@ public class LexiconSplitter extends AbstractSplitter
 		else if(mode==Mode.WORDSPLIT)
 			result = applyWordSplit(strings);
 		
+		logger.decreaseOffset();
 		return result;
 	}
 	
@@ -115,9 +120,10 @@ public class LexiconSplitter extends AbstractSplitter
 	 * Initializes the JWordSplitter library.
 	 */
 	private void initJWordSplitter()
-	{	logger.increaseOffset();
+	{	String path = FileTools.SPLITTER_FOLDER + File.separator + "wordsEnglish.ser";
+		logger.log("Initializing JWordSplitter with file "+path);
+		logger.increaseOffset();
 	
-		String path = FileTools.SPLITTER_FOLDER + File.separator + "wordsEnglish.ser";
 		try
 		{	EnglishWordSplitter.initWords(path);
 			jWordSplitter = new EnglishWordSplitter(true);
@@ -130,6 +136,8 @@ public class LexiconSplitter extends AbstractSplitter
 		{	// problem while deserializing the dictionary
 			e.printStackTrace();
 		}
+		
+		logger.decreaseOffset();
 	}
 	
 	/**
@@ -143,23 +151,34 @@ public class LexiconSplitter extends AbstractSplitter
 	public List<String> applyJWordSplitter(List<String> strings)
 	{	logger.increaseOffset();
 	
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		for(String string: strings)
-		{	// apply the splitter
+		{	logger.log("Processing string '"+string+"'");
+			
+			// apply the splitter
 			Collection<String> temp = jWordSplitter.splitWord(string);
 			for(String str : temp)
 			{	if(!str.isEmpty())
 					result.add(str);
 			}
 		}
+		logger.decreaseOffset();
 		
+		// log result
+		String msg = " Result:";
+		for(String s: result)
+			msg = msg + " '"+s+"'";
+		logger.log(msg);
+
+		logger.decreaseOffset();
 		return result;
 	}
 
 	///////////////////////////////////////////////////////////
 	//	WORDSPLIT							///////////////////
 	///////////////////////////////////////////////////////////
-	
 	/**
 	 * Uses the WordSplit library to split the strings.
 	 * 
@@ -172,16 +191,27 @@ public class LexiconSplitter extends AbstractSplitter
 	{	logger.increaseOffset();
 		TextSegmenter wordSplit = WordSplitTools.getAccess();
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		for(String string: strings)
-		{	// apply the splitter
+		{	logger.log("Processing string '"+string+"'");
+			
+			// apply the splitter
 			List<String> temp = wordSplit.split(string);
 			for(String str: temp)
 			{	if(!str.isEmpty())
 					result.add(str);
 			}
 		}
+		logger.decreaseOffset();
 	
+		// log result
+		String msg = " Result:";
+		for(String s: result)
+			msg = msg + " '"+s+"'";
+		logger.log(msg);
+
 		logger.decreaseOffset();
 		return result;
 	}
