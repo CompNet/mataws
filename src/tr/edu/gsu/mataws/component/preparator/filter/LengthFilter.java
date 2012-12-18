@@ -75,12 +75,20 @@ public class LengthFilter extends AbstractFilter
 	
 	@Override
 	public List<String> filter(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Filtering using the length, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
 		for(String string: strings)
 		{	if(string.length()>limit)
-				result.add(string);
+			{	result.add(string);
+				logger.log(string+" is kept (length>"+limit+")");
+			}
+			else
+				logger.log(string+" is removed (length<="+limit+")");
 		}
 		
 		logger.decreaseOffset();

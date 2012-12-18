@@ -58,31 +58,51 @@ public class ModificationBreaker extends AbstractBreaker<Synset>
 
 	@Override
 	public Map<Way,List<List<IdentifiedWord<Synset>>>> breakk(List<IdentifiedWord<Synset>> operationList)
-	{	logger.increaseOffset();
+	{	logger.log("Breaking operation name looking for a modification method");
+		logger.increaseOffset();
 		Map<Way,List<List<IdentifiedWord<Synset>>>> result = null;
 		List<IdentifiedWord<Synset>> opnameCopy = new ArrayList<IdentifiedWord<Synset>>(operationList);
 		
+		// display the operation parts
+		logger.log("Previously detected operation parts:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: operationList)
+			logger.log(word.toString());
+		logger.decreaseOffset();
+
 		// check if the operation name contains a relevant action
 		int indexAct = indexOfIn(opnameCopy, ACTIONS);
 		if(indexAct==0 || indexAct == opnameCopy.size()-1)
-		{	// remove it, because we don't need it anymore
+		{	logger.log("Action detected: "+opnameCopy.get(indexAct).getOriginal());
+			// remove it, because we don't need it anymore
 			opnameCopy.remove(indexAct);
 			// look for a connector
 			int indexCnct = indexOfIn(opnameCopy,CONNECTORS);
 			if(indexCnct>0 && indexCnct<opnameCopy.size()-1)
-			{	// get the input and output parameters in the name list
+			{	logger.log("Connector detected: "+opnameCopy.get(indexCnct).getOriginal());
+				
+				// get the input and output parameters in the name list
 				List<IdentifiedWord<Synset>> inParam1 = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(0, indexCnct));
 				List<IdentifiedWord<Synset>> inParam2 = new ArrayList<IdentifiedWord<Synset>>(opnameCopy.subList(indexCnct+1,opnameCopy.size()));
 				
 				// set the result map
+				logger.log("Completing parts");
+				logger.increaseOffset();
 				List<List<IdentifiedWord<Synset>>> inList = new ArrayList<List<IdentifiedWord<Synset>>>();
 				inList.add(inParam1);
+				logger.log("Input part #1: "+inParam1);
 				inList.add(inParam2);
+				logger.log("Input part #2: "+inParam2);
 				result = new HashMap<Way,List<List<IdentifiedWord<Synset>>>>();
 				result.put(Way.IN,inList);
+				logger.decreaseOffset();
 			}
+			else
+				logger.log("No connector could be detected");
 		}
-		
+		else
+			logger.log("No appropriate action could be detected");
+				
 		logger.decreaseOffset();
 		return result;
 	}

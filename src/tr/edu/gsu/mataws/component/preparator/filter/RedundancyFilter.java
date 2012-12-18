@@ -61,7 +61,11 @@ public class RedundancyFilter extends AbstractFilter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> filter(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Filtering based on redundancy, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
 		if(caseSensitive)
@@ -104,7 +108,13 @@ public class RedundancyFilter extends AbstractFilter
 			if(strings.size()==1)
 				result.add(strings.get(0));
 		}
-		
+
+		// log result
+		msg = "Result: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+
 		logger.decreaseOffset();
 		return result;
 	}

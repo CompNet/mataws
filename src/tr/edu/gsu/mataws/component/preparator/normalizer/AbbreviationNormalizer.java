@@ -111,14 +111,16 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 	 * 		Path of the file containing the stop words.
 	 */
 	private void initData(String path)
-	{	logger.increaseOffset();
+	{	logger.log("Initializing the map of abbreviations");
+		logger.increaseOffset();
 		// init
 		File file = new File(path);		
 		abbreviations = new HashMap<String,String>();
 		
 		// read the file
 		try
-		{	FileReader fr = new FileReader(file);
+		{	logger.log("Reading file "+path);
+			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			String line = br.readLine();
 			while(line!=null)
@@ -147,34 +149,51 @@ public class AbbreviationNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> normalize(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Normalizing using abbreviations, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		if(caseSensitive)
 		{	for(String string: strings)
 			{	String fullWord = abbreviations.get(string);
 				if(fullWord==null)
-					result.add(string);
+				{	result.add(string);
+					logger.log("String '"+string+"': no abreviation found");
+				}
 				else
-					result.add(fullWord);
+				{	result.add(fullWord);
+					logger.log("String '"+string+"': abreviation of '"+fullWord+"'");
+				}
 			}
 		}
 		
 		else
 		{	for(String string: strings)
 			{	boolean found = false;
+				String fullWord = null;
 				Iterator<Entry<String,String>> it = abbreviations.entrySet().iterator();
 				while(it.hasNext() && !found)
 				{	Entry<String,String> entry = it.next();
 					String abbreviation = entry.getKey();
-					String fullWord = entry.getValue();
+					fullWord = entry.getValue();
 					found = abbreviation.equalsIgnoreCase(string);
-					result.add(fullWord);
 				}
-				if(!found)
-					result.add(string);
+				if(found)
+				{	result.add(fullWord);
+					logger.log("String '"+string+"': abreviation of '"+fullWord+"'");
+				}
+				else
+				{	result.add(string);
+					logger.log("String '"+string+"': no abreviation found");
+				}
 			}
 		}
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

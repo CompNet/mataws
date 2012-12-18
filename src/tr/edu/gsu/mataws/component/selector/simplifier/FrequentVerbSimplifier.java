@@ -51,17 +51,30 @@ public class FrequentVerbSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying using frequent verbs");
+		logger.increaseOffset();
 		boolean result = false;
 		
+		// log the inputs
+		logger.log("Applying to the following words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
+		
 		// look for verbs
+		logger.log("Looking for verbs:");
+		logger.increaseOffset();
 		List<IdentifiedWord<Synset>> verbs = new ArrayList<IdentifiedWord<Synset>>();
 		for(IdentifiedWord<Synset> word: words)
 		{	Synset synset = word.getSynset();
 			SynsetType type = synset.getType();
 			if(type==SynsetType.VERB)
-				verbs.add(word);
+			{	verbs.add(word);
+				logger.log("verb detected: "+word);
+			}
 		}
+		logger.decreaseOffset();
 		
 		// we want to select the most frequent one.
 		// but WordNet does not provide this information:
@@ -70,6 +83,8 @@ public class FrequentVerbSimplifier extends AbstractSimplifier<Synset>
 		// the various verbs, we decide to choose the verb whose
 		// meaning is the most frequent (hence, certain) amongst the
 		// other meaning this word can have.
+		logger.log("Identifying most frequent verb");
+		logger.increaseOffset();
 		IdentifiedWord<Synset> frequentVerb = null;
 		int maxFreq = Integer.MIN_VALUE;
 		for(IdentifiedWord<Synset> verb: verbs)
@@ -78,18 +93,28 @@ public class FrequentVerbSimplifier extends AbstractSimplifier<Synset>
 			if(form==null)
 				form = verb.getOriginal();
 			int freq = synset.getTagCount(form);
+			logger.log("Frequence of '"+verb+"': "+freq);
 			if(freq>maxFreq)
 			{	maxFreq = freq;
 				frequentVerb = verb;
 			}
 		}
+		logger.decreaseOffset();
 		
 		// change the word list accordingly (i.e. no change if there's no verb)
+		logger.log("Updating word list");
 		if(frequentVerb!=null)
 		{	words.clear();
 			words.add(frequentVerb);
 			result = true;
 		}
+		
+		// log the outputs
+		logger.log("Resulting words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

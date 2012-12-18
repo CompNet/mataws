@@ -50,9 +50,11 @@ public class WsdlDescriptionReader extends AbstractDescriptionReader
 	///////////////////////////////////////////////////////////
 	@Override
 	public Collection readCollection(String subfolder) throws FileNotFoundException
-	{	logger.increaseOffset();
+	{	logger.log("Reading WSDL collection "+subfolder);
+		logger.increaseOffset();
 	
 		// init path & name
+		logger.log("Setting paths");
 		String path = FileTools.INPUT_FOLDER;
 		String name = "all";
 		if(subfolder!=null)
@@ -62,6 +64,7 @@ public class WsdlDescriptionReader extends AbstractDescriptionReader
 		File folder = new File(path);
 		
 		// init Sine digger
+		logger.log("Applying Sine");
 		Digger d = new Digger(Logger.getAnonymousLogger());
 		// read description files
 		Collection result = d.dig(folder, Language.WSDL, name);

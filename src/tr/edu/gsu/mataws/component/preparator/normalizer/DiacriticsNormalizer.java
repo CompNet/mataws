@@ -45,13 +45,21 @@ public class DiacriticsNormalizer extends AbstractNormalizer
 	///////////////////////////////////////////////////////////
     @Override
 	public List<String> normalize(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Normalizing diacritics, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		for(String string: strings)
 		{	String temp = StringTools.removeDiacritics(string);
 			result.add(temp);
+			logger.log("String '"+string+"' becomes '"+temp+"'");
 		}
+		logger.decreaseOffset();
 		
 		logger.decreaseOffset();
 		return result;

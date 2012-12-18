@@ -47,20 +47,31 @@ public class LetterCaseSplitter extends AbstractSplitter
 	///////////////////////////////////////////////////////////
 	@Override
 	public List<String> split(List<String> strings)
-	{	logger.increaseOffset();
+	{	String msg = "Spitting using case, for the strings: ";
+		for(String string: strings)
+			msg = msg + " '" + string + "'";
+		logger.log(msg);
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 		
 		// simple split
+		logger.log("Processing each string individually");
+		logger.increaseOffset();
 		for(String string1: strings)
-		{	List<String> strings2 = lowUpSplit(string1);
+		{	logger.log("Processing string '"+string1+"'");
+			logger.increaseOffset();
+			List<String> strings2 = lowUpSplit(string1);
 			
 			// double split
 			for(String string2: strings2)
 			{	List<String> temp = upLowSplit(string2);
 				result.addAll(temp);
 			}
+			logger.decreaseOffset();
 		}
+		logger.decreaseOffset();
 		
+		logger.increaseOffset();
 		return result;
 	}
 	
@@ -75,12 +86,14 @@ public class LetterCaseSplitter extends AbstractSplitter
 	 * 		The corresponding list of substrings.
 	 */
 	public List<String> lowUpSplit(String string)
-	{	logger.increaseOffset();
+	{	logger.log("Processing string '"+string+"'");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 	
 		// too short to be split
 		if(string.length()==1)
 		{	result.add(string);
+			logger.log("Too short to be split");
 		}
 		
 		// regular case
@@ -103,8 +116,15 @@ public class LetterCaseSplitter extends AbstractSplitter
 			// if no split, then keep the whole word
 			if(result.isEmpty())
 				result.add(string);
+			
+			// log result
+			String msg = " Result:";
+			for(String s: result)
+				msg = msg + " '"+s+"'";
+			logger.log(msg);
 		}
 		
+		logger.decreaseOffset();
 		return result;		
 	}
 
@@ -120,12 +140,14 @@ public class LetterCaseSplitter extends AbstractSplitter
 	 * 		The corresponding list of substrings.
 	 */
 	public List<String> upLowSplit(String string)
-	{	logger.increaseOffset();
+	{	logger.log("Processing string '"+string+"'");
+		logger.increaseOffset();
 		List<String> result = new ArrayList<String>();
 	
 		// too short to be split
 		if(string.length()==1 || string.length()==2)
 		{	result.add(string);
+			logger.log("Too short to be split");
 		}
 		
 		// regular case
@@ -148,6 +170,12 @@ public class LetterCaseSplitter extends AbstractSplitter
 			// if no split, then keep the whole word
 			if(result.isEmpty())
 				result.add(string);
+			
+			// log result
+			String msg = " Result:";
+			for(String s: result)
+				msg = msg + " '"+s+"'";
+			logger.log(msg);
 		}
 		
 		logger.decreaseOffset();

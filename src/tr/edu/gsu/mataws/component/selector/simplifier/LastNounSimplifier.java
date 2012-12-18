@@ -54,8 +54,16 @@ public class LastNounSimplifier extends AbstractSimplifier<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public boolean simplify(List<IdentifiedWord<Synset>> words)
-	{	logger.increaseOffset();
+	{	logger.log("Simplifying using the last noun");
+		logger.increaseOffset();
 		boolean result = false;
+		
+		// log the inputs
+		logger.log("Applying to the following words:");
+		logger.increaseOffset();
+		for(IdentifiedWord<Synset> word: words)
+			logger.log(word.toString());
+		logger.decreaseOffset();
 		
 		// look for the last noun
 		IdentifiedWord<Synset> lastNoun = null;
@@ -70,10 +78,19 @@ public class LastNounSimplifier extends AbstractSimplifier<Synset>
 		}
 		
 		// change the word list accordingly (i.e. no change if there's no noun)
-		if(lastNoun!=null)
+		if(lastNoun==null)
+			logger.log("No last noun, so no modification");
+		else
 		{	words.clear();
 			words.add(lastNoun);
 			result = true;
+			
+			// log the outputs
+			logger.log("Resulting words:");
+			logger.increaseOffset();
+			for(IdentifiedWord<Synset> word: words)
+				logger.log(word.toString());
+			logger.decreaseOffset();
 		}
 		
 		logger.decreaseOffset();

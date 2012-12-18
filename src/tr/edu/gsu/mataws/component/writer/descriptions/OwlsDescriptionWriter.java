@@ -87,9 +87,11 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	
 	@Override
 	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Reading OWL-S collection "+subfolder);
+		logger.increaseOffset();
 	
 		// init paths
+		logger.log("Setting paths");
 		String inputPath = FileTools.INPUT_FOLDER;
 		String outputPath = FileTools.COLLECTION_FOLDER;
 		if(subfolder!=null)
@@ -100,6 +102,7 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 		File outFolder = new File(outputPath);
 		
 		// init parameter map
+		logger.log("Initializing parameter map ("+parameters.size()+" parameters)");
 		Map<String,String> parameterMap = new HashMap<String, String>();
 		for(MatawsParameter parameter: parameters)
 		{	String name = parameter.getSineParameter().getName();
@@ -108,10 +111,12 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 		}
 		
 		// process the input folder content
+		logger.log("Starting writting");
 		if(!outFolder.exists())
 			outFolder.mkdir();
 		writeFolder(inFolder, outFolder, parameterMap);
 
+		logger.log("Writting finished for the collection");
 		logger.decreaseOffset();
 	}
 
@@ -129,9 +134,11 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeFolder(File inFolder, File outFolder, Map<String,String> parameters) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Writting folder "+inFolder.getName());
+		logger.increaseOffset();
 	
 		// browse the input folder
+		logger.log("Retriving its content");
 		FilenameFilter filter = new FilenameFilter()
 		{	@Override
 			public boolean accept(File dir, String name)
@@ -141,7 +148,10 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 			}
 		};
 		File[] folderContent = inFolder.listFiles(filter);
+		
 		// process separately each one of its files/folders
+		logger.log("Process each file/folder it contains ("+folderContent.length+" in total)");
+		logger.increaseOffset();
 		for(File inFile: folderContent)
 		{	// if it's a folder: recursive process
 			if(inFile.isDirectory())
@@ -163,7 +173,9 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 				writeFile(inFile,outFile,parameters);
 			}
 		}
+		logger.decreaseOffset();
 		
+		logger.log("Writting finished for folder "+inFolder.getName());
 		logger.decreaseOffset();
 	}
 	
@@ -181,14 +193,19 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	 * 		Problem while accessing the files.
 	 */
 	private void writeFile(File inFile, File outFile, Map<String,String> parameterMap) throws Exception
-	{	logger.increaseOffset();
+	{	logger.log("Writting file "+inFile.getName());
+		logger.increaseOffset();
 	
 		// load wsdl file
+		logger.log("Loading the WSDL file");
 		WSDLService service = WSDLService.createService(inFile.toURI());
 		List<WSDLOperation> operations = service.getOperations();
 
+		logger.log("Processing each operation");
+		logger.increaseOffset();
 		for(WSDLOperation operation : operations)
-		{	String serviceName = operation.getName(); //TODO why not service?
+		{	logger.log("Process operation "+operation.getName());
+			String serviceName = operation.getName(); //TODO why not service?
 			String name = serviceName.replaceAll(" ", "_"); //TODO why this?
 
 			// init translator
@@ -233,6 +250,9 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 			translator.writeOWLS(fos);
 			fos.close();
 		}
+		logger.decreaseOffset();
+		
+		logger.log("Writting finished for file "+inFile.getName());
 		logger.decreaseOffset();
 	}
 }

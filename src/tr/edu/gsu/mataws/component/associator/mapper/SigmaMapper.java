@@ -54,11 +54,14 @@ public class SigmaMapper extends AbstractMapper<Synset>
 	///////////////////////////////////////////////////////////
 	@Override
 	public String map(IdentifiedWord<Synset> word)
-	{	logger.increaseOffset();
+	{	logger.log("Mapping the word "+word+"using Sigma");
+		logger.increaseOffset();
 		String result = null;
 		
 		// if the synset if available, directly retrieve the associated sumo concept
-		if(word.getSynset()!=null)
+		if(word.getSynset()==null)
+			logger.log("No synset, so ne need to map any concept for "+word.getOriginal());
+		else
 		{	// build the sigma key for this word
 			ReferenceSynset synset = (ReferenceSynset)word.getSynset();
 			int wordnetId = synset.getOffset();
@@ -73,14 +76,18 @@ public class SigmaMapper extends AbstractMapper<Synset>
 			else if(type==SynsetType.ADVERB)
 				prefix = "4";
 			String sigmaKey = prefix + wordnetId;
+			logger.log("Sigma key: "+sigmaKey);
 			
 			// retrieve the concept from sigma
 			WordNet sigmaObject = SigmaTools.getAccess();
 			result = sigmaObject.getSUMOMapping(sigmaKey);
 			
 			// clean it
-			if(result!=null)
-			{	// remove the "&%" prefix
+			if(result==null)
+				logger.log("Sigma could not retrieve a Sumo concept for this key");
+			else
+			{	logger.log("Full string retrieved by Sigma: "+result);
+				// remove the "&%" prefix
 				result = result.substring(2);
 				// remove the suffix
 				List<Character> suffixes = Arrays.asList('=','+','@',':','[',']');
@@ -89,13 +96,18 @@ public class SigmaMapper extends AbstractMapper<Synset>
 				while(result!=null && suffixes.contains(suffix))
 				{	// we cannot handle negative suffixes
 					if(negSuffixes.contains(suffix))
+					{	logger.log("We cannot handle negative suffixes >> no concept could be retrived");
 						result = null;
+					}
 					// otherwise, we just remove the suffix to get a clean concept
 					else
 					{	result = result.substring(0,result.length()-1);
 						suffix = result.charAt(result.length()-1);
 					}
 				}
+				if(result!=null)
+					logger.log("Final cleaned concept: "+result);
+				
 				// TODO the suffixes could be used to have more information regarding
 				// the quality of the associated concept:
 				// 	- '='	the synset and the concept have an equivalent meaning
@@ -110,7 +122,8 @@ public class SigmaMapper extends AbstractMapper<Synset>
 		// if we could not get a concept from the synset, 
 		// then we try using the stem or original string
 		if(result==null)
-		{	// set the string
+		{	logger.log("Trying to work directly with the stem and original word");
+			// set the string
 			String string = word.getStem();
 			if(string==null)
 				string = word.getOriginal();
@@ -132,6 +145,7 @@ public class SigmaMapper extends AbstractMapper<Synset>
 				// >> this could be improved by using the most
 				// frequent instead (for instance)
 				result = sigmaObject.getSUMOterm(string,pos);
+				logger.log("The concept "+result+" could be retrived for "+string);
 			}
 		}
 		
