@@ -26,8 +26,6 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import java.io.FileNotFoundException;
-
 import tr.edu.gsu.mataws.component.reader.descriptions.AbstractDescriptionReader;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
@@ -58,7 +56,9 @@ public abstract class AbstractReader
 	///////////////////////////////////////////////////////////
 	/** Logger */
 	private HierarchicalLogger logger;
-
+	/** Collection read (possibly used by other readers) */
+	protected Collection collection;
+	
 	/**
 	 * Reads the collection and possibly other data.
 	 * 
@@ -67,25 +67,20 @@ public abstract class AbstractReader
 	 * 		to process the whole content of the input folder.
 	 * @return 
 	 * 		The read collection.
+	 * @throws Exception
+	 * 		Problem while reading the collection. 
 	 */
-	public Collection read(String subfolder)
+	public Collection read(String subfolder) throws Exception
 	{	logger.log("Reading folder "+subfolder);
 		logger.increaseOffset();
-		Collection result = null;
 	
 		this.subfolder = subfolder;
-		try
-		{	result = descriptionReader.readCollection(subfolder);
-		}
-		catch (FileNotFoundException e)
-		{	// problem while reading the collection
-			e.printStackTrace();
-		}
+		collection = descriptionReader.readCollection(subfolder);
 		
 		readOthers();
 		
 		logger.decreaseOffset();
-		return result;
+		return collection;
 	}
 
 	///////////////////////////////////////////////////////////
@@ -113,6 +108,9 @@ public abstract class AbstractReader
 	 * Reads the additional data (might requires
 	 * defining additional fields, and methods to
 	 * access them).
+	 * 
+	 * @throws Exception
+	 * 		Problem while reading the collection. 
 	 */
-	protected abstract void readOthers();
+	protected abstract void readOthers() throws Exception;
 }

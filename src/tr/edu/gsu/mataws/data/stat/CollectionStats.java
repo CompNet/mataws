@@ -1,4 +1,7 @@
-package tr.edu.gsu.mataws.component.reader;
+package tr.edu.gsu.mataws.data.stat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,52 +29,19 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
-import tr.edu.gsu.mataws.component.reader.others.EvaluatedParameterReader;
-import tr.edu.gsu.mataws.data.stat.CollectionStats;
-
 /**
- * Default class for reading the collection.
  * 
  * @author Vincent Labatut
  */
-public class DefaultReader extends AbstractReader
+public class CollectionStats
 {	
-	public DefaultReader(boolean readStats)
-	{	super();
-		
-		
-	}
+	private List<ParameterStats> parameterStats = new ArrayList<ParameterStats>();
+	private List<WordStats> wordStats = new ArrayList<WordStats>();
+	
+	
+	
 	
 	///////////////////////////////////////////////////////////
-	//	DESCRIPTIONS						///////////////////
+	//	ID								///////////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Inits the reader used to get the collection
-	 */
-	protected void initDescriptionReader()
-	{	descriptionReader = new WsdlDescriptionReader();
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	OTHERS								///////////////////
-	///////////////////////////////////////////////////////////
-	private boolean readStats;
-	private EvaluatedParameterReader otherReader;
-	private CollectionStats stats;
-	
-	@Override
-	protected void initOtherReaders()
-	{	if(readStats)
-			otherReader = new EvaluatedParameterReader();
-	}
-
-	@Override
-	protected void readOthers() throws Exception
-	{	// reading the evaluated annotations, in order to process some statistics
-		if(readStats)
-		{	otherReader.read(subfolder);
-			stats = otherReader.getStats();
-		}
-	}
 }

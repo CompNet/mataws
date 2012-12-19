@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader;
+package tr.edu.gsu.mataws.component.reader.others;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,52 +26,33 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
-import tr.edu.gsu.mataws.component.reader.others.EvaluatedParameterReader;
-import tr.edu.gsu.mataws.data.stat.CollectionStats;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
+import tr.edu.gsu.sine.col.Collection;
 
 /**
- * Default class for reading the collection.
+ * This class is used to read whatever is necessary
+ * besides the description files themselves.
  * 
  * @author Vincent Labatut
  */
-public class DefaultReader extends AbstractReader
-{	
-	public DefaultReader(boolean readStats)
-	{	super();
-		
-		
-	}
-	
+public class EvaluatedParameterReader extends AbstractOtherReader
+{
 	///////////////////////////////////////////////////////////
-	//	DESCRIPTIONS						///////////////////
+	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/**
-	 * Inits the reader used to get the collection
-	 */
-	protected void initDescriptionReader()
-	{	descriptionReader = new WsdlDescriptionReader();
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	OTHERS								///////////////////
-	///////////////////////////////////////////////////////////
-	private boolean readStats;
-	private EvaluatedParameterReader otherReader;
-	private CollectionStats stats;
-	
 	@Override
-	protected void initOtherReaders()
-	{	if(readStats)
-			otherReader = new EvaluatedParameterReader();
+	public void read(String subfolder) throws Exception
+	{	
+		
 	}
 
-	@Override
-	protected void readOthers() throws Exception
-	{	// reading the evaluated annotations, in order to process some statistics
-		if(readStats)
-		{	otherReader.read(subfolder);
-			stats = otherReader.getStats();
-		}
+	///////////////////////////////////////////////////////////
+	//	COLLECTION							///////////////////
+	///////////////////////////////////////////////////////////
+	private Collection collection;
+	
+	public void setCollection(Collection collection)
+	{	this.collection = collection;
 	}
 }

@@ -46,21 +46,23 @@ import tr.edu.gsu.sine.col.Parameter;
  * 
  * @author Vincent Labatut
  */
-public class ParameterInstanceWriter extends AbstractStatisticsWriter
+public class ParameterWriter extends AbstractStatisticsWriter
 {	
 	/**
 	 * Builds a writer able to record parameter instances
 	 * and their associated statistics.
 	 */
-	public ParameterInstanceWriter()
+	public ParameterWriter()
 	{	super();
 	}
 	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Concept separator */
-	private final static String FILE = "parameter.instances.csv";
+	/** Parameter instances file */
+	private final static String INSTANCE_FILE = "parameter.instances.txt";
+	/** Unique parmeters file */
+	private final static String UNIQUE_FILE = "parameter.unique.txt";
 	
 	@Override
 	public void write(String subfolder, List<MatawsParameter> parameters) throws IOException
