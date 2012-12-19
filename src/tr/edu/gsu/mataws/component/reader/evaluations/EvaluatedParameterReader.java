@@ -26,9 +26,14 @@ package tr.edu.gsu.mataws.component.reader.evaluations;
  * 
  */
 
-import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
-import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
-import tr.edu.gsu.sine.col.Collection;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+import tr.edu.gsu.mataws.data.stat.CollectionStats;
+import tr.edu.gsu.mataws.data.stat.ParameterStats;
+import tr.edu.gsu.mataws.tools.misc.FileTools;
 
 /**
  * This class is used to read whatever is necessary
@@ -41,18 +46,87 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	@Override
-	public void read(String subfolder) throws Exception
-	{	
-		
-	}
-
-	///////////////////////////////////////////////////////////
-	//	COLLECTION							///////////////////
-	///////////////////////////////////////////////////////////
-	private Collection collection;
+	/** Input file for the evaluation data */
+	private static final String FILE = "evaluation.txt";
 	
-	public void setCollection(Collection collection)
-	{	this.collection = collection;
+	@Override
+	public void read(CollectionStats stats) throws Exception
+	{	logger.increaseOffset();
+		
+		// opening 
+		String path = FileTools.IN_OTHERS_FOLDER + File.separator + FILE;
+		File file = new File(path);
+		logger.log("Opening the file "+file.getName());
+		FileInputStream fi = new FileInputStream(file);
+		InputStreamReader isr = new InputStreamReader(fi);
+		Scanner scanner = new Scanner(isr);
+		
+		// reading
+		int count = 0;
+		if(scanner.hasNext())
+		{	// get the text
+			String line = scanner.nextLine();
+			String temp[] = line.split("\t");
+			
+			// init stat
+			int idx = 0;
+			ParameterStats stat = new ParameterStats();
+			count++;
+			
+			// id
+			int id = Integer.parseInt(temp[idx]);
+			stat.setId(id);
+			idx++;
+			
+			// name
+			String name = temp[idx];
+			stat.setName(name);
+			idx++;
+			
+			// type name
+			String typeName = temp[idx];
+			stat.setTypeName(typeName);
+			idx++;
+			
+			// occurrences
+			int occurrences = Integer.parseInt(temp[idx]);
+			stat.setOccurrences(occurrences);
+			idx++;
+			
+			// representative word
+			String representativeWord = temp[idx];
+			stat.setRepresentativeWord(representativeWord);
+			idx++;
+			
+			// concept
+			String concept = temp[idx];
+			stat.setConcept(concept);
+			idx++;
+			
+			// P vs. W
+			float pvsW = Float.parseFloat(temp[idx]);
+			stat.setPvsW(pvsW);
+			idx++;
+			
+			// W vs. C
+			float wvsC = Float.parseFloat(temp[idx]);
+			stat.setWvsC(wvsC);
+			idx++;
+			
+			// P vs. C
+			float pvsC = Float.parseFloat(temp[idx]);
+			stat.setPvsC(pvsC);
+			idx++;
+		}
+		logger.log("Reading finished: "+count+"parameters processed");
+		
+		// closing
+		logger.log("Closing the file "+file.getName());
+		scanner.close();
+		logger.decreaseOffset();
 	}
 }
+
+
+// TODO set the logs
+// TODO build the word stats from the parameter stats?

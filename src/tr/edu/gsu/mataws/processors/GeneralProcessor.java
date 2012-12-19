@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import tr.edu.gsu.mataws.component.reader.AbstractReader;
-import tr.edu.gsu.mataws.component.reader.DefaultReader;
+import tr.edu.gsu.mataws.component.reader.CollectionReader;
 import tr.edu.gsu.mataws.component.writer.AbstractWriter;
 import tr.edu.gsu.mataws.component.writer.DefaultWriter;
 import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
@@ -57,7 +57,7 @@ public class GeneralProcessor
 	public GeneralProcessor() throws Exception
 	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
 		
-		reader = new DefaultReader();
+		reader = new CollectionReader();
 		operationProcessor = new OperationProcessor();
 		writer = new DefaultWriter();
 	}

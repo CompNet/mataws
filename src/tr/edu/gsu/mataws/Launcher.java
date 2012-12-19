@@ -272,5 +272,5 @@ public class Launcher
  * 		- hypernyms processing: only consider the first hypernym
  * 
  * - todo:
- * 		- include the log to get a trace
+ * 		- fix the locale where ever necessary (esp. case changes)
  */

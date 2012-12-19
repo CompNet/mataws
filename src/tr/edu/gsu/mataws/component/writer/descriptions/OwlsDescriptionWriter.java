@@ -93,7 +93,7 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 		// init paths
 		logger.log("Setting paths");
 		String inputPath = FileTools.INPUT_FOLDER;
-		String outputPath = FileTools.COLLECTION_FOLDER;
+		String outputPath = FileTools.OUT_COLLECTION_FOLDER;
 		if(subfolder!=null)
 		{	inputPath = inputPath + File.separator + subfolder;
 			outputPath = outputPath + File.separator + subfolder;

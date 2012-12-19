@@ -35,17 +35,21 @@ import java.io.File;
  * @author Vincent Labatut
  */
 public class FileTools
-{	/** Folder containing the original syntactic description files */
+{	/** Folder containing the input data files */
 	public static final String INPUT_FOLDER = "input";
+	/** Folder containing the original syntactic description files */
+	public static final String IN_COLLECTION_FOLDER = INPUT_FOLDER + File.separator + "collection";
+	/** Folder containing other input files */
+	public static final String IN_OTHERS_FOLDER = INPUT_FOLDER + File.separator + "others";
 	
 	/** Folder containing the generated data files */
 	public static final String OUTPUT_FOLDER = "output";
 	/** Folder containing the generated semantic description files */
-	public static final String COLLECTION_FOLDER = OUTPUT_FOLDER + File.separator + "collection";
+	public static final String OUT_COLLECTION_FOLDER = OUTPUT_FOLDER + File.separator + "collection";
 	/** Folder containing the generated stat files */
-	public static final String STATS_FOLDER = OUTPUT_FOLDER + File.separator + "stats";
+	public static final String OUT_STATS_FOLDER = OUTPUT_FOLDER + File.separator + "stats";
 	/** Folder containing the generated other files */
-	public static final String OTHERS_FOLDER = OUTPUT_FOLDER + File.separator + "others";
+	public static final String OUT_OTHERS_FOLDER = OUTPUT_FOLDER + File.separator + "others";
 	
 	/** Log folder */
 	public static final String LOG_FOLDER = "log";
