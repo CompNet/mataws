@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader.others;
+package tr.edu.gsu.mataws.component.reader.evaluations;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -28,6 +28,7 @@ package tr.edu.gsu.mataws.component.reader.others;
 
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
+import tr.edu.gsu.sine.col.Collection;
 
 /**
  * This class is used to read whatever is necessary
@@ -35,32 +36,23 @@ import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
  * 
  * @author Vincent Labatut
  */
-public abstract class AbstractOtherReader
+public class EvaluatedParameterReader extends AbstractOtherReader
 {
-	/**
-	 * Builds a component.
-	 */
-	public AbstractOtherReader()
-	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
-	}
-	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Logger */
-	protected HierarchicalLogger logger;
+	@Override
+	public void read(String subfolder) throws Exception
+	{	
+		
+	}
 
-	/**
-	 * Loads the additional data. They do not have to
-	 * be necessarily located in the input collection folder,
-	 * the child class can be set up differently using new
-	 * fields and/or methods.
-	 * 
-	 * @param subfolder
-	 *		The folder containing the collection (for compatibility purposes).
-	 * 
-	 * @throws Exception 
-	 * 		Some exception was met while reading the additional data. 
-	 */
-	public abstract void read(String subfolder) throws Exception;
+	///////////////////////////////////////////////////////////
+	//	COLLECTION							///////////////////
+	///////////////////////////////////////////////////////////
+	private Collection collection;
+	
+	public void setCollection(Collection collection)
+	{	this.collection = collection;
+	}
 }
