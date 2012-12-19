@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.data;
+package tr.edu.gsu.mataws.data.parameter;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
