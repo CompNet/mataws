@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.semantics.JwiTools;
 
 import edu.mit.jwi.IDictionary;

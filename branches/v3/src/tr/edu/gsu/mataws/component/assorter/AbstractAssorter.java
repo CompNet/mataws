@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 import tr.edu.gsu.mataws.component.assorter.matcher.AbstractMatcher;
-import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Way;

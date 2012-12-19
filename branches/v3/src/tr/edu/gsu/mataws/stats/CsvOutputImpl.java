@@ -172,7 +172,7 @@ public class CsvOutputImpl implements Output {
 
 	private boolean isWordFound(CsvObjectForWords coForWord) {
 		for (CsvObjectForWords cofw : controlListForUniqueWords) {
-			if (cofw.getWord().equals(coForWord.getWord())) {
+			if (cofw.getRepresentativeWord().equals(coForWord.getRepresentativeWord())) {
 				foundWord = cofw;
 				return true;
 			}
@@ -218,7 +218,7 @@ public class CsvOutputImpl implements Output {
 
 			for (int j = 0; j<controlListForUniqueWords.size();j++) {
 				CsvObjectForWords csvObject = controlListForUniqueWords.get(j);
-				resultForWords += csvObject.getWord() + ","
+				resultForWords += csvObject.getRepresentativeWord() + ","
 						+ csvObject.getOccurence() + ","
 						+ csvObject.getConcept() + ","
 						+ csvObject.getSelected() + "\n";

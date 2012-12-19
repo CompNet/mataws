@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.processors.name;
 
 import tr.edu.gsu.mataws.component.preparator.DefaultPreparator;
 import tr.edu.gsu.mataws.component.selector.DefaultSelector;
-import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
+import tr.edu.gsu.mataws.data.parameter.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 

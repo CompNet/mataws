@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.assorter.matcher;
+package tr.edu.gsu.mataws.component.calculator.quantitative;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -29,31 +29,23 @@ package tr.edu.gsu.mataws.component.assorter.matcher;
 import java.util.List;
 import java.util.Map;
 
-import tr.edu.gsu.mataws.component.indentificator.breaker.AbstractBreaker;
 import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
-import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Way;
 
 /**
- * Interface for classes in charge of matching 
- * parts of operation names and parameters.
- * Used when the parameter names and types do
- * not convey enough information to allow a
- * more direct annotation.
- * 
- * @param <T> 
- *		Class used to represent a WordNet synset.
+ * Default class for processing statistics regarding
+ * the qualitative aspect of the annotations.
  * 
  * @author Vincent Labatut
  */
-public abstract class AbstractMatcher<T>
+public abstract class AbstractQuantitativeCalculator
 {
 	/**
 	 * Builds a component.
 	 */
-	public AbstractMatcher()
+	public AbstractQuantitativeCalculator()
 	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
 	}
 	
@@ -64,19 +56,13 @@ public abstract class AbstractMatcher<T>
 	protected HierarchicalLogger logger;
 
 	/**
-	 * Takes a map coming from a {@link AbstractBreaker}, i.e.
-	 * associating identified words to an operation name,
-	 * and tries to match those words to the parameters.
-	 * <br/>
-	 * Depending on how the matching process went, parameters
-	 * in the received list are updated.
+	 * Takes an operation and analyses its name, in order to
+	 * extract information regarding its parameters.
 	 * 
-	 * @param operationMap
-	 * 		The mapping of identified words to parts of the operation name. 
-	 * @param parameters
-	 * 		The parameters to annotate. 
+	 * @param operationList
+	 * 		The list of words composing the operation name. 
 	 * @return
-	 * 		{@code true} iff the method could match at least one parameter.
+	 * 		A map of the identified parts, or null if none could be identified.
 	 */
-	public abstract boolean match(Map<Way,List<IdentifiedWord<T>>> operationMap, List<MatawsParameter> parameters);
+	public abstract Map<Way,List<List<IdentifiedWord<T>>>> breakk(List<IdentifiedWord<T>> operationList);
 }

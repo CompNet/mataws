@@ -34,7 +34,7 @@ import java.util.Map;
 
 import edu.smu.tspell.wordnet.Synset;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.sine.col.Way;
 
 /**

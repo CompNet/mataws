@@ -26,8 +26,8 @@ package tr.edu.gsu.mataws.processors.parameter;
  * 
  */
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
-import tr.edu.gsu.mataws.data.MatawsSubParameter;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.MatawsSubParameter;
 import tr.edu.gsu.mataws.processors.name.NameProcessor;
 import tr.edu.gsu.mataws.processors.name.SubNameProcessor;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;

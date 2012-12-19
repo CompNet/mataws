@@ -45,7 +45,7 @@ import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
 import tr.edu.gsu.mataws.component.selector.AnalysisType;
 import tr.edu.gsu.mataws.component.selector.Analyzer;
 import tr.edu.gsu.mataws.component.writer.CollectionTransformationUtil;
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
 import tr.edu.gsu.mataws.stats.StatData;
 import tr.edu.gsu.mataws.stats.StatWritter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;

@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.writer.descriptions;
+package tr.edu.gsu.mataws.data.stat;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,49 +26,38 @@ package tr.edu.gsu.mataws.component.writer.descriptions;
  * 
  */
 
-import java.util.List;
-
-import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
-import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
-import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
-
 /**
- * This class is used to write the data resulting from the annotation
- * process, as a collection of semantic description files.
+ * Represents the statistics processed for the
+ * representative words resulting from the annotation process.
  * 
- * @author Cihan Aksoy
  * @author Vincent Labatut
  */
-public abstract class AbstractDescriptionWriter
-{
+public class WordStats extends AbstractStats
+{	
+	///////////////////////////////////////////////////////////
+	//	WORD								///////////////////
+	///////////////////////////////////////////////////////////
+	/** Word associated to these stats */
+	private String word;
+	
 	/**
-	 * Builds a component.
+	 * Returns the word.
+	 * 
+	 * @return
+	 * 		Word associated to these stats.
 	 */
-	public AbstractDescriptionWriter()
-	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
+	public String getWord()
+	{	return word;
 	}
 	
-	///////////////////////////////////////////////////////////
-	//	PROCESS								///////////////////
-	///////////////////////////////////////////////////////////
-	/** Logger */
-	protected HierarchicalLogger logger;
-	/** Used to mark the absence of any concept */
-	public final static String NO_CONCEPT = "NoMatch";
-	
 	/**
-	 * Records the WS description using a semantic format.
-	 * The generated files will be put in Mataws output folder.
-	 * <br/>
-	 * If {@code subfolder} is {@code null}, then all description files are processed.
+	 * Changes the number of occurrences.
 	 * 
-	 * @param subfolder
-	 *		The folder containing the collection.
-	 * @param parameters
-	 * 		The list of annotated parameters. 
-	 * 
-	 * @throws Exception 
-	 * 		Problem while accessing the files.
+	 * @param word
+	 * 		New word associated to these stats.
 	 */
-	public abstract void write(String subfolder, List<MatawsParameter> parameters) throws Exception;
+	public void setWord(String word)
+	{	this.word = word;
+	}
+	
 }

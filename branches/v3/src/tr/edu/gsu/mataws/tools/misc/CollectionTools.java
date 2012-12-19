@@ -67,7 +67,7 @@ public class CollectionTools
 	// WSDL COLLECTION		/////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Parse the collection in the input folder
+	 * Uses Sine to parse the collection in the input folder
 	 * and produces a text file containing all
 	 * operations with their parameter names and types.
 	 * 
@@ -110,5 +110,100 @@ public class CollectionTools
 		// close the text file
 		printWriter.close();
 		System.out.println("All done");
+	}
+	
+	/**
+	 * Compares two parameters and returns {@code true} only if they are equal.
+	 * The parameter names are always considered first. Then, they types
+	 * are optionaly compared. First the type name, and if they are equal, 
+	 * then their possibly subparameters.
+	 *  
+	 * @param p1
+	 * 		First parameter.
+	 * @param p2
+	 * 		Second parameter.
+	 * @param compareTypes 
+	 * 		Indicates if types should be taken into account.
+	 * @return
+	 * 		{@code true} iff both parameters are equal. 
+	 */
+	public static boolean areEqualParameters(Parameter p1, Parameter p2, boolean compareTypes)
+	{	boolean result;
+
+		// compare names
+		result = p1.getName().equals(p2.getName());
+		
+		// compare types
+		if(result && compareTypes)
+		{	// compare type names
+			result = p1.getTypeName().equals(p2.getTypeName());
+			
+			// compare type structures
+			if(result)
+			{	List<Parameter> s1 = p1.getSubParameters();
+				List<Parameter> s2 = p2.getSubParameters();
+				// compare the numbers of subparameters 
+				result = s1==null && s2==null || s1.size()==s2.size();
+				// compare the subparameters themselves
+				if(result && s1!=null)
+				{	int i=0;
+					while(i<s1.size() && result)
+					{	Parameter sp1 = s1.get(i);
+						Parameter sp2 = s2.get(i);
+						result = areEqualParameters(sp1, sp2, compareTypes);
+						i++;
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Compares two parameters, returning an integer depending
+	 * on their relative values (standard behavior).
+	 * 
+	 * @param p1
+	 * 		First parameter.
+	 * @param p2
+	 * 		Second parameter.
+	 * @param compareTypes
+	 * 		Whether types should be taken into account, or not.
+	 * @return
+	 * 		An integer representing the result of the comparison.
+	 */
+	public static int compareParameters(Parameter p1, Parameter p2, boolean compareTypes)
+	{	int result;
+
+		// compare names
+		result = p1.getName().compareTo(p2.getName());
+		
+		// compare types
+		if(result==0 && compareTypes)
+		{	// compare type names
+			result = p1.getTypeName().compareTo(p2.getTypeName());
+			
+			// compare type structures
+			if(result==0)
+			{	List<Parameter> s1 = p1.getSubParameters();
+				List<Parameter> s2 = p2.getSubParameters();
+				// compare the numbers of subparameters 
+				if(s1==null && s2==null || s1.size()==s2.size())
+					result = 0;
+				// compare the subparameters themselves
+				if(result==0 && s1!=null)
+				{	int i=0;
+					while(i<s1.size() && result==0)
+					{	Parameter sp1 = s1.get(i);
+						Parameter sp2 = s2.get(i);
+						result = compareParameters(sp1, sp2, compareTypes);
+						i++;
+					}
+				}
+			}
+		}
+		
+		return result;
 	}
 }

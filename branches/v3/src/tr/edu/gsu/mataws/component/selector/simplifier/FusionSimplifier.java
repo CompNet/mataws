@@ -32,7 +32,7 @@ import java.util.List;
 
 import edu.smu.tspell.wordnet.Synset;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.semantics.JawsTools;
 
 /**

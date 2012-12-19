@@ -28,7 +28,7 @@ package tr.edu.gsu.mataws.component.preparator.identifier;
 
 import java.util.List;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 

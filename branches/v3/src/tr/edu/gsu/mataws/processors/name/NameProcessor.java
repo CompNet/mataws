@@ -31,8 +31,8 @@ import java.util.List;
 import edu.smu.tspell.wordnet.Synset;
 
 import tr.edu.gsu.mataws.component.associator.DefaultAssociator;
-import tr.edu.gsu.mataws.data.AbstractMatawsParameter;
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.AbstractMatawsParameter;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 
 /**
  * This class is in charge for processing

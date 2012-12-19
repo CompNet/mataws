@@ -44,7 +44,7 @@ import org.mindswap.wsdl.WSDLParameter;
 import org.mindswap.wsdl.WSDLService;
 import org.mindswap.wsdl.WSDLTranslator;
 
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
 import tr.edu.gsu.mataws.tools.misc.FileTools;
 
 /**
@@ -87,7 +87,7 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 	
 	@Override
 	public void write(String subfolder, List<MatawsParameter> parameters) throws Exception
-	{	logger.log("Reading OWL-S collection "+subfolder);
+	{	logger.log("Writting OWL-S collection "+subfolder);
 		logger.increaseOffset();
 	
 		// init paths
@@ -105,7 +105,7 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 		logger.log("Initializing parameter map ("+parameters.size()+" parameters)");
 		Map<String,String> parameterMap = new HashMap<String, String>();
 		for(MatawsParameter parameter: parameters)
-		{	String name = parameter.getSineParameter().getName();
+		{	String name = parameter.getSineParameter().getUniqueName();
 			String concept = parameter.getConcept();
 			parameterMap.put(name, concept);
 		}
@@ -217,6 +217,7 @@ public class OwlsDescriptionWriter extends AbstractDescriptionWriter
 			Vector<WSDLParameter> inputs = operation.getInputs();
 			for(WSDLParameter parameter : inputs)
 			{	String fullParameterName = parameter.getName();
+//TODO Sine's unique name should actually be built using this name (and its operation's and ws')			
 				int index = fullParameterName.lastIndexOf(SEPARATOR);
 				String parameterName = fullParameterName.substring(index+1,fullParameterName.length());
 				String concept = parameterMap.get(parameterName);
