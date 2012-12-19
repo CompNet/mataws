@@ -27,7 +27,7 @@ package tr.edu.gsu.mataws.component.reader;
  */
 
 import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
-import tr.edu.gsu.mataws.component.reader.others.EvaluatedParameterReader;
+import tr.edu.gsu.mataws.component.reader.evaluations.EvaluatedParameterReader;
 import tr.edu.gsu.mataws.data.stat.CollectionStats;
 
 /**
