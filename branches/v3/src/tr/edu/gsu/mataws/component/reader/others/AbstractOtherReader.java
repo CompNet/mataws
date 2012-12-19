@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.component.reader;
+package tr.edu.gsu.mataws.component.reader.others;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -26,52 +26,41 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
-import tr.edu.gsu.mataws.component.reader.others.EvaluatedParameterReader;
-import tr.edu.gsu.mataws.data.stat.CollectionStats;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
+import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
- * Default class for reading the collection.
+ * This class is used to read whatever is necessary
+ * besides the description files themselves.
  * 
  * @author Vincent Labatut
  */
-public class DefaultReader extends AbstractReader
-{	
-	public DefaultReader(boolean readStats)
-	{	super();
-		
-		
-	}
-	
-	///////////////////////////////////////////////////////////
-	//	DESCRIPTIONS						///////////////////
-	///////////////////////////////////////////////////////////
+public abstract class AbstractOtherReader
+{
 	/**
-	 * Inits the reader used to get the collection
+	 * Builds a component.
 	 */
-	protected void initDescriptionReader()
-	{	descriptionReader = new WsdlDescriptionReader();
+	public AbstractOtherReader()
+	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	OTHERS								///////////////////
+	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	private boolean readStats;
-	private EvaluatedParameterReader otherReader;
-	private CollectionStats stats;
-	
-	@Override
-	protected void initOtherReaders()
-	{	if(readStats)
-			otherReader = new EvaluatedParameterReader();
-	}
+	/** Logger */
+	protected HierarchicalLogger logger;
 
-	@Override
-	protected void readOthers() throws Exception
-	{	// reading the evaluated annotations, in order to process some statistics
-		if(readStats)
-		{	otherReader.read(subfolder);
-			stats = otherReader.getStats();
-		}
-	}
+	/**
+	 * Loads the additional data. They do not have to
+	 * be necessarily located in the input collection folder,
+	 * the child class can be set up differently using new
+	 * fields and/or methods.
+	 * 
+	 * @param subfolder
+	 *		The folder containing the collection (for compatibility purposes).
+	 * 
+	 * @throws Exception 
+	 * 		Some exception was met while reading the additional data. 
+	 */
+	public abstract void read(String subfolder) throws Exception;
 }
