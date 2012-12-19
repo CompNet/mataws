@@ -26,10 +26,9 @@ package tr.edu.gsu.mataws.component.writer.statistics;
  * 
  */
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
-import tr.edu.gsu.mataws.data.MatawsParameter;
+import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
@@ -65,8 +64,8 @@ public abstract class AbstractStatisticsWriter
 	 * @param parameters
 	 * 		The list of annotated parameters. 
 	 * 
-	 * @throws FileNotFoundException 
-	 * 		If no file could be found at the specified location. 
+	 * @throws Exception 
+	 * 		Problem while accessing the output file. 
 	 */
-	public abstract void write(String subfolder, List<MatawsParameter> parameters) throws FileNotFoundException;
+	public abstract void write(String subfolder, List<MatawsParameter> parameters) throws Exception;
 }

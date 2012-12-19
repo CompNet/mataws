@@ -31,7 +31,7 @@ import java.util.List;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
 
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 
 /**
  * Keeps the word corresponding to the last noun.

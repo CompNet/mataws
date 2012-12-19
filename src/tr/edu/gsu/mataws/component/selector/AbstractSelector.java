@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import tr.edu.gsu.mataws.component.selector.simplifier.AbstractSimplifier;
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 

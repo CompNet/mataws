@@ -33,7 +33,7 @@ import tr.edu.gsu.mataws.component.preparator.filter.AbstractFilter;
 import tr.edu.gsu.mataws.component.preparator.identifier.AbstractIdentifier;
 import tr.edu.gsu.mataws.component.preparator.normalizer.AbstractNormalizer;
 import tr.edu.gsu.mataws.component.preparator.splitter.AbstractSplitter;
-import tr.edu.gsu.mataws.data.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
