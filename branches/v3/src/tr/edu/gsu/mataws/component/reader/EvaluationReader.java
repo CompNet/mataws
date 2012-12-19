@@ -26,52 +26,62 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
 import tr.edu.gsu.mataws.component.reader.evaluations.EvaluatedParameterReader;
 import tr.edu.gsu.mataws.data.stat.CollectionStats;
 
 /**
- * Default class for reading the collection.
+ * Default class for reading the manual evaluation.
  * 
  * @author Vincent Labatut
  */
-public class DefaultReader extends AbstractReader
+public class EvaluationReader extends AbstractReader
 {	
-	public DefaultReader(boolean readStats)
+	/**
+	 * Builds a standard evaluation reader,
+	 * in charge of completing the specified
+	 * statistcs object.
+	 *  
+	 * @param stats
+	 * 		Statistics object to be completed.
+	 */
+	public EvaluationReader(CollectionStats stats)
 	{	super();
 		
-		
+		this.stats = stats;
 	}
 	
 	///////////////////////////////////////////////////////////
-	//	DESCRIPTIONS						///////////////////
+	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
+	/** Reader used to get the evaluations */
+	private EvaluatedParameterReader reader;
+	/** Statistics */
+	private CollectionStats stats;
+
 	/**
 	 * Inits the reader used to get the collection
 	 */
-	protected void initDescriptionReader()
-	{	descriptionReader = new WsdlDescriptionReader();
+	protected void initReader()
+	{	reader = new EvaluatedParameterReader();
 	}
-	
-	///////////////////////////////////////////////////////////
-	//	OTHERS								///////////////////
-	///////////////////////////////////////////////////////////
-	private boolean readStats;
-	private EvaluatedParameterReader otherReader;
-	private CollectionStats stats;
 	
 	@Override
-	protected void initOtherReaders()
-	{	if(readStats)
-			otherReader = new EvaluatedParameterReader();
-	}
+	public void read() throws Exception
+	{	logger.log("Reading the evaluation file");
+		logger.increaseOffset();
+	
+		reader.read(stats);
 
-	@Override
-	protected void readOthers() throws Exception
-	{	// reading the evaluated annotations, in order to process some statistics
-		if(readStats)
-		{	otherReader.read(subfolder);
-			stats = otherReader.getStats();
-		}
+		logger.decreaseOffset();
+	}
+	
+	/**
+	 * Returns the read starts.
+	 * 
+	 * @return
+	 * 		Statistics object.
+	 */
+	public CollectionStats getStats()
+	{	return stats;
 	}
 }

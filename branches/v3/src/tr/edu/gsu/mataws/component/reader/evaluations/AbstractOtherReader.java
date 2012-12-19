@@ -26,12 +26,13 @@ package tr.edu.gsu.mataws.component.reader.evaluations;
  * 
  */
 
+import tr.edu.gsu.mataws.data.stat.CollectionStats;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 
 /**
- * This class is used to read whatever is necessary
- * besides the description files themselves.
+ * This class is used to read some evaluations of the 
+ * annotation process, performed externally and manually.
  * 
  * @author Vincent Labatut
  */
@@ -51,16 +52,14 @@ public abstract class AbstractOtherReader
 	protected HierarchicalLogger logger;
 
 	/**
-	 * Loads the additional data. They do not have to
-	 * be necessarily located in the input collection folder,
-	 * the child class can be set up differently using new
-	 * fields and/or methods.
+	 * Loads the evaluation data and uses it
+	 * to complete the specified statistics objects.
 	 * 
-	 * @param subfolder
-	 *		The folder containing the collection (for compatibility purposes).
+	 * @param stats
+	 *		The statistics object to complete.
 	 * 
 	 * @throws Exception 
 	 * 		Some exception was met while reading the additional data. 
 	 */
-	public abstract void read(String subfolder) throws Exception;
+	public abstract void read(CollectionStats stats) throws Exception;
 }

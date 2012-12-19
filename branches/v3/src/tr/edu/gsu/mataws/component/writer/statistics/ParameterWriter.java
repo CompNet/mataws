@@ -71,7 +71,7 @@ public class ParameterWriter extends AbstractStatisticsWriter
 	
 		// init path
 		logger.log("Setting path");
-		String outputPath = FileTools.STATS_FOLDER;
+		String outputPath = FileTools.OUT_STATS_FOLDER;
 		File outFolder = new File(outputPath);
 		if(!outFolder.exists())
 			outFolder.mkdir();

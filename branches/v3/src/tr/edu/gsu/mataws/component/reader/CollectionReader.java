@@ -26,45 +26,66 @@ package tr.edu.gsu.mataws.component.reader;
  * 
  */
 
-import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
-import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
+import tr.edu.gsu.mataws.component.reader.descriptions.AbstractDescriptionReader;
+import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
+import tr.edu.gsu.sine.col.Collection;
 
 /**
- * Abstract class of the reader component.
- * <br/>
- * Can be configured using various types of readers.
+ * Default class for reading the collection.
  * 
  * @author Vincent Labatut
  */
-public abstract class AbstractReader
+public class CollectionReader extends AbstractReader
 {	
 	/**
-	 * Initializes all the necessary objects
-	 * for this reader.
+	 * Builds a standard reader for the
+	 * specified subfolder (can be {@code null}
+	 * if one wants to read the whole input
+	 * folder).
+	 * 
+	 * @param subfolder
+	 * 		The targetted subfolder, or {@code null} to
+	 * 		process the whole input folder.
 	 */
-	public AbstractReader()
-	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
-	
-		initReader();
+	public CollectionReader(String subfolder)
+	{	super();
+		
+		this.subfolder = subfolder;
 	}
-
+	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Logger */
-	protected HierarchicalLogger logger;
-	
-	/**
-	 * Inits the reader.
-	 */
-	protected abstract void initReader();
-	
-	/**
-	 * Performs the reading
-	 * 
-	 * @throws Exception
-	 * 		Problem while reading the file(s).
-	 */
-	public abstract void read() throws Exception;
+	/** Reader used to get the collection of WS descriptions */
+	private AbstractDescriptionReader reader;
+	/** The folder containing the collection (in case it is necessary to the other readers */
+	private String subfolder;
+	/** Collection read */
+	private Collection collection;
 
+	@Override	
+	protected void initReader()
+	{	reader = new WsdlDescriptionReader();
+	}
+
+	@Override
+	public void read() throws Exception
+	{	logger.log("Reading the collection in folder "+subfolder);
+		logger.increaseOffset();
+	
+		collection = reader.readCollection(subfolder);
+		
+		logger.decreaseOffset();
+	}
+	
+	/**
+	 * Returns the collection (previously
+	 * read).
+	 * 
+	 * @return
+	 * 		The read collection.
+	 */
+	public Collection getCollection()
+	{	return collection;
+	}
 }

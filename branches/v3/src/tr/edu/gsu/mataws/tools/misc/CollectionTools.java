@@ -86,7 +86,7 @@ public class CollectionTools
 		SortedSet<Operation> operations = collection.getOperations();
 		
 		// open the output text file
-		String outFile = FileTools.OTHERS_FOLDER + File.separator + "operations.txt";
+		String outFile = FileTools.OUT_OTHERS_FOLDER + File.separator + "operations.txt";
 		FileOutputStream fileOut = new FileOutputStream(outFile);
 		OutputStreamWriter writer = new OutputStreamWriter(fileOut);
 		PrintWriter printWriter = new PrintWriter(writer);

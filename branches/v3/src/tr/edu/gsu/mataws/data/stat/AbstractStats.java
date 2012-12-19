@@ -35,6 +35,32 @@ package tr.edu.gsu.mataws.data.stat;
 public abstract class AbstractStats
 {	
 	///////////////////////////////////////////////////////////
+	//	CONCEPT							///////////////////////
+	///////////////////////////////////////////////////////////
+	/** Concept for this stat */
+	private String concept;
+	
+	/**
+	 * Returns the associated concept.
+	 * 
+	 * @return
+	 * 		Concept for this stat.
+	 */
+	public String getConcept()
+	{	return concept;
+	}
+	
+	/**
+	 * Changes the associated concept.
+	 * 
+	 * @param concept
+	 * 		New concept of this stat.
+	 */
+	public void setConcept(String concept)
+	{	this.concept = concept;
+	}
+
+	///////////////////////////////////////////////////////////
 	//	OCCURRENCES							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Number of occurrences (one for unique lists) */
@@ -91,11 +117,11 @@ public abstract class AbstractStats
 	//	ANNOTATION GRADES					///////////////////
 	///////////////////////////////////////////////////////////
 	/** Annotation grade when comparing parameter and word */
-	private float pVsW;
+	private float PvsW;
 	/** Annotation grade when comparing word and concept */
-	private float wVsC;
+	private float WvsC;
 	/** Annotation grade when comparing parameter and concept */
-	private float pVsC;
+	private float PvsC;
 	
 	/**
 	 * Returns the annotation grade for the
@@ -104,19 +130,19 @@ public abstract class AbstractStats
 	 * @return
 	 * 		Annotation grade obtained when comparing parameter and word.
 	 */
-	public float getpVsW()
-	{	return pVsW;
+	public float getPvsW()
+	{	return PvsW;
 	}
 	
 	/**
 	 * Changes the annotation grade for the
 	 * comparison of parameter and word.
 	 * 
-	 * @param pVsW
+	 * @param PvsW
 	 * 		New annotation grade obtained when comparing parameter and word.
 	 */
-	public void setpVsW(float pVsW)
-	{	this.pVsW = pVsW;
+	public void setPvsW(float PvsW)
+	{	this.PvsW = PvsW;
 	}
 	
 	/**
@@ -126,19 +152,19 @@ public abstract class AbstractStats
 	 * @return
 	 * 		Annotation grade obtained when comparing word and concept.
 	 */
-	public float getwVsC()
-	{	return wVsC;
+	public float getWvsC()
+	{	return WvsC;
 	}
 	
 	/**
 	 * Changes the annotation grade for the
 	 * comparison of word and concept.
 	 * 
-	 * @param wVsC
+	 * @param WvsC
 	 * 		New annotation grade obtained when comparing word and concept.
 	 */
-	public void setwVsC(float wVsC)
-	{	this.wVsC = wVsC;
+	public void setWvsC(float WvsC)
+	{	this.WvsC = WvsC;
 	}
 	
 	/**
@@ -148,18 +174,18 @@ public abstract class AbstractStats
 	 * @return
 	 * 		Annotation grade obtained when comparing parameter and concept.
 	 */
-	public float getpVsC()
-	{	return pVsC;
+	public float getPvsC()
+	{	return PvsC;
 	}
 	
 	/**
 	 * Changes the annotation grade for the
 	 * comparison of parameter and concept.
 	 * 
-	 * @param pVsC
+	 * @param PvsC
 	 * 		New annotation grade obtained when comparing parameter and concept.
 	 */
-	public void setpVsC(float pVsC)
-	{	this.pVsC = pVsC;
+	public void setPvsC(float PvsC)
+	{	this.PvsC = PvsC;
 	}
 }
