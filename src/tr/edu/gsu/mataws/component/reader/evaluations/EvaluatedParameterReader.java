@@ -29,6 +29,7 @@ package tr.edu.gsu.mataws.component.reader.evaluations;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Scanner;
 
 import tr.edu.gsu.mataws.data.stat.CollectionStats;
@@ -52,6 +53,7 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 	@Override
 	public void read(CollectionStats stats) throws Exception
 	{	logger.increaseOffset();
+		List<ParameterStats> parameterStats = stats.getParameterStats();
 		
 		// opening 
 		String path = FileTools.IN_OTHERS_FOLDER + File.separator + FILE;
@@ -62,9 +64,12 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 		Scanner scanner = new Scanner(isr);
 		
 		// reading
+		logger.increaseOffset();
 		int count = 0;
 		if(scanner.hasNext())
-		{	// get the text
+		{	String msg = "";
+		
+			// get the text
 			String line = scanner.nextLine();
 			String temp[] = line.split("\t");
 			
@@ -76,16 +81,19 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 			// id
 			int id = Integer.parseInt(temp[idx]);
 			stat.setId(id);
+			msg = msg + id;
 			idx++;
 			
 			// name
 			String name = temp[idx];
 			stat.setName(name);
+			msg = msg + " " + name;
 			idx++;
 			
 			// type name
 			String typeName = temp[idx];
 			stat.setTypeName(typeName);
+			msg = msg + " " + typeName;
 			idx++;
 			
 			// occurrences
@@ -117,16 +125,23 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 			float pvsC = Float.parseFloat(temp[idx]);
 			stat.setPvsC(pvsC);
 			idx++;
+			
+			parameterStats.add(stat);
+			logger.log(msg);
 		}
+		logger.decreaseOffset();
 		logger.log("Reading finished: "+count+"parameters processed");
 		
 		// closing
 		logger.log("Closing the file "+file.getName());
 		scanner.close();
+		
+		// updating the word stats thanks to the param stats
+		logger.log("Updating word stats using parameter stats");
+		
+		
 		logger.decreaseOffset();
 	}
 }
 
 
-// TODO set the logs
-// TODO build the word stats from the parameter stats?

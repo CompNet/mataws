@@ -38,19 +38,11 @@ import tr.edu.gsu.sine.col.Collection;
 public class CollectionReader extends AbstractReader
 {	
 	/**
-	 * Builds a standard reader for the
-	 * specified subfolder (can be {@code null}
-	 * if one wants to read the whole input
-	 * folder).
-	 * 
-	 * @param subfolder
-	 * 		The targetted subfolder, or {@code null} to
-	 * 		process the whole input folder.
+	 * Builds a standard reader
 	 */
-	public CollectionReader(String subfolder)
+	public CollectionReader()
 	{	super();
 		
-		this.subfolder = subfolder;
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -59,10 +51,23 @@ public class CollectionReader extends AbstractReader
 	/** Reader used to get the collection of WS descriptions */
 	private AbstractDescriptionReader reader;
 	/** The folder containing the collection (in case it is necessary to the other readers */
-	private String subfolder;
+	private String subfolder = null;
 	/** Collection read */
 	private Collection collection;
 
+	/**
+	 * Set the subfolder containing the collection 
+	 * (can be {@code null} if one wants to read the 
+	 * whole input folder).
+	 * 
+	 * @param subfolder
+	 * 		The targetted subfolder, or {@code null} to
+	 * 		process the whole input folder.
+	 */
+	public void setSubFolder(String subfolder)
+	{	this.subfolder = subfolder;
+	}
+	
 	@Override	
 	protected void initReader()
 	{	reader = new WsdlDescriptionReader();
