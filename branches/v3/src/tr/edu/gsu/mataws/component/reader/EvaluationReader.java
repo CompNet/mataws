@@ -70,6 +70,7 @@ public class EvaluationReader extends AbstractReader
 	{	logger.log("Reading the evaluation file");
 		logger.increaseOffset();
 	
+		stats = new CollectionStats();
 		reader.read(stats);
 
 		logger.decreaseOffset();

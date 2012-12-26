@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
-import tr.edu.gsu.mataws.component.reader.AbstractReader;
 import tr.edu.gsu.mataws.component.reader.CollectionReader;
 import tr.edu.gsu.mataws.component.writer.AbstractWriter;
 import tr.edu.gsu.mataws.component.writer.DefaultWriter;
@@ -68,7 +67,7 @@ public class GeneralProcessor
 	/** Logger */
 	protected HierarchicalLogger logger;
 	/** Component in charge of loading the collection */
-	private AbstractReader reader;
+	private CollectionReader reader;
 	/** Processor used to take advantage of the operation details */
 	private OperationProcessor operationProcessor;
 	/** Component in charge of recording the results of the annotation process */
@@ -92,7 +91,9 @@ public class GeneralProcessor
 		logger.increaseOffset();
 		
 		// load the collection
-		Collection collection = reader.read(subfolder);
+		reader.setSubFolder(subfolder);
+		reader.read();
+		Collection collection = reader.getCollection();
 		
 		// process each operation separately
 		SortedSet<Operation> operations = collection.getOperations();
