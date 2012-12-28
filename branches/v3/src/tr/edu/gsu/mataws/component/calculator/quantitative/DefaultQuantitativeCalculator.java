@@ -28,40 +28,52 @@ package tr.edu.gsu.mataws.component.calculator.quantitative;
 
 import java.util.List;
 
+import edu.smu.tspell.wordnet.Synset;
+
+import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
 import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
 import tr.edu.gsu.mataws.data.stat.CollectionStats;
-import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
-import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
+import tr.edu.gsu.mataws.data.stat.ParameterStats;
 
 /**
- * Abstract class for processing statistics regarding
+ * Default class for processing statistics regarding
  * the quantitative aspect of the annotations.
- * 
+ *   
  * @author Vincent Labatut
  */
-public abstract class AbstractQuantitativeCalculator
+public class DefaultQuantitativeCalculator extends AbstractQuantitativeCalculator
 {
-	/**
-	 * Builds a component.
-	 */
-	public AbstractQuantitativeCalculator()
-	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
-	}
-	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////
-	/** Logger */
-	protected HierarchicalLogger logger;
-
-	/**
-	 * Performs a quantitative evaluation of the
-	 * annotations.
-	 * 
-	 * @param parameters
-	 * 		The list of annotated parameters. 
-	 * @return
-	 * 		The resulting stats.
-	 */
-	public abstract CollectionStats calculate(List<MatawsParameter> parameters);
+	@Override
+	public CollectionStats calculate(List<MatawsParameter> parameters)
+	{	logger.log("Calculating the quantitative statistics");
+		logger.increaseOffset();
+		
+		logger.log("Initializes the stat object");
+		CollectionStats result = new CollectionStats(parameters);
+		
+		logger.log("Proceeding with quantitative evaluation for parameter instances");
+		List<ParameterStats> instances = result.getParameterInstanceStats();
+		int totalScore = 0;
+		for(ParameterStats instance: instances)
+		{	if(instance.isAnnotated())
+				totalScore++;
+		}
+		float averageScore = totalScore / (float)instances.size();
+		// faut ajouter les moyennes/e-t/t-test ds l'objet stat
+		
+		
+		List<ParameterStats> uniques = result.getParameterInstanceStats();
+		
+		for(MatawsParameter parameter: parameters)
+		{	ParameterStats paramStat = new ParameterStats(parameter);
+			
+			
+		}
+		
+		logger.decreaseOffset();
+		return result;
+	}
 }

@@ -36,20 +36,6 @@ import tr.edu.gsu.mataws.data.stat.CollectionStats;
  */
 public class EvaluationReader extends AbstractReader
 {	
-	/**
-	 * Builds a standard evaluation reader,
-	 * in charge of completing the specified
-	 * statistcs object.
-	 *  
-	 * @param stats
-	 * 		Statistics object to be completed.
-	 */
-	public EvaluationReader(CollectionStats stats)
-	{	super();
-		
-		this.stats = stats;
-	}
-	
 	///////////////////////////////////////////////////////////
 	//	PROCESS								///////////////////
 	///////////////////////////////////////////////////////////

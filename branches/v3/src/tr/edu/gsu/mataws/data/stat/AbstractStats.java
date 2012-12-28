@@ -38,7 +38,7 @@ public abstract class AbstractStats
 	//	CONCEPT							///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Concept for this stat */
-	private String concept;
+	protected String concept;
 	
 	/**
 	 * Returns the associated concept.
@@ -64,7 +64,7 @@ public abstract class AbstractStats
 	//	OCCURRENCES							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Number of occurrences (one for unique lists) */
-	private int occurrences;
+	protected int occurrences;
 	
 	/**
 	 * Returns the number of occurrences.
@@ -90,7 +90,7 @@ public abstract class AbstractStats
 	//	ANNOTATED							///////////////////
 	///////////////////////////////////////////////////////////
 	/** Whether the annotation was succesful or not */
-	private boolean annotated;
+	protected boolean annotated;
 	
 	/**
 	 * Indicates if the annotation was successful.
@@ -117,11 +117,11 @@ public abstract class AbstractStats
 	//	ANNOTATION GRADES					///////////////////
 	///////////////////////////////////////////////////////////
 	/** Annotation grade when comparing parameter and word */
-	private float PvsW;
+	protected float PvsW;
 	/** Annotation grade when comparing word and concept */
-	private float WvsC;
+	protected float WvsC;
 	/** Annotation grade when comparing parameter and concept */
-	private float PvsC;
+	protected float PvsC;
 	
 	/**
 	 * Returns the annotation grade for the

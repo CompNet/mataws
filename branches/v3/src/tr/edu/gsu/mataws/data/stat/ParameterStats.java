@@ -26,6 +26,8 @@ package tr.edu.gsu.mataws.data.stat;
  * 
  */
 
+import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
+
 /**
  * Represents the statistics processed for the
  * parameters resulting from the annotation process.
@@ -34,11 +36,43 @@ package tr.edu.gsu.mataws.data.stat;
  */
 public class ParameterStats extends AbstractStats
 {	
+	/**
+	 * Builds a parameter stats from a file.
+	 * 
+	 * @param id
+	 * 		Id read in the file.
+	 */
+	public ParameterStats(int id)
+	{	this.id = id;
+		updateIdIdnex(id);
+	}
+	
+	/**
+	 * Builds a new parmeter stats, from
+	 * an actual parameter.
+	 * 
+	 * @param parameter
+	 * 		The parameter used to initialize the new
+	 * 		parameter stat currently built.
+	 */
+	public ParameterStats(MatawsParameter parameter)
+	{	id = getNewId();
+		name = parameter.getName();
+		representativeWord = parameter.getRepresentativeWord().toString();
+		typeName = parameter.getTypeName();
+		operationName = parameter.getSineOperation().getName();
+		concept = parameter.getConcept();
+		annotated = concept.equals(MatawsParameter.NO_CONCEPT);
+		occurrences = 1;
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	ID								///////////////////////
 	///////////////////////////////////////////////////////////
 	/** Id of this parameter */
 	private int id;
+	/** Static field used to generate ids */
+	private static int ID_INDEX = 0;
 	
 	/**
 	 * Returns the id of this parameter.
@@ -60,6 +94,31 @@ public class ParameterStats extends AbstractStats
 	{	this.id = id;
 	}
 
+	/**
+	 * Returns a new parameter id.
+	 * 
+	 * @return
+	 * 		New id (not used by any existing parameter).
+	 */
+	private static int getNewId()
+	{	int result = ID_INDEX;
+		ID_INDEX++;
+		return result;
+	}
+	
+	/**
+	 * Updates the current id index so
+	 * that it takes into account some
+	 * parameters loaded from a file
+	 * (which already have their own ids).
+	 * 
+	 * @param id
+	 * 		The last loaded id.
+	 */
+	private static void updateIdIdnex(int id)
+	{	ID_INDEX = Math.max(ID_INDEX,id);
+	}
+	
 	///////////////////////////////////////////////////////////
 	//	NAME							///////////////////////
 	///////////////////////////////////////////////////////////
@@ -113,6 +172,32 @@ public class ParameterStats extends AbstractStats
 	}
 
 	///////////////////////////////////////////////////////////
+	//	OPERATION NAME						///////////////////
+	///////////////////////////////////////////////////////////
+	/** Operation name of this parameter */
+	private String operationName;
+	
+	/**
+	 * Returns the operation name of this parameter.
+	 * 
+	 * @return
+	 * 		Operation name of this parameter.
+	 */
+	public String getOperationName()
+	{	return operationName;
+	}
+	
+	/**
+	 * Changes the operation name of this parameter.
+	 * 
+	 * @param operationName
+	 * 		New operation name of this parameter.
+	 */
+	public void setOperationName(String operationName)
+	{	this.operationName = operationName;
+	}
+
+	///////////////////////////////////////////////////////////
 	//	REPRESENTATIVE WORD					///////////////////
 	///////////////////////////////////////////////////////////
 	/** Representative word of this parameter */
@@ -136,5 +221,32 @@ public class ParameterStats extends AbstractStats
 	 */
 	public void setRepresentativeWord(String word)
 	{	this.representativeWord = word;
+	}
+
+	///////////////////////////////////////////////////////////
+	//	MISC.								///////////////////
+	///////////////////////////////////////////////////////////
+	/**
+	 * Returns a copy of this parameter stats object,
+	 * meant to represent an id-less parameter instance.
+	 * 
+	 * @return
+	 * 		A copy of this object.
+	 */
+	public ParameterStats copy()
+	{	ParameterStats result = new ParameterStats(-1);
+	
+		result.annotated = annotated;
+		result.concept = concept;
+		result.name = name;
+		result.occurrences = occurrences;
+		result.typeName = typeName;
+		result.operationName = operationName;
+		result.representativeWord = representativeWord;
+		result.PvsW = PvsW;
+		result.WvsC = WvsC;
+		result.PvsC = PvsC;
+		
+		return result;
 	}
 }

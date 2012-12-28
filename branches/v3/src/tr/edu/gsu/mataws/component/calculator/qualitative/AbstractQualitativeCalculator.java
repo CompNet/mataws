@@ -27,12 +27,11 @@ package tr.edu.gsu.mataws.component.calculator.qualitative;
  */
 
 import java.util.List;
-import java.util.Map;
 
-import tr.edu.gsu.mataws.data.parameter.IdentifiedWord;
+import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
+import tr.edu.gsu.mataws.data.stat.CollectionStats;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
-import tr.edu.gsu.sine.col.Way;
 
 /**
  * Default class for processing statistics regarding
@@ -59,10 +58,10 @@ public abstract class AbstractQualitativeCalculator
 	 * Performs a qualitative evaluation of the
 	 * annotations.
 	 * 
-	 * @param operationList
-	 * 		The list of words composing the operation name. 
+	 * @param parameters
+	 * 		The list of annotated parameters. 
 	 * @return
-	 * 		A map of the identified parts, or null if none could be identified.
+	 * 		The resulting stats.
 	 */
-	public abstract Map<Way,List<List<IdentifiedWord<T>>>> calculate(List<IdentifiedWord<T>> operationList);
+	public abstract CollectionStats calculate(List<MatawsParameter> parameters);
 }

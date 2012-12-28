@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.processors.main;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services
@@ -34,6 +34,7 @@ import tr.edu.gsu.mataws.component.reader.CollectionReader;
 import tr.edu.gsu.mataws.component.writer.AbstractWriter;
 import tr.edu.gsu.mataws.component.writer.DefaultWriter;
 import tr.edu.gsu.mataws.data.parameter.MatawsParameter;
+import tr.edu.gsu.mataws.processors.operation.OperationProcessor;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLogger;
 import tr.edu.gsu.mataws.tools.log.HierarchicalLoggerManager;
 import tr.edu.gsu.sine.col.Collection;
@@ -45,7 +46,7 @@ import tr.edu.gsu.sine.col.Operation;
  * 
  * @author Vincent Labatut
  */
-public class GeneralProcessor
+public class AnnotationProcessor
 {	
 	/**
 	 * Builds a standard general processor.
@@ -53,7 +54,7 @@ public class GeneralProcessor
 	 * @throws Exception
 	 * 		Problem while accessing the collection files. 
 	 */
-	public GeneralProcessor() throws Exception
+	public AnnotationProcessor() throws Exception
 	{	logger = HierarchicalLoggerManager.getHierarchicalLogger();
 		
 		reader = new CollectionReader();
@@ -106,7 +107,10 @@ public class GeneralProcessor
 		}
 		logger.decreaseOffset();
 		
-		// record the collection and stats
+		// process statistics
+		// TODO
+		
+		// record the annotated collection
 		writer.write(subfolder, parameters);
 		
 		logger.decreaseOffset();
