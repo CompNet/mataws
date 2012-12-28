@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
+import tr.edu.gsu.mataws.data.parameter.AbstractMatawsParameter;
 import tr.edu.gsu.mataws.data.stat.CollectionStats;
 import tr.edu.gsu.mataws.data.stat.ParameterStats;
 import tr.edu.gsu.mataws.tools.misc.FileTools;
@@ -53,7 +54,7 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 	@Override
 	public void read(CollectionStats stats) throws Exception
 	{	logger.increaseOffset();
-		List<ParameterStats> parameterStats = stats.getParameterStats();
+		List<ParameterStats> parameterStats = stats.getParameterInstanceStats();
 		
 		// opening 
 		String path = FileTools.IN_OTHERS_FOLDER + File.separator + FILE;
@@ -72,17 +73,16 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 			// get the text
 			String line = scanner.nextLine();
 			String temp[] = line.split("\t");
-			
-			// init stat
 			int idx = 0;
-			ParameterStats stat = new ParameterStats();
-			count++;
 			
 			// id
 			int id = Integer.parseInt(temp[idx]);
-			stat.setId(id);
 			msg = msg + id;
 			idx++;
+			
+			// init stat
+			ParameterStats stat = new ParameterStats(id);
+			count++;
 			
 			// name
 			String name = temp[idx];
@@ -96,6 +96,11 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 			msg = msg + " " + typeName;
 			idx++;
 			
+			// type name
+			String operationName = temp[idx];
+			stat.setOperationName(operationName);
+			idx++;
+			
 			// occurrences
 			int occurrences = Integer.parseInt(temp[idx]);
 			stat.setOccurrences(occurrences);
@@ -103,12 +108,20 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 			
 			// representative word
 			String representativeWord = temp[idx];
+			if(representativeWord.equals(AbstractMatawsParameter.NO_WORD))
+				representativeWord = null;
 			stat.setRepresentativeWord(representativeWord);
 			idx++;
 			
 			// concept
 			String concept = temp[idx];
+			boolean annotated = true;
+			if(concept.equals(AbstractMatawsParameter.NO_CONCEPT))
+			{	concept = null;
+				annotated = false;
+			}
 			stat.setConcept(concept);
+			stat.setAnnotated(annotated);
 			idx++;
 			
 			// P vs. W
@@ -136,12 +149,14 @@ public class EvaluatedParameterReader extends AbstractOtherReader
 		logger.log("Closing the file "+file.getName());
 		scanner.close();
 		
+		// updating the parameter stats thanks to the param stats
+		logger.log("Updating unique parameter stats using parameter instance stats");
+		stats.initUniqueFromInstanceParam();
+		
 		// updating the word stats thanks to the param stats
 		logger.log("Updating word stats using parameter stats");
-		
+		stats.initWordFromParams();
 		
 		logger.decreaseOffset();
 	}
 }
-
-

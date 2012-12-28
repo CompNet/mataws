@@ -190,7 +190,7 @@ public class IdentifiedWord<T> implements Comparable<IdentifiedWord<?>>
 	 * 		{@code true} iff both stem and synset fields are defined.
 	 */
 	public boolean isComplete()
-	{	boolean result = stem==null || synset==null;
+	{	boolean result = stem!=null && synset!=null;
 		return result;
 	}
 	

@@ -37,6 +37,7 @@ import java.util.SortedSet;
 import tr.edu.gsu.mataws.component.reader.descriptions.AbstractDescriptionReader;
 import tr.edu.gsu.mataws.component.reader.descriptions.WsdlDescriptionReader;
 import tr.edu.gsu.sine.col.Collection;
+import tr.edu.gsu.sine.col.Grain;
 import tr.edu.gsu.sine.col.Operation;
 import tr.edu.gsu.sine.col.Parameter;
 import tr.edu.gsu.sine.col.Way;
@@ -122,21 +123,37 @@ public class CollectionTools
 	 * 		First parameter.
 	 * @param p2
 	 * 		Second parameter.
-	 * @param compareTypes 
+	 * @param compareTypes
 	 * 		Indicates if types should be taken into account.
+	 * @param compareOperations 
+	 * 		Indicates if operations should be taken into account.
 	 * @return
 	 * 		{@code true} iff both parameters are equal. 
 	 */
-	public static boolean areEqualParameters(Parameter p1, Parameter p2, boolean compareTypes)
+	public static boolean areEqualParameters(Parameter p1, Parameter p2, boolean compareTypes, boolean compareOperations)
 	{	boolean result;
 
 		// compare names
-		result = p1.getName().equals(p2.getName());
+		{	String name1 = p1.getName();
+			String name2 = p2.getName();
+			result = name1.equals(name2);
+		}
+		
+		// compare operations
+		if(result && compareOperations)
+		{	Grain parent1 = p1.getParent();
+			Grain parent2 = p2.getParent();
+			String name1 = parent1.getName();
+			String name2 = parent2.getName();
+			result = name1.equals(name2);
+		}
 		
 		// compare types
 		if(result && compareTypes)
 		{	// compare type names
-			result = p1.getTypeName().equals(p2.getTypeName());
+			String name1 = p1.getTypeName();
+			String name2 = p2.getTypeName();
+			result = name1.equals(name2);
 			
 			// compare type structures
 			if(result)
@@ -150,7 +167,7 @@ public class CollectionTools
 					while(i<s1.size() && result)
 					{	Parameter sp1 = s1.get(i);
 						Parameter sp2 = s2.get(i);
-						result = areEqualParameters(sp1, sp2, compareTypes);
+						result = areEqualParameters(sp1, sp2, compareTypes, compareOperations);
 						i++;
 					}
 				}
@@ -170,19 +187,35 @@ public class CollectionTools
 	 * 		Second parameter.
 	 * @param compareTypes
 	 * 		Whether types should be taken into account, or not.
+	 * @param compareOperations 
+	 * 		Indicates if operations should be taken into account.
 	 * @return
 	 * 		An integer representing the result of the comparison.
 	 */
-	public static int compareParameters(Parameter p1, Parameter p2, boolean compareTypes)
+	public static int compareParameters(Parameter p1, Parameter p2, boolean compareTypes, boolean compareOperations)
 	{	int result;
 
 		// compare names
-		result = p1.getName().compareTo(p2.getName());
+		{	String name1 = p1.getName();
+			String name2 = p2.getName();
+			result = name1.compareTo(name2);
+		}
+		
+		// compare operations
+		if(result==0 && compareOperations)
+		{	Grain parent1 = p1.getParent();
+			Grain parent2 = p2.getParent();
+			String name1 = parent1.getName();
+			String name2 = parent2.getName();
+			result = name1.compareTo(name2);
+		}
 		
 		// compare types
 		if(result==0 && compareTypes)
 		{	// compare type names
-			result = p1.getTypeName().compareTo(p2.getTypeName());
+			String name1 = p1.getTypeName();
+			String name2 = p2.getTypeName();
+			result = name1.compareTo(name2);
 			
 			// compare type structures
 			if(result==0)
@@ -197,7 +230,7 @@ public class CollectionTools
 					while(i<s1.size() && result==0)
 					{	Parameter sp1 = s1.get(i);
 						Parameter sp2 = s2.get(i);
-						result = compareParameters(sp1, sp2, compareTypes);
+						result = compareParameters(sp1, sp2, compareTypes, compareOperations);
 						i++;
 					}
 				}

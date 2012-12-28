@@ -1,4 +1,4 @@
-package tr.edu.gsu.mataws.processors;
+package tr.edu.gsu.mataws.processors.operation;
 
 /*
  * Mataws - Multimodal Automatic Tool for the Annotation of Web Services

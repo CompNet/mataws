@@ -95,6 +95,8 @@ public abstract class AbstractMatawsParameter
 	///////////////////////////////////////////////////////////
 	/** The ontological concept associated to this parameter */ 
 	protected String concept = null;
+	/** Used to represent the absence of concept in files */
+	public static final String NO_CONCEPT = "NoConcept";
 
 	/**
 	 * Returns the concept associated to this
@@ -123,6 +125,8 @@ public abstract class AbstractMatawsParameter
 	///////////////////////////////////////////////////////////
 	/** The word used to represent this parameter during the annotation process */
 	protected IdentifiedWord<?> representativeWord = null;
+	/** Used to represent the absence of representative word in files */
+	public static final String NO_WORD = "NoWord";
 
 	/**
 	 * Returns the representative word associated to this parameter.
