@@ -3,9 +3,10 @@
 
 -----------------------------------------------------------------------
 
-Copyright 2010 Cihan Aksoy and Koray Mançuhan
-Copyright 2011-2013 Cihan Aksoy
-Copyright 2014 Vincent Labatut
+Copyright 
+* 2010 Cihan Aksoy and Koray Mançuhan
+* 2011-2013 Cihan Aksoy
+* 2014 Vincent Labatut
 Galatasaray University - Bit Lab
 http://bit.gsu.edu.tr/compnet
 cihan.aksoy@tubitak.gov.tr
