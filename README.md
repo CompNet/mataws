@@ -3,7 +3,9 @@
 
 -----------------------------------------------------------------------
 
-Copyright 2010 Cihan Aksoy and Koray Mançuhan & 2011-2013 Cihan Aksoy and Vincent Labatut
+Copyright 2010 Cihan Aksoy and Koray Mançuhan
+Copyright 2011-2013 Cihan Aksoy
+Copyright 2014 Vincent Labatut
 Galatasaray University - Bit Lab
 http://bit.gsu.edu.tr/compnet
 cihan.aksoy@tubitak.gov.tr
@@ -13,6 +15,11 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 For source availability and license information see `licence.txt`
+
+This software was first developed by C. Aksoy & K. Mançuhan during their BSc thesis, 
+both advised by V. Labatut; C. Aksoy then largely extended this work during its MSc thesis,
+also under the supervision of V. Labatut; the latter them performed minor modifications and
+bug corrections on the resulting source code.
 
 -----------------------------------------------------------------------
 
