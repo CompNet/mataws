@@ -20,8 +20,8 @@ For source availability and license information see `licence.txt`
 
 This software was first developed by C. Aksoy & K. Mançuhan during their BSc thesis, 
 both advised by V. Labatut; C. Aksoy then largely extended this work during its MSc thesis,
-also under the supervision of V. Labatut; the latter them performed minor modifications and
-bug corrections on the resulting source code.
+also under the supervision of V. Labatut; which then made minor modifications and
+corrected a few bugs in the resulting source code.
 
 -----------------------------------------------------------------------
 
