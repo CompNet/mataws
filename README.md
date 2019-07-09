@@ -22,6 +22,8 @@ both advised by V. Labatut; C. Aksoy then largely extended this work during its 
 also under the supervision of V. Labatut; which then made minor modifications and
 corrected a few bugs in the resulting source code.
 
+If you use this software, please cite reference [ALCS'11].
+
 -----------------------------------------------------------------------
 
 # Dependencies
