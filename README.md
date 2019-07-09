@@ -1,10 +1,9 @@
 
-#MATAWS version 1.4.0
-
------------------------------------------------------------------------
+MATAWS version 1.4.0
+===============================
 
 Copyright 
-* 2010 Cihan Aksoy and Koray Mançuhan
+* 2010 Cihan Aksoy & Koray Mançuhan
 * 2011-2013 Cihan Aksoy
 * 2014 Vincent Labatut
 
@@ -25,6 +24,7 @@ corrected a few bugs in the resulting source code.
 
 -----------------------------------------------------------------------
 
+# Dependencies
 This product includes softwares developed by:
 
   + Yvan Rivierre:
@@ -46,3 +46,8 @@ This product includes softwares developed by:
     + Used to generate the semantic collection from the annotated syntactic collection
     + Libraries required: all remaining libraries in the lib folder
 
+
+# References
+This software was used in the following papers:
+ * **[ALCS'11]** C. Aksoy, V. Labatut, C. Cherifi & J.-F. Santucci. *MATAWS : A Multimodal Approach for Automatic WS Semantic Annotation*. 3rd International Conference on Networked Digital Technologies (NDT). Communications in Computer and Information Science, Springer, 136:319-333, 2011. [doi: 10.1007/978-3-642-22185-9_27](https://doi.org/10.1007/978-3-642-22185-9_27) - [⟨hal-00620566⟩](https://hal.archives-ouvertes.fr/hal-00620566)
+ * **[AL'12]** C. Aksoy & V. Labatut. *A Fully Automatic Approach to the Semantic Annotation of Web Service Descriptions*. Technical report, Galatasaray University, Computer Science Department, 21p, 2012. [⟨hal-01112241⟩](https://hal.archives-ouvertes.fr/hal-01112241)
